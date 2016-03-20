@@ -51,7 +51,7 @@ public class Model {
     // upload main board block
     public void putBlock(Block a, int x, int y) { // putStore
         for (int i = 0; i < 4; i++)
-            if (x + a.ai[i] >= 0 && x + a.ai[i] < ROW && y + a.aj[i] >= 0 && y + a.aj[i] < COL) 
+            if (x + a.ai[i] >= 0 && x + a.ai[i] < ROW && y + a.aj[i] >= 0 && y + a.aj[i] < COL) // why??????????????
                 board[x + a.ai[i]][y + a.aj[i]] = a.color;
     }
     
@@ -73,6 +73,7 @@ public class Model {
     }
 
     public boolean canMoveRight(Block a, int x, int y) {
+        while (a.canShiftLeft(a)) a = a.shiftLeft(a);
         for (int i = 0; i < 4; i++)
             if (y + a.aj[i] >= 0 && y + a.aj[i] + 1 < COL
                 && x + a.ai[i] >= 0 && x + a.ai[i] < ROW
@@ -82,6 +83,7 @@ public class Model {
     }
     
     public boolean canMoveDown(Block a, int x, int y) { 
+        while (a.canShiftUp(a)) a = a.shiftUp(a);
         for (int i = 0; i < 4; i++) 
             if (x + 1 + a.getHeight(a) < ROW && board[x + a.ai[i] + 1][y + a.aj[i]] != 0)
                 return false;

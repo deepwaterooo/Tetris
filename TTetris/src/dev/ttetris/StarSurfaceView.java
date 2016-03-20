@@ -52,6 +52,7 @@ public class StarSurfaceView extends SurfaceView implements Runnable, SurfaceHol
 	boolean next = false;
     Block activeBlock; // a
 	Block nextBlock;   // c
+    Block tmp; // for temporatory use
 	int x;
 	int y;
 	int kk;
@@ -293,97 +294,116 @@ public class StarSurfaceView extends SurfaceView implements Runnable, SurfaceHol
 				if (y > 0 && model.canMoveLeft(activeBlock, x, y)) 
 					y--;                           //如果方块可以左移，把方块左移
 				model.putBlock(activeBlock, x, y); //重新生成左移后的方块
+			draw();
 				left = false;
-
-                System.out.println("kk: " + kk);
-                
-
 				kk++;
 				if (kk < 3) continue;
-			} 
-            if (right) {
+			} else if (right) {
 				model.deleteBlock(activeBlock, x, y);
-                while (activeBlock.canShiftLeft(activeBlock)) activeBlock = activeBlock.shiftLeft(activeBlock);
-				if (y >= 0 && y + activeBlock.getWidth(activeBlock) < Model.COL && model.canMoveRight(activeBlock, x, y)) 
+                /*
+                if (activeBlock.canShiftLeft(activeBlock)) {
+                    tmp = activeBlock.shiftLeft(activeBlock);
+                    activeBlock = tmp;
+                    }*/
+				while (kk < 3 && y >= 0 && y + activeBlock.getWidth(activeBlock) < Model.COL && model.canMoveRight(activeBlock, x, y)) {
 					y++;
-				model.putBlock(activeBlock, x, y);
-				right = false;
-                //down = true;
-
-				kk++;     
-				if (kk < 3) continue;
-			}
-            if (up) { 
+                    kk++;
+                    model.putBlock(activeBlock, x, y);
+                    draw();
+                }
+                right = false;
+                if (kk < 3) continue;
+			} else if (up) { 
 				int tv;
 				if ( (activeBlock.shape + 1) % 4 == 0) 
 					tv = activeBlock.shape - 3;       
 				else tv = activeBlock.shape + 1;
-				Block b = new Block();
-				b.generateBlock(tv);
+                tmp = new Block();
+				tmp.generateBlock(tv);
 				model.deleteBlock(activeBlock, x, y);
-                while (activeBlock.canShiftUp(activeBlock)) activeBlock = activeBlock.shiftUp(activeBlock);
-				if (x < Model.ROW - 1 && model.canMoveDown(b, x, y)) {
-					activeBlock = b;
+				if (x < Model.ROW - 1 && model.canMoveDown(tmp, x, y) && kk < 3) {
+					activeBlock = tmp;
 					model.putBlock(activeBlock, x, y);
 					up = false;
 					kk++;
 					if (kk < 3) continue;
-				} else {
+                } else {
 					model.putBlock(activeBlock, x, y);
 					up = false;
 				}
-			}
-            if (down) {
-				model.deleteBlock(activeBlock, x, y);
-                while (activeBlock.canShiftUp(activeBlock)) activeBlock = activeBlock.shiftUp(activeBlock);
-				while (x + activeBlock.getHeight(activeBlock) < Model.ROW && model.canMoveDown(activeBlock, x, y)) 
-					x++;
-				model.putBlock(activeBlock, x, y);
-				down = false;
-			}
 			draw();
-
-            System.out.println("Outside kk: " + kk);
-
-			model.deleteBlock(activeBlock, x, y);
-			//kk = 0;
-            if (kk == 3) {
-                if (activeBlock.canShiftUp(activeBlock)) activeBlock = activeBlock.shiftUp(activeBlock);
-                else if (x + activeBlock.getHeight(activeBlock) + 1 < Model.ROW
-                    && y + activeBlock.getWidth(activeBlock) < Model.COL
-                    && model.canMoveDown(activeBlock, x, y)) { //使方块下落
-                    x++;
-                    kk = 0;
+			} else if (down) {
+                boolean tmpFlag = false;
+				model.deleteBlock(activeBlock, x, y);
+                //while (activeBlock.canShiftUp(activeBlock)) activeBlock = activeBlock.shiftUp(activeBlock);
+                while (activeBlock.canShiftLeft(activeBlock)) {
+                    tmp = activeBlock.shiftLeft(activeBlock);
+                    activeBlock = tmp;
+                }
+				while (x + activeBlock.getHeight(activeBlock) < Model.ROW && model.canMoveDown(activeBlock, x, y)) {
+					x++;
+                    tmpFlag = true;
+                }
+                /*                
+                if (!model.canMoveDown(activeBlock, x, y) && x + activeBlock.getHeight(activeBlock) == Model.ROW)
+                    model.putBlock(activeBlock, x - 1, y);
+                else 
                     model.putBlock(activeBlock, x, y);
 
-                    lines = model.flood(activeBlock, x, y);
-                    totalScore = model.getUpdatedScore(lines);
-                    System.out.println(totalScore);    // not debugging this one yet
-
-                    draw();
+                if (!tmpFlag) {
+                    model.putBlock(activeBlock, x, y);
+                } else {
+                    model.putBlock(activeBlock, x - 1, y);
+                    tmpFlag = false;
                 }
-            }
-                
+                */
+                model.putBlock(activeBlock, x, y);
+                draw();
+				down = false;
+			}
+			//draw();
+
+            System.out.println("Outside kk: " + kk);
+            kk = 0;
+
+			model.deleteBlock(activeBlock, x, y);
+            /*
             //while (activeBlock.canShiftUp(activeBlock)) activeBlock = activeBlock.shiftUp(activeBlock);
+            while (activeBlock.canShiftUp(activeBlock)) {
+                tmp = activeBlock.shiftUp(activeBlock);
+                activeBlock = tmp;
+                } */
+            boolean tmpSecFlag = false;
             if (x + activeBlock.getHeight(activeBlock) + 1 < Model.ROW
                 && y + activeBlock.getWidth(activeBlock) < Model.COL
                 && model.canMoveDown(activeBlock, x, y)) { //使方块下落
 				x++;
 				model.putBlock(activeBlock, x, y);
-
+                tmpSecFlag = true;
 				lines = model.flood(activeBlock, x, y);
                 totalScore = model.getUpdatedScore(lines);
 				System.out.println(totalScore);    // not debugging this one yet
-
                 draw();
 			} else {
-				model.putBlock(activeBlock, x, y);
+                /*                
+                if (!tmpSecFlag && )
+                    model.putBlock(activeBlock, x, y);
+                else {
+                    model.putBlock(activeBlock, x - 1, y);
+                    tmpSecFlag = false;
+                }
+                if (!model.canMoveDown(activeBlock, x, y) && x + activeBlock.getHeight(activeBlock) == Model.ROW)
+                    model.putBlock(activeBlock, x - 1, y);
+                else 
+                    model.putBlock(activeBlock, x, y);
+                */
+                model.putBlock(activeBlock, x, y);
 
-				lines = model.flood(activeBlock, x, y);
+                lines = model.flood(activeBlock, x, y);
                 totalScore = model.getUpdatedScore(lines);
 				System.out.println(totalScore);    // not debugging this one yet
-
                 draw();
+
 				if (model.isGameOver(activeBlock, x, y)) {
 					Intent intent = new Intent();
                     /*
