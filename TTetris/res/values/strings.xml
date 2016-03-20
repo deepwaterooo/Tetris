@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">Ultimate Tetris</string>
+    <string name="main_title">Ultimate Tetris</string>
+    <string name="mara_label">MARATHON</string>
+    <string name="time_label">TIME ATTACK</string>
+    <string name="toy_label">TOY PRACTICE</string>
+    <string name="score_label">HIGHSCORE</string>
+    <string name="exit_label">EXIT</string>
+    <string name="tetris_title">Tetris Game</string>
+    <string name="tetris_over">Game over</string>
+    
+    <string name="mode_ready">Tetris\nTouch The Screen To Play\nPress "Back" for exit</string>
+    <string name="mode_pause">Paused\nTouch The Screen To Resume\nPress "Back" for exit</string>
+    <string name="mode_over">Game Over\nTouch The Screen To Play Again\nPress "Back" for exit</string>
+    <string name="high_scores_format"> Best Lines: %1$d Best Scores: %2$d</string>
+    <string name="scores_format"> Lines: %1$d Scores: %2$d</string>
+    <string name="action_settings"> Lines: %1$d Scores: %2$d</string>
+
+    <string name="left">Left</string>
+    <string name="down">Down</string>
+    <string name="right">Right</string>
+    <string name="rttleft">Rotate Left</string>
+    <string name="rttright">Rotate Right</string>
+
+</resources>
