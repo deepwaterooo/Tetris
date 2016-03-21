@@ -294,22 +294,17 @@ public class StarSurfaceView extends SurfaceView implements Runnable, SurfaceHol
 				if (y > 0 && model.canMoveLeft(activeBlock, x, y)) 
 					y--;                           //如果方块可以左移，把方块左移
 				model.putBlock(activeBlock, x, y); //重新生成左移后的方块
-			draw();
+                //draw();
 				left = false;
 				kk++;
 				if (kk < 3) continue;
 			} else if (right) {
 				model.deleteBlock(activeBlock, x, y);
-                /*
-                if (activeBlock.canShiftLeft(activeBlock)) {
-                    tmp = activeBlock.shiftLeft(activeBlock);
-                    activeBlock = tmp;
-                    }*/
 				while (kk < 3 && y >= 0 && y + activeBlock.getWidth(activeBlock) < Model.COL && model.canMoveRight(activeBlock, x, y)) {
 					y++;
                     kk++;
                     model.putBlock(activeBlock, x, y);
-                    draw();
+                    //draw();
                 }
                 right = false;
                 if (kk < 3) continue;
@@ -331,7 +326,7 @@ public class StarSurfaceView extends SurfaceView implements Runnable, SurfaceHol
 					model.putBlock(activeBlock, x, y);
 					up = false;
 				}
-			draw();
+                //draw();
 			} else if (down) {
                 boolean tmpFlag = false;
 				model.deleteBlock(activeBlock, x, y);
@@ -358,10 +353,9 @@ public class StarSurfaceView extends SurfaceView implements Runnable, SurfaceHol
                 }
                 */
                 model.putBlock(activeBlock, x, y);
-                draw();
+                //draw();
 				down = false;
 			}
-			//draw();
 
             System.out.println("Outside kk: " + kk);
             kk = 0;

@@ -85,7 +85,9 @@ public class Model {
     public boolean canMoveDown(Block a, int x, int y) { 
         while (a.canShiftUp(a)) a = a.shiftUp(a);
         for (int i = 0; i < 4; i++) 
-            if (x + 1 + a.getHeight(a) < ROW && board[x + a.ai[i] + 1][y + a.aj[i]] != 0)
+            if (x + 1 + a.getHeight(a) < ROW
+                && y + a.aj[i] >= 0 && y + a.aj[i] < COL
+                && board[x + a.ai[i] + 1][y + a.aj[i]] != 0)
                 return false;
         return true;
     }
