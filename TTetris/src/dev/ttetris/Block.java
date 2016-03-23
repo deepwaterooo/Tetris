@@ -51,8 +51,8 @@ public class Block {
             break;
         case 5:
         case 6:
-            if (mod == 0 || mod == 2) res = 2;
-            else res = 3;
+            if (mod == 0 || mod == 2) res = 3; // another bug here
+            else res = 2;
             break;
         }
         return res;
@@ -81,8 +81,8 @@ public class Block {
             break;
         case 5:
         case 6:
-            if (mod == 0 || mod == 2) res = 3;
-            else res = 2;
+            if (mod == 0 || mod == 2) res = 2; // another bug here
+            else res = 3;
             break;
         }
         return res;
@@ -102,7 +102,7 @@ public class Block {
 
     public Block shiftLeft(Block a) {
         Block res = new Block();
-        int min = a.aj[0];
+        //int min = a.aj[0];
         for (int i = 0; i < 4; i++) {
             res.ai[i] = a.ai[i];
             res.aj[i] = a.aj[i] - 1;
@@ -114,23 +114,9 @@ public class Block {
 
     public Block shiftUp(Block a) {
         Block res = new Block();
-        int min = a.ai[0];
+        //int min = a.ai[0];
         for (int i = 0; i < 4; i++) {
             res.ai[i] = a.ai[i] - 1;
-            res.aj[i] = a.aj[i];
-        }
-        res.shape = a.shape;
-        res.color = a.color;
-        return res;
-    }
-
-    public Block shiftDown(Block a) {
-        Block res = new Block();
-        int max = a.ai[0];
-        for (int i = 1; i < 4; i++) 
-            if (a.ai[i] > max) max = a.ai[i];
-        for (int i = 0; i < 4; i++) {
-            res.ai[i] = a.ai[i] + 3 - max;
             res.aj[i] = a.aj[i];
         }
         res.shape = a.shape;
@@ -233,13 +219,13 @@ public class Block {
          { 0, 0, 1, 0 }, 
          { 0, 0, 0, 0 } },//S
         {{ 0, 0, 0, 0 }, 
+         { 0, 0, 1, 1 }, 
          { 0, 1, 1, 0 }, 
-         { 1, 1, 0, 0 }, 
          { 0, 0, 0, 0 } },//S
-        {{ 0, 1, 0, 0 }, 
+        {{ 0, 0, 0, 0 }, 
+         { 0, 1, 0, 0 }, 
          { 0, 1, 1, 0 }, 
-         { 0, 0, 1, 0 }, 
-         { 0, 0, 0, 0 } },//S 23
+         { 0, 0, 1, 0 } },//S 23
         
         {{ 0, 0, 0, 0 }, 
          { 1, 1, 0, 0 }, 
@@ -250,12 +236,12 @@ public class Block {
          { 0, 1, 0, 0 }, 
          { 0, 0, 0, 0 } },//Z
         {{ 0, 0, 0, 0 }, 
-         { 1, 1, 0, 0 }, 
          { 0, 1, 1, 0 }, 
+         { 0, 0, 1, 1 }, 
          { 0, 0, 0, 0 } },//Z
-        {{ 0, 0, 1, 0 }, 
+        {{ 0, 0, 0, 0 }, 
+         { 0, 0, 1, 0 }, 
          { 0, 1, 1, 0 }, 
-         { 0, 1, 0, 0 }, 
-         { 0, 0, 0, 0 } }//Z 27
+         { 0, 1, 0, 0 } }//Z 27
 	};
 }

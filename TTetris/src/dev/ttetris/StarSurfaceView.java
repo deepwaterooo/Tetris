@@ -39,37 +39,34 @@ public class StarSurfaceView extends SurfaceView implements Runnable, SurfaceHol
     private static float mBgnY;
     private static final int SWIPE_MIN_DISTANCE = 5;
     private int lines = 0;
-    
+
 	//SurfaceHolder用来完成对绘制的画布进行裁剪，控制其大小
 	SurfaceHolder sHolder = null;
 	Canvas canvas = null;
 	Paint paint;
-	Model model;     // tm
+	Model model;   
 
 	int face;
-	boolean flag;
+    private boolean flag;
 	boolean onlyone = true;
 	boolean next = false;
-    Block activeBlock; // a
-	Block nextBlock;   // c
+    Block activeBlock;
+	Block nextBlock;  
     Block tmp; // for temporatory use
 	int x;
 	int y;
-	int kk;
+	int cntThree;
     int totalScore;
     private int counter;
     
-	//public StarSurfaceView(Context context, AttributeSet attrs) {
     public StarSurfaceView(Context context) {
 		super(context);
 		sHolder = this.getHolder(); //实例化sHolder
 		sHolder.addCallback(this);  //addCallback:给SurfaceView添加一个回调函数
 		this.setFocusable(true);
-
-		face = 0;
 		x = -1;
 		y = 4;
-		kk = 0;
+		cntThree = 0;
 
 		activeBlock = new Block();
 		nextBlock = new Block();
@@ -85,7 +82,8 @@ public class StarSurfaceView extends SurfaceView implements Runnable, SurfaceHol
         BLUE(0xff0000ff, (byte) 3),
         YELLOW(0xffffff00, (byte) 4),
         CYAN(0xff00ffff, (byte) 5),
-        DKGREY(0xff444444, (byte) 6),
+        //DKGREY(0xff444444, (byte) 6),
+        WHITE(0xffffffff, (byte) 6),
         MAGENTA(0xffff00ff, (byte) 7);
 		private final int color;
 		private final byte value;
@@ -93,6 +91,154 @@ public class StarSurfaceView extends SurfaceView implements Runnable, SurfaceHol
 			this.color = color;
 			this.value = value;
 		}
+	}
+
+	boolean left = false;
+	boolean right = false;
+	boolean up = false;
+	boolean down = false;
+
+	public void draw() {
+		try {    
+            canvas = sHolder.lockCanvas();    
+            if (canvas != null) {
+                drawScoreAndFrames(canvas);
+                for (int i = 0; i < 4; i++) 
+                    drawNextCell(canvas, nextBlock.aj[i], nextBlock.ai[i], nextBlock.color);
+                for (int i = 0; i < Model.ROW; i++) 
+                    for (int j = 0; j < Model.COL; j++) 
+                        drawGameCell(canvas, i, j);
+            }    
+        } catch (Exception e) {    
+            System.out.println("error");
+        } finally {    
+            if (canvas!= null)    
+                sHolder.unlockCanvasAndPost(canvas);    
+        }
+	}
+    
+	public void run() {
+		if (onlyone){
+            nextBlock.generateBlock(-1);   //随机为下一个方块区域生成一个方块
+            activeBlock.generateBlock(-1); //随机为游戏区域生成一个方块
+            model.putNextBlock(nextBlock);  //在下一个方块区域产生一个方块
+            onlyone = false;
+		} 
+        
+		while (flag){
+			if (next) {
+				model.deleteNextBlock(nextBlock);  //删除下一个方块区域的方块
+				activeBlock.generateBlock(nextBlock.shape);	
+                nextBlock.generateBlock(-1); //为下一个方块区域随机生成一个方块
+				x = -1;
+				y = 4;
+				next = false;
+				model.putNextBlock(nextBlock);
+			}
+
+			try {
+                draw();
+                Thread.sleep(400 - model.speed);
+            } catch (InterruptedException e) {
+				e.printStackTrace();
+            }
+            
+			if (left) {
+				model.deleteBlock(activeBlock, x, y); //删除游戏区域的方块
+                if (activeBlock.canShiftLeft(activeBlock)) 
+                    activeBlock = activeBlock.shiftLeft(activeBlock);
+                else if (y > 0 && model.canMoveLeft(activeBlock, x, y)) 
+					y--;                              //如果方块可以左移，把方块左移
+				model.putBlock(activeBlock, x, y);    //重新生成左移后的方块
+                draw(); 
+				left = false;
+                cntThree++;
+                if (cntThree < 3) continue;
+			} else if (right) {
+				model.deleteBlock(activeBlock, x, y);
+
+                if (y >= 0 && y + activeBlock.getWidth(activeBlock) < Model.COL
+                       && model.canMoveRight(activeBlock, x, y)) {
+					y++;
+                    cntThree++;
+                } else if (y + activeBlock.getWidth(activeBlock) < Model.COL
+                           && activeBlock.canShiftLeft(activeBlock)) {
+                    activeBlock = activeBlock.shiftLeft(activeBlock);
+                    if (model.canMoveRight(activeBlock, x, y)) {
+                        y++;
+                        cntThree++;
+                    }
+                }
+
+                if (y + activeBlock.getWidth(activeBlock) >= Model.COL) cntThree = 3;
+                model.putBlock(activeBlock, x, y);
+                draw(); 
+                right = false;
+                if (cntThree < 3) continue;
+			} else if (up) { 
+				int tv;
+                if ( (activeBlock.shape) % 4 == 3) 
+					tv = activeBlock.shape - 3;       
+				else tv = activeBlock.shape + 1;
+                tmp = new Block();
+				tmp.generateBlock(tv);
+				model.deleteBlock(activeBlock, x, y);
+
+                if (x + tmp.getHeight(tmp) < Model.ROW && y + tmp.getWidth(tmp) < Model.COL && cntThree < 3) {
+					activeBlock = tmp;
+					model.putBlock(activeBlock, x, y);
+					up = false;
+					cntThree++;
+					if (cntThree < 3) continue;
+                } else {
+					model.putBlock(activeBlock, x, y);
+					up = false;
+				}
+                draw(); 
+			} else if (down) {
+				model.deleteBlock(activeBlock, x, y);
+                while (activeBlock.canShiftUp(activeBlock)) 
+                    activeBlock = activeBlock.shiftUp(activeBlock);
+				while (x + activeBlock.getHeight(activeBlock) < Model.ROW && model.canMoveDown(activeBlock, x, y)) 
+					x++;
+                model.putBlock(activeBlock, x, y);
+                draw();
+				down = false;
+			}
+
+            cntThree = 0;
+			model.deleteBlock(activeBlock, x, y);
+            if (x + activeBlock.getHeight(activeBlock) + 1 < Model.ROW
+                && y + activeBlock.getWidth(activeBlock) <= Model.COL  // = for the right most ones
+                && model.canMoveDown(activeBlock, x, y)) {
+				x++;
+				model.putBlock(activeBlock, x, y);
+                draw(); 
+
+                lines = model.flood(activeBlock, x, y);
+                if (lines > 0)
+                    totalScore = model.getUpdatedScore(lines);
+                draw(); 
+			} else {
+                model.putBlock(activeBlock, x, y);
+                draw(); 
+                lines = model.flood(activeBlock, x, y);
+                if (lines > 0)
+                    totalScore = model.getUpdatedScore(lines);
+                draw();
+
+				if (model.isGameOver(activeBlock, x, y)) {
+					Intent intent = new Intent();
+                    /*
+	        		intent.setClass( ActivityGame.acGame, ActGameover.class);
+	        		ActivityGame.acGame.startActivity(intent);
+	        		ActivityGame.acGame.finish();
+                    */
+					break;
+				}
+				next = true;
+			} // else
+		} // flag
 	}
 
     public Dimension getCellSize() {
@@ -190,30 +336,6 @@ public class StarSurfaceView extends SurfaceView implements Runnable, SurfaceHol
         canvas.drawRect(rect, paint);
     }
     
-	//绘制方法
-	public void draw() {
-		try {    
-            canvas= sHolder.lockCanvas();    
-            if (canvas != null) {
-                drawScoreAndFrames(canvas);
-                // delete previous block colors first
-                for (int i = 0; i < 4; i++) 
-                    drawNextCell(canvas, nextBlock.aj[i], nextBlock.ai[i], nextBlock.color);
-                for (int i = 0; i < Model.ROW; i++) 
-                    for (int j = 0; j < Model.COL; j++) 
-                        drawGameCell(canvas, i, j);
-                // 在canvas上显示时间  
-                //paint.setColor(Color.RED);  
-                //canvas.drawText("Interval = " + (counter++) + " seconds.", 100, 410, paint);  
-            }    
-        } catch (Exception e) {    
-            System.out.println("error");
-        } finally {    
-            if (canvas!= null)    
-                sHolder.unlockCanvasAndPost(canvas);    
-        }    
-	}
-    
     @Override
     public boolean onTouchEvent(MotionEvent event) {
         mx = event.getX();
@@ -258,160 +380,6 @@ public class StarSurfaceView extends SurfaceView implements Runnable, SurfaceHol
 		model.setGameActive();	
 	}
 
-	boolean left = false;
-	boolean right = false;
-	boolean up = false;
-	boolean down = false;
-
-	public void run() {
-		if (onlyone){
-            nextBlock.generateBlock(-1);   //随机为下一个方块区域生成一个方块
-            activeBlock.generateBlock(-1); //随机为游戏区域生成一个方块
-            model.putNextBlock(nextBlock);  //在下一个方块区域产生一个方块
-            onlyone = false;
-		} // onlyone
-        
-		while (flag){
-			if (next) {
-				model.deleteNextBlock(nextBlock);  //删除下一个方块区域的方块
-				activeBlock.generateBlock(nextBlock.shape);	
-                nextBlock.generateBlock(-1); //为下一个方块区域随机生成一个方块
-				x = -1;
-				y = 4;
-				next = false;
-				model.putNextBlock(nextBlock);
-			}
-			draw(); //绘制方块
-			try {
-				Thread.sleep(400 - model.speed);
-            } catch (InterruptedException e) {
-				e.printStackTrace();
-            }
-            
-			if (left) {
-				model.deleteBlock(activeBlock, x, y); //删除游戏区域的方块
-                while (activeBlock.canShiftLeft(activeBlock)) activeBlock = activeBlock.shiftLeft(activeBlock);
-				if (y > 0 && model.canMoveLeft(activeBlock, x, y)) 
-					y--;                           //如果方块可以左移，把方块左移
-				model.putBlock(activeBlock, x, y); //重新生成左移后的方块
-                //draw();
-				left = false;
-				kk++;
-				if (kk < 3) continue;
-			} else if (right) {
-				model.deleteBlock(activeBlock, x, y);
-				while (kk < 3 && y >= 0 && y + activeBlock.getWidth(activeBlock) < Model.COL && model.canMoveRight(activeBlock, x, y)) {
-					y++;
-                    kk++;
-                    model.putBlock(activeBlock, x, y);
-                    //draw();
-                }
-                right = false;
-                if (kk < 3) continue;
-			} else if (up) { 
-				int tv;
-				if ( (activeBlock.shape + 1) % 4 == 0) 
-					tv = activeBlock.shape - 3;       
-				else tv = activeBlock.shape + 1;
-                tmp = new Block();
-				tmp.generateBlock(tv);
-				model.deleteBlock(activeBlock, x, y);
-				if (x < Model.ROW - 1 && model.canMoveDown(tmp, x, y) && kk < 3) {
-					activeBlock = tmp;
-					model.putBlock(activeBlock, x, y);
-					up = false;
-					kk++;
-					if (kk < 3) continue;
-                } else {
-					model.putBlock(activeBlock, x, y);
-					up = false;
-				}
-                //draw();
-			} else if (down) {
-                boolean tmpFlag = false;
-				model.deleteBlock(activeBlock, x, y);
-                //while (activeBlock.canShiftUp(activeBlock)) activeBlock = activeBlock.shiftUp(activeBlock);
-                while (activeBlock.canShiftLeft(activeBlock)) {
-                    tmp = activeBlock.shiftLeft(activeBlock);
-                    activeBlock = tmp;
-                }
-				while (x + activeBlock.getHeight(activeBlock) < Model.ROW && model.canMoveDown(activeBlock, x, y)) {
-					x++;
-                    tmpFlag = true;
-                }
-                /*                
-                if (!model.canMoveDown(activeBlock, x, y) && x + activeBlock.getHeight(activeBlock) == Model.ROW)
-                    model.putBlock(activeBlock, x - 1, y);
-                else 
-                    model.putBlock(activeBlock, x, y);
-
-                if (!tmpFlag) {
-                    model.putBlock(activeBlock, x, y);
-                } else {
-                    model.putBlock(activeBlock, x - 1, y);
-                    tmpFlag = false;
-                }
-                */
-                model.putBlock(activeBlock, x, y);
-                //draw();
-				down = false;
-			}
-
-            System.out.println("Outside kk: " + kk);
-            kk = 0;
-
-			model.deleteBlock(activeBlock, x, y);
-            /*
-            //while (activeBlock.canShiftUp(activeBlock)) activeBlock = activeBlock.shiftUp(activeBlock);
-            while (activeBlock.canShiftUp(activeBlock)) {
-                tmp = activeBlock.shiftUp(activeBlock);
-                activeBlock = tmp;
-                } */
-            boolean tmpSecFlag = false;
-            if (x + activeBlock.getHeight(activeBlock) + 1 < Model.ROW
-                && y + activeBlock.getWidth(activeBlock) < Model.COL
-                && model.canMoveDown(activeBlock, x, y)) { //使方块下落
-				x++;
-				model.putBlock(activeBlock, x, y);
-                tmpSecFlag = true;
-				lines = model.flood(activeBlock, x, y);
-                totalScore = model.getUpdatedScore(lines);
-				System.out.println(totalScore);    // not debugging this one yet
-                draw();
-			} else {
-                /*                
-                if (!tmpSecFlag && )
-                    model.putBlock(activeBlock, x, y);
-                else {
-                    model.putBlock(activeBlock, x - 1, y);
-                    tmpSecFlag = false;
-                }
-                if (!model.canMoveDown(activeBlock, x, y) && x + activeBlock.getHeight(activeBlock) == Model.ROW)
-                    model.putBlock(activeBlock, x - 1, y);
-                else 
-                    model.putBlock(activeBlock, x, y);
-                */
-                model.putBlock(activeBlock, x, y);
-
-                lines = model.flood(activeBlock, x, y);
-                totalScore = model.getUpdatedScore(lines);
-				System.out.println(totalScore);    // not debugging this one yet
-                draw();
-
-				if (model.isGameOver(activeBlock, x, y)) {
-					Intent intent = new Intent();
-                    /*
-	        		intent.setClass( ActivityGame.acGame, ActGameover.class);
-	        		ActivityGame.acGame.startActivity(intent);
-	        		ActivityGame.acGame.finish();
-                    */
-					break;
-				}
-				next = true;
-			} // else
-		} // flag
-	}
-
 	public final void startNewGame() {
 		if (!model.isGameActive()) {
 			//scoresCounter.reset();
@@ -446,13 +414,16 @@ public class StarSurfaceView extends SurfaceView implements Runnable, SurfaceHol
 	}
 
 	public void surfaceCreated(SurfaceHolder holder) {
-        flag = true;  // surfaceCreated
+        //board = Bitmap.createBitmap(this.getWidth(), this.getHeight(), Bitmap.Config.ARGB_8888);
+        //canvas = new Canvas(board);
+        
+        flag = true;
         Thread th = new Thread(this);
-        System.out.println("SurfaceCreated!");  
         th.start();
 	}
 	
 	public void surfaceDestroyed(SurfaceHolder holder) {
 		flag = false;
+        sHolder.removeCallback(this);
 	}
 }

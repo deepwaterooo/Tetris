@@ -1,4 +1,4 @@
-% Created 2016-03-20 Sun 16:47
+% Created 2016-03-22 Tue 17:58
 \documentclass[9pt,b5paper]{article}
 \usepackage{graphicx}
 \usepackage{xcolor}
@@ -34,9 +34,12 @@
 \tableofcontents
 
 
-\section{Debugging, Better version is on the way\ldots{}}
+\section{Debugging, Better version}
 \label{sec-1}
 \begin{itemize}
+\item Fixed all the noticed carelessly-produced flying bugsss\ldots{}.. A basic game is in good shape now, will work on "polish" for viewing, sounds, efficiency during following days when I have time.
+\item Has good chance/potential to make it a great game.
+\item 
 \item Recently sick, and last night got very bad sleep for about 4 hours (6am - 10am), not in very good condition now.
 \item Because used SurfaceView threading, the game is much more smoother than the previous version, ideas are pretty straight forward, but still debugging\ldots{}
 \item Android threading is something that I have barely tried before, but I will work on this one this time, hopefully will make this TTetris a fully functional game for major functionality.
@@ -67,8 +70,25 @@
 
 \section{References}
 \label{sec-4}
-\subsection{gestures}
+\subsection{SurfaceView}
 \label{sec-4-1}
+\begin{itemize}
+\item Example: \url{http://technicalsearch.iteye.com/blog/1967616}
+\item \url{http://www.jcodecraeer.com/a/anzhuokaifa/androidkaifa/2012/1201/656.html}
+\item Event Queue: \url{http://www.leestorm.com/post/17.html}
+\item lockCanvas(Rect小区) \url{http://blog.csdn.net/alexander_xfl/article/details/13000347}
+\item example: \url{http://fanli7.net/a/JAVAbiancheng/ANT/20120424/160203.html}
+\item MotionEvent: \url{http://android.jobbole.com/82072/}
+\item surfaceview双缓冲： \url{http://blog.csdn.net/cnbloger/article/details/7404485}
+\item sth worth try: \url{http://www.lxway.com/969295592.htm}
+\item Dont Understand: \url{http://blog.sina.com.cn/s/blog_5a6f39cf01012rtv.html}
+\item tried: \url{http://bbs.csdn.net/topics/370074255} drawBitmap 2 canvas
+\item slightly complicated: \url{http://www.lxway.com/148606691.htm}
+\item slightly complicated: \url{http://www.lxway.com/186948856.htm}
+\end{itemize}
+
+\subsection{gestures}
+\label{sec-4-2}
 \begin{itemize}
 \item \url{http://www.cnblogs.com/akira90/archive/2013/03/10/2952886.html}
 \item Android 触摸手势基础 官方文档概览: \url{http://www.lxway.com/445554926.htm}

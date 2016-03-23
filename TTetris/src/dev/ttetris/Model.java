@@ -29,70 +29,72 @@ public class Model {
         board = new int[ROW][COL];
     }
 
-    // return total score
     // @param x: the number of rows full and destroyed
-    public int getUpdatedScore(int x) { //tscore
-        // flood(?)
+    public int getUpdatedScore(int x) {
         return score += x * x * 10;
     }
     
     // put generated Block into Next area
-    public void putNextBlock(Block b) { // putS
-        for (int i = 0; i < 4; i++) // 4 grid at most for all block shapes
+    public void putNextBlock(Block b) {
+        for (int i = 0; i < 4; i++) 
             next[b.ai[i]][b.aj[i]] = b.color;
     }
 
     // delete Block in next area
-    public void deleteNextBlock(Block c) { // delS
+    public void deleteNextBlock(Block c) { 
         for (int i = 0; i < 4; i++) 
             next[c.ai[i]][c.aj[i]] = 0;
     }
 
     // upload main board block
-    public void putBlock(Block a, int x, int y) { // putStore
+    public void putBlock(Block a, int x, int y) {
         for (int i = 0; i < 4; i++)
-            if (x + a.ai[i] >= 0 && x + a.ai[i] < ROW && y + a.aj[i] >= 0 && y + a.aj[i] < COL) // why??????????????
+            if (x + a.ai[i] >= 0 && x + a.ai[i] < ROW && y + a.aj[i] >= 0 && y + a.aj[i] < COL)
                 board[x + a.ai[i]][y + a.aj[i]] = a.color;
     }
     
-    public void deleteBlock(Block a, int x, int y) { // delStore
+    public void deleteBlock(Block a, int x, int y) { 
         for (int i = 0; i < 4; i++) 
             if (x + a.ai[i] >= 0 && x + a.ai[i] < ROW
                 && y + a.aj[i] >= 0 && y + a.aj[i] < COL) 
                 board[x + a.ai[i]][y + a.aj[i]] = 0;
     }
 
-    // check if the block can move left
-    public boolean canMoveLeft(Block a, int x, int y) { // leftMove
-        for (int i = 0; i < 4; i++)
+    public boolean canMoveLeft(Block a, int x, int y) { 
+        for (int i = 0; i < 4; i++) {
             if (y + a.aj[i] - 1 >= 0 && y + a.aj[i] < COL
                 && x + a.ai[i] >= 0 && x + a.ai[i] < ROW
                 && board[x + a.ai[i]][y + a.aj[i] - 1] != 0) 
                 return false;
+            if (y + a.aj[i] - 1 < 0) return false; // following canMoveRight, didn't think if it's necessary
+        }
         return true;
     }
 
     public boolean canMoveRight(Block a, int x, int y) {
-        while (a.canShiftLeft(a)) a = a.shiftLeft(a);
-        for (int i = 0; i < 4; i++)
+        for (int i = 0; i < 4; i++) {
             if (y + a.aj[i] >= 0 && y + a.aj[i] + 1 < COL
                 && x + a.ai[i] >= 0 && x + a.ai[i] < ROW
                 && board[x + a.ai[i]][y + a.aj[i] + 1] != 0)
                 return false;
+            if (y + a.aj[i] + 1 >= COL) return false; // for damn Ìï fix
+        }
         return true;
     }
     
     public boolean canMoveDown(Block a, int x, int y) { 
-        while (a.canShiftUp(a)) a = a.shiftUp(a);
-        for (int i = 0; i < 4; i++) 
-            if (x + 1 + a.getHeight(a) < ROW
+        for (int i = 0; i < 4; i++) {
+            //if (x + 1 + a.getHeight(a) < ROW // another bug here
+            if (x + 1 + a.ai[i] < ROW
                 && y + a.aj[i] >= 0 && y + a.aj[i] < COL
                 && board[x + a.ai[i] + 1][y + a.aj[i]] != 0)
                 return false;
+            if (x + a.ai[i] + 1 >= ROW) return false; 
+        }
         return true;
     }
 
-    public boolean isGameOver(Block a, int x, int y) { // outM
+    public boolean isGameOver(Block a, int x, int y) { 
         for (int i = 0; i < 4; i++)
             if (x + a.ai[i] < 1)
                 return true;
@@ -101,26 +103,26 @@ public class Model {
 
     // check if the at most 4 rows are full and need to be removed
     public int flood(Block a, int x, int y) {
-        int t, f = 0;
+        int gridCnt, lineCnt = 0;
         for (int i = 0; i < 4; i++) {
-            t = 0;
-            for (int j = 0; j < 4; j++) 
-                if (board[a.ai[j]][a.aj[j]] != 0)
-                    t++;
-            if (t == 10) {
-                f++;
+            gridCnt = 0;
+            for (int j = 0; j < COL; j++)
+                if (board[x + a.ai[i]][j] != 0)
+                    gridCnt++;
+            if (gridCnt == 10) {
+                lineCnt++;
                 remove(a.ai[i] + x);
-            }
+            } 
         }
-        return f;  // number of rows removed, for score recording
+        return lineCnt;  // number of rows removed, for score recording
     }
 
     // remove a row from board
     public void remove(int x) {
         for (int j = 0; j < 10; j++) {
-            for (int i = x; i > 1; i--) 
+            for (int i = x; i >= 1; i--) 
                 board[i][j] = board[i - 1][j];
-            board[0][j] = 0;  // reset the first row ???????????????????????????????????????????
+            board[0][j] = 0; 
         }
     }
 

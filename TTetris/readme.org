@@ -3,7 +3,10 @@
 #+title: Tetris - Basic Implementation Practice for Android
 #+author: deepwaterooo
 
-* Debugging, Better version is on the way...
+* Debugging, Better version
+- Fixed all the noticed carelessly-produced flying bugsss..... A basic game is in good shape now, will work on "polish" for viewing, sounds, efficiency during following days when I have time.
+- Has good chance/potential to make it a great game with Event Queue for motion events.
+- 
 - Recently sick, and last night got very bad sleep for about 4 hours (6am - 10am), not in very good condition now.
 - Because used SurfaceView threading, the game is much more smoother than the previous version, ideas are pretty straight forward, but still debugging...
 - Android threading is something that I have barely tried before, but I will work on this one this time, hopefully will make this TTetris a fully functional game for major functionality.
@@ -27,6 +30,20 @@
 * 手势定义
 
 * References
+** SurfaceView
+- Example: http://technicalsearch.iteye.com/blog/1967616
+- http://www.jcodecraeer.com/a/anzhuokaifa/androidkaifa/2012/1201/656.html
+- Event Queue: http://www.leestorm.com/post/17.html
+- lockCanvas(Rect小区) http://blog.csdn.net/alexander_xfl/article/details/13000347
+- example: http://fanli7.net/a/JAVAbiancheng/ANT/20120424/160203.html
+- MotionEvent: http://android.jobbole.com/82072/
+- surfaceview双缓冲： http://blog.csdn.net/cnbloger/article/details/7404485
+- sth worth try: http://www.lxway.com/969295592.htm
+- Dont Understand: http://blog.sina.com.cn/s/blog_5a6f39cf01012rtv.html
+- tried: http://bbs.csdn.net/topics/370074255 drawBitmap 2 canvas
+- slightly complicated: http://www.lxway.com/148606691.htm
+- slightly complicated: http://www.lxway.com/186948856.htm
+
 ** gestures
 - http://www.cnblogs.com/akira90/archive/2013/03/10/2952886.html
 - Android 触摸手势基础 官方文档概览: http://www.lxway.com/445554926.htm
