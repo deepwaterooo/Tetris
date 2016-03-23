@@ -145,8 +145,8 @@ public class StarSurfaceView extends SurfaceView implements Runnable, SurfaceHol
             
 			if (left) {
 				model.deleteBlock(activeBlock, x, y); //删除游戏区域的方块
-                if (activeBlock.canShiftLeft(activeBlock)) 
-                    activeBlock = activeBlock.shiftLeft(activeBlock);
+                if (activeBlock.canShiftLeft()) 
+                    activeBlock = activeBlock.shiftLeft();
                 else if (y > 0 && model.canMoveLeft(activeBlock, x, y)) 
 					y--;                              //如果方块可以左移，把方块左移
 				model.putBlock(activeBlock, x, y);    //重新生成左移后的方块
@@ -157,20 +157,20 @@ public class StarSurfaceView extends SurfaceView implements Runnable, SurfaceHol
 			} else if (right) {
 				model.deleteBlock(activeBlock, x, y);
 
-                if (y >= 0 && y + activeBlock.getWidth(activeBlock) < Model.COL
+                if (y >= 0 && y + activeBlock.getWidth() < Model.COL
                        && model.canMoveRight(activeBlock, x, y)) {
 					y++;
                     cntThree++;
-                } else if (y + activeBlock.getWidth(activeBlock) < Model.COL
-                           && activeBlock.canShiftLeft(activeBlock)) {
-                    activeBlock = activeBlock.shiftLeft(activeBlock);
+                } else if (y + activeBlock.getWidth() < Model.COL
+                           && activeBlock.canShiftLeft()) {
+                    activeBlock = activeBlock.shiftLeft();
                     if (model.canMoveRight(activeBlock, x, y)) {
                         y++;
                         cntThree++;
                     }
                 }
 
-                if (y + activeBlock.getWidth(activeBlock) >= Model.COL) cntThree = 3;
+                if (y + activeBlock.getWidth() >= Model.COL) cntThree = 3;
                 model.putBlock(activeBlock, x, y);
                 draw(); 
                 right = false;
@@ -184,7 +184,7 @@ public class StarSurfaceView extends SurfaceView implements Runnable, SurfaceHol
 				tmp.generateBlock(tv);
 				model.deleteBlock(activeBlock, x, y);
 
-                if (x + tmp.getHeight(tmp) < Model.ROW && y + tmp.getWidth(tmp) < Model.COL && cntThree < 3) {
+                if (x + tmp.getHeight() < Model.ROW && y + tmp.getWidth() < Model.COL && cntThree < 3) {
 					activeBlock = tmp;
 					model.putBlock(activeBlock, x, y);
 					up = false;
@@ -197,9 +197,9 @@ public class StarSurfaceView extends SurfaceView implements Runnable, SurfaceHol
                 draw(); 
 			} else if (down) {
 				model.deleteBlock(activeBlock, x, y);
-                while (activeBlock.canShiftUp(activeBlock)) 
-                    activeBlock = activeBlock.shiftUp(activeBlock);
-				while (x + activeBlock.getHeight(activeBlock) < Model.ROW && model.canMoveDown(activeBlock, x, y)) 
+                while (activeBlock.canShiftUp()) 
+                    activeBlock = activeBlock.shiftUp();
+				while (x + activeBlock.getHeight() < Model.ROW && model.canMoveDown(activeBlock, x, y)) 
 					x++;
                 model.putBlock(activeBlock, x, y);
                 draw();
@@ -208,8 +208,8 @@ public class StarSurfaceView extends SurfaceView implements Runnable, SurfaceHol
 
             cntThree = 0;
 			model.deleteBlock(activeBlock, x, y);
-            if (x + activeBlock.getHeight(activeBlock) + 1 < Model.ROW
-                && y + activeBlock.getWidth(activeBlock) <= Model.COL  // = for the right most ones
+            if (x + activeBlock.getHeight() + 1 < Model.ROW
+                && y + activeBlock.getWidth() <= Model.COL  
                 && model.canMoveDown(activeBlock, x, y)) {
 				x++;
 				model.putBlock(activeBlock, x, y);

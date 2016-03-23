@@ -17,9 +17,9 @@ public class Model {
 	private static final String TAG_DATA = "data";
 	private static final String TAG_ACTIVE_BLOCK = "active-block";
 
-    public int[][] next = null;  // brray
-    public int[][] board = null; // field
-    private int score;    // counter
+    public int[][] next = null;  
+    public int[][] board = null; 
+    private int score;    
     public int speed;
 
     public Model() {
@@ -77,14 +77,13 @@ public class Model {
                 && x + a.ai[i] >= 0 && x + a.ai[i] < ROW
                 && board[x + a.ai[i]][y + a.aj[i] + 1] != 0)
                 return false;
-            if (y + a.aj[i] + 1 >= COL) return false; // for damn Ìï fix
+            if (y + a.aj[i] + 1 >= COL) return false; 
         }
         return true;
     }
     
     public boolean canMoveDown(Block a, int x, int y) { 
         for (int i = 0; i < 4; i++) {
-            //if (x + 1 + a.getHeight(a) < ROW // another bug here
             if (x + 1 + a.ai[i] < ROW
                 && y + a.aj[i] >= 0 && y + a.aj[i] < COL
                 && board[x + a.ai[i] + 1][y + a.aj[i]] != 0)
@@ -114,7 +113,7 @@ public class Model {
                 remove(a.ai[i] + x);
             } 
         }
-        return lineCnt;  // number of rows removed, for score recording
+        return lineCnt;  
     }
 
     // remove a row from board
@@ -149,9 +148,8 @@ public class Model {
 	private final void reset(boolean bDynamicDataOnly) {
 		for (int i = 0; i < ROW; i++) {
 			for (int j = 0; j < COL; j++) {
-				if (!bDynamicDataOnly || board[i][j] == 8) {
+				if (!bDynamicDataOnly || board[i][j] == 8) 
 					board[i][j] = 0;
-				}
 			}
 		}
 	}
