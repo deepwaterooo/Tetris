@@ -1,0 +1,852 @@
+[ 03-24 01:52:46.997 27400:27928 I/System.out ]
+x: -1
+
+[ 03-24 01:52:46.997 27400:27928 I/System.out ]
+y: 4
+
+[ 03-24 01:52:46.997 27400:27928 I/System.out ]
+activeBlock.shape: 25
+
+[ 03-24 01:52:46.997 27400:27928 I/System.out ]
+activeBlock.color: 7
+
+[ 03-24 01:52:47.007 27400:27928 E/AndroidRuntime ]
+FATAL EXCEPTION: Thread-435205
+Process: dev.ttetris, PID: 27400
+java.lang.ArrayIndexOutOfBoundsException: length=20; index=-1
+	at dev.ttetris.Model.flood(Model.java:133)
+	at dev.ttetris.StarSurfaceView.run(StarSurfaceView.java:298)
+	at java.lang.Thread.run(Thread.java:818)
+
+
+[ 03-24 01:52:47.007   953: 1011 I/PersonaManager ]
+mKnoxInfo is empty
+
+[ 03-24 01:52:47.007   953: 1011 V/ApplicationPolicy ]
+isApplicationStateBlocked userId 0 pkgname dev.ttetris
+
+[ 03-24 01:52:47.007   953: 1011 V/ApplicationPolicy ]
+isApplicationStateBlocked userId 0 pkgname dev.ttetris
+
+[ 03-24 01:52:47.007   953: 1011 D/InputDispatcher ]
+Focused application set to: xxxx
+
+[ 03-24 01:52:47.007   953: 1011 D/InputDispatcher ]
+Focus left window: 27400
+
+[ 03-24 01:52:47.007   953: 1011 V/ApplicationPolicy ]
+isApplicationStateBlocked userId 0 pkgname dev.ttetris
+
+[ 03-24 01:52:47.007   953: 1011 V/ApplicationPolicy ]
+isApplicationStateBlocked userId 0 pkgname com.sec.android.app.launcher
+
+[ 03-24 01:52:47.007   953: 1011 D/InputDispatcher ]
+Focused application set to: xxxx
+
+[ 03-24 01:52:47.007   953: 1011 W/ActivityManager ]
+  Force finishing activity 1 dev.ttetris/.ActivityGame
+
+[ 03-24 01:52:47.007   953: 1011 W/ActivityManager ]
+  Force finishing activity 2 dev.ttetris/.TTetris
+
+[ 03-24 01:52:47.017   953: 4428 V/WindowOrientationListener ]
+setCurrentAppOrientation :1
+
+[ 03-24 01:52:47.017   953: 4428 V/WindowOrientationListener ]
+ScreenOrientationEventListenerImpl.getProposedRotationLocked, Rotation: 0
+
+[ 03-24 01:52:47.017   953: 4428 D/DisplayManager ]
+addAllDisplaysLocked()
+
+[ 03-24 01:52:47.017   953: 4428 V/WindowManager ]
+rotationForOrientationLw(orient=1, last=0); user=0 
+
+[ 03-24 01:52:47.017   953: 4428 V/WindowOrientationListener ]
+getProposedRotation : mEnabled = true, mUseScreenOrientationSensor =true
+
+[ 03-24 01:52:47.027   953: 4428 D/PowerManagerService ]
+setKeyboardVisibility: false
+
+[ 03-24 01:52:47.037   953:  978 D/PhoneWindow ]
+*FMB* installDecor mIsFloating : true
+
+[ 03-24 01:52:47.037   953:  978 D/PhoneWindow ]
+*FMB* installDecor flags : 8519682
+
+[ 03-24 01:52:47.037   953:27931 E/android.os.Debug ]
+ro.product_ship = true
+
+[ 03-24 01:52:47.037   953:27931 E/android.os.Debug ]
+ro.debug_level = 0x4f4c
+
+[ 03-24 01:52:47.047   953:  978 D/InputDispatcher ]
+Focus entered window: 953
+
+[ 03-24 01:52:47.047   953:  981 D/StatusBarManagerService ]
+manageDisableList userId=0 what=0x0 pkg=Window{365c0f9c u0 Application Error: dev.ttetris}
+
+[ 03-24 01:52:47.057   953:  953 D/SensorService ]
+[SO] activate (ident=0xb8909380, enabled=0)
+
+[ 03-24 01:52:47.057   953:  953 I/Sensors  ]
+AccelerometerSensor enable: mEnabled 1, handle 0, en 0
+
+[ 03-24 01:52:47.057   953:  953 D/SensorManager ]
+unregisterListener ::   
+
+[ 03-24 01:52:47.057   953:  953 I/Sensors  ]
+AccelerometerSensor(0) setDelay : 200000000(ns)
+
+[ 03-24 01:52:47.057   953:  978 I/ActivityManager ]
+RTCC_TRIGGER_MSG, ASYNC.
+
+[ 03-24 01:52:47.067   953:  953 D/SensorService ]
+[SO] changed settle time [0]
+
+[ 03-24 01:52:47.067   953:  953 D/SensorService ]
+[SO] activate (ident=0xb8909380, enabled=1)
+
+[ 03-24 01:52:47.067   953:  953 D/SensorService ]
+[SO] AR_init
+
+[ 03-24 01:52:47.067   953:  953 I/Sensors  ]
+AccelerometerSensor enable: mEnabled 0, handle 0, en 1
+
+[ 03-24 01:52:47.067   953:  978 D/PhoneWindow ]
+*FMB* isFloatingMenuEnabled mFloatingMenuBtn : null
+
+[ 03-24 01:52:47.067   953:  978 D/PhoneWindow ]
+*FMB* isFloatingMenuEnabled return false
+
+[ 03-24 01:52:47.067   953: 4285 I/PersonaManager ]
+mKnoxInfo is empty
+
+[ 03-24 01:52:47.067   248:  248 I/SurfaceFlinger ]
+id=23438 createSurf (73x73),1 flag=4, utetris
+
+[ 03-24 01:52:47.067   953:  978 V/BroadcastQueue ]
+[background] Process cur broadcast BroadcastRecord{209c5da5 u0 android.intent.action.DROPBOX_ENTRY_ADDED} DELIVERED for app ProcessRecord{1e121293 21709:com.amazon.venezia/u0a1}
+
+[ 03-24 01:52:47.067   953: 4285 D/ActivityManager ]
+startService callerProcessName:com.amazon.venezia, calleePkgName: com.amazon.venezia
+
+[ 03-24 01:52:47.077   953:  953 D/SensorManager ]
+registerListener :: 1600221811, Screen Orientation Sensor, 200000, 0,  
+
+[ 03-24 01:52:47.077   247:  538 E/Vold     ]
+Failed to find mounted volume for /storage/extSdCard/Android/data/com.amazon.venezia/files/
+
+[ 03-24 01:52:47.077   247:  538 W/Vold     ]
+Returning OperationFailed - no handler for errno 0
+
+[ 03-24 01:52:47.087 21709:27933 W/ContextImpl ]
+Failed to ensure directory: /storage/extSdCard/Android/data/com.amazon.venezia/files
+
+[ 03-24 01:52:47.087  1383: 1383 D/Launcher ]
+onRestart, Launcher: 842117535
+
+[ 03-24 01:52:47.087  1383: 1383 D/Launcher ]
+onStart, Launcher: 842117535
+
+[ 03-24 01:52:47.087  1383: 1383 D/Launcher.HomeView ]
+onStart
+
+[ 03-24 01:52:47.087  1383: 1383 D/Launcher ]
+onResume, Launcher: 842117535
+
+[ 03-24 01:52:47.087  1383: 1383 D/Launcher ]
+setSystemUiTransparency.SettingNotFoundException : set as TRUE
+
+[ 03-24 01:52:47.097  1383: 1383 D/Launcher.HomeView ]
+onResume
+
+[ 03-24 01:52:47.097  1383: 1383 D/MenuAppsGridFragment ]
+onResume
+
+[ 03-24 01:52:47.097   953:  978 V/BroadcastQueue ]
+[background] Process cur broadcast BroadcastRecord{2b1a2f21 u0 com.sec.android.intent.action.HOME_RESUME} DELIVERED for app ProcessRecord{3c53cf39 1362:com.android.phone/1001}
+
+[ 03-24 01:52:47.107 21475:21475 D/Mms/UIEventReceiver ]
+ui event
+
+[ 03-24 01:52:47.107 21709:27933 W/ContextImpl ]
+Failed to ensure directory: /storage/extSdCard/Android/data/com.amazon.venezia/files
+
+[ 03-24 01:52:47.107   248:  248 I/SurfaceFlinger ]
+id=23439 createSurf (480x800),1 flag=4, Mauncher
+
+[ 03-24 01:52:47.107   953:  965 V/BroadcastQueue ]
+[background] Process cur broadcast BroadcastRecord{2b1a2f21 u0 com.sec.android.intent.action.HOME_RESUME} DELIVERED for app ProcessRecord{bc4371d 21475:com.android.mms/u0a31}
+
+[ 03-24 01:52:47.107   247:  538 E/Vold     ]
+Failed to find mounted volume for /storage/extSdCard/Android/data/com.amazon.venezia/files/
+
+[ 03-24 01:52:47.107   247:  538 W/Vold     ]
+Returning OperationFailed - no handler for errno 0
+
+[ 03-24 01:52:47.117   953:  965 V/BroadcastQueue ]
+[background] Process cur broadcast BroadcastRecord{2b1a2f21 u0 com.sec.android.intent.action.HOME_RESUME} DELIVERED for app ProcessRecord{3eaa32f3 22553:com.android.contacts/u0a17}
+
+[ 03-24 01:52:47.127 21709:27933 I/AmazonAppstore.CrashReporter/CrashReportService ]
+sendCrashReports()
+
+[ 03-24 01:52:47.127 27904:27904 D/         ]
+actionWC : com.sec.android.intent.action.HOME_RESUME rebootFlag = 1
+
+[ 03-24 01:52:47.127 27904:27904 D/         ]
+getInstance
+
+[ 03-24 01:52:47.127 27904:27904 D/         ]
+The widget does not exist in idle!!
+
+[ 03-24 01:52:47.127 27904:27904 D/         ]
+No weather widget on Homescreen
+
+[ 03-24 01:52:47.127   953: 4424 V/BroadcastQueue ]
+[background] Process cur broadcast BroadcastRecord{2b1a2f21 u0 com.sec.android.intent.action.HOME_RESUME} DELIVERED for app ProcessRecord{a04412f 27904:com.sec.android.widgetapp.ap.hero.accuweather/u0a47}
+
+[ 03-24 01:52:47.127   953: 4285 E/ActivityManager ]
+checkUser: useridlist=null, currentuser=0
+
+[ 03-24 01:52:47.127   953: 4285 E/ActivityManager ]
+checkUser: useridlist=null, currentuser=0
+
+[ 03-24 01:52:47.127   953: 4285 E/ActivityManager ]
+checkUser: useridlist=null, currentuser=0
+
+[ 03-24 01:52:47.127   953: 4285 E/ActivityManager ]
+checkUser: useridlist=null, currentuser=0
+
+[ 03-24 01:52:47.147  1383: 1383 I/Timeline ]
+Timeline: Activity_idle id: android.os.BinderProxy@3386c19b time:726861759
+
+[ 03-24 01:52:47.157 27935:27935 E/Zygote   ]
+no v2
+
+[ 03-24 01:52:47.157   953:  981 D/StatusBarManagerService ]
+manageDisableList userId=0 what=0x0 pkg=Window{365c0f9c u0 Application Error: dev.ttetris}
+
+[ 03-24 01:52:47.157   953: 4285 I/ActivityManager ]
+Start proc 27935:com.sec.android.widgetapp.dualclockdigital/u0a69 for broadcast-2 com.sec.android.widgetapp.dualclockdigital/.DigitalDualClockWidgetProvider
+
+[ 03-24 01:52:47.167 27935:27935 I/SELinux  ]
+Function: selinux_compare_spd_ram , priority [2] , priority version is VE=SEPF_SM-G360V_5.1.1_0026
+
+
+[ 03-24 01:52:47.167 27935:27935 E/SELinux  ]
+[DEBUG] get_category: variable seinfo: shared sensitivity: NULL, cateogry: NULL
+
+
+[ 03-24 01:52:47.167   953: 4285 I/ActivityManager ]
+Killing 27591:com.LogiaGroup.LogiaDeck/u0a14 (adj 15): bgCount ##26
+
+[ 03-24 01:52:47.177 27935:27935 D/TimaKeyStoreProvider ]
+in addTimaSignatureService
+
+[ 03-24 01:52:47.187 27935:27935 D/TimaKeyStoreProvider ]
+TimaSignature is unavailable
+
+[ 03-24 01:52:47.187 27935:27935 D/ActivityThread ]
+Added TimaKesytore provider
+
+[ 03-24 01:52:47.187 27935:27935 I/SAMP     ]
+ActivityThread() - SAMP_ENABLE : true
+
+[ 03-24 01:52:47.197   953:  965 V/BroadcastQueue ]
+[background] Process cur broadcast BroadcastRecord{2b1a2f21 u0 com.sec.android.intent.action.HOME_RESUME} DELIVERED for app ProcessRecord{7f72aa3 27935:com.sec.android.widgetapp.dualclockdigital/u0a69}
+
+[ 03-24 01:52:47.207 27935:27935 W/ResourcesManager ]
+getTopLevelResources: null for user  0
+
+[ 03-24 01:52:47.227   953: 4429 E/ActivityManager ]
+checkUser: useridlist=null, currentuser=0
+
+[ 03-24 01:52:47.227   953: 4429 E/ActivityManager ]
+checkUser: useridlist=null, currentuser=0
+
+[ 03-24 01:52:47.227   953: 4429 E/ActivityManager ]
+checkUser: useridlist=null, currentuser=0
+
+[ 03-24 01:52:47.227   953: 4429 E/ActivityManager ]
+checkUser: useridlist=null, currentuser=0
+
+[ 03-24 01:52:47.247 27951:27951 E/Zygote   ]
+no v2
+
+[ 03-24 01:52:47.247 27951:27951 I/SELinux  ]
+Function: selinux_compare_spd_ram , priority [2] , priority version is VE=SEPF_SM-G360V_5.1.1_0026
+
+
+[ 03-24 01:52:47.247   953: 4429 I/ActivityManager ]
+Start proc 27951:com.sec.android.widgetapp.digitalclock/u0a66 for broadcast-2 com.sec.android.widgetapp.digitalclock/.DigitalClockWidgetProvider
+
+[ 03-24 01:52:47.247   953: 4429 I/ActivityManager ]
+Killing 27725:com.google.android.partnersetup/u0a12 (adj 15): bgCount ##26
+
+[ 03-24 01:52:47.257 27951:27951 E/SELinux  ]
+[DEBUG] get_category: variable seinfo: shared sensitivity: NULL, cateogry: NULL
+
+
+[ 03-24 01:52:47.267 27951:27951 D/TimaKeyStoreProvider ]
+in addTimaSignatureService
+
+[ 03-24 01:52:47.267 27951:27951 D/TimaKeyStoreProvider ]
+TimaSignature is unavailable
+
+[ 03-24 01:52:47.267 27951:27951 D/ActivityThread ]
+Added TimaKesytore provider
+
+[ 03-24 01:52:47.267   953:21151 D/PowerManagerService ]
+[api] handleWakeLockDeath : release WakeLock : PARTIAL_WAKE_LOCK              'Wake Lock' (uid=10014, pid=27591, ws=null) (elapsedTime=6267)
+
+[ 03-24 01:52:47.267 27951:27951 I/SAMP     ]
+ActivityThread() - SAMP_ENABLE : true
+
+[ 03-24 01:52:47.277   953:  976 D/SensorService ]
+[SO] Reset Rotation Old [100], Init [1]
+
+[ 03-24 01:52:47.277   953: 1163 V/BroadcastQueue ]
+[background] Process cur broadcast BroadcastRecord{2b1a2f21 u0 com.sec.android.intent.action.HOME_RESUME} DELIVERED for app ProcessRecord{104d01a0 27951:com.sec.android.widgetapp.digitalclock/u0a66}
+
+[ 03-24 01:52:47.287 27951:27951 W/ResourcesManager ]
+getTopLevelResources: null for user  0
+
+[ 03-24 01:52:47.307   953: 1423 E/ActivityManager ]
+checkUser: useridlist=null, currentuser=0
+
+[ 03-24 01:52:47.307   953: 1423 E/ActivityManager ]
+checkUser: useridlist=null, currentuser=0
+
+[ 03-24 01:52:47.307   953: 1423 E/ActivityManager ]
+checkUser: useridlist=null, currentuser=0
+
+[ 03-24 01:52:47.307   953: 1423 E/ActivityManager ]
+checkUser: useridlist=null, currentuser=0
+
+[ 03-24 01:52:47.317 27967:27967 E/Zygote   ]
+no v2
+
+[ 03-24 01:52:47.317 27967:27967 I/SELinux  ]
+Function: selinux_compare_spd_ram , priority [2] , priority version is VE=SEPF_SM-G360V_5.1.1_0026
+
+
+[ 03-24 01:52:47.317 27967:27967 E/SELinux  ]
+[DEBUG] get_category: variable seinfo: platform sensitivity: NULL, cateogry: NULL
+
+
+[ 03-24 01:52:47.327 27967:27967 D/TimaKeyStoreProvider ]
+in addTimaSignatureService
+
+[ 03-24 01:52:47.327   953: 1423 I/ActivityManager ]
+Start proc 27967:com.samsung.android.widgetapp.torch/1000 for broadcast-2 com.samsung.android.widgetapp.torch/.WidgetProviderAssistiveLight
+
+[ 03-24 01:52:47.327   953: 1423 I/ActivityManager ]
+Killing 27746:com.policydm/1000 (adj 15): bgCount ##26
+
+[ 03-24 01:52:47.347 27967:27967 D/TimaKeyStoreProvider ]
+TimaSignature is unavailable
+
+[ 03-24 01:52:47.347 27967:27967 D/ActivityThread ]
+Added TimaKesytore provider
+
+[ 03-24 01:52:47.347 27967:27967 I/SAMP     ]
+ActivityThread() - SAMP_ENABLE : true
+
+[ 03-24 01:52:47.347   953: 4429 V/BroadcastQueue ]
+[background] Process cur broadcast BroadcastRecord{2b1a2f21 u0 com.sec.android.intent.action.HOME_RESUME} DELIVERED for app ProcessRecord{908a159 27967:com.samsung.android.widgetapp.torch/1000}
+
+[ 03-24 01:52:47.357 27967:27967 W/ResourcesManager ]
+getTopLevelResources: null for user  0
+
+[ 03-24 01:52:47.367 27967:27967 E/WidgetProviderAssistiveLight ]
+buildUpdate PORTRAIT
+
+[ 03-24 01:52:47.377 27967:27967 D/WidgetProviderAssistiveLight ]
+getWidgetMode : false
+
+[ 03-24 01:52:47.377 27967:27967 D/WidgetProviderAssistiveLight ]
+updateButtons , icon_off
+
+[ 03-24 01:52:47.377 27967:27967 D/WidgetProviderAssistiveLight ]
+updateWidget : ComponentInfo{com.samsung.android.widgetapp.torch/com.samsung.android.widgetapp.torch.WidgetProviderAssistiveLight}
+
+[ 03-24 01:52:47.377 27967:27967 D/WidgetProviderAssistiveLight ]
+onReceive() PLUG:2 / STATUS:5 / LEVEL:100
+
+[ 03-24 01:52:47.377 27967:27967 D/WidgetProviderAssistiveLight ]
+onReceive() mBatteryLevel : 100 / Static Battery Level : 100
+
+[ 03-24 01:52:47.377 27967:27967 D/WidgetProviderAssistiveLight ]
+getWidgetMode : false
+
+[ 03-24 01:52:47.377   953: 4427 W/BroadcastQueue ]
+Permission Denial: broadcasting Intent { act=com.sec.android.intent.action.HOME_RESUME flg=0x10 } from com.sec.android.app.launcher (pid=1383, uid=10006) is not exported from uid 1000 due to receiver com.samsung.android.widgetapp.torch/.EasyWidgetProviderAssistiveLight
+
+[ 03-24 01:52:47.377   953: 4427 I/ActivityManager ]
+Killing 27081:com.sec.android.gallery3d/u0a29 (adj 15): bgCount ##26
+
+[ 03-24 01:52:47.427 24628:24628 D/AASAservice ]
+onDestroy()
+
+[ 03-24 01:52:47.427   953:  983 I/Timeline ]
+Timeline: Activity_windows_visible id: ActivityRecord{356e7a91 u0 com.sec.android.app.launcher/com.android.launcher2.Launcher t2128} time:726862032
+
+[ 03-24 01:52:47.427   953:  983 D/CustomFrequencyManagerService ]
+releaseDVFSLockLocked : Getting Lock type frm List : DVFS_MIN_LIMIT  frequency : 1190400  uid : 1000  pid : 953  tag : ACTIVITY_RESUME_BOOSTER@4
+
+[ 03-24 01:52:47.427   953:  983 D/CustomFrequencyManagerService ]
+FrequencyrequestList.getNextCStateDisableRequest, index: 0
+
+[ 03-24 01:52:47.427   953:  983 W/ActivityManager ]
+mDVFSHelper.release()
+
+[ 03-24 01:52:47.427   953:  978 D/CustomFrequencyManagerService ]
+acquireDVFSLockLocked : type : DVFS_MIN_LIMIT  frequency : 1190400  uid : 1000  pid : 953  pkgName : ACTIVITY_RESUME_BOOSTER@10
+
+[ 03-24 01:52:47.477   953:  976 D/SensorService ]
+[SO] process [curr = 2390629169449007] : [prev = 2390628716176559] : [diff = 453272448] [-0.156 5.546 8.108]
+
+[ 03-24 01:52:47.477   953:  976 D/SensorService ]
+[SO] -0.156 5.546 8.108
+
+[ 03-24 01:52:47.477   953:  976 D/SensorService ]
+[SO] Update [100 -> 0]
+
+[ 03-24 01:52:47.477   953:  981 V/WindowOrientationListener ]
+Rotation Event [SO Sensor : x = 0.0]
+
+[ 03-24 01:52:47.597   248: 6733 I/SurfaceFlinger ]
+id=23436 Removed BctivityGam (6/10)
+
+[ 03-24 01:52:47.597   248:  422 I/SurfaceFlinger ]
+id=23436 Removed BctivityGam (-2/10)
+
+[ 03-24 01:52:47.607   248:  989 I/SurfaceFlinger ]
+id=23437 Removed TurfaceView (5/9)
+
+[ 03-24 01:52:47.607   248:  424 I/SurfaceFlinger ]
+id=23437 Removed TurfaceView (-2/9)
+
+[ 03-24 01:52:47.617  1118: 1118 D/StatusBar.NetworkController ]
+updateTelephonySignalStrength: hasService=true ss=SignalStrength: 99 99 -85 -40 -120 -1 -1 15 -114 -10 52 -1 2147483647 0x2040 gsm|lte
+
+[ 03-24 01:52:47.617  1118: 1118 D/StatusBar.NetworkController ]
+updateTelephonySignalStrength: iconLevel=2
+
+[ 03-24 01:52:47.617  1118: 1118 D/StatusBar.NetworkController ]
+updateTelephonySignalStrength, No signal level. mPhoneSignalIconId = com.android.systemui:drawable/tw_stat_sys_5_level_signal_2 mDataSignalIconId = com.android.systemui:drawable/tw_stat_sys_5_level_signal_2 mQSPhoneSignalIconId = com.android.systemui:drawable/ic_qs_signal_2 mContentDescriptionPhoneSignal = Two bars of phone signal
+
+[ 03-24 01:52:47.617  1118: 1118 D/StatusBar.NetworkController ]
+refreshViews connected={ wifi data } level=2 combinedSignalIconId=0x7f0202d4/com.android.systemui:drawable/stat_sys_wifi_signal_4 mobileLabel=Verizon Wireless wifiLabel="ATTggtt2VS" emergencyOnly=false combinedLabel="ATTggtt2VS" mAirplaneMode=false mDataActivity=0 mPhoneSignalIconId=0x7f02037d/com.android.systemui:drawable/tw_stat_sys_5_level_signal_2 mQSPhoneSignalIconId=0x7f02008d/com.android.systemui:drawable/ic_qs_signal_2 mDataDirectionIconId=0x7f0201d6/com.android.systemui:drawable/stat_sys_data_connected_4g_lte mDataSignalIconId=0x7f02037d/com.android.systemui:drawable/tw_stat_sys_5_level_signal_2 mDataTypeIconId=0x7f0201d6/com.android.systemui:drawable/stat_sys_data_connected_4g_lte mQSDataTypeIconId=0x0/(null) mNoSimIconId=0x0/(null) mWifiIconId=0x7f0202d4/com.android.systemui:drawable/stat_sys_wifi_signal_4 mQSWifiIconId=0x7f0200a4/com.android.systemui:drawable/ic_qs_wifi_4 mWifiActivityIconId=0x7f0202af/com.android.systemui:drawable/stat_sys_signal_out mBluetoothTetherIconId=0x7f0202b2/com.android.systemui:drawable/stat_sys_tether_bluetooth
+
+[ 03-24 01:52:47.617  1118: 1118 D/STATUSBAR-WifiQuickSettingButton ]
+onWifiSignalChanged enabled=true enabledDesc:"ATTggtt2VS"
+
+[ 03-24 01:52:47.617  1118: 1118 D/StatusBar.NetworkController ]
+applyVZW
+
+[ 03-24 01:52:47.617   953: 2000 V/EPDG -- [SMARTWIFI] ]
+cdma oldest entry removed
+
+[ 03-24 01:52:47.617   953: 2000 V/EPDG -- [SMARTWIFI] ]
+cdma entry added
+
+[ 03-24 01:52:47.617   953: 2000 V/EPDG -- [SMARTWIFI] ]
+New entry : (SignalStrength: 99 99 -85 -40 -120 -1 -1 15 -114 -10 52 -1 2147483647 0x2040 gsm|lte : 0 )
+
+[ 03-24 01:52:47.617   953: 2000 D/EPDG -- [SMARTWIFI] ]
+No need to run ping : (lastStrength2 : currentStrength)2
+
+[ 03-24 01:52:47.617  1118: 1118 D/StatusBar.NetworkController ]
+applyVZW : mDataTypeDisabledIconIdcom.android.systemui:drawable/stat_sys_data_connected_disabled_4g_lte
+
+[ 03-24 01:52:47.617  1118: 1118 D/StatusBar.NetworkController ]
+applyVZW
+
+[ 03-24 01:52:47.627  1118: 1118 D/StatusBar.NetworkController ]
+applyVZW : mDataTypeDisabledIconIdcom.android.systemui:drawable/stat_sys_data_connected_disabled_4g_lte
+
+[ 03-24 01:52:47.627  1118: 1118 D/StatusBar.NetworkController ]
+applyVZW
+
+[ 03-24 01:52:47.627   953: 2000 V/EPDG -- [SMARTWIFI] ]
+cdma oldest entry removed
+
+[ 03-24 01:52:47.627   953: 2000 V/EPDG -- [SMARTWIFI] ]
+cdma entry added
+
+[ 03-24 01:52:47.627   953: 2000 V/EPDG -- [SMARTWIFI] ]
+New entry : (SignalStrength: 99 99 -85 -40 -120 -1 -1 15 -114 -10 52 -1 2147483647 0x2040 gsm|lte : 0 )
+
+[ 03-24 01:52:47.627   953: 2000 D/EPDG -- [SMARTWIFI] ]
+No need to run ping : (lastStrength2 : currentStrength)2
+
+[ 03-24 01:52:47.627  1118: 1118 D/StatusBar.NetworkController ]
+applyVZW : mDataTypeDisabledIconIdcom.android.systemui:drawable/stat_sys_data_connected_disabled_4g_lte
+
+[ 03-24 01:52:47.627  1118: 1118 D/StatusBar.NetworkController ]
+applyVZW
+
+[ 03-24 01:52:47.637  1118: 1118 D/StatusBar.NetworkController ]
+applyVZW : mDataTypeDisabledIconIdcom.android.systemui:drawable/stat_sys_data_connected_disabled_4g_lte
+
+[ 03-24 01:52:47.637  1118: 1118 D/StatusBar.NetworkController ]
+updateTelephonySignalStrength: hasService=true ss=SignalStrength: 99 99 -85 -40 -120 -1 -1 15 -114 -10 52 -1 2147483647 0x2040 gsm|lte
+
+[ 03-24 01:52:47.637  1118: 1118 D/StatusBar.NetworkController ]
+updateTelephonySignalStrength: iconLevel=2
+
+[ 03-24 01:52:47.637  1118: 1118 D/StatusBar.NetworkController ]
+updateTelephonySignalStrength, No signal level. mPhoneSignalIconId = com.android.systemui:drawable/tw_stat_sys_5_level_signal_2 mDataSignalIconId = com.android.systemui:drawable/tw_stat_sys_5_level_signal_2 mQSPhoneSignalIconId = com.android.systemui:drawable/ic_qs_signal_2 mContentDescriptionPhoneSignal = Two bars of phone signal
+
+[ 03-24 01:52:47.637  1118: 1118 D/StatusBar.NetworkController ]
+refreshViews connected={ wifi data } level=2 combinedSignalIconId=0x7f0202d4/com.android.systemui:drawable/stat_sys_wifi_signal_4 mobileLabel=Verizon Wireless wifiLabel="ATTggtt2VS" emergencyOnly=false combinedLabel="ATTggtt2VS" mAirplaneMode=false mDataActivity=0 mPhoneSignalIconId=0x7f02037d/com.android.systemui:drawable/tw_stat_sys_5_level_signal_2 mQSPhoneSignalIconId=0x7f02008d/com.android.systemui:drawable/ic_qs_signal_2 mDataDirectionIconId=0x7f0201d6/com.android.systemui:drawable/stat_sys_data_connected_4g_lte mDataSignalIconId=0x7f02037d/com.android.systemui:drawable/tw_stat_sys_5_level_signal_2 mDataTypeIconId=0x7f0201d6/com.android.systemui:drawable/stat_sys_data_connected_4g_lte mQSDataTypeIconId=0x0/(null) mNoSimIconId=0x0/(null) mWifiIconId=0x7f0202d4/com.android.systemui:drawable/stat_sys_wifi_signal_4 mQSWifiIconId=0x7f0200a4/com.android.systemui:drawable/ic_qs_wifi_4 mWifiActivityIconId=0x7f0202af/com.android.systemui:drawable/stat_sys_signal_out mBluetoothTetherIconId=0x7f0202b2/com.android.systemui:drawable/stat_sys_tether_bluetooth
+
+[ 03-24 01:52:47.637  1118: 1118 D/STATUSBAR-WifiQuickSettingButton ]
+onWifiSignalChanged enabled=true enabledDesc:"ATTggtt2VS"
+
+[ 03-24 01:52:47.637  1118: 1118 D/StatusBar.NetworkController ]
+applyVZW
+
+[ 03-24 01:52:47.637  1118: 1118 D/StatusBar.NetworkController ]
+applyVZW : mDataTypeDisabledIconIdcom.android.systemui:drawable/stat_sys_data_connected_disabled_4g_lte
+
+[ 03-24 01:52:47.637  1118: 1118 D/StatusBar.NetworkController ]
+applyVZW
+
+[ 03-24 01:52:47.637  1118: 1118 D/StatusBar.NetworkController ]
+applyVZW : mDataTypeDisabledIconIdcom.android.systemui:drawable/stat_sys_data_connected_disabled_4g_lte
+
+[ 03-24 01:52:47.637  1118: 1118 D/StatusBar.NetworkController ]
+applyVZW
+
+[ 03-24 01:52:47.637  1118: 1118 D/StatusBar.NetworkController ]
+applyVZW : mDataTypeDisabledIconIdcom.android.systemui:drawable/stat_sys_data_connected_disabled_4g_lte
+
+[ 03-24 01:52:47.637  1118: 1118 D/StatusBar.NetworkController ]
+applyVZW
+
+[ 03-24 01:52:47.647  1118: 1118 D/StatusBar.NetworkController ]
+applyVZW : mDataTypeDisabledIconIdcom.android.systemui:drawable/stat_sys_data_connected_disabled_4g_lte
+
+[ 03-24 01:52:47.857  1118: 1118 D/StatusBar.NetworkController ]
+refreshViews connected={ wifi data } level=2 combinedSignalIconId=0x7f0202d4/com.android.systemui:drawable/stat_sys_wifi_signal_4 mobileLabel=Verizon Wireless wifiLabel="ATTggtt2VS" emergencyOnly=false combinedLabel="ATTggtt2VS" mAirplaneMode=false mDataActivity=0 mPhoneSignalIconId=0x7f02037d/com.android.systemui:drawable/tw_stat_sys_5_level_signal_2 mQSPhoneSignalIconId=0x7f02008d/com.android.systemui:drawable/ic_qs_signal_2 mDataDirectionIconId=0x7f0201d6/com.android.systemui:drawable/stat_sys_data_connected_4g_lte mDataSignalIconId=0x7f02037d/com.android.systemui:drawable/tw_stat_sys_5_level_signal_2 mDataTypeIconId=0x7f0201d6/com.android.systemui:drawable/stat_sys_data_connected_4g_lte mQSDataTypeIconId=0x0/(null) mNoSimIconId=0x0/(null) mWifiIconId=0x7f0202d4/com.android.systemui:drawable/stat_sys_wifi_signal_4 mQSWifiIconId=0x7f0200a4/com.android.systemui:drawable/ic_qs_wifi_4 mWifiActivityIconId=0x7f0202a3/com.android.systemui:drawable/stat_sys_signal_in mBluetoothTetherIconId=0x7f0202b2/com.android.systemui:drawable/stat_sys_tether_bluetooth
+
+[ 03-24 01:52:47.857  1118: 1118 D/STATUSBAR-WifiQuickSettingButton ]
+onWifiSignalChanged enabled=true enabledDesc:"ATTggtt2VS"
+
+[ 03-24 01:52:47.857  1118: 1118 D/StatusBar.NetworkController ]
+applyVZW
+
+[ 03-24 01:52:47.867  1118: 1118 D/StatusBar.NetworkController ]
+applyVZW : mDataTypeDisabledIconIdcom.android.systemui:drawable/stat_sys_data_connected_disabled_4g_lte
+
+[ 03-24 01:52:47.867  1118: 1118 D/StatusBar.NetworkController ]
+applyVZW
+
+[ 03-24 01:52:47.867  1118: 1118 D/StatusBar.NetworkController ]
+applyVZW : mDataTypeDisabledIconIdcom.android.systemui:drawable/stat_sys_data_connected_disabled_4g_lte
+
+[ 03-24 01:52:47.867  1118: 1118 D/StatusBar.NetworkController ]
+applyVZW
+
+[ 03-24 01:52:47.867  1118: 1118 D/StatusBar.NetworkController ]
+applyVZW : mDataTypeDisabledIconIdcom.android.systemui:drawable/stat_sys_data_connected_disabled_4g_lte
+
+[ 03-24 01:52:47.867  1118: 1118 D/StatusBar.NetworkController ]
+applyVZW
+
+[ 03-24 01:52:47.867  1118: 1118 D/StatusBar.NetworkController ]
+applyVZW : mDataTypeDisabledIconIdcom.android.systemui:drawable/stat_sys_data_connected_disabled_4g_lte
+
+[ 03-24 01:52:47.997   953: 1094 E/lights   ]
+write_int failed to open -1
+
+
+[ 03-24 01:52:48.027   953:  953 D/CustomFrequencyManagerService ]
+releaseDVFSLockLocked : Getting Lock type frm List : DVFS_MIN_LIMIT  frequency : 1190400  uid : 1000  pid : 953  tag : ACTIVITY_RESUME_BOOSTER@10
+
+[ 03-24 01:52:48.027   953:  953 D/CustomFrequencyManagerService ]
+FrequencyrequestList.getNextCStateDisableRequest, index: 0
+
+[ 03-24 01:52:48.037  1118: 1118 W/ResourcesManager ]
+getTopLevelResources: null for user  0
+
+[ 03-24 01:52:48.037  1118: 1118 W/ResourceType ]
+No package identifier when getting value for resource number 0x00000000
+
+[ 03-24 01:52:48.037  1118: 1118 W/PackageManager ]
+Failure retrieving resources for dev.ttetris: Resource ID #0x0
+
+[ 03-24 01:52:48.037  1118: 1118 W/ResourcesManager ]
+getTopLevelResources: null for user  0
+
+[ 03-24 01:52:48.057   953: 3111 W/ResourcesManager ]
+getTopLevelResources: null for user  0
+
+[ 03-24 01:52:48.137   953: 1027 D/InputReader ]
+Input event: value=1
+
+[ 03-24 01:52:48.137   953: 1027 I/InputReader ]
+Touch event's action is 0x0 (deviceType=0) [pCnt=1, s=0.51466 ] when=726862734202000
+
+[ 03-24 01:52:48.137   953: 1026 I/InputDispatcher ]
+Delivering touch to (1118): action: 0x4, toolType: 1
+
+
+[ 03-24 01:52:48.137   953: 1026 I/InputDispatcher ]
+Delivering touch to (953): action: 0x0, toolType: 1
+
+
+[ 03-24 01:52:48.137   953: 1094 E/lights   ]
+write_int failed to open -1
+
+
+[ 03-24 01:52:48.137   953:  978 D/ViewRootImpl ]
+ViewPostImeInputStage ACTION_DOWN
+
+[ 03-24 01:52:48.197   953: 1027 D/InputReader ]
+Input event: value=0
+
+[ 03-24 01:52:48.197   953: 1027 I/InputReader ]
+Touch event's action is 0x1 (deviceType=0) [pCnt=1, s=] when=726862803570000
+
+[ 03-24 01:52:48.197   953: 1026 I/InputDispatcher ]
+Delivering touch to (953): action: 0x1, toolType: 1
+
+
+[ 03-24 01:52:48.207 27400:27928 I/Process  ]
+Sending signal. PID: 27400 SIG: 9
+
+[ 03-24 01:52:48.207   953:  981 D/StatusBarManagerService ]
+manageDisableList userId=0 what=0x0 pkg=Window{1af09f7e u0 com.sec.android.app.launcher/com.android.launcher2.Launcher}
+
+[ 03-24 01:52:48.217   953:  978 D/InputDispatcher ]
+Focus left window: 953
+
+[ 03-24 01:52:48.217   953:  978 D/InputDispatcher ]
+Focus entered window: 1383
+
+[ 03-24 01:52:48.217  1383: 1383 D/Launcher ]
+setSystemUiTransparency.SettingNotFoundException : set as TRUE
+
+[ 03-24 01:52:48.217   953:  978 E/ViewRootImpl ]
+sendUserActionEvent() mView == null
+
+[ 03-24 01:52:48.217   953: 1922 D/InputMethodManagerService ]
+windowGainedFocus mCurrentFocusedUserId - 0 and mSecureKeypadEnabled-false
+
+[ 03-24 01:52:48.227  1118: 1118 I/StatusBar ]
+Icon Only
+
+[ 03-24 01:52:48.227  1118: 1118 D/PanelView ]
+There is/are notification(s) 
+
+[ 03-24 01:52:48.337   953: 1947 I/ActivityManager ]
+Process dev.ttetris (pid 27400)(adj 9) has died.(129,347)
+
+[ 03-24 01:52:48.407   248: 6733 I/SurfaceFlinger ]
+id=23438 Removed utetris (7/8)
+
+[ 03-24 01:52:48.407   248:  424 I/SurfaceFlinger ]
+id=23438 Removed utetris (-2/8)
+
+[ 03-24 01:52:48.897  1118: 1118 D/StatusBar.NetworkController ]
+updateTelephonySignalStrength: hasService=true ss=SignalStrength: 99 99 -85 -40 -120 -1 -1 15 -114 -10 52 -1 2147483647 0x2040 gsm|lte
+
+[ 03-24 01:52:48.897  1118: 1118 D/StatusBar.NetworkController ]
+updateTelephonySignalStrength: iconLevel=2
+
+[ 03-24 01:52:48.897  1118: 1118 D/StatusBar.NetworkController ]
+updateTelephonySignalStrength, No signal level. mPhoneSignalIconId = com.android.systemui:drawable/tw_stat_sys_5_level_signal_2 mDataSignalIconId = com.android.systemui:drawable/tw_stat_sys_5_level_signal_2 mQSPhoneSignalIconId = com.android.systemui:drawable/ic_qs_signal_2 mContentDescriptionPhoneSignal = Two bars of phone signal
+
+[ 03-24 01:52:48.897  1118: 1118 D/StatusBar.NetworkController ]
+refreshViews connected={ wifi data } level=2 combinedSignalIconId=0x7f0202d4/com.android.systemui:drawable/stat_sys_wifi_signal_4 mobileLabel=Verizon Wireless wifiLabel="ATTggtt2VS" emergencyOnly=false combinedLabel="ATTggtt2VS" mAirplaneMode=false mDataActivity=0 mPhoneSignalIconId=0x7f02037d/com.android.systemui:drawable/tw_stat_sys_5_level_signal_2 mQSPhoneSignalIconId=0x7f02008d/com.android.systemui:drawable/ic_qs_signal_2 mDataDirectionIconId=0x7f0201d6/com.android.systemui:drawable/stat_sys_data_connected_4g_lte mDataSignalIconId=0x7f02037d/com.android.systemui:drawable/tw_stat_sys_5_level_signal_2 mDataTypeIconId=0x7f0201d6/com.android.systemui:drawable/stat_sys_data_connected_4g_lte mQSDataTypeIconId=0x0/(null) mNoSimIconId=0x0/(null) mWifiIconId=0x7f0202d4/com.android.systemui:drawable/stat_sys_wifi_signal_4 mQSWifiIconId=0x7f0200a4/com.android.systemui:drawable/ic_qs_wifi_4 mWifiActivityIconId=0x7f0202a3/com.android.systemui:drawable/stat_sys_signal_in mBluetoothTetherIconId=0x7f0202b2/com.android.systemui:drawable/stat_sys_tether_bluetooth
+
+[ 03-24 01:52:48.897  1118: 1118 D/STATUSBAR-WifiQuickSettingButton ]
+onWifiSignalChanged enabled=true enabledDesc:"ATTggtt2VS"
+
+[ 03-24 01:52:48.897  1118: 1118 D/StatusBar.NetworkController ]
+applyVZW
+
+[ 03-24 01:52:48.897   953: 2000 V/EPDG -- [SMARTWIFI] ]
+cdma oldest entry removed
+
+[ 03-24 01:52:48.897   953: 2000 V/EPDG -- [SMARTWIFI] ]
+cdma entry added
+
+[ 03-24 01:52:48.897   953: 2000 V/EPDG -- [SMARTWIFI] ]
+New entry : (SignalStrength: 99 99 -85 -40 -120 -1 -1 15 -114 -10 52 -1 2147483647 0x2040 gsm|lte : 0 )
+
+[ 03-24 01:52:48.897   953: 2000 D/EPDG -- [SMARTWIFI] ]
+No need to run ping : (lastStrength2 : currentStrength)2
+
+[ 03-24 01:52:48.897  1118: 1118 D/StatusBar.NetworkController ]
+applyVZW : mDataTypeDisabledIconIdcom.android.systemui:drawable/stat_sys_data_connected_disabled_4g_lte
+
+[ 03-24 01:52:48.907  1118: 1118 D/StatusBar.NetworkController ]
+applyVZW
+
+[ 03-24 01:52:48.907  1118: 1118 D/StatusBar.NetworkController ]
+applyVZW : mDataTypeDisabledIconIdcom.android.systemui:drawable/stat_sys_data_connected_disabled_4g_lte
+
+[ 03-24 01:52:48.907  1118: 1118 D/StatusBar.NetworkController ]
+applyVZW
+
+[ 03-24 01:52:48.907  1118: 1118 D/StatusBar.NetworkController ]
+applyVZW : mDataTypeDisabledIconIdcom.android.systemui:drawable/stat_sys_data_connected_disabled_4g_lte
+
+[ 03-24 01:52:48.907  1118: 1118 D/StatusBar.NetworkController ]
+applyVZW
+
+[ 03-24 01:52:48.917  1118: 1118 D/StatusBar.NetworkController ]
+applyVZW : mDataTypeDisabledIconIdcom.android.systemui:drawable/stat_sys_data_connected_disabled_4g_lte
+
+[ 03-24 01:52:49.077   953:  976 D/SensorService ]
+[SO] -2.501 -1.222 9.688
+
+[ 03-24 01:52:49.077   953:  976 D/SensorService ]
+[SO] Update [0 -> 255]
+
+[ 03-24 01:52:49.627   953: 1094 E/lights   ]
+write_int failed to open -1
+
+
+[ 03-24 01:52:49.837   953:  965 D/BatteryService ]
+!@BatteryListener : batteryPropertiesChanged!
+
+[ 03-24 01:52:49.837   953:  965 D/BatteryService ]
+level:100, scale:100, status:5, health:2, present:true, voltage: 4385, temperature: 280, technology: Li-ion, AC powered:false, USB powered:true, POGO powered:false, Wireless powered:false, icon:17303206, invalid charger:0
+
+[ 03-24 01:52:49.837   953:  965 D/BatteryService ]
+online:4, current avg:-1, charge type:1, power sharing:false, high voltage charger:false, capacity:280000, current_now:-1
+
+[ 03-24 01:52:49.837   953:  953 D/BatteryService ]
+Sending ACTION_BATTERY_CHANGED.
+
+[ 03-24 01:52:49.837  1118: 1118 D/KeyguardUpdateMonitor ]
+received broadcast android.intent.action.BATTERY_CHANGED
+
+[ 03-24 01:52:49.837  1118: 1118 D/KeyguardUpdateMonitor ]
+handleBatteryUpdate
+
+[ 03-24 01:52:49.847  1362: 1362 D/PhoneApp ]
+PhoneAppBroadcastReceiver onReceive android.intent.action.BATTERY_CHANGED
+
+[ 03-24 01:52:49.857  1446: 1446 D/BatteryMonitor ]
+new battery level: 100
+
+[ 03-24 01:52:49.857  1446: 1446 D/RcsSettingsUtils ]
+new battery level: 100
+
+[ 03-24 01:52:49.857  1446: 1446 D/CommonServiceConfiguration ]
+getStringValueSetting
+
+[ 03-24 01:52:49.857  1118: 1118 D/BatteryMeterView ]
+ACTION_BATTERY_CHANGED : level:100 status:5 health:2
+
+[ 03-24 01:52:49.857  1118: 1118 D/BatteryMeterView ]
+ACTION_BATTERY_CHANGED : level:100 status:5 health:2
+
+[ 03-24 01:52:49.857  1118: 1118 D/BatteryMeterView ]
+ACTION_BATTERY_CHANGED : level:100 status:5 health:2
+
+[ 03-24 01:52:49.857  1446: 1446 D/RcsSettingsUtils ]
+read setting battery level: NONE
+
+[ 03-24 01:52:49.867  1118: 1118 D/StatusBar.NetworkController ]
+refreshViews connected={ wifi data } level=2 combinedSignalIconId=0x7f0202d4/com.android.systemui:drawable/stat_sys_wifi_signal_4 mobileLabel=Verizon Wireless wifiLabel="ATTggtt2VS" emergencyOnly=false combinedLabel="ATTggtt2VS" mAirplaneMode=false mDataActivity=0 mPhoneSignalIconId=0x7f02037d/com.android.systemui:drawable/tw_stat_sys_5_level_signal_2 mQSPhoneSignalIconId=0x7f02008d/com.android.systemui:drawable/ic_qs_signal_2 mDataDirectionIconId=0x7f0201d6/com.android.systemui:drawable/stat_sys_data_connected_4g_lte mDataSignalIconId=0x7f02037d/com.android.systemui:drawable/tw_stat_sys_5_level_signal_2 mDataTypeIconId=0x7f0201d6/com.android.systemui:drawable/stat_sys_data_connected_4g_lte mQSDataTypeIconId=0x0/(null) mNoSimIconId=0x0/(null) mWifiIconId=0x7f0202d4/com.android.systemui:drawable/stat_sys_wifi_signal_4 mQSWifiIconId=0x7f0200a4/com.android.systemui:drawable/ic_qs_wifi_4 mWifiActivityIconId=0x7f0202a8/com.android.systemui:drawable/stat_sys_signal_no_inout mBluetoothTetherIconId=0x7f0202b2/com.android.systemui:drawable/stat_sys_tether_bluetooth
+
+[ 03-24 01:52:49.867  1118: 1118 D/STATUSBAR-WifiQuickSettingButton ]
+onWifiSignalChanged enabled=true enabledDesc:"ATTggtt2VS"
+
+[ 03-24 01:52:49.867  1118: 1118 D/StatusBar.NetworkController ]
+applyVZW
+
+[ 03-24 01:52:49.867  1118: 1118 D/StatusBar.NetworkController ]
+applyVZW : mDataTypeDisabledIconIdcom.android.systemui:drawable/stat_sys_data_connected_disabled_4g_lte
+
+[ 03-24 01:52:49.867  1118: 1118 D/StatusBar.NetworkController ]
+applyVZW
+
+[ 03-24 01:52:49.877 27967:27967 D/WidgetProviderAssistiveLight ]
+onReceive() PLUG:2 / STATUS:5 / LEVEL:100
+
+[ 03-24 01:52:49.877 27967:27967 D/WidgetProviderAssistiveLight ]
+onReceive() mBatteryLevel : 100 / Static Battery Level : 100
+
+[ 03-24 01:52:49.877 27967:27967 D/WidgetProviderAssistiveLight ]
+getWidgetMode : false
+
+[ 03-24 01:52:49.877  1362: 1362 D/TelephonyExtension ]
+Not stopping low battery tone
+
+[ 03-24 01:52:49.877  1118: 1118 D/StatusBar.NetworkController ]
+applyVZW : mDataTypeDisabledIconIdcom.android.systemui:drawable/stat_sys_data_connected_disabled_4g_lte
+
+[ 03-24 01:52:49.877  1118: 1118 D/StatusBar.NetworkController ]
+applyVZW
+
+[ 03-24 01:52:49.877  1118: 1118 D/StatusBar.NetworkController ]
+applyVZW : mDataTypeDisabledIconIdcom.android.systemui:drawable/stat_sys_data_connected_disabled_4g_lte
+
+[ 03-24 01:52:49.877  1118: 1118 D/StatusBar.NetworkController ]
+applyVZW
+
+[ 03-24 01:52:49.877  1118: 1118 D/StatusBar.NetworkController ]
+applyVZW : mDataTypeDisabledIconIdcom.android.systemui:drawable/stat_sys_data_connected_disabled_4g_lte
+
+[ 03-24 01:52:50.167  1118: 1118 D/StatusBar.NetworkController ]
+updateTelephonySignalStrength: hasService=true ss=SignalStrength: 99 99 -85 -40 -120 -1 -1 17 -114 -12 52 -1 2147483647 0x2040 gsm|lte
+
+[ 03-24 01:52:50.167  1118: 1118 D/StatusBar.NetworkController ]
+updateTelephonySignalStrength: iconLevel=2
+
+[ 03-24 01:52:50.167  1118: 1118 D/StatusBar.NetworkController ]
+updateTelephonySignalStrength, No signal level. mPhoneSignalIconId = com.android.systemui:drawable/tw_stat_sys_5_level_signal_2 mDataSignalIconId = com.android.systemui:drawable/tw_stat_sys_5_level_signal_2 mQSPhoneSignalIconId = com.android.systemui:drawable/ic_qs_signal_2 mContentDescriptionPhoneSignal = Two bars of phone signal
+
+[ 03-24 01:52:50.167  1118: 1118 D/StatusBar.NetworkController ]
+refreshViews connected={ wifi data } level=2 combinedSignalIconId=0x7f0202d4/com.android.systemui:drawable/stat_sys_wifi_signal_4 mobileLabel=Verizon Wireless wifiLabel="ATTggtt2VS" emergencyOnly=false combinedLabel="ATTggtt2VS" mAirplaneMode=false mDataActivity=0 mPhoneSignalIconId=0x7f02037d/com.android.systemui:drawable/tw_stat_sys_5_level_signal_2 mQSPhoneSignalIconId=0x7f02008d/com.android.systemui:drawable/ic_qs_signal_2 mDataDirectionIconId=0x7f0201d6/com.android.systemui:drawable/stat_sys_data_connected_4g_lte mDataSignalIconId=0x7f02037d/com.android.systemui:drawable/tw_stat_sys_5_level_signal_2 mDataTypeIconId=0x7f0201d6/com.android.systemui:drawable/stat_sys_data_connected_4g_lte mQSDataTypeIconId=0x0/(null) mNoSimIconId=0x0/(null) mWifiIconId=0x7f0202d4/com.android.systemui:drawable/stat_sys_wifi_signal_4 mQSWifiIconId=0x7f0200a4/com.android.systemui:drawable/ic_qs_wifi_4 mWifiActivityIconId=0x7f0202a8/com.android.systemui:drawable/stat_sys_signal_no_inout mBluetoothTetherIconId=0x7f0202b2/com.android.systemui:drawable/stat_sys_tether_bluetooth
+
+[ 03-24 01:52:50.167  1118: 1118 D/STATUSBAR-WifiQuickSettingButton ]
+onWifiSignalChanged enabled=true enabledDesc:"ATTggtt2VS"
+
+[ 03-24 01:52:50.167  1118: 1118 D/StatusBar.NetworkController ]
+applyVZW
+
+[ 03-24 01:52:50.177   953: 2000 V/EPDG -- [SMARTWIFI] ]
+cdma oldest entry removed
+
+[ 03-24 01:52:50.177   953: 2000 V/EPDG -- [SMARTWIFI] ]
+cdma entry added
+
+[ 03-24 01:52:50.177   953: 2000 V/EPDG -- [SMARTWIFI] ]
+New entry : (SignalStrength: 99 99 -85 -40 -120 -1 -1 17 -114 -12 52 -1 2147483647 0x2040 gsm|lte : 0 )
+
+[ 03-24 01:52:50.177   953: 2000 D/EPDG -- [SMARTWIFI] ]
+No need to run ping : (lastStrength2 : currentStrength)2
+
+[ 03-24 01:52:50.177  1118: 1118 D/StatusBar.NetworkController ]
+applyVZW : mDataTypeDisabledIconIdcom.android.systemui:drawable/stat_sys_data_connected_disabled_4g_lte
+
+[ 03-24 01:52:50.177  1118: 1118 D/StatusBar.NetworkController ]
+applyVZW
+
+[ 03-24 01:52:50.177  1118: 1118 D/StatusBar.NetworkController ]
+applyVZW : mDataTypeDisabledIconIdcom.android.systemui:drawable/stat_sys_data_connected_disabled_4g_lte
+
+[ 03-24 01:52:50.187  1118: 1118 D/StatusBar.NetworkController ]
+applyVZW
+
+[ 03-24 01:52:50.187  1118: 1118 D/StatusBar.NetworkController ]
+applyVZW : mDataTypeDisabledIconIdcom.android.systemui:drawable/stat_sys_data_connected_disabled_4g_lte
+
+[ 03-24 01:52:50.187  1118: 1118 D/StatusBar.NetworkController ]
+applyVZW
+
+[ 03-24 01:52:50.187  1118: 1118 D/StatusBar.NetworkController ]
+applyVZW : mDataTypeDisabledIconIdcom.android.systemui:drawable/stat_sys_data_connected_disabled_4g_lte
+
+[ 03-24 01:52:51.067   953: 3106 D/SSRM:n   ]
+SIOP:: AP = 330, CUR = -1
+

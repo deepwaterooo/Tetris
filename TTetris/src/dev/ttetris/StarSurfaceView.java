@@ -1,6 +1,4 @@
-package dev.ttetris;  //启动游戏
-
-import dev.ttetris.Model;
+package dev.ttetris; 
 
 import java.io.InputStream;
 import android.content.Context;
@@ -18,11 +16,14 @@ import android.view.View;
 import android.graphics.Color;
 import android.graphics.Rect;
 import android.graphics.RectF;  
+import android.media.AudioManager;
+import android.media.SoundPool;
+//import dev.ttetris.R;
 
 public class StarSurfaceView extends SurfaceView implements Runnable, SurfaceHolder.Callback {
     public int DELAY = 100;
-    private static final int BLOCK_OFFSET = 0;
-    private Integer OFFSET = 10;
+    //private static final int BLOCK_OFFSET = 0;
+    private Integer OFFSET = 12;
     private Integer TOP_OFFSET = 36;
     private BlockColor color;
 	private int width;
@@ -58,6 +59,15 @@ public class StarSurfaceView extends SurfaceView implements Runnable, SurfaceHol
 	int cntThree;
     int totalScore;
     private int counter;
+
+    // for recreating sounds effect for game
+    private SoundPool sounds;
+    private int sndTurn;
+    private int sndKillLine;
+    private int sndTouch;
+    private int sndAccDown;
+    private int sndLevelUp;
+    private int mSprite = 6; // ???????????????????????????/
     
     public StarSurfaceView(Context context) {
 		super(context);
@@ -74,6 +84,16 @@ public class StarSurfaceView extends SurfaceView implements Runnable, SurfaceHol
 		model = new Model(); // tetrisView
         counter = 0;
         totalScore = 0;
+
+        // for sounds effects
+        sounds = new SoundPool(10, AudioManager.STREAM_MUSIC, 0);
+        /*
+        sndTurn = sounds.load(context, R.raw.turn, 1);
+        sndKillLine = sounds.load(context, dev.ttetris.R.raw.killLine, 1);
+        sndTouch = sounds.load(context, dev.ttetris.R.raw.touch, 1);
+        sndLevelUp = sounds.load(context, dev.ttetris.R.raw.levelUp, 1);
+        sndAccDown = sounds.load(context, dev.ttetris.R.raw.accDown, 1);
+        */
 	}
 
     public enum BlockColor {
@@ -82,9 +102,10 @@ public class StarSurfaceView extends SurfaceView implements Runnable, SurfaceHol
         BLUE(0xff0000ff, (byte) 3),
         YELLOW(0xffffff00, (byte) 4),
         CYAN(0xff00ffff, (byte) 5),
-        //DKGREY(0xff444444, (byte) 6),
         WHITE(0xffffffff, (byte) 6),
-        MAGENTA(0xffff00ff, (byte) 7);
+        MAGENTA(0xffff00ff, (byte) 7),
+        //DKGREY(0xff444444, (byte) 8);
+        TRANSPARENT(0x20320617, (byte) 8);
 		private final int color;
 		private final byte value;
 		private BlockColor(int color, byte value) {
@@ -93,18 +114,13 @@ public class StarSurfaceView extends SurfaceView implements Runnable, SurfaceHol
 		}
 	}
 
-	boolean left = false;
-	boolean right = false;
-	boolean up = false;
-	boolean down = false;
-
 	public void draw() {
 		try {    
             canvas = sHolder.lockCanvas();    
             if (canvas != null) {
                 drawScoreAndFrames(canvas);
                 for (int i = 0; i < 4; i++) 
-                    drawNextCell(canvas, nextBlock.aj[i], nextBlock.ai[i], nextBlock.color);
+                    drawNextCell(canvas, nextBlock.ai[i], nextBlock.aj[i], nextBlock.color);
                 for (int i = 0; i < Model.ROW; i++) 
                     for (int j = 0; j < Model.COL; j++) 
                         drawGameCell(canvas, i, j);
@@ -117,6 +133,12 @@ public class StarSurfaceView extends SurfaceView implements Runnable, SurfaceHol
         }
 	}
     
+	boolean left = false;
+	boolean right = false;
+	boolean up = false;
+	boolean down = false;
+    boolean projChanged = false;
+    
 	public void run() {
 		if (onlyone){
             nextBlock.generateBlock(-1);   //随机为下一个方块区域生成一个方块
@@ -128,10 +150,12 @@ public class StarSurfaceView extends SurfaceView implements Runnable, SurfaceHol
 		while (flag){
 			if (next) {
 				model.deleteNextBlock(nextBlock);  //删除下一个方块区域的方块
-				activeBlock.generateBlock(nextBlock.shape);	
+				activeBlock.generateBlock(nextBlock.shape);
                 nextBlock.generateBlock(-1); //为下一个方块区域随机生成一个方块
 				x = -1;
 				y = 4;
+                tmp = activeBlock.shiftUp();
+                //model.putCurrBlockProjection(tmp, Model.ROW - tmp.getHeight(), y); // put too early
 				next = false;
 				model.putNextBlock(nextBlock);
 			}
@@ -145,36 +169,55 @@ public class StarSurfaceView extends SurfaceView implements Runnable, SurfaceHol
             
 			if (left) {
 				model.deleteBlock(activeBlock, x, y); //删除游戏区域的方块
-                if (activeBlock.canShiftLeft()) 
+                model.deleteCurrBlockProjection(activeBlock, x, y);
+                
+                if (activeBlock.canShiftLeft()) {
                     activeBlock = activeBlock.shiftLeft();
-                else if (y > 0 && model.canMoveLeft(activeBlock, x, y)) 
+                    projChanged = true;
+                } else if (y > 0 && model.canMoveLeft(activeBlock, x, y)) {
 					y--;                              //如果方块可以左移，把方块左移
+                    projChanged = true;
+                }
 				model.putBlock(activeBlock, x, y);    //重新生成左移后的方块
+                model.putCurrBlockProjection(activeBlock, x, y);
+                
                 draw(); 
 				left = false;
                 cntThree++;
-                if (cntThree < 3) continue;
+                if (cntThree < 3) {
+                    projChanged = false;
+                    continue;   
+                }
 			} else if (right) {
 				model.deleteBlock(activeBlock, x, y);
+                model.deleteCurrBlockProjection(activeBlock, x, y);
 
                 if (y >= 0 && y + activeBlock.getWidth() < Model.COL
                        && model.canMoveRight(activeBlock, x, y)) {
 					y++;
                     cntThree++;
+                    projChanged = true;
                 } else if (y + activeBlock.getWidth() < Model.COL
                            && activeBlock.canShiftLeft()) {
                     activeBlock = activeBlock.shiftLeft();
                     if (model.canMoveRight(activeBlock, x, y)) {
                         y++;
                         cntThree++;
+                        projChanged = true;
                     }
                 }
 
                 if (y + activeBlock.getWidth() >= Model.COL) cntThree = 3;
                 model.putBlock(activeBlock, x, y);
+model.putCurrBlockProjection(activeBlock, x, y);
+
                 draw(); 
                 right = false;
-                if (cntThree < 3) continue;
+                if (cntThree < 3) {
+                    projChanged = false;
+                    continue;   
+                }
+                //if (cntThree < 3) continue;
 			} else if (up) { 
 				int tv;
                 if ( (activeBlock.shape) % 4 == 3) 
@@ -183,36 +226,61 @@ public class StarSurfaceView extends SurfaceView implements Runnable, SurfaceHol
                 tmp = new Block();
 				tmp.generateBlock(tv);
 				model.deleteBlock(activeBlock, x, y);
+                model.deleteCurrBlockProjection(activeBlock, x, y);
 
                 if (x + tmp.getHeight() < Model.ROW && y + tmp.getWidth() < Model.COL && cntThree < 3) {
 					activeBlock = tmp;
 					model.putBlock(activeBlock, x, y);
+                    model.putCurrBlockProjection(activeBlock, x, y);
+                    projChanged = true;
 					up = false;
 					cntThree++;
-					if (cntThree < 3) continue;
+                    if (cntThree < 3) {
+                        projChanged = false;
+                        continue;   
+                    }
+					//if (cntThree < 3) continue;
                 } else {
 					model.putBlock(activeBlock, x, y);
+                    model.putCurrBlockProjection(activeBlock, x, y);
+
 					up = false;
 				}
                 draw(); 
 			} else if (down) {
 				model.deleteBlock(activeBlock, x, y);
+
                 while (activeBlock.canShiftUp()) 
-                    activeBlock = activeBlock.shiftUp();
+                    activeBlock.shiftUp();
 				while (x + activeBlock.getHeight() < Model.ROW && model.canMoveDown(activeBlock, x, y)) 
 					x++;
                 model.putBlock(activeBlock, x, y);
+                
                 draw();
 				down = false;
 			}
 
             cntThree = 0;
 			model.deleteBlock(activeBlock, x, y);
+            int proj = getDownProjectionPos(activeBlock, x, y);
+            //model.deleteCurrBlockProjection(activeBlock, proj, y);
+
+            if (!projChanged) {
+                model.putCurrBlockProjection(activeBlock, proj, y);
+                //projChanged = false;
+            }
+
             if (x + activeBlock.getHeight() + 1 < Model.ROW
                 && y + activeBlock.getWidth() <= Model.COL  
                 && model.canMoveDown(activeBlock, x, y)) {
 				x++;
 				model.putBlock(activeBlock, x, y);
+                /*
+                System.out.println("x: " + x);
+                System.out.println("y: " + y);
+                System.out.println("activeBlock.shape: " + activeBlock.shape);
+                System.out.println("activeBlock.color: " + activeBlock.color);
+                */
                 draw(); 
 
                 lines = model.flood(activeBlock, x, y);
@@ -221,6 +289,12 @@ public class StarSurfaceView extends SurfaceView implements Runnable, SurfaceHol
                 draw(); 
 			} else {
                 model.putBlock(activeBlock, x, y);
+
+                System.out.println("x: " + x);
+                System.out.println("y: " + y);
+                System.out.println("activeBlock.shape: " + activeBlock.shape);
+                System.out.println("activeBlock.color: " + activeBlock.color);
+
                 draw(); 
                 lines = model.flood(activeBlock, x, y);
                 if (lines > 0)
@@ -240,6 +314,27 @@ public class StarSurfaceView extends SurfaceView implements Runnable, SurfaceHol
 			} // else
 		} // flag
 	}
+
+    // get Down projection position row
+    public int getDownProjectionPos(Block a, int x, int y) {
+        if (x == -1) {
+            int maxRowIdx = a.ai[0];
+            for (int i = 1; i < 4; i++) {
+                if (a.ai[i] > maxRowIdx)
+                    maxRowIdx = a.ai[i];
+            }
+            return Model.ROW - maxRowIdx - 1;
+        }
+        while (a.canShiftUp())
+            a.shiftUp();
+        while (x + a.getHeight() < Model.ROW && model.canMoveDown(a, x, y)) {
+            x++;
+            System.out.println("getProj x: " + x);
+            System.out.println("model.canMoveDown(a, x, y): " + model.canMoveDown(a, x, y));
+
+        }
+        return x;
+    }
 
     public Dimension getCellSize() {
         return this.cellSize;
@@ -292,28 +387,37 @@ public class StarSurfaceView extends SurfaceView implements Runnable, SurfaceHol
 	}
 
 	private void drawNextCell(Canvas canvas, int x, int y, byte colorFG) {
-		float top = TOP_OFFSET + y * nextSize + BLOCK_OFFSET;
-		float left = OFFSET + x * nextSize + BLOCK_OFFSET;
-		float bottom = TOP_OFFSET + (y + 1) * nextSize - BLOCK_OFFSET;
-		float right = OFFSET + (x + 1) * nextSize - BLOCK_OFFSET;
+		float top = TOP_OFFSET + frameOffset.getHeight() + x * nextSize;// + BLOCK_OFFSET;
+		float left = frameOffset.getWidth() + y * nextSize;// + BLOCK_OFFSET;
+		float bottom = TOP_OFFSET + frameOffset.getHeight() + (x + 1) * nextSize;// - BLOCK_OFFSET;
+		float right = frameOffset.getWidth() + (y + 1) * nextSize;// - BLOCK_OFFSET;
 		RectF rect = new RectF(left, top, right, bottom);
+        paint.setStrokeWidth(1);
         paint.setColor(getColorForStaticValue(colorFG));
         paint.setStyle(Paint.Style.FILL);
+        canvas.drawRect(rect, paint);
+        paint.setColor(Color.WHITE);
+        paint.setStyle(Paint.Style.STROKE);
         canvas.drawRect(rect, paint);
     }
 
     private void drawGameCell(Canvas canvas, int x, int y) {
-		float top = TOP_OFFSET + frameOffset.getHeight() + x * cellSize.getHeight() + BLOCK_OFFSET;
-		float left = frameOffset.getWidth() + OFFSET + 4*nextSize + y * cellSize.getWidth() + BLOCK_OFFSET;
-        float bottom = frameOffset.getHeight()+ TOP_OFFSET + (x + 1) * cellSize.getHeight() - BLOCK_OFFSET;
-        float right = frameOffset.getWidth() + OFFSET + 4*nextSize + (y + 1) * cellSize.getWidth() - BLOCK_OFFSET;
-		RectF rect = new RectF(left, top, right, bottom);
+		float top = TOP_OFFSET + frameOffset.getHeight() + x * cellSize.getHeight();// + BLOCK_OFFSET;
+		float left = frameOffset.getWidth() + OFFSET + 4*nextSize + y * cellSize.getWidth();// + BLOCK_OFFSET;
+        float bottom = frameOffset.getHeight()+ TOP_OFFSET + (x + 1) * cellSize.getHeight();// - BLOCK_OFFSET;
+        float right = frameOffset.getWidth() + OFFSET + 4*nextSize + (y + 1) * cellSize.getWidth();// - BLOCK_OFFSET;
+
+        RectF rect = new RectF(left, top, right, bottom);
+        paint.setStrokeWidth(1);
         if (model.board[x][y] == 0) {
-            paint.setColor(Color.WHITE);
-            paint.setStyle(Paint.Style.STROKE);
+            paint.setColor(Color.LTGRAY);
+            paint.setStyle(Paint.Style.FILL);
         } else {
             paint.setColor(getColorForStaticValue((byte)model.board[x][y]));
             paint.setStyle(Paint.Style.FILL);
+            canvas.drawRect(rect, paint);
+            paint.setColor(Color.WHITE);
+            paint.setStyle(Paint.Style.STROKE);
         }
         canvas.drawRect(rect, paint);
     }
@@ -324,14 +428,16 @@ public class StarSurfaceView extends SurfaceView implements Runnable, SurfaceHol
         paint.setStyle(Paint.Style.FILL);
         paint.setTextSize(40);  
         canvas.drawText("Score: " + totalScore, 2*OFFSET, 3*OFFSET, paint);
-        Rect rectNext = new Rect(OFFSET, TOP_OFFSET, OFFSET + nextSize*4, TOP_OFFSET + nextSize*4);
-        Rect rect = new Rect(nextSize*4 + 2*OFFSET, TOP_OFFSET, width - OFFSET, height - OFFSET); 
+        Rect rectNext = new Rect(frameOffset.getWidth() - 1, TOP_OFFSET + frameOffset.getHeight() - 1,
+                                 frameOffset.getWidth() + nextSize*4 + 1, TOP_OFFSET + nextSize*4 + 1);
+        Rect rect = new Rect(nextSize*4 + frameOffset.getWidth() + OFFSET - 1, TOP_OFFSET + frameOffset.getHeight() - 1,
+                             width - frameOffset.getWidth() + 1, height - frameOffset.getHeight() + 1); 
         paint.setColor(Color.LTGRAY);  
         canvas.drawRect(rectNext, paint);
         canvas.drawRect(rect, paint);
         paint.setStyle(Paint.Style.STROKE);
         paint.setColor(Color.BLUE);
-        paint.setTextSize(80);  
+        paint.setStrokeWidth(4);
         canvas.drawRect(rectNext, paint);
         canvas.drawRect(rect, paint);
     }
@@ -394,21 +500,23 @@ public class StarSurfaceView extends SurfaceView implements Runnable, SurfaceHol
 		super.onSizeChanged(w, h, oldw, oldh);
 		width = w;
 		height = h;
-        nextSize = (width - 3 * OFFSET) / (5 * 4);
-		int cellWidth = (int)Math.floor((float)((width - 3 * OFFSET) * 0.8 / Model.COL));
-		int cellHeight = (int)Math.floor((float)((height - OFFSET - TOP_OFFSET) / Model.ROW));
+        nextSize = (width - OFFSET) / (5 * 4);
+		int cellWidth = (int)Math.floor((float)((width - OFFSET) * 0.8 / Model.COL));
+		int cellHeight = (int)Math.floor((float)((height - TOP_OFFSET) / Model.ROW));
 		int n = Math.min(cellWidth, cellHeight);
 		this.cellSize = new Dimension(n, n);
 		int offsetX = (w - nextSize*4 - OFFSET - Model.COL * n) / 2;
 		int offsetY = (h - TOP_OFFSET - Model.ROW * n) / 2;
 		this.frameOffset = new Dimension(offsetX, offsetY);
 	}
-
+    /*
+      // I have not used this function yet
     public Point getGameTopLeftPoint() {
         int x = OFFSET + nextSize * 4 + OFFSET + frameOffset.getWidth();
         int y = TOP_OFFSET + frameOffset.getHeight();
         return new Point(x, y);
     }
+    */
     
 	public void surfaceChanged(SurfaceHolder holder, int format, int width,int height) {
 	}

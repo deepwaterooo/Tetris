@@ -11,11 +11,11 @@ public class Model {
 		LEFT, RIGHT, ROTATE, DOWN
 	}
 
-    public static final int ROW = 20;
-    public static final int COL = 10;
 	private GameStatus gameStatus = GameStatus.BEFORE_START;
 	private static final String TAG_DATA = "data";
 	private static final String TAG_ACTIVE_BLOCK = "active-block";
+    public static final int ROW = 20;
+    public static final int COL = 10;
 
     public int[][] next = null;  
     public int[][] board = null; 
@@ -45,15 +45,38 @@ public class Model {
         for (int i = 0; i < 4; i++) 
             next[c.ai[i]][c.aj[i]] = 0;
     }
+    /*
+    // get Down projection position row, can not put here cause I need a model
+    public int getDownProjectionPos(Block a, int x, int y) {
+        while (a.canShiftUp())
+            a.shiftUp();
+        while (x + a.getHeight() < ROW && canMoveDown(a, x, y)) {
+            x++;
+            System.out.println("getProj x: " + x);
+            System.out.println("canMoveDown(a, x, y): " + canMoveDown(a, x, y));
 
+        }
+        return x;
+    }
+    */
+    public void putCurrBlockProjection(Block a, int x, int y) {
+            for (int i = 0; i < 4; i++)
+                board[x + a.ai[i]][y + a.aj[i]] = (byte)8;
+    }
+
+    public void deleteCurrBlockProjection(Block a, int x, int y) {
+            for (int i = 0; i < 4; i++)
+                board[x + a.ai[i]][y + a.aj[i]] = 0;
+    }
+    
     // upload main board block
     public void putBlock(Block a, int x, int y) {
         for (int i = 0; i < 4; i++)
-            if (x + a.ai[i] >= 0 && x + a.ai[i] < ROW && y + a.aj[i] >= 0 && y + a.aj[i] < COL)
+            if (x + a.ai[i] >= 0 && x + a.ai[i] < ROW && y + a.aj[i] >= 0 && y + a.aj[i] < COL) 
                 board[x + a.ai[i]][y + a.aj[i]] = a.color;
     }
-    
-    public void deleteBlock(Block a, int x, int y) { 
+
+    public void deleteBlock(Block a, int x, int y) {
         for (int i = 0; i < 4; i++) 
             if (x + a.ai[i] >= 0 && x + a.ai[i] < ROW
                 && y + a.aj[i] >= 0 && y + a.aj[i] < COL) 
@@ -66,7 +89,7 @@ public class Model {
                 && x + a.ai[i] >= 0 && x + a.ai[i] < ROW
                 && board[x + a.ai[i]][y + a.aj[i] - 1] != 0) 
                 return false;
-            if (y + a.aj[i] - 1 < 0) return false; // following canMoveRight, didn't think if it's necessary
+            if (y + a.aj[i] - 1 < 0) return false; 
         }
         return true;
     }
@@ -86,7 +109,8 @@ public class Model {
         for (int i = 0; i < 4; i++) {
             if (x + 1 + a.ai[i] < ROW
                 && y + a.aj[i] >= 0 && y + a.aj[i] < COL
-                && board[x + a.ai[i] + 1][y + a.aj[i]] != 0)
+                && (board[x + a.ai[i] + 1][y + a.aj[i]] != 0
+                    || board[x + a.ai[i] + 1][y + a.aj[i]] != 8))
                 return false;
             if (x + a.ai[i] + 1 >= ROW) return false; 
         }
@@ -106,7 +130,7 @@ public class Model {
         for (int i = 0; i < 4; i++) {
             gridCnt = 0;
             for (int j = 0; j < COL; j++)
-                if (board[x + a.ai[i]][j] != 0)
+                if (board[x + a.ai[i]][j] != 0 && board[x + a.ai[i]][j] != 8)
                     gridCnt++;
             if (gridCnt == 10) {
                 lineCnt++;

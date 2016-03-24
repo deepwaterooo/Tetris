@@ -10,6 +10,7 @@ public class Block {
         ai = new int[4];
         aj = new int[4];
         color = 0;
+        shape = -1;
     }
 
     // generate blocks randomly for next board, and generate fixed as previous next for the main game board
@@ -107,8 +108,9 @@ public class Block {
     }
     
     public Block shiftUp() {
+        //public void shiftUp() {
         for (int i = 0; i < 4; i++) 
-            ai[i] = ai[i] - 1;
+            ai[i] -= 1;
         return this;
     }
 
