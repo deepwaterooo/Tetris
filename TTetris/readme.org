@@ -4,7 +4,11 @@
 #+author: deepwaterooo
 
 * Debugging, Better version 
-** TODO:
+- Projection is basically smooth now, this is pretty much all the features that I have ever thought and wanted to implement, except the queueEvent GLSurfaceView vs threads left to be the big challenge (or if after all details having been done, if the game IS REALLY smooth, I may not need implement either of those then). 
+- I may need to think how to organize the different objects. For projection related methods, there maybe better way to code then what I have right now, but this is the trial implementation, and I need to think about them. 
+- After game in shape for projection, will rethink about motionevents, or GLSurfaceView for queueEvent. 
+- will try to rewirte motion event a little bit (slightly change touch motionevent definitions according to previous DrawingFun app), if doesn't work as expected, then try GLSurfaceView queueEvent. 
+- 
 - apply MotionEvent queue, use either SurfaceView with multiple threads (if possible) or GLSurfaceView.
 - apply sound effects to make the game more fun.
 - The above 2, either one goes first. 
@@ -35,13 +39,10 @@
 ** eventQueue vs SurfaceView threads
 - Deeper summary, android graphics architecture: http://hukai.me/android-deeper-graphics-architecture/
 - 2 threads, load, read, http://blog.csdn.net/hellogv/article/details/5986835
-- 
-- 
-- 
-- 
-- 
-
+** Canvas Path subclass
+- how to define drawLine to be drawShapes?
 ** SurfaceView
+- Surface runnable http://android.okhelp.cz/surfaceview-implements-runnable-android-code/
 - Example: http://technicalsearch.iteye.com/blog/1967616
 - http://www.jcodecraeer.com/a/anzhuokaifa/androidkaifa/2012/1201/656.html
 - Event Queue: http://www.leestorm.com/post/17.html
@@ -81,13 +82,6 @@
 - http://www.jb51.net/article/38166.htm
 - http://www.jb51.net/article/37717.htm
 - http://mobile.51cto.com/aprogram-394841.htm
-- 
-- 
-- 
-- 
-- 
-- 
-
 
 - TetrisBattle特殊轉入教學(Z S J L I)
   - https://www.youtube.com/watch?v=zW6Gp_7jl9I

@@ -101,19 +101,24 @@ public class Block {
         return true;
     }
 
-    public Block shiftLeft() {
-        for (int i = 0; i < 4; i++) 
-            aj[i] = aj[i] - 1;
-        return this;
-    }
-    
-    public Block shiftUp() {
-        //public void shiftUp() {
-        for (int i = 0; i < 4; i++) 
-            ai[i] -= 1;
-        return this;
+    // the two methods I rewrote them because phone memory related issues?
+    public void shiftLeft() { 
+        for (int i = 0; i < 4; i++)
+            aj[i] -= 1;
     }
 
+    public void shiftUp() {    
+        for (int i = 0; i < 4; i++)
+            ai[i] -= 1;
+    }
+    
+    public int getMaxRowIdx() {
+        int res = ai[0];
+        for (int i = 1; i < 4; i++) 
+            if (ai[i] > res) res = ai[i];
+        return res;
+    }
+    
     public static int[][][] block = new int[][][] {
         { { 0, 0, 1, 0 }, { 0, 0, 1, 0 }, { 0, 0, 1, 0 }, { 0, 0, 1, 0 } },
         { { 0, 0, 0, 0 }, { 0, 0, 0, 0 }, { 1, 1, 1, 1 }, { 0, 0, 0, 0 } },

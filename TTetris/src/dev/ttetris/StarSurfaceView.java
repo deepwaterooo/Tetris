@@ -18,22 +18,19 @@ import android.graphics.Rect;
 import android.graphics.RectF;  
 import android.media.AudioManager;
 import android.media.SoundPool;
-//import dev.ttetris.R;
 
 public class StarSurfaceView extends SurfaceView implements Runnable, SurfaceHolder.Callback {
     public int DELAY = 100;
-    //private static final int BLOCK_OFFSET = 0;
     private Integer OFFSET = 12;
     private Integer TOP_OFFSET = 36;
     private BlockColor color;
 	private int width;
 	private int height;
     private int nextSize;
-    private Dimension cellSize = null; // maybe I don't need this one at all
+    private Dimension cellSize = null; 
     private Dimension frameOffset = null;
 	private ActivityGame activity;
 	private long lastMove = 0;
-
     private static float mx;
     private static float my;
     private static float mBgnX;
@@ -46,8 +43,6 @@ public class StarSurfaceView extends SurfaceView implements Runnable, SurfaceHol
 	Canvas canvas = null;
 	Paint paint;
 	Model model;   
-
-	int face;
     private boolean flag;
 	boolean onlyone = true;
 	boolean next = false;
@@ -58,16 +53,12 @@ public class StarSurfaceView extends SurfaceView implements Runnable, SurfaceHol
 	int y;
 	int cntThree;
     int totalScore;
-    private int counter;
-
-    // for recreating sounds effect for game
     private SoundPool sounds;
     private int sndTurn;
     private int sndKillLine;
     private int sndTouch;
     private int sndAccDown;
     private int sndLevelUp;
-    private int mSprite = 6; // ???????????????????????????/
     
     public StarSurfaceView(Context context) {
 		super(context);
@@ -77,25 +68,19 @@ public class StarSurfaceView extends SurfaceView implements Runnable, SurfaceHol
 		x = -1;
 		y = 4;
 		cntThree = 0;
-
 		activeBlock = new Block();
 		nextBlock = new Block();
 		paint = new Paint();
 		model = new Model(); // tetrisView
-        counter = 0;
         totalScore = 0;
-
-        // for sounds effects
+        /*// for sounds effects
         sounds = new SoundPool(10, AudioManager.STREAM_MUSIC, 0);
-        /*
         sndTurn = sounds.load(context, R.raw.turn, 1);
         sndKillLine = sounds.load(context, dev.ttetris.R.raw.killLine, 1);
         sndTouch = sounds.load(context, dev.ttetris.R.raw.touch, 1);
         sndLevelUp = sounds.load(context, dev.ttetris.R.raw.levelUp, 1);
-        sndAccDown = sounds.load(context, dev.ttetris.R.raw.accDown, 1);
-        */
+        sndAccDown = sounds.load(context, dev.ttetris.R.raw.accDown, 1); */
 	}
-
     public enum BlockColor {
 		RED(0xffff0000, (byte) 1),
         GREEN(0xff00ff00, (byte) 2),
@@ -104,7 +89,6 @@ public class StarSurfaceView extends SurfaceView implements Runnable, SurfaceHol
         CYAN(0xff00ffff, (byte) 5),
         WHITE(0xffffffff, (byte) 6),
         MAGENTA(0xffff00ff, (byte) 7),
-        //DKGREY(0xff444444, (byte) 8);
         TRANSPARENT(0x20320617, (byte) 8);
 		private final int color;
 		private final byte value;
@@ -125,20 +109,56 @@ public class StarSurfaceView extends SurfaceView implements Runnable, SurfaceHol
                     for (int j = 0; j < Model.COL; j++) 
                         drawGameCell(canvas, i, j);
             }    
-        } catch (Exception e) {    
+        } catch (Exception e) {
             System.out.println("error");
-        } finally {    
+        } finally {
             if (canvas!= null)    
                 sHolder.unlockCanvasAndPost(canvas);    
         }
 	}
+
+    @Override
+    public boolean onTouchEvent(MotionEvent event) {
+        mx = event.getX();
+        my = event.getY();
+        if (model.isGameOver() || model.isGameBeforeStart()) {
+            startNewGame();
+            return true;
+        } else if (model.isGameActive()) { /*
+            Dimension cellSize = getCellSize();
+            int width = cellSize.getWidth();
+            int height = cellSize.getHeight();
+            int cnt = 0; */
+            switch (event.getAction()) {
+            case MotionEvent.ACTION_DOWN:
+                mBgnX = mx;
+                mBgnY = my;
+                break;
+            case MotionEvent.ACTION_MOVE:
+                break;
+            case MotionEvent.ACTION_UP:
+                if (Math.abs(mx - mBgnX) < SWIPE_MIN_DISTANCE && Math.abs(my - mBgnY) < SWIPE_MIN_DISTANCE)
+                    up = true; 
+                else if (mx - mBgnX > SWIPE_MIN_DISTANCE) 
+                    right = true;
+                else if (mBgnX - mx > SWIPE_MIN_DISTANCE) 
+                    left = true;
+                else if (my - mBgnY > SWIPE_MIN_DISTANCE) 
+                    down = true;
+                break;
+            }
+            return true;
+        } else {
+				activateGame();
+				return true;
+        }
+    }
     
 	boolean left = false;
 	boolean right = false;
 	boolean up = false;
 	boolean down = false;
-    boolean projChanged = false;
-    
+    int proj = Model.ROW - 1;
 	public void run() {
 		if (onlyone){
             nextBlock.generateBlock(-1);   //随机为下一个方块区域生成一个方块
@@ -146,7 +166,6 @@ public class StarSurfaceView extends SurfaceView implements Runnable, SurfaceHol
             model.putNextBlock(nextBlock);  //在下一个方块区域产生一个方块
             onlyone = false;
 		} 
-        
 		while (flag){
 			if (next) {
 				model.deleteNextBlock(nextBlock);  //删除下一个方块区域的方块
@@ -154,153 +173,142 @@ public class StarSurfaceView extends SurfaceView implements Runnable, SurfaceHol
                 nextBlock.generateBlock(-1); //为下一个方块区域随机生成一个方块
 				x = -1;
 				y = 4;
-                tmp = activeBlock.shiftUp();
-                //model.putCurrBlockProjection(tmp, Model.ROW - tmp.getHeight(), y); // put too early
 				next = false;
 				model.putNextBlock(nextBlock);
 			}
-
 			try {
                 draw();
                 Thread.sleep(400 - model.speed);
             } catch (InterruptedException e) {
 				e.printStackTrace();
             }
-            
-			if (left) {
-				model.deleteBlock(activeBlock, x, y); //删除游戏区域的方块
-                model.deleteCurrBlockProjection(activeBlock, x, y);
-                
+
+            if (left) {
+                deleteCurrBlockProjection(activeBlock, proj, y);
+				model.deleteBlock(activeBlock, x, y); 
+
                 if (activeBlock.canShiftLeft()) {
-                    activeBlock = activeBlock.shiftLeft();
-                    projChanged = true;
+                    model.shiftLeft(activeBlock, x, y); 
+                    cntThree++;
                 } else if (y > 0 && model.canMoveLeft(activeBlock, x, y)) {
-					y--;                              //如果方块可以左移，把方块左移
-                    projChanged = true;
-                }
-				model.putBlock(activeBlock, x, y);    //重新生成左移后的方块
-                model.putCurrBlockProjection(activeBlock, x, y);
-                
+					--y;
+                    cntThree++;
+                } 
+                proj = getDownProjectionPos(activeBlock, x, y);
+                System.out.println("Left proj: " + proj);
+                System.out.println("Left x: " + x);
+                System.out.println("Left y: " + y);
+                System.out.println("Left activeBlock.shape: " + activeBlock.shape);
+                putCurrBlockProjection(activeBlock, proj, y);
+				model.putBlock(activeBlock, x, y);     
                 draw(); 
-				left = false;
-                cntThree++;
-                if (cntThree < 3) {
-                    projChanged = false;
-                    continue;   
-                }
-			} else if (right) {
-				model.deleteBlock(activeBlock, x, y);
-                model.deleteCurrBlockProjection(activeBlock, x, y);
+                left = false;
+                if (cntThree < 3) continue;   
+            } 
+
+            if (right) {
+                deleteCurrBlockProjection(activeBlock, proj, y);
+				model.deleteBlock(activeBlock, x, y); 
 
                 if (y >= 0 && y + activeBlock.getWidth() < Model.COL
                        && model.canMoveRight(activeBlock, x, y)) {
 					y++;
                     cntThree++;
-                    projChanged = true;
                 } else if (y + activeBlock.getWidth() < Model.COL
                            && activeBlock.canShiftLeft()) {
-                    activeBlock = activeBlock.shiftLeft();
-                    if (model.canMoveRight(activeBlock, x, y)) {
-                        y++;
-                        cntThree++;
-                        projChanged = true;
-                    }
-                }
-
-                if (y + activeBlock.getWidth() >= Model.COL) cntThree = 3;
-                model.putBlock(activeBlock, x, y);
-model.putCurrBlockProjection(activeBlock, x, y);
-
-                draw(); 
+                    model.shiftLeft(activeBlock, x, y);  // 
+                    y++;
+                    cntThree++;
+                } 
+                proj = getDownProjectionPos(activeBlock, x, y);
+                System.out.println("Right proj: " + proj);
+                System.out.println("Right x: " + x);
+                System.out.println("Right y: " + y);
+                System.out.println("Right activeBlock.shape: " + activeBlock.shape);
+                putCurrBlockProjection(activeBlock, proj, y);
+				model.putBlock(activeBlock, x, y);    
                 right = false;
-                if (cntThree < 3) {
-                    projChanged = false;
-                    continue;   
-                }
-                //if (cntThree < 3) continue;
-			} else if (up) { 
+                if (y + activeBlock.getWidth() >= Model.COL) cntThree = 3;
+                if (cntThree < 3) continue;
+                draw(); 
+			}
+            
+            if (up) {
 				int tv;
                 if ( (activeBlock.shape) % 4 == 3) 
 					tv = activeBlock.shape - 3;       
 				else tv = activeBlock.shape + 1;
                 tmp = new Block();
 				tmp.generateBlock(tv);
-				model.deleteBlock(activeBlock, x, y);
-                model.deleteCurrBlockProjection(activeBlock, x, y);
 
+                deleteCurrBlockProjection(activeBlock, proj, y);
+				model.deleteBlock(activeBlock, x, y);
                 if (x + tmp.getHeight() < Model.ROW && y + tmp.getWidth() < Model.COL && cntThree < 3) {
 					activeBlock = tmp;
+                    System.out.println("Up proj: " + proj);
+                    System.out.println("Up x: " + x);
+                    System.out.println("Up y: " + y);
+                    System.out.println("Up activeBlock.shape: " + activeBlock.shape);
+
+                    proj = getDownProjectionPos(activeBlock, x, y);
+                    putCurrBlockProjection(activeBlock, proj, y);
 					model.putBlock(activeBlock, x, y);
-                    model.putCurrBlockProjection(activeBlock, x, y);
-                    projChanged = true;
-					up = false;
 					cntThree++;
-                    if (cntThree < 3) {
-                        projChanged = false;
-                        continue;   
-                    }
-					//if (cntThree < 3) continue;
                 } else {
+                    putCurrBlockProjection(activeBlock, proj, y);
 					model.putBlock(activeBlock, x, y);
-                    model.putCurrBlockProjection(activeBlock, x, y);
-
-					up = false;
 				}
-                draw(); 
-			} else if (down) {
-				model.deleteBlock(activeBlock, x, y);
+                draw();
+                up = false;
+                if (cntThree < 3) continue;
+			} 
 
-                while (activeBlock.canShiftUp()) 
-                    activeBlock.shiftUp();
+            if (down) {
+				model.deleteBlock(activeBlock, x, y);
+                while (activeBlock.canShiftUp())
+                    model.shiftUp(activeBlock, x, y);
 				while (x + activeBlock.getHeight() < Model.ROW && model.canMoveDown(activeBlock, x, y)) 
 					x++;
                 model.putBlock(activeBlock, x, y);
-                
-                draw();
 				down = false;
+                draw();
 			}
 
             cntThree = 0;
+            proj = getDownProjectionPos(activeBlock, x, y);
 			model.deleteBlock(activeBlock, x, y);
-            int proj = getDownProjectionPos(activeBlock, x, y);
-            //model.deleteCurrBlockProjection(activeBlock, proj, y);
+            deleteCurrBlockProjection(activeBlock, proj, y); // added
+            System.out.println("x: " + x);
+            System.out.println("y: " + y);
+            System.out.println("model.canMoveDown(activeBlock, x, y): " + model.canMoveDown(activeBlock, x, y));
 
-            if (!projChanged) {
-                model.putCurrBlockProjection(activeBlock, proj, y);
-                //projChanged = false;
-            }
-
-            if (x + activeBlock.getHeight() + 1 < Model.ROW
+            if (x + activeBlock.getHeight() < Model.ROW //  + 1 < Model.ROW
                 && y + activeBlock.getWidth() <= Model.COL  
                 && model.canMoveDown(activeBlock, x, y)) {
 				x++;
+                if (x + activeBlock.getMaxRowIdx() >= Model.ROW)
+                    model.shiftLeft(activeBlock, x, y);
+                
+                proj = getDownProjectionPos(activeBlock, x, y);
+                System.out.println("If proj: " + proj);
+                System.out.println("If x: " + x);
+                System.out.println("If y: " + y);
+                System.out.println("If activeBlock.shape: " + activeBlock.shape);
+                putCurrBlockProjection(activeBlock, proj, y);
 				model.putBlock(activeBlock, x, y);
-                /*
-                System.out.println("x: " + x);
-                System.out.println("y: " + y);
-                System.out.println("activeBlock.shape: " + activeBlock.shape);
-                System.out.println("activeBlock.color: " + activeBlock.color);
-                */
-                draw(); 
-
-                lines = model.flood(activeBlock, x, y);
-                if (lines > 0)
-                    totalScore = model.getUpdatedScore(lines);
-                draw(); 
+                draw();
 			} else {
+                System.out.println("Else proj: " + proj);
+                System.out.println("Else x: " + x);
+                System.out.println("Else y: " + y);
+                System.out.println("Else activeBlock.shape: " + activeBlock.shape);
                 model.putBlock(activeBlock, x, y);
-
-                System.out.println("x: " + x);
-                System.out.println("y: " + y);
-                System.out.println("activeBlock.shape: " + activeBlock.shape);
-                System.out.println("activeBlock.color: " + activeBlock.color);
-
-                draw(); 
+                draw();
+                
                 lines = model.flood(activeBlock, x, y);
                 if (lines > 0)
                     totalScore = model.getUpdatedScore(lines);
                 draw();
-
 				if (model.isGameOver(activeBlock, x, y)) {
 					Intent intent = new Intent();
                     /*
@@ -311,35 +319,40 @@ model.putCurrBlockProjection(activeBlock, x, y);
 					break;
 				}
 				next = true;
-			} // else
-		} // flag
+			}
+		} 
 	}
 
-    // get Down projection position row
     public int getDownProjectionPos(Block a, int x, int y) {
-        if (x == -1) {
-            int maxRowIdx = a.ai[0];
-            for (int i = 1; i < 4; i++) {
-                if (a.ai[i] > maxRowIdx)
-                    maxRowIdx = a.ai[i];
-            }
-            return Model.ROW - maxRowIdx - 1;
-        }
-        while (a.canShiftUp())
-            a.shiftUp();
-        while (x + a.getHeight() < Model.ROW && model.canMoveDown(a, x, y)) {
+        Block tmp = new Block();
+        tmp = a;
+        while (tmp.canShiftUp())
+            tmp.shiftUp();
+        while (x + tmp.getHeight() < Model.ROW && model.canMoveDown(tmp, x, y)) 
             x++;
-            System.out.println("getProj x: " + x);
-            System.out.println("model.canMoveDown(a, x, y): " + model.canMoveDown(a, x, y));
-
-        }
         return x;
     }
 
+    public void putCurrBlockProjection(Block a, int x, int y) {
+        Block tmp = new Block();
+        tmp = a;
+        while (tmp.canShiftUp())
+            tmp.shiftUp();
+        for (int i = 0; i < 4; i++)
+            if (x + tmp.ai[i] >= 0 && x + tmp.ai[i] < Model.ROW && y + tmp.aj[i] >= 0 && y + tmp.aj[i] < Model.COL) 
+                model.board[x + tmp.ai[i]][y + tmp.aj[i]] = (byte)8;
+    }
+
+    public void deleteCurrBlockProjection(Block a, int x, int y) {
+        for (int i = 0; i < 4; i++)
+            if (x + a.ai[i] >= 0 && x + a.ai[i] < Model.ROW
+                && y + a.aj[i] >= 0 && y + a.aj[i] < Model.COL) 
+                model.board[x + a.ai[i]][y + a.aj[i]] = 0;
+    }
+    
     public Dimension getCellSize() {
         return this.cellSize;
     }
-
 
     public void setModel(Model model) {
 		this.model = model;
@@ -430,8 +443,10 @@ model.putCurrBlockProjection(activeBlock, x, y);
         canvas.drawText("Score: " + totalScore, 2*OFFSET, 3*OFFSET, paint);
         Rect rectNext = new Rect(frameOffset.getWidth() - 1, TOP_OFFSET + frameOffset.getHeight() - 1,
                                  frameOffset.getWidth() + nextSize*4 + 1, TOP_OFFSET + nextSize*4 + 1);
-        Rect rect = new Rect(nextSize*4 + frameOffset.getWidth() + OFFSET - 1, TOP_OFFSET + frameOffset.getHeight() - 1,
-                             width - frameOffset.getWidth() + 1, height - frameOffset.getHeight() + 1); 
+        Rect rect = new Rect(nextSize*4 + frameOffset.getWidth() + OFFSET - 1,
+                             TOP_OFFSET + frameOffset.getHeight() - 1,
+                             width - frameOffset.getWidth() + 1,
+                             height - frameOffset.getHeight() + 1); 
         paint.setColor(Color.LTGRAY);  
         canvas.drawRect(rectNext, paint);
         canvas.drawRect(rect, paint);
@@ -440,45 +455,6 @@ model.putCurrBlockProjection(activeBlock, x, y);
         paint.setStrokeWidth(4);
         canvas.drawRect(rectNext, paint);
         canvas.drawRect(rect, paint);
-    }
-    
-    @Override
-    public boolean onTouchEvent(MotionEvent event) {
-        mx = event.getX();
-        my = event.getY();
-        if (model.isGameOver() || model.isGameBeforeStart()) {
-            startNewGame();
-            return true;
-        } else if (model.isGameActive()) {
-            Dimension cellSize = getCellSize();
-            int width = cellSize.getWidth();
-            int height = cellSize.getHeight();
-            int cnt = 0;
-            switch (event.getAction()) {
-            case MotionEvent.ACTION_DOWN:
-                mBgnX = mx;
-                mBgnY = my;
-                break;
-            case MotionEvent.ACTION_MOVE:
-                break;
-            case MotionEvent.ACTION_UP:
-                if (Math.abs(mx - mBgnX) < SWIPE_MIN_DISTANCE && Math.abs(my - mBgnY) < SWIPE_MIN_DISTANCE) {
-                    up = true;
-                } else if (mx - mBgnX > SWIPE_MIN_DISTANCE) {
-                        right = true;
-                } else if (mx - mBgnX < -SWIPE_MIN_DISTANCE) {
-                        left = true;
-                } else if (my - mBgnY > SWIPE_MIN_DISTANCE) { // this step better do BETTER THAN THIS
-                    DELAY = 80;
-                    down = true;
-                }
-                break;
-            }
-            return true;
-        } else {
-				activateGame();
-				return true;
-        }
     }
 
 	public void activateGame() {
@@ -509,22 +485,11 @@ model.putCurrBlockProjection(activeBlock, x, y);
 		int offsetY = (h - TOP_OFFSET - Model.ROW * n) / 2;
 		this.frameOffset = new Dimension(offsetX, offsetY);
 	}
-    /*
-      // I have not used this function yet
-    public Point getGameTopLeftPoint() {
-        int x = OFFSET + nextSize * 4 + OFFSET + frameOffset.getWidth();
-        int y = TOP_OFFSET + frameOffset.getHeight();
-        return new Point(x, y);
-    }
-    */
     
 	public void surfaceChanged(SurfaceHolder holder, int format, int width,int height) {
 	}
 
 	public void surfaceCreated(SurfaceHolder holder) {
-        //board = Bitmap.createBitmap(this.getWidth(), this.getHeight(), Bitmap.Config.ARGB_8888);
-        //canvas = new Canvas(board);
-        
         flag = true;
         Thread th = new Thread(this);
         th.start();

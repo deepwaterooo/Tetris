@@ -1,4 +1,4 @@
-% Created 2016-03-23 Wed 00:12
+% Created 2016-03-29 Tue 18:11
 \documentclass[9pt,b5paper]{article}
 \usepackage{graphicx}
 \usepackage{xcolor}
@@ -36,9 +36,12 @@
 
 \section{Debugging, Better version}
 \label{sec-1}
-\subsection{TODO:}
-\label{sec-1-1}
 \begin{itemize}
+\item Projection is basically smooth now, this is pretty much all the features that I have ever thought and wanted to implement, except the queueEvent GLSurfaceView vs threads left to be the big challenge (or if after all details having been done, if the game IS REALLY smooth, I may not need implement either of those then).
+\item I may need to think how to organize the different objects. For projection related methods, there maybe better way to code then what I have right now, but this is the trial implementation, and I need to think about them.
+\item After game in shape for projection, will rethink about motionevents, or GLSurfaceView for queueEvent.
+\item will try to rewirte motion event a little bit (slightly change touch motionevent definitions according to previous DrawingFun app), if doesn't work as expected, then try GLSurfaceView queueEvent.
+\item 
 \item apply MotionEvent queue, use either SurfaceView with multiple threads (if possible) or GLSurfaceView.
 \item apply sound effects to make the game more fun.
 \item The above 2, either one goes first.
@@ -76,17 +79,17 @@
 \label{sec-3-1}
 \begin{itemize}
 \item Deeper summary, android graphics architecture: \url{http://hukai.me/android-deeper-graphics-architecture/}
-\item 
-\item 
-\item 
-\item 
-\item 
-\item 
+\item 2 threads, load, read, \url{http://blog.csdn.net/hellogv/article/details/5986835}
 \end{itemize}
-
-\subsection{SurfaceView}
+\subsection{Canvas Path subclass}
 \label{sec-3-2}
 \begin{itemize}
+\item how to define drawLine to be drawShapes?
+\end{itemize}
+\subsection{SurfaceView}
+\label{sec-3-3}
+\begin{itemize}
+\item Surface runnable \url{http://android.okhelp.cz/surfaceview-implements-runnable-android-code/}
 \item Example: \url{http://technicalsearch.iteye.com/blog/1967616}
 \item \url{http://www.jcodecraeer.com/a/anzhuokaifa/androidkaifa/2012/1201/656.html}
 \item Event Queue: \url{http://www.leestorm.com/post/17.html}
@@ -102,7 +105,7 @@
 \end{itemize}
 
 \subsection{gestures}
-\label{sec-3-3}
+\label{sec-3-4}
 \begin{itemize}
 \item \url{http://www.cnblogs.com/akira90/archive/2013/03/10/2952886.html}
 \item Android 触摸手势基础 官方文档概览: \url{http://www.lxway.com/445554926.htm}
@@ -129,16 +132,7 @@
 \item \url{http://www.jb51.net/article/38166.htm}
 \item \url{http://www.jb51.net/article/37717.htm}
 \item \url{http://mobile.51cto.com/aprogram-394841.htm}
-\item 
-\item 
-\item 
-\item 
-\item 
-\item 
-\end{itemize}
 
-
-\begin{itemize}
 \item TetrisBattle特殊轉入教學(Z S J L I)
 \begin{itemize}
 \item \url{https://www.youtube.com/watch?v=zW6Gp_7jl9I}

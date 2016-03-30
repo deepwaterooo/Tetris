@@ -45,30 +45,7 @@ public class Model {
         for (int i = 0; i < 4; i++) 
             next[c.ai[i]][c.aj[i]] = 0;
     }
-    /*
-    // get Down projection position row, can not put here cause I need a model
-    public int getDownProjectionPos(Block a, int x, int y) {
-        while (a.canShiftUp())
-            a.shiftUp();
-        while (x + a.getHeight() < ROW && canMoveDown(a, x, y)) {
-            x++;
-            System.out.println("getProj x: " + x);
-            System.out.println("canMoveDown(a, x, y): " + canMoveDown(a, x, y));
 
-        }
-        return x;
-    }
-    */
-    public void putCurrBlockProjection(Block a, int x, int y) {
-            for (int i = 0; i < 4; i++)
-                board[x + a.ai[i]][y + a.aj[i]] = (byte)8;
-    }
-
-    public void deleteCurrBlockProjection(Block a, int x, int y) {
-            for (int i = 0; i < 4; i++)
-                board[x + a.ai[i]][y + a.aj[i]] = 0;
-    }
-    
     // upload main board block
     public void putBlock(Block a, int x, int y) {
         for (int i = 0; i < 4; i++)
@@ -81,6 +58,30 @@ public class Model {
             if (x + a.ai[i] >= 0 && x + a.ai[i] < ROW
                 && y + a.aj[i] >= 0 && y + a.aj[i] < COL) 
                 board[x + a.ai[i]][y + a.aj[i]] = 0;
+    }
+
+    // actually clean up left backwards garbages
+    public void shiftUp(Block a, int x, int y) {
+        for (int i = 0; i < 4; i++) {
+            board[x + a.ai[i]][y + a.aj[i]] = 0;
+            a.ai[i] -= 1;
+            /*
+            if (x + a.ai[i] >= 0 && x + a.ai[i] < ROW)
+                board[x + a.ai[i]][y + a.aj[i]] = a.color;
+            */
+        }
+    }
+
+    // actually clean up left backwards garbages
+    public void shiftLeft(Block a, int x, int y) {
+        for (int i = 0; i < 4; i++) {
+            board[x + a.ai[i]][y + a.aj[i]] = 0;
+            a.aj[i] -= 1;
+            /*
+            if (y + a.aj[i] >= 0 && y + a.aj[i] < COL)
+                board[x + a.ai[i]][y + a.aj[i]] = a.color;
+            */
+        }
     }
 
     public boolean canMoveLeft(Block a, int x, int y) { 
@@ -107,10 +108,10 @@ public class Model {
     
     public boolean canMoveDown(Block a, int x, int y) { 
         for (int i = 0; i < 4; i++) {
-            if (x + 1 + a.ai[i] < ROW
+            if (x + 1 + a.ai[i] < ROW && x + 1 + a.ai[i] >= 0
                 && y + a.aj[i] >= 0 && y + a.aj[i] < COL
-                && (board[x + a.ai[i] + 1][y + a.aj[i]] != 0
-                    || board[x + a.ai[i] + 1][y + a.aj[i]] != 8))
+                && board[x + a.ai[i] + 1][y + a.aj[i]] != 0
+                && board[x + a.ai[i] + 1][y + a.aj[i]] != 8)
                 return false;
             if (x + a.ai[i] + 1 >= ROW) return false; 
         }
