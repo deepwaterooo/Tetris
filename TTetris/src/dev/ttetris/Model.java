@@ -60,27 +60,23 @@ public class Model {
                 board[x + a.ai[i]][y + a.aj[i]] = 0;
     }
 
-    // actually clean up left backwards garbages
+    // actually clean up left behind garbages
     public void shiftUp(Block a, int x, int y) {
         for (int i = 0; i < 4; i++) {
-            board[x + a.ai[i]][y + a.aj[i]] = 0;
+            if (x + a.ai[i] >= 0 && x + a.ai[i] < ROW // for a bug
+                && y + a.aj[i] >= 0 && y + a.aj[i] < COL)
+                board[x + a.ai[i]][y + a.aj[i]] = 0;
             a.ai[i] -= 1;
-            /*
-            if (x + a.ai[i] >= 0 && x + a.ai[i] < ROW)
-                board[x + a.ai[i]][y + a.aj[i]] = a.color;
-            */
         }
     }
 
     // actually clean up left backwards garbages
     public void shiftLeft(Block a, int x, int y) {
         for (int i = 0; i < 4; i++) {
-            board[x + a.ai[i]][y + a.aj[i]] = 0;
+            if (x + a.ai[i] >= 0 && x + a.ai[i] < ROW // for a bug
+                && y + a.aj[i] >= 0 && y + a.aj[i] < COL)
+                board[x + a.ai[i]][y + a.aj[i]] = 0;
             a.aj[i] -= 1;
-            /*
-            if (y + a.aj[i] >= 0 && y + a.aj[i] < COL)
-                board[x + a.ai[i]][y + a.aj[i]] = a.color;
-            */
         }
     }
 

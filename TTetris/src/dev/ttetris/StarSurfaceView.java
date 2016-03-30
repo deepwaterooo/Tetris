@@ -35,7 +35,10 @@ public class StarSurfaceView extends SurfaceView implements Runnable, SurfaceHol
     private static float my;
     private static float mBgnX;
     private static float mBgnY;
+    private static float mLeftRightX;
+    private static float mLeftRightY;
     private static final int SWIPE_MIN_DISTANCE = 5;
+    //private static final float ALPHA = 0.5f;
     private int lines = 0;
 
 	//SurfaceHolder用来完成对绘制的画布进行裁剪，控制其大小
@@ -124,26 +127,29 @@ public class StarSurfaceView extends SurfaceView implements Runnable, SurfaceHol
         if (model.isGameOver() || model.isGameBeforeStart()) {
             startNewGame();
             return true;
-        } else if (model.isGameActive()) { /*
-            Dimension cellSize = getCellSize();
-            int width = cellSize.getWidth();
-            int height = cellSize.getHeight();
-            int cnt = 0; */
+        } else if (model.isGameActive()) { 
             switch (event.getAction()) {
             case MotionEvent.ACTION_DOWN:
                 mBgnX = mx;
                 mBgnY = my;
+                mLeftRightX = mx;
+                mLeftRightY = my;
                 break;
             case MotionEvent.ACTION_MOVE:
+                if (mx - mLeftRightX >= cellSize.getWidth()) {
+                    right = true;
+                    mLeftRightX = mx;
+                    mLeftRightY = my;
+                } else if (mx - mLeftRightX <= -cellSize.getWidth()) {
+                    left = true;
+                    mLeftRightX = mx;
+                    mLeftRightY = my;
+                }
                 break;
             case MotionEvent.ACTION_UP:
-                if (Math.abs(mx - mBgnX) < SWIPE_MIN_DISTANCE && Math.abs(my - mBgnY) < SWIPE_MIN_DISTANCE)
-                    up = true; 
-                else if (mx - mBgnX > SWIPE_MIN_DISTANCE) 
-                    right = true;
-                else if (mBgnX - mx > SWIPE_MIN_DISTANCE) 
-                    left = true;
-                else if (my - mBgnY > SWIPE_MIN_DISTANCE) 
+                if (Math.abs(mx - mBgnX) < cellSize.getWidth() && Math.abs(my - mBgnY) < cellSize.getWidth())
+                    up = true;
+                else if (my - mBgnY > cellSize.getWidth() && Math.abs(mx - mBgnX) < cellSize.getWidth()) 
                     down = true;
                 break;
             }
