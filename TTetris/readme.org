@@ -4,6 +4,9 @@
 #+author: deepwaterooo
 
 * Debugging, Better version 
+- a video can be directly viewed at https://youtu.be/Ht4NOrEUtFk
+  - I am NOT ready to record them yet, but any way take a look so that you know what I have been working on. 
+  - Better version will be recorded and uploaded later. 
 - Projection is basically smooth now, this is pretty much all the features that I have ever thought and wanted to implement, except the queueEvent GLSurfaceView vs threads left to be the big challenge (or if after all details having been done, if the game IS REALLY smooth, I may not need implement either of those then). 
 - I may need to think how to organize the different objects. For projection related methods, there maybe better way to code then what I have right now, but this is the trial implementation, and I need to think about them. 
 - After game in shape for projection, will rethink about motionevents, or GLSurfaceView for queueEvent. 
@@ -36,6 +39,14 @@
 3. 支持自定义游戏背景，如果有好的背景图片，用户可自行进入“菜单-游戏背景”里选择图片进行设置
 
 * References
+** GLSurfaceView
+- http://hellosure.github.io/android/2015/06/01/android-glsurfaceview/
+- http://ju.outofmemory.cn/entry/172850
+- 画图： http://www.mobile-open.com/2015/81568.html
+- http://tangzm.com/blog/?p=20
+- http://www.apkbus.com/blog-99192-39584.html
+- 
+
 ** eventQueue vs SurfaceView threads
 - Deeper summary, android graphics architecture: http://hukai.me/android-deeper-graphics-architecture/
 - 2 threads, load, read, http://blog.csdn.net/hellogv/article/details/5986835

@@ -19,10 +19,7 @@ import android.widget.TextView;
 import android.widget.ImageButton;
 
 public class ActivityGame extends Activity {
-    //private Integer OFFSET = 10;
-    //private Integer TOP_OFFSET = 40;
-    //private SurfaceHolder sHolder = null;
-    private  StarSurfaceView view = null;
+    private StarGLSurfaceView view = null;
     private Model model = new Model();
     private boolean flag = false;
     private int counter = 0;
@@ -31,9 +28,7 @@ public class ActivityGame extends Activity {
     
 	private static final String ICICLE_TAG = "simple-tetris";
 	private static final String PREFS_HIGH_SCORES = "high_scores";
-	//private int highScores = 0;
     private static final String DEBUG_TAG = "Gestures";
-    //private GestureDetectorCompat mDetector;
     private static float mx;
     private static float my;
     private static float mBgnX;
@@ -43,8 +38,11 @@ public class ActivityGame extends Activity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        view = new StarSurfaceView(this);
-        setContentView(view);
+        view = new StarGLSurfaceView(this);
+        setContentView(view); // ?
+        //view.setEGLContextClientVersion(2); //媒体效果的框架仅仅支持OpenGL ES2.0及以上的版本
+        view.setRenderer(new StarRenderer(this));
+        view.setRenderMode(GLSurfaceView.RENDERMODE_WHEN_DIRTY); //确保GLSurfaceView仅仅在必要的时候进行渲染
 		view.setModel(model);
 		view.setActivity(this);
         
@@ -53,64 +51,7 @@ public class ActivityGame extends Activity {
 			onRestoreInstanceState(savedInstanceState);
 		}
 	}
-    /*
-    @Override
-    public boolean onTouchEvent(MotionEvent event) {
-        //int action = MotionEventCompat.getActionMasked(event);
-        mx = event.getX();
-        my = event.getY();
-        if (model.isGameOver() || model.isGameBeforeStart()) {
-            startNewGame();
-            return true;
-        } else if (model.isGameActive()) {
-            Dimension cellSize = view.getCellSize();
-            int width = cellSize.getWidth();
-            int height = cellSize.getHeight();
-            int cnt = 0;
-            switch (event.getAction()) {
-            case MotionEvent.ACTION_DOWN:
-                mBgnX = mx;
-                mBgnY = my;
-                break;
-            case MotionEvent.ACTION_MOVE:
-                break;
-            case MotionEvent.ACTION_UP:
-                view.DELAY = 80;
-                if (Math.abs(mx - mBgnX) < SWIPE_MIN_DISTANCE && Math.abs(my - mBgnY) < SWIPE_MIN_DISTANCE) {
-                    doMove(Model.Move.ROTATE);
-                } else if (mx - mBgnX > SWIPE_MIN_DISTANCE) {
-                    cnt = Math.round((mx - mBgnX) / width);
-                    while (cnt >= 1) {
-                        System.out.println("cnt: " + cnt);
-                        doMove(Model.Move.RIGHT);
-                        cnt--;
-                    }
-                } else if (mx - mBgnX < -SWIPE_MIN_DISTANCE) {
-                    cnt = Math.round((mBgnX - mx) / width);
-                    while (cnt >= 1) {
-                        doMove(Model.Move.LEFT);
-                        cnt--;
-                    }
-                } else if (my - mBgnY > SWIPE_MIN_DISTANCE) { // this step better do BETTER THAN THIS
-                    view.DELAY = 10;
-                    doMove(Model.Move.DOWN);
-                }
-                break;
-            case MotionEvent.ACTION_CANCEL:
-                break;
-            case MotionEvent.ACTION_OUTSIDE:
-                break;
-            default:
-                break;
-            }
-            return true;
-        } else {
-				// Paused state
-				activateGame();
-				return true;
-        }
-    }
-    */
+
     public void doMove(Model.Move move) {
 		if (model.isGameActive()) {
 			view.setGameCommand(move);

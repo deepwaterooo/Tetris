@@ -1,4 +1,4 @@
-% Created 2016-03-29 Tue 18:11
+% Created 2016-03-30 Wed 23:47
 \documentclass[9pt,b5paper]{article}
 \usepackage{graphicx}
 \usepackage{xcolor}
@@ -37,6 +37,11 @@
 \section{Debugging, Better version}
 \label{sec-1}
 \begin{itemize}
+\item a video can be directly viewed at \url{https://youtu.be/Ht4NOrEUtFk}
+\begin{itemize}
+\item I am NOT ready to record them yet, but any way take a look so that you know what I have been working on.
+\item Better version will be recorded and uploaded later.
+\end{itemize}
 \item Projection is basically smooth now, this is pretty much all the features that I have ever thought and wanted to implement, except the queueEvent GLSurfaceView vs threads left to be the big challenge (or if after all details having been done, if the game IS REALLY smooth, I may not need implement either of those then).
 \item I may need to think how to organize the different objects. For projection related methods, there maybe better way to code then what I have right now, but this is the trial implementation, and I need to think about them.
 \item After game in shape for projection, will rethink about motionevents, or GLSurfaceView for queueEvent.
@@ -75,19 +80,30 @@
 
 \section{References}
 \label{sec-3}
-\subsection{eventQueue vs SurfaceView threads}
+\subsection{GLSurfaceView}
 \label{sec-3-1}
+\begin{itemize}
+\item \url{http://hellosure.github.io/android/2015/06/01/android-glsurfaceview/}
+\item \url{http://ju.outofmemory.cn/entry/172850}
+\item 画图： \url{http://www.mobile-open.com/2015/81568.html}
+\item \url{http://tangzm.com/blog/?p=20}
+\item \url{http://www.apkbus.com/blog-99192-39584.html}
+\item 
+\end{itemize}
+
+\subsection{eventQueue vs SurfaceView threads}
+\label{sec-3-2}
 \begin{itemize}
 \item Deeper summary, android graphics architecture: \url{http://hukai.me/android-deeper-graphics-architecture/}
 \item 2 threads, load, read, \url{http://blog.csdn.net/hellogv/article/details/5986835}
 \end{itemize}
 \subsection{Canvas Path subclass}
-\label{sec-3-2}
+\label{sec-3-3}
 \begin{itemize}
 \item how to define drawLine to be drawShapes?
 \end{itemize}
 \subsection{SurfaceView}
-\label{sec-3-3}
+\label{sec-3-4}
 \begin{itemize}
 \item Surface runnable \url{http://android.okhelp.cz/surfaceview-implements-runnable-android-code/}
 \item Example: \url{http://technicalsearch.iteye.com/blog/1967616}
@@ -105,7 +121,7 @@
 \end{itemize}
 
 \subsection{gestures}
-\label{sec-3-4}
+\label{sec-3-5}
 \begin{itemize}
 \item \url{http://www.cnblogs.com/akira90/archive/2013/03/10/2952886.html}
 \item Android 触摸手势基础 官方文档概览: \url{http://www.lxway.com/445554926.htm}
