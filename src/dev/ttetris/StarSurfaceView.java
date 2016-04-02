@@ -74,7 +74,7 @@ public class StarSurfaceView extends SurfaceView implements Runnable, SurfaceHol
 		activeBlock = new Block();
 		nextBlock = new Block();
 		paint = new Paint();
-		model = new Model(); // tetrisView
+		model = new Model(); 
         totalScore = 0;
         /*// for sounds effects
         sounds = new SoundPool(10, AudioManager.STREAM_MUSIC, 0);

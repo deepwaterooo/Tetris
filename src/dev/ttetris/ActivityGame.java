@@ -17,9 +17,11 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.ImageButton;
+import android.view.Window;
+import android.view.WindowManager;
 
 public class ActivityGame extends Activity {
-    private StarGLSurfaceView view = null;
+    private StarGLSurfaceView view;
     private Model model = new Model();
     private boolean flag = false;
     private int counter = 0;
@@ -38,65 +40,31 @@ public class ActivityGame extends Activity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        this.requestWindowFeature(Window.FEATURE_NO_TITLE); // for full screen
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
+                             WindowManager.LayoutParams.FLAG_FULLSCREEN);
         view = new StarGLSurfaceView(this);
         setContentView(view); // ?
-        //view.setEGLContextClientVersion(2); //媒体效果的框架仅仅支持OpenGL ES2.0及以上的版本
-        view.setRenderer(new StarRenderer(this));
-        view.setRenderMode(GLSurfaceView.RENDERMODE_WHEN_DIRTY); //确保GLSurfaceView仅仅在必要的时候进行渲染
+
 		view.setModel(model);
 		view.setActivity(this);
         
 		// Restore the state:
-		if (null != savedInstanceState) {
+		if (null != savedInstanceState) 
 			onRestoreInstanceState(savedInstanceState);
-		}
-	}
-
-    public void doMove(Model.Move move) {
-		if (model.isGameActive()) {
-			view.setGameCommand(move);
-			//scoresView.invalidate(); // how to update this one?
-		}
-	}
-    /*  
-	public final void startNewGame() {
-		if (!model.isGameActive()) {
-			//scoresCounter.reset();
-            score = 0;
-			model.gameStart();
-			view.setGameCommandWithDelay(Model.Move.DOWN);
-		}
-	}
-*/
-	public void endGame() {
-		//messageView.setVisibility(View.VISIBLE);
-		//storeHighScoresAndLines();
-		//messageView.setText(getApplicationContext().getText(R.string.mode_over));
-	}
-
-	public void pauseGame() {
-		model.setGamePaused();
-		//messageView.setVisibility(View.VISIBLE);
-		//messageView.setText(getApplicationContext().getText(R.string.mode_pause));
-		//storeHighScoresAndLines();
-	}
-	
-	@Override
-	public void onBackPressed() {
-		if( model.isGameOver() || model.isGameBeforeStart() || model.isGamePaused() ) {
-			finish();
-			return;
-		}
-		if( model.isGameActive() ) {
-			pauseGame();
-			return;
-		}
 	}
 
 	@Override
 	protected void onPause() {
 		super.onPause();
-		pauseGame();
+		view.pauseGame();
+	}
+
+    /*	
+	public void endGame() {
+		//messageView.setVisibility(View.VISIBLE);
+		//storeHighScoresAndLines();
+		//messageView.setText(getApplicationContext().getText(R.string.mode_over));
 	}
 
 	@Override
@@ -118,4 +86,16 @@ public class ActivityGame extends Activity {
 		}
 		pauseGame();
 	}
+
+	@Override
+	public void onBackPressed() {
+		if( model.isGameOver() || model.isGameBeforeStart() || model.isGamePaused() ) {
+			finish();
+			return;
+		}
+		if( model.isGameActive() ) {
+			pauseGame();
+			return;
+		}
+        } */
 }

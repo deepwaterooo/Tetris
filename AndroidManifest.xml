@@ -4,9 +4,12 @@
     android:versionCode="1"
     android:versionName="1.0" >
 
-    <uses-sdk
-        android:minSdkVersion="8"
-        android:targetSdkVersion="21" />
+  <uses-feature android:glEsVersion="0x00020000" android:required="true"></uses-feature>
+  <supports-gl-texture android:name="GL_OES_compressed_ETC1_RGB8_texture" />
+  <supports-gl-texture android:name="GL_OES_compressed_paletted_texture"/>
+  <uses-sdk
+      android:minSdkVersion="8"
+      android:targetSdkVersion="8" />
 
     <application
         android:allowBackup="true"

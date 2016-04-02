@@ -3,9 +3,13 @@
 #+title: Tetris - Basic Implementation Practice for Android
 #+author: deepwaterooo
 
-* Debugging, Better version 
+* Better version, pretty good
 - a video for this Tetris game can be directly watched at https://www.youtube.com/watch?v=Ht4NOrEUtFk
-- A video for the previous DrawingFun Android App can be watched at https://www.youtube.com/watch?v=YV78Tk5--5M, or by searching *deepwaterooo Wang*. 
+- A video for the previous DrawingFun Android App can be watched at https://www.youtube.com/watch?v=YV78Tk5--5M , or by searching *deepwaterooo Wang*. 
+- 
+- Starting my trial for OpenGL ES, need to figure out how to draw a game board. 
+- Won't be able to work on it this weekend, but will work on it later on. 
+- 
 - These video will serve as the indication that as an educated well practiced graduated student, I have the solid technological background, my problem solving skills, the spirit of implementing whatever ideas for apps that I feel I am capable, as well as confidence as an entry level mobile app programmer. 
 - For the Tetris game, it's NOT the best product in my mind yet (though it is pretty good now and I will make it a my version of Tetris), but I want to record it so that more friends can enjoy the so far already achieved progress, and for those who just know me would be able to know what is my interested field. 
 - By using SurfaceView who has a separate thread for drawing/painting, this game actually it pretty good already, at least should be about 80 out of 100. 
@@ -30,7 +34,21 @@
 - 画图： http://www.mobile-open.com/2015/81568.html
 - http://tangzm.com/blog/?p=20
 - http://www.apkbus.com/blog-99192-39584.html
-- 
+- onDrawFrame intro: http://www.jayway.com/2009/12/03/opengl-es-tutorial-for-android-part-i/
+- failed: http://stackoverflow.com/questions/28711850/android-opengl-how-to-draw-a-rectangle
+- onTouchEvent: http://blog.csdn.net/niu_gao/article/details/8673662
+- volatile http://www.voidcn.com/blog/fanfanxiaozu/article/p-3668133.html
+- http://mobile.51cto.com/aengine-437172.htm
+- OpenGLES related: http://stackoverflow.com/questions/9945321/triangle-opengl-in-android
+- OpenGL ES 2.0 Sample Code: http://androidbook.com/item/4254
+- intros:详解 http://blog.csdn.net/niu_gao/article/details/7566297
+- 画线： http://www.cnblogs.com/lhxin/archive/2012/06/01/2530828.html
+- http://bbs.9ria.com/thread-201740-1-1.html
+- http://imgtec.eetrend.com/blog/5078
+- draw a ball http://shikezhi.com/html/2015/android_1022/561912.html
+- for Board c++: http://www.jiancool.com/article/24471349949/
+- possible? http://code1.okbase.net/codefile/CCFormatter.java_2015072733469_393.htm
+- http://www.mobile-open.com/2015/80379.html
 
 ** eventQueue vs SurfaceView threads
 - Deeper summary, android graphics architecture: http://hukai.me/android-deeper-graphics-architecture/
