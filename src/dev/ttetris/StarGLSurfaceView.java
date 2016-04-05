@@ -10,7 +10,8 @@ import javax.microedition.khronos.opengles.GL10;
 
 class StarGLSurfaceView extends GLSurfaceView {
     private static StarGLSurfaceView mStarGLSurfaceView = null;
-    private StarRenderer mStarRenderer; // final?
+    //private StarRenderer mStarRenderer; // final?
+    private CubeRenderer mStarRenderer; 
 
     private static Handler sHandler; // do I need a handler?
 
@@ -34,7 +35,8 @@ class StarGLSurfaceView extends GLSurfaceView {
     }
 
     private void initView() {
-        mStarRenderer = new StarRenderer(); //创建渲染器
+        //mStarRenderer = new StarRenderer(); //创建渲染器
+        mStarRenderer = new CubeRenderer(); //创建渲染器
         setRenderer(mStarRenderer);  //设置渲染器
         setRenderMode(GLSurfaceView.RENDERMODE_WHEN_DIRTY);
         mStarGLSurfaceView = this; // do I really need this one?
