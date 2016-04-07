@@ -4,6 +4,13 @@
 #+author: deepwaterooo
 
 * Better version, pretty good
+- OpenGL 3D version status: 
+  - Have spent two days tried to review someone else's code, but it was too complicated rather than developping my own code ( tetrisglar_d9qpjwxc.apk is included in home directory for referrencing). 
+  - So from late this afternoon, working on my own codes, partially still referring to the other apk, but it's my flow-chart-ideas and implementation now. 
+  - I believe I got at least some ideas for most of the basic ideas and OpenGL technical difficulties, so the implementation won't be too hard. 
+  - Will continuously work on this one tomorrow, and will update when model is basically done. 
+  - will update tomorrow. 
+- 
 - a video for this Tetris game can be directly watched at https://www.youtube.com/watch?v=Ht4NOrEUtFk
 - A video for the previous DrawingFun Android App can be watched at https://www.youtube.com/watch?v=YV78Tk5--5M , or by searching *deepwaterooo Wang*. 
 - 
@@ -22,14 +29,21 @@
 - http://www.oschina.net/question/565065_67280
 - triangle: http://stackoverflow.com/questions/9945321/triangle-opengl-in-android
 - https://gist.github.com/SebastianJay/3316001
-- 
-- 
-- 
-- 
-- 
-- 
-- 
-- 
+- 射线拾取： http://itdocument.com/479827008/
+- 旋转及手势： http://vaero.blog.51cto.com/4350852/790620
+- 2 http://vaero.blog.51cto.com/4350852/790637
+- http://www.lai18.com/content/951343.html
+- opengl选择与反馈： http://zhidao.baidu.com/question/496046750245095004.html
+- http://wenku.baidu.com/view/58190d1efad6195f312ba6f7.html
+- c++ http://blog.csdn.net/u010223072/article/details/45369075
+- http://codercdy.com/2015/06/17/openglxue-xi-bi-ji-xuan-ze-he-fan-kui/
+- https://books.google.com/books?id=u6EHM_OzaFQC&pg=PA1987&lpg=PA1987&dq=opengl%E9%80%89%E6%8B%A9%E4%B8%8E%E5%8F%8D%E9%A6%88&source=bl&ots=L9Y66QSEhu&sig=f1h_RadXRDFsa9L5IY430HGTG34&hl=en&sa=X&ved=0ahUKEwjA6vTRo_jLAhVH3mMKHQIXBxYQ6AEIPDAE#v=onepage&q=opengl%E9%80%89%E6%8B%A9%E4%B8%8E%E5%8F%8D%E9%A6%88&f=false
+- c++ codes: http://dev.gameres.com/program/Visual/3D/Selection.htm
+- 画线： c++ http://www.programgo.com/article/43724048060/
+- draw line: http://www.linuxidc.com/Linux/2011-09/42307p3.htm
+- http://stackoverflow.com/questions/9217702/open-gl-es-2-0-drawing-a-simple-line
+- 距阵变换： http://www.cnblogs.com/caster99/p/4780984.html
+- http://www.flakor.cn/2014-05-15-384.html
 - 
 - 
 

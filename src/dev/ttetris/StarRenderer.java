@@ -1,148 +1,189 @@
 package dev.ttetris;
 
+import dev.ttetris.model.BlockType;
+import dev.ttetris.model.CubeColor;
+import dev.ttetris.model.Cube;
+import dev.ttetris.model.Block;
+import dev.ttetris.model.BlockMeta;
+
 import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
 
 import android.opengl.GLES20;
 import android.opengl.GLSurfaceView;
+import java.nio.ByteBuffer;
+import java.nio.ByteOrder;
+import java.nio.FloatBuffer;
+import java.nio.ShortBuffer;
+import android.opengl.GLU;
 import android.opengl.Matrix;
 import android.util.Log;
-
-import android.opengl.GLU;
-import java.nio.ByteBuffer;  
-import java.nio.ByteOrder;  
-import java.nio.FloatBuffer;  
-import java.nio.ShortBuffer;  
+import javax.vecmath.Vector3f;
+import javax.vecmath.Vector4f;
+import javax.vecmath.Matrix4f;;
 
 public class StarRenderer implements GLSurfaceView.Renderer {
-    private static final String TAG = "StarGLRender";
-    private Square mGameSquare;
-    private Square mNextSquare;
-    private Square mSquare;
-    private Triangle mTriangle;
-    
-    // mMVPMatrix is an abbreviation for "Model View Projection Matrix"
+    private static final String TAG = "StarRenderer";
     private final float[] mMVPMatrix = new float[16];
     private final float[] mProjectionMatrix = new float[16];
     private final float[] mViewMatrix = new float[16];
     private final float[] mRotationMatrix = new float[16];
     private float mAngle;
-    
-    private StarGLSurfaceView mView;
-    
-    @Override  
-    public void onSurfaceCreated(GL10 gl,EGLConfig config){  
-        //gl.glClearColor(0.419f, 0.137f, 0.55686f, 0.5f); // dark blue
-        gl.glClearColor(1.0f, 1.0f, 0.0f, 0.0f); // yellow
-        /*        
-        // Enable Smooth Shading, default not rally needed
-        gl.glShadeModel(GL10.GL_SMOOTH); // 启用阴影平滑（不是必须的）
-        // Depth buffer setup 设置深度缓存
-        gl.glClearDepthf(1.0f);
-        // Enables depth testing 启用深度测试
-        gl.glEnable(GL10.GL_DEPTH_TEST);
-        // the type of depth testing to do 所用深度测试的类型
-        gl.glDepthFunc(GL10.GL_LEQUAL);
-        */
-        mGameSquare = new Square();
-        mNextSquare = new Square();
-        //mTriangle = new Triangle();
-        mSquare = new Square();
-        
-        // Really nice perspective calculations. 对透视进行修正
-        //gl.glHint(GL10.GL_PERSPECTIVE_CORRECTION_HINT, GL10.GL_NICEST); // android.opengl.GLException: invalid enum
-        // don't need this one any more
-        //gl.glHint(GL10.GL_POINT_SMOOTH_HINT, GL10.GL_FASTEST);   
-    }  
-   
-    @Override
-    // 要应用投影和视口矩阵，需将矩阵们相乘然后把它们设置给顶点着色器
-    public void onDrawFrame(GL10 gl) {
-        float [] scratch = new float[16];
-        
-        // Draw background color
-        gl.glClear(GL10.GL_COLOR_BUFFER_BIT | GL10.GL_DEPTH_BUFFER_BIT);
 
-        // Set the camera position (View matrix) 创建一个视口矩阵
-        Matrix.setLookAtM(mViewMatrix, 0, 0, 0, -3, 0f, 0f, 0f, 0f, 1.0f, 0.0f);
-        
+    private final String vertexShaderCode =
+        "uniform mat4 uMVPMatrix;" +
+        "attribute vec4 vPosition;" +
+        "attribute vec4 vColor;" +
+        "varying vec4 _vColor;" +
+        "void main() {" +
+        "  _vColor = vColor;" + 
+        "  gl_Position = uMVPMatrix * vPosition;" +
+        "}";
+    private final String fragmentShaderCode =
+        "precision mediump float;" +
+        "varying vec4 _vColor;" +
+        "void main() {" +
+        "  gl_FragColor = _vColor;" +
+        "}";
+
+    private FloatBuffer vertexBuffer;
+    private FloatBuffer mColorBuffer;
+    private ShortBuffer drawListBuffer;
+    private int mProgram;
+    private int mPositionHandle;
+    private int mColorHandle;
+    private int mMVPMatrixHandle;
+    private static final int COORDS_PER_VERTEX = 3;
+    private static final int VALUES_PER_COLOR = 4;
+    private final int VERTEX_STRIDE = COORDS_PER_VERTEX * 4;
+    private final int COLOR_STRIDE = VALUES_PER_COLOR * 4;
+
+    public static final int VERTEX_BUFFER = 0; 
+    public static final int TEXTURE_BUFFER = 1; 
+    public float mfAngleX = 0.0f; 
+    public float mfAngleY = 0.0f; 
+    public float gesDistance = 0.0f; 
+    private static float one = 1.0f; 
+
+    private Block currBlock;
+    
+    public enum BlockColor {
+		RED(0xffff0000, (byte) 1),
+        GREEN(0xff00ff00, (byte) 2),
+        BLUE(0xff0000ff, (byte) 3),
+        YELLOW(0xffffff00, (byte) 4),
+        CYAN(0xff00ffff, (byte) 5),
+        WHITE(0xffffffff, (byte) 6),
+        MAGENTA(0xffff00ff, (byte) 7),
+        TRANSPARENT(0x20320617, (byte) 8);
+		private final int color;
+		private final byte value;
+		private BlockColor(int color, byte value) {
+			this.color = color;
+			this.value = value;
+		}
+	}
+
+    private static final float color[] = {1.0f, 1.0f, 1.0f, 1.0f};
+    private static final short drawOrder[] = {  // one bug left here for debugging
+        0, 1, 2, 3,
+        4, 5, 6, 7,
+        1, 2, 6, 5,
+        0, 3, 7, 4
+    };
+    
+    @Override
+    public void onSurfaceCreated(GL10 gl, EGLConfig config) {
+        GLES20.glClearColor(1.0f, 1.0f, 0.0f, 0.0f); // yellow
+        //initShapes();
+        int vertexShader = loadShader(GLES20.GL_VERTEX_SHADER, vertexShaderCode);
+        int fragmentShader = loadShader(GLES20.GL_FRAGMENT_SHADER, fragmentShaderCode);
+        mProgram = GLES20.glCreateProgram();
+        GLES20.glAttachShader(mProgram, vertexShader);
+        GLES20.glAttachShader(mProgram, fragmentShader);
+        GLES20.glLinkProgram(mProgram);
+        currBlock = new Block(new BlockMeta(CubeColor.Brass, BlockType.squareType, 0.5F, 0.5F, 0.0F));
+    }
+     
+    @Override
+    public void onSurfaceChanged(GL10 gl, int w, int h) {
+        GLES20.glViewport(0, 0, w, h);           //设置视窗
+        float ratio = (float) w / h;
+        Matrix.frustumM(mProjectionMatrix, 0, -ratio, ratio, -1, 1, 3, 7);
+    }
+     
+    @Override
+    public void onDrawFrame(GL10 gl) {
+        GLES20.glClear(GL10.GL_COLOR_BUFFER_BIT | GL10.GL_DEPTH_BUFFER_BIT);
+        Matrix.setLookAtM(mViewMatrix, 0, -4f, 0f, 4f, 0f, 0f, 0f, 0f, 1.0f, 0.0f);
         // 合并投影和视口矩阵 Calculate the projection and view transformation
         Matrix.multiplyMM(mMVPMatrix, 0, mProjectionMatrix, 0, mViewMatrix, 0);
-        // draw square
-        //mGameSquare.draw(mMVPMatrix);
-        /*
-        // this is NOT working
-        gl.glLoadIdentity(); // reset()
-        // Translates 4 units into the screen.
-        gl.glTranslatef(0, 0, -4);
-        //square.setVerticesAndDraw(0.8f, gl, (byte)255);
-        square.draw(gl);
-        */
+        GLES20.glUseProgram(mProgram);
 
-        // draw triangle
-        // create a rotation for triangle
-        // generate constant rotation
-        Matrix.setRotateM(mRotationMatrix, 0, mAngle, 0, 0, 1.0f);
-        // combine rotation matrix with projection and camera view
-        // mMVPMatrix factor must be first in order for matrix manipulation product to be right
-        Matrix.multiplyMM(scratch, 0, mMVPMatrix, 0, mRotationMatrix, 0);
-        mTriangle.draw(scratch);
-        //triangle.draw(gl);
-    }  
+        // for draw currBlock
+        Cube [] cubes = currBlock.getCubes();
+        for (int i = 0; i < 4; i++) {
+            float squareCoords [] = cubes[i].getCubeCoordinates();
+            ByteBuffer vbb = ByteBuffer.allocateDirect(squareCoords.length * 4); 
+            vbb.order(ByteOrder.nativeOrder());  // use the device hardware's native byte order
+            vertexBuffer = vbb.asFloatBuffer();  // create a floating point buffer from the ByteBuffer
+            vertexBuffer.put(squareCoords);      // add the coordinates to the FloatBuffer
+            vertexBuffer.position(0);            // set the buffer to read the first coordinate
+            ByteBuffer dlb = ByteBuffer.allocateDirect(drawOrder.length * 2);
+            dlb.order(ByteOrder.nativeOrder());
+            drawListBuffer = dlb.asShortBuffer();
+            drawListBuffer.put(drawOrder);
+            drawListBuffer.position(0);
+            ByteBuffer byteBuffer = ByteBuffer.allocateDirect(color.length * 4);
+            byteBuffer.order(ByteOrder.nativeOrder());
+            mColorBuffer = byteBuffer.asFloatBuffer();
+            mColorBuffer.put(color);
+            mColorBuffer.position(0);
 
-    @Override  
-    public void onSurfaceChanged(GL10 gl, int width, int height) {
-        // adjust the viewport based on geometry changes, such as screen rotation
-        gl.glViewport(0, 0, width, height); // 设置画面的大小
-        float ratio = (float) width / height;
-        /*
-        gl.glMatrixMode(GL10.GL_PROJECTION); // 设置投影矩阵 set matrix to projection mode 
-        gl.glLoadIdentity();                 // 重置投影矩阵 reset the matrix to its default state 
-        gl.glFrustumf(-aspect, aspect, -1.0f, 1.0f, 1.0f, 10.0f); // apply the projection matrix
-        */
-        // the proj matrix is applied to object coordinates in the onDrawFrame() method
-        // 根据设备屏幕的几何特征创建投影矩阵 
-        Matrix.frustumM(mProjectionMatrix, 0, -ratio, ratio, -1, 1, 3, 7);
-        /*        
-        // selection the projection matrix
-        gl.glMatrixMode(GL10.GL_PROJECTION);
-        // reset the projection matrix
-        gl.glLoadIdentity();
-        // 设置画面比例 calculate the aspect ratio of the window 
-        GLU.gluPerspective(gl, 45.0f, (float)width / (float)height, 0.1f, 100.0f);
-        // 选择模型观察矩阵 select the modelview matrix
-        gl.glMatrixMode(GL10.GL_MODELVIEW);
-        // 重置模型观察矩阵 reset the modelview matrix
-        gl.glLoadIdentity();  */
+            mPositionHandle = GLES20.glGetAttribLocation(mProgram, "vPosition");
+            GLES20.glEnableVertexAttribArray(mPositionHandle);
+            GLES20.glVertexAttribPointer(mPositionHandle, COORDS_PER_VERTEX, GLES20.GL_FLOAT, false, VERTEX_STRIDE, vertexBuffer);
+            //GLES20.glVertexAttribPointer(mPositionHandle, COORDS_PER_VERTEX, GLES20.GL_FLOAT, false, 6, vertexBuffer);
+            GLES20.glEnableVertexAttribArray(mColorHandle);
+            GLES20.glVertexAttribPointer(mColorHandle, 4, GLES20.GL_FLOAT, false, COLOR_STRIDE, mColorBuffer);
+            //GLES20.glVertexAttribPointer(mColorHandle, 4, GLES20.GL_FLOAT, false, 8, mColorBuffer);
+            mMVPMatrixHandle = GLES20.glGetUniformLocation(mProgram, "uMVPMatrix");
+            StarRenderer.checkGlError("glGetUniformLocation");
+            GLES20.glUniformMatrix4fv(mMVPMatrixHandle, 1, false, mMVPMatrix, 0);
+            StarRenderer.checkGlError("glUniformMatrix4fv");
+            GLES20.glLineWidth(5.0f);
+            GLES20.glDrawElements(GLES20.GL_LINE_LOOP, drawOrder.length, GLES20.GL_UNSIGNED_SHORT, drawListBuffer);
+            GLES20.glDisableVertexAttribArray(mPositionHandle);
+            GLES20.glDisableVertexAttribArray(mColorHandle);
+        }
+    }
+    
+    private void initShapes(Cube cube) {
+        float squareCoords [] = cube.getCubeCoordinates();
+        ByteBuffer vbb = ByteBuffer.allocateDirect(squareCoords.length * 4); 
+        vbb.order(ByteOrder.nativeOrder());  // use the device hardware's native byte order
+        vertexBuffer = vbb.asFloatBuffer();  // create a floating point buffer from the ByteBuffer
+        vertexBuffer.put(squareCoords);      // add the coordinates to the FloatBuffer
+        vertexBuffer.position(0);            // set the buffer to read the first coordinate
+        ByteBuffer dlb = ByteBuffer.allocateDirect(drawOrder.length * 2);
+        dlb.order(ByteOrder.nativeOrder());
+        drawListBuffer = dlb.asShortBuffer();
+        drawListBuffer.put(drawOrder);
+        drawListBuffer.position(0);
+        ByteBuffer byteBuffer = ByteBuffer.allocateDirect(color.length * 4);
+        byteBuffer.order(ByteOrder.nativeOrder());
+        mColorBuffer = byteBuffer.asFloatBuffer();
+        mColorBuffer.put(color);
+        mColorBuffer.position(0);
     }
 
-    /**
-     * Utility method for compiling a OpenGL shader.
-     * <p><strong>Note:</strong> When developing shaders, use the checkGlError() method to debug shader coding errors.</p>
-     * @param type - Vertex or fragment shader type.
-     * @param shaderCode - String containing the shader code.
-     * @return - Returns an id for the shader.
-     */
     public static int loadShader(int type, String shaderCode){
-        // create a vertex shader type (GLES20.GL_VERTEX_SHADER) or a fragment shader type (GLES20.GL_FRAGMENT_SHADER)
         int shader = GLES20.glCreateShader(type);
-        // add the source code to the shader and compile it
-        GLES20.glShaderSource(shader, shaderCode);
+        GLES20.glShaderSource(shader, shaderCode); // add the source code to the shader and compile it
         GLES20.glCompileShader(shader);
         return shader;
     }
 
-    /**
-    * Utility method for debugging OpenGL calls. Provide the name of the call
-    * just after making it:
-    * <pre>
-    * mColorHandle = GLES20.glGetUniformLocation(mProgram, "vColor");
-    * MyGLRenderer.checkGlError("glGetUniformLocation");</pre>
-    *
-    * If the operation is not successful, the check throws an error.
-    *
-    * @param glOperation - Name of the OpenGL call to check.
-    */
     public static void checkGlError(String glOperation) {
         int error;
         while ((error = GLES20.glGetError()) != GLES20.GL_NO_ERROR) {
@@ -150,113 +191,129 @@ public class StarRenderer implements GLSurfaceView.Renderer {
             throw new RuntimeException(glOperation + ": glError " + error);
         }
     }
-
-    /**
-     * Returns the rotation angle of the triangle shape (mTriangle).
-     *
-     * @return - A float representing the rotation angle.
-     */
-    public float getAngle() {
-        return mAngle;
-    }
-
-    /**
-     * Sets the rotation angle of the triangle shape (mTriangle).
-     */
-    public void setAngle(float angle) {
-        mAngle = angle;
-    }
     
-    /*
-    private class Square {
-        FloatBuffer vertexbuffer;
-        ShortBuffer indicesbuffer;
-        float vertices[] = {
-            -1.0f, 1.0f, 0.0f, 
-            -1.0f, -1.0f, 0.0f,
-            1.0f, -1.0f, 0.0f, 
-            1.0f, 1.0f, 0.0f
-        };
-        private short indices[] = {0, 1, 2, 0, 2, 3};
-        public Square(){
-            ByteBuffer byteBuffer = ByteBuffer.allocateDirect(vertices.length * 4);
-            byteBuffer.order(ByteOrder.nativeOrder());
-            vertexbuffer = byteBuffer.asFloatBuffer();
-            vertexbuffer.put(vertices);
-            vertexbuffer.position(0);
+    /*    // 立方体顶点坐标 
+    private float[] vertices = new float[] { -one, -one, one, one, -one, one, 
+                                             one, one, one, -one, one, one, -one, -one, -one, -one, one, -one, 
+                                             one, one, -one, one, -one, -one, -one, one, -one, -one, one, one, 
+                                             one, one, one, one, one, -one, -one, -one, -one, one, -one, -one, 
+                                             one, -one, one, -one, -one, one, one, -one, -one, one, one, -one, 
+                                             one, one, one, one, -one, one, -one, -one, -one, -one, -one, one, 
+                                             -one, one, one, -one, one, -one }; 
+    // 立方体纹理坐标 
+    private float[] texCoords = new float[] { one, 0, 0, 0, 0, one, one, one, 
+                                              0, 0, 0, one, one, one, one, 0, one, one, one, 0, 0, 0, 0, one, 0, 
+                                              one, one, one, one, 0, 0, 0, 0, 0, 0, one, one, one, one, 0, one, 
+                                              0, 0, 0, 0, one, one, one }; 
+    // 三角形描述顺序 
+    private byte[] indices = new byte[] { 0, 1, 3, 2, 4, 5, 7, 6, 8, 9, 11, 10, 12, 13, 15, 14, 16, 17, 19, 18, 20, 21, 23, 22 }; 
+    */
 
-            ByteBuffer indicesBuffer = ByteBuffer.allocateDirect(indices.length * 2);
-            indicesBuffer.order(ByteOrder.nativeOrder());
-            indicesbuffer = indicesBuffer.asShortBuffer();
-            indicesbuffer.put(indices);
-            indicesbuffer.position(0); 
+    // for rotate and detecting
+    // 触碰立方体某一面的标记（0—5）
+    public int surface = -1;
+    /*
+    // 获取坐标的缓存对象
+    public FloatBuffer getCoordinate(int coord_id) {
+        switch (coord_id) {
+        case VERTEX_BUFFER:
+            return getDirectBuffer(squareCoords);
+            //case TEXTURE_BUFFER:
+            //return getDirectBuffer();
+        default:
+                throw new IllegalArgumentException();
         }
-        public void draw(GL10 gl) {
-            // Counter-clockwise winding.
-            gl.glFrontFace(GL10.GL_CCW);
-            // Enable face culling.
-            gl.glEnable(GL10.GL_CULL_FACE);
-            // What faces to remove with the face culling.
-            gl.glCullFace(GL10.GL_BACK);
-            // Enabled the vertices buffer for writing and to be used during rendering.
-            gl.glEnableClientState(GL10.GL_VERTEX_ARRAY);
-            // Specifies the location and data format of an array of vertex coordinates to use when rendering.
-            gl.glVertexPointer(3, GL10.GL_FLOAT, 0, vertexbuffer);
-            gl.glDrawElements(GL10.GL_TRIANGLES, indices.length, GL10.GL_UNSIGNED_SHORT, indicesbuffer);
-            // Disable the vertices buffer.
-            gl.glDisableClientState(GL10.GL_VERTEX_ARRAY);
-            // Disable face culling.
-            gl.glDisable(GL10.GL_CULL_FACE);
         }
-        public void setVerticesAndDraw(float value, GL10 gl, byte color) {
-            FloatBuffer mColorBuffer;
-            FloatBuffer verticesBuffer;
-            byte indices[] = {0, 1, 2, 0, 2, 3};
-            float vertices[] = {
-                -value, value, 0.0f,
-                -value, -value, 0.0f,
-                value, -value, 0.0f,
-                value, value, 0.0f
-            }; 
-            float colors[] = {
-                color, color, 0, color,    
-                0, color, color, color,    
-                0, 0, 0, color,    
-                color, 0, color, color
-                }; 
-            ByteBuffer byteBuffer = ByteBuffer.allocateDirect(vertices.length * 4);
-            byteBuffer.order(ByteOrder.nativeOrder());
-            verticesBuffer = byteBuffer.asFloatBuffer();
-            verticesBuffer.put(vertices);
-            verticesBuffer.position(0);
-            ByteBuffer indicesBuffer = ByteBuffer.allocateDirect(indices.length);
-            indicesBuffer.put(indices);
-            indicesBuffer.position(0);
-            ByteBuffer colorBuffer = ByteBuffer.allocateDirect(colors.length * 4);
-            colorBuffer.order(ByteOrder.nativeOrder());
-            mColorBuffer = colorBuffer.asFloatBuffer();
-            mColorBuffer.put(colors);
-            mColorBuffer.position(0);
-            gl.glColor4f(1.0f, 0.0f, 0.0f, 1.0f);
-            gl.glLoadIdentity();
-            gl.glTranslatef(0, 0, -4);
-            //gl.glRotatef(angle, 0, 1, 0);
-            // counter-clockwise winding
-            gl.glFrontFace(GL10.GL_CCW);
-            // enable face culling
-            gl.glEnable(GL10.GL_CULL_FACE);
-            // what faces to remove with the face culling
-            gl.glCullFace(GL10.GL_BACK);
-            // enable the vertex buffer for writing and to be used during rendering
-            gl.glEnableClientState(GL10.GL_VERTEX_ARRAY);
-            // specify the location and data format of an array of vertex coordinates to use when rendering
-            gl.glVertexPointer(3, GL10.GL_FLOAT, 0, verticesBuffer);
-            gl.glEnableClientState(GL10.GL_COLOR_ARRAY); 
-            gl.glColorPointer(4, GL10.GL_UNSIGNED_BYTE, 0, mColorBuffer);
-            gl.glDrawElements(GL10.GL_TRIANGLES, indices.length, GL10.GL_UNSIGNED_BYTE, indicesBuffer);
-            // when done with the buffer, don't forget to disable it
-            gl.glDisableClientState(GL10.GL_VERTEX_ARRAY);
-            gl.glDisable(GL10.GL_CULL_FACE);
+
+    // 获取三角形的描述顺序
+    public ByteBuffer getIndices() {
+        return ByteBuffer.wrap(drawListBuffer);
+        }*/
+
+    public FloatBuffer getDirectBuffer(float [] buffer) {
+        ByteBuffer bb = ByteBuffer.allocateDirect(buffer.length * 4);
+        bb.order(ByteOrder.nativeOrder());
+        FloatBuffer directBuffer = bb.asFloatBuffer();
+        directBuffer.put(buffer);
+        directBuffer.position(0);
+        return directBuffer;
+    }
+
+    // 返回立方体外切圆的中心点
+    public Vector3f getSphereCenter() {
+        return new Vector3f(0, 0, 0);
+    }
+
+    // 返回立方体外切圆的半径（sqrt(3))
+    public float getSphereRadius() {
+        return 1.732051f;
+    }
+
+    private Vector3f transformedSphereCenter = new Vector3f(); 
+    //private Ray transformedRay = new Ray(); 
+    private Matrix4f matInvertModel = new Matrix4f(); 
+    private Vector3f[] mpTriangle = {
+        new Vector3f(),
+        new Vector3f(), 
+        new Vector3f()
+    };     
+
+    /** 
+     * 射线与模型的精确碰撞检测 
+     * @param ray - 转换到模型空间中的射线 
+     * @param trianglePosOut - 返回的拾取后的三角形顶点位置 
+     * @return 如果相交，返回true 
+
+    public boolean intersect(Ray ray, Vector3f [] trianglePosOut) {
+        boolean bFound = false;
+        // 存储着谢线斫号三角形相交点的距离，最后仅仅保留距离最近的那一个
+        float closeDis = 0.0f;
+        Vector3f v0, v1, v2;
+
+        // 立方体的6个面
+        for (int i = 0; i < 6; i++) {
+            // 每个面有两个三角形
+            for (int j = 0; j < 2; j++) {
+                if (j == 0) {
+                    v0 = getVector3f(indices[i * 4 + j]);
+                    v1 = getVector3f(indices[i * 4 + j + 1]);
+                    v2 = getVector3f(indices[i * 4 + j + 2]);
+                } else {
+                    // 第二个三角形时，换下顺序，不然会渲染到立方体内部
+                    v0 = getVector3f(indices[i * 4 + j]);
+                    v1 = getVector3f(indices[i * 4 + j + 2]);
+                    v2 = getVector3f(indices[i * 4 + j + 1]);
+                }
+                // 进行射线和三角形的磁撞检测
+                if (ray.intersectTriangle(v0, v1, v2, location)) {
+                    // 如果发生了相交
+                    if (!bFound) {
+                        // 如果是初次检测到，需要存储射线原点与三角形交点的距离值
+                        bFound = true;
+                        closeDis = location.w;
+                        trianglePosOut[0].set(v0);
+                        trianglePosOut[1].set(v1);
+                        trianglePosOut[2].set(v2);
+                        surface = i;
+                    } else {
+                        // 如果之前已经检测到相交事件，则需要把新相交点与之前的相交点数据相比较，保留离射线点更近的
+                        if (closeDis > location.w) {
+                            closeDis = location.w;
+                            trianglePosOut[0].set(v0);
+                            trianglePosOut[1].set(v1);
+                            trianglePosOut[2].set(v2);
+                            surface = i;
+                        }
+                    }
+                }
+            }
+
         }
-        } */
+        return bFound;
+    }
+
+    private Vector3f getVector3f(int start) {
+        return new Vector3f(vertices[3 * start], vertices[3 * start + 1], vertices[3 * start + 2]);
+    }
+    */    
 }

@@ -1,4 +1,4 @@
-% Created 2016-04-01 Fri 17:13
+% Created 2016-04-06 Wed 22:46
 \documentclass[9pt,b5paper]{article}
 \usepackage{graphicx}
 \usepackage{xcolor}
@@ -37,6 +37,15 @@
 \section{Better version, pretty good}
 \label{sec-1}
 \begin{itemize}
+\item OpenGL 3D version status: 
+\begin{itemize}
+\item Have spent two days tried to review someone else's code, but it was too complicated rather than developping my own code ( tetrisglar$_{\text{d9qpjwxc}}$.apk is included in home directory for referrencing).
+\item So from late this afternoon, working on my own codes, partially still referring to the other apk, but it's my flow-chart-ideas and implementation now.
+\item I believe I got at least some ideas for most of the basic ideas and OpenGL technical difficulties, so the implementation won't be too hard.
+\item Will continuously work on this one tomorrow, and will update when model is basically done.
+\item will update tomorrow.
+\end{itemize}
+\item 
 \item a video for this Tetris game can be directly watched at \url{https://www.youtube.com/watch?v=Ht4NOrEUtFk}
 \item A video for the previous DrawingFun Android App can be watched at \url{https://www.youtube.com/watch?v=YV78Tk5--5M} , or by searching \textbf{deepwaterooo Wang}.
 \item 
@@ -49,27 +58,51 @@
 \item Though I will continuous refine this game later on when I have time (Better version will be recorded and uploaded later within a month or so.), but I won't be able to work on it day in and day out recently, having other things occupied.
 \end{itemize}
 
-\section{其它类似游戏参考}
-\label{sec-2}
-\subsection{iTetris 俄罗斯方块}
-\label{sec-2-1}
-这是一款针对手机触屏的经典俄罗斯方块，可以选择传统及酷炫模式，用户可根据各自喜好自定义游戏背景。人性化的操作体验，让您重温儿时经典。该款游戏特征：
-
-\begin{enumerate}
-\item 尽量大的利用屏幕空间显示游戏，加大了游戏的可玩性
-\item 支持触屏手势，同时支持虚拟按键
-\item 虚拟方向按键盘初始化在右上角，用户可长按按键盘中心提起按键盘，拖动到自己任意觉得顺手的地方
-\item 长按游戏空间任何地方可以隐藏、显示方向按键盘
-\item 长按虚拟键盘中左中下键将发送连续按键信息，达到加速效果
-\item 触摸游戏规则：点击屏幕改变方块形状；左右滑动改变方块左右位置，位置改变幅度与手指滑动速度与幅度有关，例如幅度较小滑动，方块将运行一格的位置，稍大滑动将运行两格位置，等等。向下加速也是这样。
-\item 支持自定义游戏背景，如果有好的背景图片，用户可自行进入“菜单-游戏背景”里选择图片进行设置
-\end{enumerate}
-
 \section{References}
-\label{sec-3}
-\subsection{GLSurfaceView}
-\label{sec-3-1}
+\label{sec-2}
+\subsection{3D design}
+\label{sec-2-1}
 \begin{itemize}
+\item c++ version: \url{https://github.com/matachi/tetris-cpp}
+\item refer 6 \url{http://www.oschina.net/question/614942_62370}
+\item \url{http://www.oschina.net/question/565065_67280}
+\item triangle: \url{http://stackoverflow.com/questions/9945321/triangle-opengl-in-android}
+\item \url{https://gist.github.com/SebastianJay/3316001}
+\item 射线拾取： \url{http://itdocument.com/479827008/}
+\item 旋转及手势： \url{http://vaero.blog.51cto.com/4350852/790620}
+\item 2 \url{http://vaero.blog.51cto.com/4350852/790637}
+\item \url{http://www.lai18.com/content/951343.html}
+\item opengl选择与反馈： \url{http://zhidao.baidu.com/question/496046750245095004.html}
+\item \url{http://wenku.baidu.com/view/58190d1efad6195f312ba6f7.html}
+\item c++ \url{http://blog.csdn.net/u010223072/article/details/45369075}
+\item \url{http://codercdy.com/2015/06/17/openglxue-xi-bi-ji-xuan-ze-he-fan-kui/}
+\item \url{https://books.google.com/books?id=u6EHM_OzaFQC&pg=PA1987&lpg=PA1987&dq=opengl\%E9\%80\%89\%E6\%8B\%A9\%E4\%B8\%8E\%E5\%8F\%8D\%E9\%A6\%88&source=bl&ots=L9Y66QSEhu&sig=f1h_RadXRDFsa9L5IY430HGTG34&hl=en&sa=X&ved=0ahUKEwjA6vTRo_jLAhVH3mMKHQIXBxYQ6AEIPDAE#v=onepage&q=opengl\%E9\%80\%89\%E6\%8B\%A9\%E4\%B8\%8E\%E5\%8F\%8D\%E9\%A6\%88&f=false}
+\item c++ codes: \url{http://dev.gameres.com/program/Visual/3D/Selection.htm}
+\item 画线： c++ \url{http://www.programgo.com/article/43724048060/}
+\item draw line: \url{http://www.linuxidc.com/Linux/2011-09/42307p3.htm}
+\item \url{http://stackoverflow.com/questions/9217702/open-gl-es-2-0-drawing-a-simple-line}
+\item 距阵变换： \url{http://www.cnblogs.com/caster99/p/4780984.html}
+\item \url{http://www.flakor.cn/2014-05-15-384.html}
+\item 
+\item 
+\end{itemize}
+
+
+\subsection{GLSurfaceView}
+\label{sec-2-2}
+\begin{itemize}
+\item opengl: \url{http://androidblog.reindustries.com/a-real-open-gl-es-2-0-2d-tutorial-part-1/}
+\item Graphics architecture: \url{https://source.android.com/devices/graphics/architecture.html}
+\item \url{http://stackoverflow.com/questions/5169338/android-deciding-between-surfaceview-and-opengl-glsurfaceview}
+\item \textbf{引路蜂} better: \url{http://blog.csdn.net/mapdigit/article/details/7526556}
+\item 真正的3D图形： \url{http://www.imobilebbs.com/wordpress/archives/1554}
+\item a Cube: \url{http://www.oschina.net/question/4873_28325}
+\item modification: \url{https://github.com/googleglass/gdk-apidemo-sample/blob/master/app/src/main/java/com/google/android/glass/sample/apidemo/opengl/Cube.java}
+\item Android OpenGL ES 简明开发教程小结: \url{http://www.imobilebbs.com/wordpress/archives/1583}
+\item 
+\item 
+\item 
+
 \item \url{http://hellosure.github.io/android/2015/06/01/android-glsurfaceview/}
 \item \url{http://ju.outofmemory.cn/entry/172850}
 \item 画图： \url{http://www.mobile-open.com/2015/81568.html}
@@ -93,18 +126,18 @@
 \end{itemize}
 
 \subsection{eventQueue vs SurfaceView threads}
-\label{sec-3-2}
+\label{sec-2-3}
 \begin{itemize}
 \item Deeper summary, android graphics architecture: \url{http://hukai.me/android-deeper-graphics-architecture/}
 \item 2 threads, load, read, \url{http://blog.csdn.net/hellogv/article/details/5986835}
 \end{itemize}
 \subsection{Canvas Path subclass}
-\label{sec-3-3}
+\label{sec-2-4}
 \begin{itemize}
 \item how to define drawLine to be drawShapes?
 \end{itemize}
 \subsection{SurfaceView}
-\label{sec-3-4}
+\label{sec-2-5}
 \begin{itemize}
 \item Surface runnable \url{http://android.okhelp.cz/surfaceview-implements-runnable-android-code/}
 \item Example: \url{http://technicalsearch.iteye.com/blog/1967616}
@@ -122,7 +155,7 @@
 \end{itemize}
 
 \subsection{gestures}
-\label{sec-3-5}
+\label{sec-2-6}
 \begin{itemize}
 \item \url{http://www.cnblogs.com/akira90/archive/2013/03/10/2952886.html}
 \item Android 触摸手势基础 官方文档概览: \url{http://www.lxway.com/445554926.htm}
