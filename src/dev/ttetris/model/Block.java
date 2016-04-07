@@ -11,17 +11,19 @@ public class Block implements Cloneable, Serializable {
 
     private static HashMap<String, BlockMeta> blocks = new HashMap();
     private Cube[] cubes;
-    private float centerX;
-    private float centerY;
-    private float centerZ;
+    public int centerX;
+    public int centerY;
+    public int centerZ;
+    private int color;
+    
     static {
-        createMetaBlock("Square", CubeColor.Anchient, BlockType.squareType, 0.5F, 0.5F, 0.0F);
-        createMetaBlock("Line", CubeColor.Amethyst, BlockType.lineType, 0.0F, 1.0F, 0.0F);
-        createMetaBlock("LeftLightning", CubeColor.Oak, BlockType.leftLightningType, 1.0F, 1.0F, 0.0F);
-        createMetaBlock("RightLightning", CubeColor.MarbleRough, BlockType.rightLightningType, 1.0F, 1.0F, 0.0F);
-        createMetaBlock("Roof", CubeColor.LapisLazuli, BlockType.roofType, 0.0F, 0.0F, 0.0F);
-        createMetaBlock("LeftBoot", CubeColor.WhiteMarble, BlockType.leftBootType, 1.0F, 1.0F, 0.0F);
-        createMetaBlock("RightBoot", CubeColor.Marble, BlockType.rightBootType, 0.0F, 1.0F, 0.0F);
+        createMetaBlock("Square", CubeColor.Anchient, BlockType.squareType, 1, 1, 0);
+        createMetaBlock("Line", CubeColor.Amethyst, BlockType.lineType, 0, 1, 0);
+        createMetaBlock("LeftLightning", CubeColor.Oak, BlockType.leftLightningType, 1, 1, 0);
+        createMetaBlock("RightLightning", CubeColor.MarbleRough, BlockType.rightLightningType, 1, 1, 0);
+        createMetaBlock("Roof", CubeColor.LapisLazuli, BlockType.roofType, 0, 0, 0);
+        createMetaBlock("LeftBoot", CubeColor.WhiteMarble, BlockType.leftBootType, 1, 1, 0);
+        createMetaBlock("RightBoot", CubeColor.Marble, BlockType.rightBootType, 0, 1, 0);
     }
 
     private Block() { this.cubes = null; }
@@ -29,11 +31,27 @@ public class Block implements Cloneable, Serializable {
     public static String[] getBlockNames() { return (String[])blocks.keySet().toArray(new String[0]); }
 
     private static void createMetaBlock(String paramString, CubeColor paramCubeColor, CubeShift[] paramArrayOfCubeShift,
-                                        float paramFloat1, float paramFloat2, float paramFloat3) {
-        blocks.put(paramString, new BlockMeta(paramCubeColor, paramArrayOfCubeShift, paramFloat1, paramFloat2, paramFloat3));
+                                        int paramInt1, int paramInt2, int paramInt3) {
+        blocks.put(paramString, new BlockMeta(paramCubeColor, paramArrayOfCubeShift, paramInt1, paramInt2, paramInt3));
     }
 
     public Cube[] getCubes() { return this.cubes; }
+    
+    public int getColor() {   // color needs to be set at Block level than cube level, for later
+        CubeColor color = cubes[0].getColor();
+        switch (color) {
+        case Brass: return 1;
+        case Anchient: return 2;
+        case Amethyst: return 3;
+        case Oak: return 4;
+        case MarbleRough: return 5;
+        case LapisLazuli: return 6;
+        case WhiteMarble: return 7;
+        case Marble: return 8;
+        case Hidden: return 9;
+        default: return (byte)0;
+        }
+    }
     
     public Block(BlockMeta paramBlockMeta) {
         CubeShift[] arrayOfCubeShift = paramBlockMeta.getShifts();

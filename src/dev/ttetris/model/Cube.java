@@ -40,7 +40,7 @@ public class Cube implements Cloneable, Comparable<Cube>, Serializable {
         return null;
     }
 
-    public void setCubeCoordinates() {
+    public void setCubeCoordinates() { // eventually may need to set size to someth different
         float [] res = {
             x-size, y-size, z-size, // 0
             x+size, y-size, z-size,  // 1

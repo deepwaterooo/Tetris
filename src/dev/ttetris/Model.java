@@ -1,5 +1,8 @@
 package dev.ttetris;
 
+import dev.ttetris.model.Cube;
+import dev.ttetris.model.Block;
+
 import android.os.Bundle;
 
 public class Model {
@@ -7,39 +10,41 @@ public class Model {
 		BEFORE_START {}, ACTIVE {}, PAUSED {}, OVER {};
 	}
 
-	public enum Move {
+	public enum Move { // supposed to change
 		LEFT, RIGHT, ROTATE, DOWN
 	}
 
 	private GameStatus gameStatus = GameStatus.BEFORE_START;
 	private static final String TAG_DATA = "data";
 	private static final String TAG_ACTIVE_BLOCK = "active-block";
-    public static final int ROW = 20;
-    public static final int COL = 10;
+    public static final int ROW = 7;
+    public static final int COL = 7;
+    public static final int HIG = 20;
 
-    public int[][] next = null;  
-    public int[][] board = null; 
+    public int[][][] next = null;  
+    public int[][][] board = null; 
     private int score;    
     public int speed;
 
     public Model() {
         score = 0;
         speed = 100;
-        next = new int[4][4];
-        board = new int[ROW][COL];
+        next = new int[4][4][4];
+        board = new int[ROW][COL][HIG];
     }
 
-    // @param x: the number of rows full and destroyed
-    public int getUpdatedScore(int x) {
-        return score += x * x * 10;
-    }
-    
     // put generated Block into Next area
     public void putNextBlock(Block b) {
-        for (int i = 0; i < 4; i++) 
-            next[b.ai[i]][b.aj[i]] = b.color;
+        Cube [] cubes = b.getCubes();
+        int n = cubes.length;
+        for (int i = 0; i < n; i++) {
+            int x = cubes[i].getX() + b.centerX;
+            int y = cubes[i].getY() + b.centerY;
+            int z = cubes[i].getZ() + b.centerZ;
+            next[x][y][z] = b.getColor();
+        }
     }
-
+    /*
     // delete Block in next area
     public void deleteNextBlock(Block c) { 
         for (int i = 0; i < 4; i++) 
@@ -165,16 +170,17 @@ public class Model {
     /**
 	 * Reset the field data:
 	 * @param true - clear only dynamic data, false - clear all the data
-	 */
-	private final void reset(boolean bDynamicDataOnly) {
+	 
+     */
+    private final void reset(boolean bDynamicDataOnly) {
 		for (int i = 0; i < ROW; i++) {
 			for (int j = 0; j < COL; j++) {
-				if (!bDynamicDataOnly || board[i][j] == 8) 
-					board[i][j] = 0;
+				//if (!bDynamicDataOnly || board[i][j] == 8) 
+				//	board[i][j] = 0;
 			}
 		}
 	}
-
+    /*
 	public void gameStart() { // Start the game:
 		if (isGameActive()) {
 			return;
@@ -233,8 +239,13 @@ public class Model {
 	public int getCellStatus(int nRow, int nCol) {
 		return board[nRow][nCol];
 	}
-
-	public void setCellStatus(int nRow, int nCol, byte nStatus) {
-		board[nRow][nCol] = nStatus;
+    */
+	public void setCellStatus(int nRow, int nCol, int nHig, byte nStatus) {
+		board[nRow][nCol][nHig] = nStatus;
 	}
+
+    // @param x: the number of rows full and destroyed
+    public int getUpdatedScore(int x) {
+        return score += x * x * 10;
+    }
 }

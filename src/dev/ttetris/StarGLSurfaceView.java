@@ -1,5 +1,7 @@
 package dev.ttetris;
 
+import dev.ttetris.model.Block;
+
 import android.content.Context;
 import android.opengl.GLSurfaceView;
 import android.view.MotionEvent;
@@ -49,6 +51,8 @@ class StarGLSurfaceView extends GLSurfaceView {
     private Model model;
     public int DELAY = 100;
 	private long lastMove = 0;
+    Block activeBlock;
+	Block nextBlock;  
 
     // 记录上次触屏位置的坐标 
     private float mPreviousX, mPreviousY; 
