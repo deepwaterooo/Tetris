@@ -1,4 +1,4 @@
-% Created 2016-04-07 Thu 17:02
+% Created 2016-04-08 Fri 16:57
 \documentclass[9pt,b5paper]{article}
 \usepackage{graphicx}
 \usepackage{xcolor}
@@ -39,6 +39,15 @@
 \begin{itemize}
 \item OpenGL 3D version status: 
 \begin{itemize}
+\item I think I understand all the theories now, but for drawing grids correctly, something are still wrong. Will work on it this weekend, and hopefully problem will be solved by coming Monday. 
+\begin{itemize}
+\item Shader can be packed into Utility, as well as MatrixState. May separate system out\ldots{}
+\item quareType works fine, but not lineType, or one cube in certer, to think where is the world center (0, 0, 0)?
+\item Translation and \& Rotation, I understand and I am clear what's about, maybe just move cube drawing method into cube
+\item Cube center should be an important concept here, and I need to add the 3 parameters back.
+\end{itemize}
+\item Once this one done, project should be left slightly easy, and will update the other "Undertable\ldots{}" repository accordingly on Monday.
+\item 
 \item Have spent two days tried to review someone else's code, but it was too complicated rather than developping my own code ( tetrisglar$_{\text{d9qpjwxc}}$.apk is included in home directory for referrencing).
 \item So from late this afternoon, working on my own codes, partially still referring to the other apk, but it's my flow-chart-ideas and implementation now.
 \item I believe I got at least some ideas for most of the basic ideas and OpenGL technical difficulties, so the implementation won't be too hard.
@@ -88,11 +97,25 @@
 \item 详解距阵变换：\url{http://www.cnblogs.com/kesalin/archive/2012/12/06/3D_math.html}
 \item \url{http://mail.cfanz.cn/index.php?c=article&a=read&id=270244}
 \item one example: \url{http://www.apkbus.com/blog-99192-39498.html}
+\item ex2 for shader matrix: \url{http://www.voidcn.com/blog/peanut__love/article/p-2891341.html}
+\item 西蒙iPhone-OpenGL ES 中文教程专题: \url{http://www.cocoachina.com/special/2010/0126/404.html}
+\item 运动： \url{http://www.cocoachina.com/bbs/read.php?tid-7601-fpage-10.html}
+\item 
+\item 距阵： \url{http://blog.csdn.net/wangdingqiaoit/article/details/39010077}
+\item \url{http://blog.csdn.net/popy007/article/details/5120158} UNV
+\item \url{http://www.tqcto.com/article/mobile/23873.html} eye
+\item \url{http://blog.csdn.net/wangdingqiaoit/article/details/39937019}
+\item 
+\item 
+\item \url{https://developer.apple.com/library/ios/documentation/3DDrawing/Conceptual/OpenGLES_ProgrammingGuide/Introduction/Introduction.html}
+\item 
+\item 
+\item 
+\item 
 \item 
 \item 
 \item 
 \end{itemize}
-
 
 \subsection{GLSurfaceView}
 \label{sec-2-2}

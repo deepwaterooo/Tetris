@@ -5,6 +5,13 @@
 
 * Better version, pretty good
 - OpenGL 3D version status: 
+  - I think I understand all the theories now, but for drawing grids correctly, something are still wrong. Will work on it this weekend, and hopefully problem will be solved by coming Monday. 
+    - Shader can be packed into Utility, as well as MatrixState. May separate system out...
+    - quareType works fine, but not lineType, or one cube in certer, to think where is the world center (0, 0, 0)?
+    - Translation and & Rotation, I understand and I am clear what's about, maybe just move cube drawing method into cube
+    - Cube center should be an important concept here, and I need to add the 3 parameters back. 
+  - Once this one done, project should be left slightly easy, and will update the other "Undertable..." repository accordingly on Monday. 
+  - 
   - Have spent two days tried to review someone else's code, but it was too complicated rather than developping my own code ( tetrisglar_d9qpjwxc.apk is included in home directory for referrencing). 
   - So from late this afternoon, working on my own codes, partially still referring to the other apk, but it's my flow-chart-ideas and implementation now. 
   - I believe I got at least some ideas for most of the basic ideas and OpenGL technical difficulties, so the implementation won't be too hard. 
@@ -51,9 +58,23 @@
 - http://mail.cfanz.cn/index.php?c=article&a=read&id=270244
 - one example: http://www.apkbus.com/blog-99192-39498.html
 - ex2 for shader matrix: http://www.voidcn.com/blog/peanut__love/article/p-2891341.html
+- 西蒙iPhone-OpenGL ES 中文教程专题: http://www.cocoachina.com/special/2010/0126/404.html
+- 运动： http://www.cocoachina.com/bbs/read.php?tid-7601-fpage-10.html
+- 
+- 距阵： http://blog.csdn.net/wangdingqiaoit/article/details/39010077
+- http://blog.csdn.net/popy007/article/details/5120158 UNV
+- http://www.tqcto.com/article/mobile/23873.html eye
+- http://blog.csdn.net/wangdingqiaoit/article/details/39937019
 - 
 - 
-
+- https://developer.apple.com/library/ios/documentation/3DDrawing/Conceptual/OpenGLES_ProgrammingGuide/Introduction/Introduction.html
+- 
+- 
+- 
+- 
+- 
+- 
+- 
 
 ** GLSurfaceView
 - opengl: http://androidblog.reindustries.com/a-real-open-gl-es-2-0-2d-tutorial-part-1/

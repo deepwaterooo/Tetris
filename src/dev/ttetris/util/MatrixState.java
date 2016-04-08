@@ -4,13 +4,15 @@ import java.nio.ByteBuffer;
 import android.opengl.Matrix;
 
 public class MatrixState  {
-	private static float[] mProjMatrix = new float[16];
+	public static float[] cameraLocation = new float[3];
 	private static float[] mVMatrix = new float[16];
+	private static float[] mProjMatrix = new float[16];
 	private static float[] currMatrix;
-	static float[] mMVPMatrix = new float[16];
-	
+	public static float[] mMVPMatrix = new float[16];
+
 	static float[][] mStack = new float[10][16];
 	static int stackTop = -1;
+	static ByteBuffer llbb = ByteBuffer.allocateDirect(3*4);
 	
 	public static void setInitStack(){
 		currMatrix = new float[16];
@@ -33,8 +35,6 @@ public class MatrixState  {
 		Matrix.translateM(currMatrix, 0, x, y, z);
 	}
 
-	static ByteBuffer llbb = ByteBuffer.allocateDirect(3*4);
-	static float[] cameraLocation = new float[3];
 	public static void setCamera(float cx,float cy, float cz,
                                  float tx, float ty, float tz,
                                  float upx,float upy, float upz) {
