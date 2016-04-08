@@ -50,7 +50,7 @@
 - 详解距阵变换：http://www.cnblogs.com/kesalin/archive/2012/12/06/3D_math.html
 - http://mail.cfanz.cn/index.php?c=article&a=read&id=270244
 - one example: http://www.apkbus.com/blog-99192-39498.html
-- 
+- ex2 for shader matrix: http://www.voidcn.com/blog/peanut__love/article/p-2891341.html
 - 
 - 
 

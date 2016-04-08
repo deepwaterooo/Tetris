@@ -23,8 +23,9 @@ class StarGLSurfaceView extends GLSurfaceView {
     private Model model;
     public int DELAY = 100;
 	private long lastMove = 0;
+    
     Block activeBlock;
-	Block nextBlock;  
+	Block nextBlock;  // keep this variable, but temporatorially NOT drawing them
 
     // 记录上次触屏位置的坐标 
     private float mPreviousX, mPreviousY; 
@@ -63,7 +64,6 @@ class StarGLSurfaceView extends GLSurfaceView {
         setRenderMode(GLSurfaceView.RENDERMODE_WHEN_DIRTY);
         mStarGLSurfaceView = this; // do I really need this one?
         setFocusableInTouchMode(true);
-        //model = new Model(7, 20, 7);
         model = new Model();
     }
     
