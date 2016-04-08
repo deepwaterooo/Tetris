@@ -17,9 +17,9 @@ public class Model {
 	private GameStatus gameStatus = GameStatus.BEFORE_START;
 	private static final String TAG_DATA = "data";
 	private static final String TAG_ACTIVE_BLOCK = "active-block";
-    public static final int ROW = 7;
-    public static final int COL = 7;
-    public static final int HIG = 20;
+    public static final int ROW = 7; // x
+    public static final int COL = 7; // z 
+    public static final int HIG = 14; // y
 
     public int[][][] next = null;  
     public int[][][] board = null; 
@@ -32,18 +32,19 @@ public class Model {
         next = new int[4][4][4];
         board = new int[ROW][COL][HIG];
     }
-
+    /*
     // put generated Block into Next area
     public void putNextBlock(Block b) {
         Cube [] cubes = b.getCubes();
         int n = cubes.length;
         for (int i = 0; i < n; i++) {
-            int x = cubes[i].getX() + b.centerX;
-            int y = cubes[i].getY() + b.centerY;
-            int z = cubes[i].getZ() + b.centerZ;
+            int x = cubes[i].getX();// + b.centerX;
+            int y = cubes[i].getY();// + b.centerY;
+            int z = cubes[i].getZ();// + b.centerZ;
             next[x][y][z] = b.getColor();
         }
     }
+    */
     /*
     // delete Block in next area
     public void deleteNextBlock(Block c) { 

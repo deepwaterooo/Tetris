@@ -4,7 +4,6 @@ import dev.ttetris.model.BlockType;
 import dev.ttetris.model.CubeColor;
 import dev.ttetris.model.Cube;
 import dev.ttetris.model.Block;
-import dev.ttetris.model.BlockMeta;
 
 import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
@@ -29,7 +28,8 @@ public class StarRenderer implements GLSurfaceView.Renderer {
     private final float[] mViewMatrix = new float[16];
     private final float[] mRotationMatrix = new float[16];
     private float mAngle;
-
+    //public RotateThread rthread;
+    
     private final String vertexShaderCode =
         "uniform mat4 uMVPMatrix;" +
         "attribute vec4 vPosition;" +
@@ -66,6 +66,7 @@ public class StarRenderer implements GLSurfaceView.Renderer {
     private static float one = 1.0f; 
 
     private Block currBlock;
+    private final float cubeSize = 0.22857f;   // supposed to set & get later
     
     public enum BlockColor {  // set in Block
 		RED(0xffff0000, (byte) 1),
@@ -105,9 +106,34 @@ public class StarRenderer implements GLSurfaceView.Renderer {
         GLES20.glAttachShader(mProgram, vertexShader);
         GLES20.glAttachShader(mProgram, fragmentShader);
         GLES20.glLinkProgram(mProgram);
-        currBlock = new Block(new BlockMeta(CubeColor.Brass, BlockType.squareType, 1, 1, 0));
+        currBlock = new Block(BlockType.squareType);
+
+        // 打开深度检测
+        GLES20.glEnable(GLES20.GL_DEPTH_TEST);
+        //rthread = new RotateThread();
+        //rthread.start();
     }
-     
+    /*
+    public class RotateThread extends Thread {
+        public boolean flag = true;
+
+        @Override
+        public void run() {
+            int count = 0;
+            while (flag && count < 14) {
+                //StarRenderer.tle.xAngle = mRenderer.tle.xAngle + ANGLE_SPAN;
+                currBlock.shiftBlock(0f, 1.37141f-0.11428f * (float)count, 0f); // doesn't seem moving
+                drawCurrBlock();
+                try {
+                    Thread.sleep(400);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                count++;
+            }
+        }
+    }
+    */
     @Override
     public void onSurfaceChanged(GL10 gl, int w, int h) {
         GLES20.glViewport(0, 0, w, h);           //设置视窗
@@ -123,14 +149,22 @@ public class StarRenderer implements GLSurfaceView.Renderer {
         //Matrix.setLookAtM(mViewMatrix, 0, 4.9f, 0f, -2.0f, 0f, 0f, 0f, 0f, 1.0f, 0.0f); // this direction is good相反
         Matrix.setLookAtM(mViewMatrix, 0, 4.2f, 2.2f, 2.0f, 0f, 0f, 0f, 0f, 1.0f, 0.0f); // good
         // 合并投影和视口矩阵 Calculate the projection and view transformation
-        Matrix.multiplyMM(mMVPMatrix, 0, mProjectionMatrix, 0, mViewMatrix, 0);
+        Matrix.multiplyMM(mMVPMatrix, 0, mProjectionMatrix, 0, mViewMatrix, 0); 
         GLES20.glUseProgram(mProgram);
         drawGameFrame();
 
-        // for draw currBlock
+        //drawCurrBlock();
         Cube [] cubes = currBlock.getCubes();
-        for (int i = 0; i < 4; i++) {
-            float squareCoords [] = cubes[i].getCubeCoordinates();
+        for (int j = 0; j < 4; j++) {
+            float squareCoords [] = cubes[j].getCubeCoordinates();
+            for (int i = 0; i < 24; i++) {
+                squareCoords[i] *= 0.11428f;
+                //squareCoords[i] *= 0.22857f;
+                if (i % 3 == 1)
+                    //squareCoords[i] += 1.6f;
+                    squareCoords[i] += -0.8f;
+                else squareCoords[i] += 0.11428f;
+            }
             ByteBuffer vbb = ByteBuffer.allocateDirect(squareCoords.length * 4); 
             vbb.order(ByteOrder.nativeOrder());  // use the device hardware's native byte order
             vertexBuffer = vbb.asFloatBuffer();  // create a floating point buffer from the ByteBuffer
@@ -147,40 +181,89 @@ public class StarRenderer implements GLSurfaceView.Renderer {
             mColorBuffer.put(color);
             mColorBuffer.position(0);
 
-            //drawLineLoop();
+            //drawLineLoop(); // drawOrder for cubes
             mPositionHandle = GLES20.glGetAttribLocation(mProgram, "vPosition");
             GLES20.glEnableVertexAttribArray(mPositionHandle);
             GLES20.glVertexAttribPointer(mPositionHandle, COORDS_PER_VERTEX, GLES20.GL_FLOAT, false, VERTEX_STRIDE, vertexBuffer);
             GLES20.glEnableVertexAttribArray(mColorHandle);
             GLES20.glVertexAttribPointer(mColorHandle, 4, GLES20.GL_FLOAT, false, 4, mColorBuffer);
+
             mMVPMatrixHandle = GLES20.glGetUniformLocation(mProgram, "uMVPMatrix");
             StarRenderer.checkGlError("glGetUniformLocation");
             GLES20.glUniformMatrix4fv(mMVPMatrixHandle, 1, false, mMVPMatrix, 0);
             StarRenderer.checkGlError("glUniformMatrix4fv");
+
             GLES20.glLineWidth(5.0f);
             GLES20.glDrawElements(GLES20.GL_LINE_LOOP, drawOrder.length, GLES20.GL_UNSIGNED_SHORT, drawListBuffer);
             GLES20.glDisableVertexAttribArray(mPositionHandle);
             GLES20.glDisableVertexAttribArray(mColorHandle);
-            
-            } 
+        }
     }
+        /*
+    public void drawCurrBlock() {
+        //currBlock.shiftBlock(0f, -0.11428f, 0f); // this method does NOT work
+        
+        Cube [] cubes = currBlock.getCubes();
+        for (int j = 0; j < 4; j++) {
+            float squareCoords [] = cubes[j].getCubeCoordinates();
+            for (int i = 0; i < 24; i++) {
+                squareCoords[i] *= 0.11428f;
+                if (i % 3 == 1)
+                    //squareCoords[i] += 1.6f;
+                    squareCoords[i] += -0.8f;
+                else squareCoords[i] += 0.11428f;
+            }
+            ByteBuffer vbb = ByteBuffer.allocateDirect(squareCoords.length * 4); 
+            vbb.order(ByteOrder.nativeOrder());  // use the device hardware's native byte order
+            vertexBuffer = vbb.asFloatBuffer();  // create a floating point buffer from the ByteBuffer
+            vertexBuffer.put(squareCoords);      // add the coordinates to the FloatBuffer
+            vertexBuffer.position(0);            // set the buffer to read the first coordinate
+            ByteBuffer dlb = ByteBuffer.allocateDirect(drawOrder.length * 2);
+            dlb.order(ByteOrder.nativeOrder());
+            drawListBuffer = dlb.asShortBuffer();
+            drawListBuffer.put(drawOrder);
+            drawListBuffer.position(0);
+            ByteBuffer byteBuffer = ByteBuffer.allocateDirect(color.length * 4);
+            byteBuffer.order(ByteOrder.nativeOrder());
+            mColorBuffer = byteBuffer.asFloatBuffer();
+            mColorBuffer.put(color);
+            mColorBuffer.position(0);
 
+            //drawLineLoop(); // drawOrder for cubes
+            mPositionHandle = GLES20.glGetAttribLocation(mProgram, "vPosition");
+            GLES20.glEnableVertexAttribArray(mPositionHandle);
+            GLES20.glVertexAttribPointer(mPositionHandle, COORDS_PER_VERTEX, GLES20.GL_FLOAT, false, VERTEX_STRIDE, vertexBuffer);
+            GLES20.glEnableVertexAttribArray(mColorHandle);
+            GLES20.glVertexAttribPointer(mColorHandle, 4, GLES20.GL_FLOAT, false, 4, mColorBuffer);
+
+            mMVPMatrixHandle = GLES20.glGetUniformLocation(mProgram, "uMVPMatrix");
+            StarRenderer.checkGlError("glGetUniformLocation");
+            GLES20.glUniformMatrix4fv(mMVPMatrixHandle, 1, false, mMVPMatrix, 0);
+            StarRenderer.checkGlError("glUniformMatrix4fv");
+
+            GLES20.glLineWidth(5.0f);
+            GLES20.glDrawElements(GLES20.GL_LINE_LOOP, drawOrder.length, GLES20.GL_UNSIGNED_SHORT, drawListBuffer);
+            GLES20.glDisableVertexAttribArray(mPositionHandle);
+            GLES20.glDisableVertexAttribArray(mColorHandle);
+        } 
+    }
+        */
     private void drawGameFrame() {
-        float squareCoords [] = {
-            -0.8f, -0.98f, -0.8f,  0.8f, -0.98f, -0.8f,  0.8f, 0.98f, -0.8f,  -0.8f, 0.98f, -0.8f,  // for four surfaces
-            -0.8f, -0.98f, 0.8f,  0.8f, -0.98f, 0.8f,  0.8f, 0.98f, 0.8f, -0.8f, 0.98f, 0.8f,
-            -0.57143f, -0.98f, -0.8f, -0.57143f,  -0.98f, 0.8f,
-            -0.34286f,  -0.98f, -0.8f, -0.34286f,  -0.98f, 0.8f, 
-            -0.11428f, -0.98f, -0.8f, -0.11428f, -0.98f, 0.8f,
-            0.11429f, -0.98f, -0.8f, 0.11429f, -0.98f, 0.8f,
-            0.34286f,  -0.98f, -0.8f, 0.34286f,  -0.98f, 0.8f, 
-            0.57143f, -0.98f, -0.8f, 0.57143f,  -0.98f, 0.8f,
-            -0.8f, -0.98f, -0.57143f, 0.8f, -0.98f, -0.57143f,
-            -0.8f, -0.98f, -0.34286f, 0.8f, -0.98f, -0.34286f,
-            -0.8f, -0.98f, -0.11428f, 0.8f, -0.98f, -0.11428f,
-            -0.8f, -0.98f, 0.11429f, 0.8f, -0.98f, 0.11429f,
-            -0.8f, -0.98f, 0.34286f, 0.8f, -0.98f, 0.34286f,
-            -0.8f, -0.98f, 0.57143f, 0.8f, -0.98f, 0.57143f};
+        float squareCoords [] = { // 0.98 -> 0.9143 for 8 grids
+            -0.8f, -1.028565f, -0.8f,  0.8f, -1.028565f, -0.8f,  0.8f, 1.028565f, -0.8f,  -0.8f, 1.028565f, -0.8f,  // for four surfaces
+            -0.8f, -1.028565f, 0.8f,  0.8f, -1.028565f, 0.8f,  0.8f, 1.028565f, 0.8f, -0.8f, 1.028565f, 0.8f,
+            -0.57143f, -1.028565f, -0.8f, -0.57143f,  -1.028565f, 0.8f,
+            -0.34286f,  -1.028565f, -0.8f, -0.34286f,  -1.028565f, 0.8f, 
+            -0.11428f, -1.028565f, -0.8f, -0.11428f, -1.028565f, 0.8f,
+            0.11429f, -1.028565f, -0.8f, 0.11429f, -1.028565f, 0.8f,
+            0.34286f,  -1.028565f, -0.8f, 0.34286f,  -1.028565f, 0.8f, 
+            0.57143f, -1.028565f, -0.8f, 0.57143f,  -1.028565f, 0.8f,
+            -0.8f, -1.028565f, -0.57143f, 0.8f, -1.028565f, -0.57143f,
+            -0.8f, -1.028565f, -0.34286f, 0.8f, -1.028565f, -0.34286f,
+            -0.8f, -1.028565f, -0.11428f, 0.8f, -1.028565f, -0.11428f,
+            -0.8f, -1.028565f, 0.11429f, 0.8f, -1.028565f, 0.11429f,
+            -0.8f, -1.028565f, 0.34286f, 0.8f, -1.028565f, 0.34286f,
+            -0.8f, -1.028565f, 0.57143f, 0.8f, -1.028565f, 0.57143f};
         
         ByteBuffer vbb = ByteBuffer.allocateDirect(squareCoords.length * 4); 
         vbb.order(ByteOrder.nativeOrder());  // use the device hardware's native byte order

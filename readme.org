@@ -10,9 +10,9 @@
   - I believe I got at least some ideas for most of the basic ideas and OpenGL technical difficulties, so the implementation won't be too hard. 
   - game layout structure: 
 
-[[./Screenshot_2016-04-07-11-58-28.png]]
+  [[./Screenshot_2016-04-07-11-58-28.png]]
+- most challenge part for tonight, matrix translations & rotations....will continue work on it tonight
 
-- 
 - a video for this Tetris game can be directly watched at https://www.youtube.com/watch?v=Ht4NOrEUtFk
 - A video for the previous DrawingFun Android App can be watched at https://www.youtube.com/watch?v=YV78Tk5--5M , or by searching *deepwaterooo Wang*. 
 - 
@@ -46,6 +46,11 @@
 - http://stackoverflow.com/questions/9217702/open-gl-es-2-0-drawing-a-simple-line
 - 距阵变换： http://www.cnblogs.com/caster99/p/4780984.html
 - http://www.flakor.cn/2014-05-15-384.html
+- shader util: http://blog.csdn.net/shulianghan/article/details/17020359
+- 详解距阵变换：http://www.cnblogs.com/kesalin/archive/2012/12/06/3D_math.html
+- http://mail.cfanz.cn/index.php?c=article&a=read&id=270244
+- one example: http://www.apkbus.com/blog-99192-39498.html
+- 
 - 
 - 
 

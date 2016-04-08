@@ -1,62 +1,64 @@
 package dev.ttetris.model;
 
+import dev.ttetris.model.Cube;
+
 public final class BlockType {
-    public static final CubeShift[] leftBootType;
-    public static final CubeShift[] leftLightningType;
-    public static final CubeShift[] lineType;
-    public static final CubeShift[] rightBootType;
-    public static final CubeShift[] rightLightningType;
-    public static final CubeShift[] roofType;
-    public static final CubeShift[] squareType;
+    public static final Cube[] leftBootType;
+    public static final Cube[] leftLightningType;
+    public static final Cube[] lineType;
+    public static final Cube[] rightBootType;
+    public static final Cube[] rightLightningType;
+    public static final Cube[] roofType;
+    public static final Cube[] squareType;
 
     static {
-        CubeShift[] arrayOfCubeShift1 = new CubeShift[4];
-        arrayOfCubeShift1[0] = new CubeShift(0, 0, 0);
-        arrayOfCubeShift1[1] = new CubeShift(0, 1, 0);
-        arrayOfCubeShift1[2] = new CubeShift(1, 0, 0);
-        arrayOfCubeShift1[3] = new CubeShift(1, 1, 0);
-        squareType = arrayOfCubeShift1; // Ìï
+        Cube[] arrayOfCube1 = new Cube[4];
+        arrayOfCube1[0] = new Cube(1, 1, -1, 0, -1);
+        arrayOfCube1[1] = new Cube(1, 1, -1, 0, 1);
+        arrayOfCube1[2] = new Cube(1, 1, 1, 0, 1);
+        arrayOfCube1[3] = new Cube(1, 1, 1, 0, -1);
+        squareType = arrayOfCube1; // Ìï, red
         
-        CubeShift[] arrayOfCubeShift2 = new CubeShift[4];
-        arrayOfCubeShift2[0] = new CubeShift(0, 0, 0);
-        arrayOfCubeShift2[1] = new CubeShift(0, 1, 0);
-        arrayOfCubeShift2[2] = new CubeShift(0, 2, 0);
-        arrayOfCubeShift2[3] = new CubeShift(0, 3, 0);
-        lineType = arrayOfCubeShift2;   // I
+        Cube[] arrayOfCube2 = new Cube[4];
+        arrayOfCube2[0] = new Cube(2, 1, 0, 0, 0);
+        arrayOfCube2[1] = new Cube(2, 1, 0, 0, 1);
+        arrayOfCube2[2] = new Cube(2, 1, 0, 0, 2);
+        arrayOfCube2[3] = new Cube(2, 1, 0, 0, 3);
+        lineType = arrayOfCube2;   // I, green
         
-        CubeShift[] arrayOfCubeShift3 = new CubeShift[4];
-        arrayOfCubeShift3[0] = new CubeShift(0, 0, 0);
-        arrayOfCubeShift3[1] = new CubeShift(0, 1, 0);
-        arrayOfCubeShift3[2] = new CubeShift(1, 1, 0);
-        arrayOfCubeShift3[3] = new CubeShift(1, 2, 0);
-        leftLightningType = arrayOfCubeShift3;
+        Cube[] arrayOfCube3 = new Cube[4];
+        arrayOfCube3[0] = new Cube(3, 1, 0, 0, 0);
+        arrayOfCube3[1] = new Cube(3, 1, 0, 0, 1);
+        arrayOfCube3[2] = new Cube(3, 1, 1, 0, 1);
+        arrayOfCube3[3] = new Cube(3, 1, 1, 0, 2);
+        leftLightningType = arrayOfCube3; // 3
         
-        CubeShift[] arrayOfCubeShift4 = new CubeShift[4];
-        arrayOfCubeShift4[0] = new CubeShift(1, 0, 0);
-        arrayOfCubeShift4[1] = new CubeShift(1, 1, 0);
-        arrayOfCubeShift4[2] = new CubeShift(0, 1, 0);
-        arrayOfCubeShift4[3] = new CubeShift(0, 2, 0);
-        rightLightningType = arrayOfCubeShift4;
+        Cube[] arrayOfCube4 = new Cube[4];
+        arrayOfCube4[0] = new Cube(4, 1, 1, 0, 0);
+        arrayOfCube4[1] = new Cube(4, 1, 1, 0, 1);
+        arrayOfCube4[2] = new Cube(4, 1, 0, 0, 1);
+        arrayOfCube4[3] = new Cube(4, 1, 0, 0, 2);
+        rightLightningType = arrayOfCube4;
         
-        CubeShift[] arrayOfCubeShift5 = new CubeShift[4];
-        arrayOfCubeShift5[0] = new CubeShift(0, 0, 0);
-        arrayOfCubeShift5[1] = new CubeShift(-1, 0, 0);
-        arrayOfCubeShift5[2] = new CubeShift(1, 0, 0);
-        arrayOfCubeShift5[3] = new CubeShift(0, 1, 0);
-        roofType = arrayOfCubeShift5;
+        Cube[] arrayOfCube5 = new Cube[4];
+        arrayOfCube5[0] = new Cube(5, 1, 0, 0, 0);
+        arrayOfCube5[1] = new Cube(5, 1, -1, 0, 0);
+        arrayOfCube5[2] = new Cube(5, 1, 1, 0, 0);
+        arrayOfCube5[3] = new Cube(5, 1, 0, 0, 1);
+        roofType = arrayOfCube5;
         
-        CubeShift[] arrayOfCubeShift6 = new CubeShift[4];
-        arrayOfCubeShift6[0] = new CubeShift(0, 0, 0);
-        arrayOfCubeShift6[1] = new CubeShift(1, 0, 0);
-        arrayOfCubeShift6[2] = new CubeShift(1, 1, 0);
-        arrayOfCubeShift6[3] = new CubeShift(1, 2, 0);
-        leftBootType = arrayOfCubeShift6;
+        Cube[] arrayOfCube6 = new Cube[4];
+        arrayOfCube6[0] = new Cube(6, 1, 0, 0, 0);
+        arrayOfCube6[1] = new Cube(6, 1, 1, 0, 0);
+        arrayOfCube6[2] = new Cube(6, 1, 1, 0, 1);
+        arrayOfCube6[3] = new Cube(6, 1, 1, 0, 2);
+        leftBootType = arrayOfCube6;
         
-        CubeShift[] arrayOfCubeShift7 = new CubeShift[4];
-        arrayOfCubeShift7[0] = new CubeShift(1, 0, 0);
-        arrayOfCubeShift7[1] = new CubeShift(0, 0, 0);
-        arrayOfCubeShift7[2] = new CubeShift(0, 1, 0);
-        arrayOfCubeShift7[3] = new CubeShift(0, 2, 0);
-        rightBootType = arrayOfCubeShift7;
+        Cube[] arrayOfCube7 = new Cube[4];
+        arrayOfCube7[0] = new Cube(7, 1, 1, 0, 0);
+        arrayOfCube7[1] = new Cube(7, 1, 0, 0, 0);
+        arrayOfCube7[2] = new Cube(7, 1, 0, 0, 1);
+        arrayOfCube7[3] = new Cube(7, 1, 0, 0, 2);
+        rightBootType = arrayOfCube7;
     }
 }
