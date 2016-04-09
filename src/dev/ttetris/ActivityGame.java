@@ -1,6 +1,6 @@
 package dev.ttetris;
 
-import dev.ttetris.Model;
+import dev.ttetris.model.Model;
 
 import android.os.Bundle;
 import android.app.Activity;

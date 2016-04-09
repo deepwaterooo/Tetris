@@ -1,4 +1,4 @@
-package dev.ttetris;
+package dev.ttetris.model;
 
 import dev.ttetris.model.Cube;
 import dev.ttetris.model.Block;

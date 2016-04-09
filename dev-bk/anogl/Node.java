@@ -132,7 +132,8 @@ public class Node {
     }
 
     public void setRotation(Quaternion paramQuaternion, float paramFloat) {
-        if ((Math.abs(this.rotation.w - paramQuaternion.w) > paramFloat) || (Math.abs(this.rotation.x - paramQuaternion.x) > paramFloat) || (Math.abs(this.rotation.y - paramQuaternion.y) > paramFloat) || (Math.abs(this.rotation.z - paramQuaternion.z) > paramFloat)) {
+        if ((Math.abs(this.rotation.w - paramQuaternion.w) > paramFloat) || (Math.abs(this.rotation.x - paramQuaternion.x) > paramFloat)
+            || (Math.abs(this.rotation.y - paramQuaternion.y) > paramFloat) || (Math.abs(this.rotation.z - paramQuaternion.z) > paramFloat)) {
             this.rotation = paramQuaternion;
             this.dirty = true;
         }

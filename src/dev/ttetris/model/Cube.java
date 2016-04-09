@@ -1,9 +1,36 @@
 package dev.ttetris.model;
 
+import dev.ttetris.StarGLSurfaceView;
+import dev.ttetris.util.MatrixState;
+import dev.ttetris.util.Shader;
+
 import java.io.Serializable;
+import java.nio.ByteBuffer;
+import java.nio.ShortBuffer;
+import java.nio.ByteOrder;
+import java.nio.FloatBuffer;
+import android.opengl.GLES20;
+import android.opengl.Matrix;
 
 public class Cube implements Cloneable, Comparable<Cube>, Serializable {
     private static final long serialVersionUID = 6144113039836213006L;
+    private static final int COORDS_PER_VERTEX = 3;
+    private static final int VALUES_PER_COLOR = 4;
+    private final int VERTEX_STRIDE = COORDS_PER_VERTEX * 4;
+    private final int COLOR_STRIDE = VALUES_PER_COLOR * 4;
+    private ShortBuffer drawListBuffer;
+
+	int mProgram;
+	int mMVPMatrixHandle;
+	int mPositionHandle;
+	int mColorHandle;
+	String mVertexShader;
+	String mFragmentShader;
+    
+	FloatBuffer mVertexBuffer;
+	FloatBuffer mColorBuffer;
+    static float[] mMMatrix = new float[16];// 具体物体的移动旋转矩阵，旋转、平移
+
     private int color; 
     private float size;
     private float [] coords;
@@ -21,6 +48,19 @@ public class Cube implements Cloneable, Comparable<Cube>, Serializable {
         setCubeCoordinates();
     }
 
+    public Cube(StarGLSurfaceView mv, int paramCubeColor, float size, int paramInt1, int paramInt2, int paramInt3) {
+        this.color = paramCubeColor;
+        this.size = size;
+        this.x = paramInt1;
+        this.y = paramInt2;
+        this.z = paramInt3;
+        coords = new float[24];
+        setCubeCoordinates();
+        //this = res.clone();
+        initVertexData();
+        initShader(mv);
+    }
+    
     public Cube clone() {
         try {
             Cube localCube = (Cube)super.clone();
@@ -29,6 +69,80 @@ public class Cube implements Cloneable, Comparable<Cube>, Serializable {
         }
         return null;
     }
+
+    private static final float cubeColor[] = {1.0f, 1.0f, 1.0f, 1.0f};
+    private static final short drawOrder[] = { // for cubes
+        0, 1, 2, 3, 0, 4, 5, 1,
+        1, 2, 6, 5, 5, 6, 7, 4,
+        7, 6, 2, 3, 3, 7, 4, 0};
+    
+    private void initVertexData() {
+        ByteBuffer vbb = ByteBuffer.allocateDirect(coords.length*4);
+		vbb.order(ByteOrder.nativeOrder());
+		mVertexBuffer = vbb.asFloatBuffer();
+		mVertexBuffer.put(coords);
+		mVertexBuffer.position(0);
+
+        ByteBuffer dlb = ByteBuffer.allocateDirect(drawOrder.length * 2);
+        dlb.order(ByteOrder.nativeOrder());
+        drawListBuffer = dlb.asShortBuffer();
+        drawListBuffer.put(drawOrder);
+        drawListBuffer.position(0);
+
+		ByteBuffer cbb = ByteBuffer.allocateDirect(cubeColor.length*4);
+		cbb.order(ByteOrder.nativeOrder());
+		mColorBuffer = cbb.asFloatBuffer();
+		mColorBuffer.put(cubeColor);
+		mColorBuffer.position(0);
+    }
+    
+    public void initShader(StarGLSurfaceView mv){
+		mVertexShader = Shader.loadFromAssetsFile("vertex.sh", mv.getResources());
+		mFragmentShader = Shader.loadFromAssetsFile("frag.sh", mv.getResources());		
+		mProgram = Shader.createProgram(mVertexShader, mFragmentShader);
+		
+		mPositionHandle = GLES20.glGetAttribLocation(mProgram, "aPosition");
+		mColorHandle = GLES20.glGetAttribLocation(mProgram, "aColor");
+		mMVPMatrixHandle = GLES20.glGetUniformLocation(mProgram, "uMVPMatrix");
+	}
+
+	public static float[] mVMatrix = new float[16];
+	public static float[] mProjMatrix = new float[16];
+	public static float[] mMVPMatrix = new float[16];
+    
+	public void drawSelf(){
+		GLES20.glUseProgram(mProgram);
+
+		// 初始化变换矩阵
+		Matrix.setRotateM(mMMatrix, 0, 0, 0, 1, 0);
+		// 设置沿Z轴正向位移1
+		Matrix.translateM(mMMatrix, 0, -4.2f, -2.2f, -2.0f);
+
+        // 应用投影和视口变换
+        GLES20.glUniformMatrix4fv(mMVPMatrixHandle, 1, false, MatrixState.getFinalMatrix(), 0);
+        //GLES20.glUniformMatrix4fv(mMVPMatrixHandle, 1, false, Cube.getFinalMatrix(mMMatrix), 0);
+
+        GLES20.glVertexAttribPointer(mPositionHandle, COORDS_PER_VERTEX, GLES20.GL_FLOAT, false, VERTEX_STRIDE, mVertexBuffer);
+        GLES20.glVertexAttribPointer(mColorHandle, 4, GLES20.GL_FLOAT, false, 4, mColorBuffer);
+        GLES20.glEnableVertexAttribArray(mPositionHandle);
+        GLES20.glEnableVertexAttribArray(mColorHandle);
+        /*
+        // 获得形状的变换矩阵的handle
+        mMVPMatrixHandle = GLES20.glGetUniformLocation(mProgram, "uMVPMatrix");
+        */
+        GLES20.glLineWidth(3.0f);
+        GLES20.glDrawElements(GLES20.GL_LINE_LOOP, drawOrder.length, GLES20.GL_UNSIGNED_SHORT, drawListBuffer);
+
+        /*
+		GLES20.glUseProgram(mProgram);
+		GLES20.glUniformMatrix4fv(muMVPMatrixHandle, 1, false, MatrixState.getFinalMatrix(),0);
+		GLES20.glVertexAttribPointer(mPositionHandle,3,GLES20.GL_FLOAT, false,3*4, mVertexBuffer);
+		GLES20.glVertexAttribPointer(mColorHandle, 4, GLES20.GL_FLOAT, false, 4*4, mColorBuffer);
+		GLES20.glEnableVertexAttribArray(mPositionHandle);
+		GLES20.glEnableVertexAttribArray(mColorHandle);
+		GLES20.glDrawArrays(GLES20.GL_TRIANGLES,0,vCount);
+		*/
+	}
 
     public void setCubeCoordinates() { 
         float [] res = {
@@ -64,4 +178,12 @@ public class Cube implements Cloneable, Comparable<Cube>, Serializable {
     public void setSize(float size) {
         this.size = size;
         } */
+    
+	public static float[] getFinalMatrix(float[] spec) {
+		mMVPMatrix = new float[16];
+		Matrix.multiplyMM(mMVPMatrix, 0, mVMatrix, 0, spec, 0);
+		Matrix.multiplyMM(mMVPMatrix, 0, mProjMatrix, 0, mMVPMatrix, 0);
+		return mMVPMatrix;
+	}
+    
 }
