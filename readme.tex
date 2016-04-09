@@ -1,4 +1,4 @@
-% Created 2016-04-08 Fri 16:57
+% Created 2016-04-08 Fri 17:17
 \documentclass[9pt,b5paper]{article}
 \usepackage{graphicx}
 \usepackage{xcolor}
@@ -39,8 +39,22 @@
 \begin{itemize}
 \item OpenGL 3D version status: 
 \begin{itemize}
-\item I think I understand all the theories now, but for drawing grids correctly, something are still wrong. Will work on it this weekend, and hopefully problem will be solved by coming Monday. 
+\item I think I understand all the theories now, but for drawing grids correctly, something are still wrong. Will work on it this weekend, and problem will be solved by coming Monday. Checkpoints include:
 \begin{itemize}
+\item Move shader and drawing back to Cube, my flow of drawing direction is inverted. I could write and get my own UNV R$^{\text{T}}$ matrix and translation matrix (though it's just a wrapper from OpengGL api functions) by calculating from setLookAtM function parameters, I believe this matrix should NOT multiply on my translated \& scaled coordinates. (model translate ==> model rotate ==> V * ModelTransRotate result ==> P * V * M, left multiply for opengl matrix)
+\item the later several parameters.
+
+\lstset{language=java,label= ,caption= ,numbers=none}
+\begin{lstlisting}
+Matrix.frustumM(mProjectionMatrix, 0, -ratio, ratio, -1, 1, 3, 7);
+\end{lstlisting}
+\item check each cube center compares against world center.
+\item check eye position for translation: 
+
+\lstset{language=java,label= ,caption= ,numbers=none}
+\begin{lstlisting}
+Matrix.setLookAtM(mViewMatrix, 0, 4.2f, 2.2f, 2.0f, 0f, 0f, 0f, 0f, 1.0f, 0.0f); // good
+\end{lstlisting}
 \item Shader can be packed into Utility, as well as MatrixState. May separate system out\ldots{}
 \item quareType works fine, but not lineType, or one cube in certer, to think where is the world center (0, 0, 0)?
 \item Translation and \& Rotation, I understand and I am clear what's about, maybe just move cube drawing method into cube
