@@ -31,36 +31,41 @@ public class Cube implements Cloneable, Comparable<Cube>, Serializable {
 	FloatBuffer mColorBuffer;
     static float[] mMMatrix = new float[16];// 具体物体的移动旋转矩阵，旋转、平移
 
-    private int color; 
-    private float size;
+    private CubeColor color; 
     private float [] coords;
-    private float x;
-    private float y;
-    private float z;
+    private int x;
+    private int y;
+    private int z;
+    private int rx;
+    private int ry;
+    private int rz;
+     
+    public Cube(CubeColor paramCubeColor, int paramInt1, int paramInt2, int paramInt3) {
+        this(paramCubeColor, paramInt1, paramInt2, paramInt3, 0, 0, 0);
+    }
 
-    public Cube(int paramCubeColor, float size, int paramInt1, int paramInt2, int paramInt3) {
+    public Cube(CubeColor paramCubeColor, int paramInt1, int paramInt2, int paramInt3,
+                int paramInt4, int paramInt5, int paramInt6) {
         this.color = paramCubeColor;
-        this.size = size;
         this.x = paramInt1;
         this.y = paramInt2;
         this.z = paramInt3;
-        coords = new float[24];
-        setCubeCoordinates();
+        this.rx = paramInt4;
+        this.ry = paramInt5;
+        this.rz = paramInt6;
     }
-
-    public Cube(StarGLSurfaceView mv, int paramCubeColor, float size, int paramInt1, int paramInt2, int paramInt3) {
+    /*
+    public Cube(StarGLSurfaceView mv, float size, int paramInt1, int paramInt2, int paramInt3,
+                int paramInt4, int paramInt5, int paramInt6) {
         this.color = paramCubeColor;
-        this.size = size;
         this.x = paramInt1;
         this.y = paramInt2;
         this.z = paramInt3;
-        coords = new float[24];
-        setCubeCoordinates();
-        //this = res.clone();
-        initVertexData();
-        initShader(mv);
+        this.rx = paramInt4;
+        this.ry = paramInt5;
+        this.rz = paramInt6;
     }
-    
+    */
     public Cube clone() {
         try {
             Cube localCube = (Cube)super.clone();
@@ -69,7 +74,49 @@ public class Cube implements Cloneable, Comparable<Cube>, Serializable {
         }
         return null;
     }
+    /*
+    public void setCubeCoordinates() { 
+        float [] res = {
+            x-size, y-size, z-size, // 0
+            x+size, y-size, z-size,  // 1
+            x+size, y+size, z-size,   // 2
+            x-size, y+size, z-size,  // 3
+            x-size, y-size, z+size,  // 4
+            x+size, y-size, z+size,   // 5
+            x+size, y+size, z+size,    // 6
+            x-size, y+size, z+size    // 7
+        };
+        coords = res;
+    }
+    
+    public float[] getCubeCoordinates() {
+        return coords;
+    }
+    */
+    public int compareTo(Cube paramCube) {  // don't think this method is complete
+        return Math.abs(this.x - paramCube.x) < 0.00000001f ? 1 : 0;
+    }
 
+    public CubeColor getColor() { return this.color; }
+    public void setX(int paramInt) { this.x = paramInt; }
+    public void setY(int paramInt) { this.y = paramInt; }
+    public void setZ(int paramInt) { this.z = paramInt; }
+    public int getX() { return this.x; }
+    public int getY() { return this.y; }
+    public int getZ() { return this.z; }
+
+    public void setRx(int paramInt) { this.rx = paramInt; }
+    public void setRy(int paramInt) { this.ry = paramInt; }
+    public void setRz(int paramInt) { this.rz = paramInt; }
+    public int getRx() { return this.rx; }
+    public int getRy() { return this.ry; }
+    public int getRz() { return this.rz; }
+
+    /*
+    public void setSize(float size) {
+        this.size = size;
+        } */
+    
     private static final float cubeColor[] = {1.0f, 1.0f, 1.0f, 1.0f};
     private static final short drawOrder[] = { // for cubes
         0, 1, 2, 3, 0, 4, 5, 1,
@@ -95,7 +142,7 @@ public class Cube implements Cloneable, Comparable<Cube>, Serializable {
 		mColorBuffer.put(cubeColor);
 		mColorBuffer.position(0);
     }
-    
+    /*    
     public void initShader(StarGLSurfaceView mv){
 		mVertexShader = Shader.loadFromAssetsFile("vertex.sh", mv.getResources());
 		mFragmentShader = Shader.loadFromAssetsFile("frag.sh", mv.getResources());		
@@ -105,7 +152,7 @@ public class Cube implements Cloneable, Comparable<Cube>, Serializable {
 		mColorHandle = GLES20.glGetAttribLocation(mProgram, "aColor");
 		mMVPMatrixHandle = GLES20.glGetUniformLocation(mProgram, "uMVPMatrix");
 	}
-
+    */
 	public static float[] mVMatrix = new float[16];
 	public static float[] mProjMatrix = new float[16];
 	public static float[] mMVPMatrix = new float[16];
@@ -144,41 +191,6 @@ public class Cube implements Cloneable, Comparable<Cube>, Serializable {
 		*/
 	}
 
-    public void setCubeCoordinates() { 
-        float [] res = {
-            x-size, y-size, z-size, // 0
-            x+size, y-size, z-size,  // 1
-            x+size, y+size, z-size,   // 2
-            x-size, y+size, z-size,  // 3
-            x-size, y-size, z+size,  // 4
-            x+size, y-size, z+size,   // 5
-            x+size, y+size, z+size,    // 6
-            x-size, y+size, z+size    // 7
-        };
-        coords = res;
-    }
-    
-    public float[] getCubeCoordinates() {
-        return coords;
-    }
-
-    public int compareTo(Cube paramCube) {
-        return Math.abs(this.x - paramCube.x) < 0.00000001f ? 1 : 0;
-    }
-
-    public int getColor() { return this.color; }
-    public void setX(float paramFloat) { this.x = paramFloat; }
-    public void setY(float paramFloat) { this.y = paramFloat; }
-    public void setZ(float paramFloat) { this.z = paramFloat; }
-    public float getX() { return this.x; }
-    public float getY() { return this.y; }
-    public float getZ() { return this.z; }
-
-    /*
-    public void setSize(float size) {
-        this.size = size;
-        } */
-    
 	public static float[] getFinalMatrix(float[] spec) {
 		mMVPMatrix = new float[16];
 		Matrix.multiplyMM(mMVPMatrix, 0, mVMatrix, 0, spec, 0);

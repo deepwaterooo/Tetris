@@ -1,6 +1,6 @@
 package dev.ttetris;
 
-import dev.ttetris.model.Model;
+import dev.ttetris.model.Board;
 
 import android.os.Bundle;
 import android.app.Activity;
@@ -25,7 +25,7 @@ import android.view.WindowManager;
 public class ActivityGame extends Activity {
     private StarGLSurfaceView view;
     //private Model model = new Model(7, 20, 7);
-    private Model model = new Model();
+    private Board model = new Board();
     private boolean flag = false;
     private int counter = 0;
     private int score;
@@ -49,7 +49,7 @@ public class ActivityGame extends Activity {
         view = new StarGLSurfaceView(this);
         setContentView(view); // ?
 
-		view.setModel(model);
+		view.setBoard(model);
 		view.setActivity(this);
         
 		// Restore the state:

@@ -2,7 +2,7 @@ package dev.ttetris;
 
 import dev.ttetris.model.Cube;
 import dev.ttetris.model.Block;
-import dev.ttetris.model.Model;
+import dev.ttetris.model.Board;
 
 import android.content.Context;
 import android.opengl.GLSurfaceView;
@@ -16,7 +16,7 @@ import dev.ttetris.model.BlockType;
 import dev.ttetris.model.CubeColor;
 import dev.ttetris.model.Cube;
 import dev.ttetris.model.Block;
-import dev.ttetris.model.Model;
+import dev.ttetris.model.Board;
 import dev.ttetris.util.MatrixState;
 
 import javax.microedition.khronos.egl.EGLConfig;
@@ -46,7 +46,7 @@ public class StarGLSurfaceView extends GLSurfaceView {
     private static Handler sHandler; // do I need a handler?
 
 	private ActivityGame activity;
-    private Model model;
+    private Board model;
     public int DELAY = 100;
 	private long lastMove = 0;
     
@@ -90,7 +90,7 @@ public class StarGLSurfaceView extends GLSurfaceView {
         setRenderMode(GLSurfaceView.RENDERMODE_WHEN_DIRTY);
         mStarGLSurfaceView = this; // do I really need this one?
         setFocusableInTouchMode(true);
-        model = new Model();
+        model = new Board();
     }
     
     public boolean onTouchEvent(final MotionEvent e) {
@@ -133,7 +133,7 @@ public class StarGLSurfaceView extends GLSurfaceView {
         return true; 
     }
     
-    public void setModel(Model model) {
+    public void setBoard(Board model) {
 		this.model = model;
 	}
 
@@ -177,7 +177,7 @@ public class StarGLSurfaceView extends GLSurfaceView {
 
         private float mAngle;
         public DownThread downThread;
-        private Model model = new Model();
+        private Board model = new Board();
         //Cube cube;
     
         private final String vertexShaderCode =
@@ -286,8 +286,8 @@ public class StarGLSurfaceView extends GLSurfaceView {
             drawGameFrame();
             drawCurrBlock();  // should drawboard
             /*
-            for (int i = 6; i < Model.ROW; i++) 
-                for (int j = 6; j < Model.COL; j++) 
+            for (int i = 6; i < Board.ROW; i++) 
+                for (int j = 6; j < Board.COL; j++) 
                     model.board[i][j][0] = 1;
             */
             //drawGameCell();
@@ -328,9 +328,9 @@ public class StarGLSurfaceView extends GLSurfaceView {
 
         private void drawGameCell() { // shifts
             float [] cubeCoords = new float[24];
-            for (int k = 0; k < Model.HIG; k++) { // y
-                for (int j = 0; j < Model.COL; j++) {  // z
-                    for (int i = 0; i < Model.ROW; i++) { // x
+            for (int k = 0; k < Board.HIG; k++) { // y
+                for (int j = 0; j < Board.COL; j++) {  // z
+                    for (int i = 0; i < Board.ROW; i++) { // x
                         if (model.board[i][j][k] != 0 && model.board[i][j][k] != 8) {
                             //cubeCoords = getCubeCoordinates(i - 3, k - 7, j - 3);  // matrix bug
                             //cube = new Cube(1, 1, 3, -7, 3);
@@ -451,36 +451,19 @@ public class StarGLSurfaceView extends GLSurfaceView {
                                      23, 25, 24, 26,
                                      26, 27, 5, 4};
         private void drawGameFrame() {
-            //float delta = 1f;
-            float squareCoords [] = { 
-                -3f, -5f, -3f,
-                3f, -5f, -3f,
-                3f, 5f, -3f,
-                -3f, 5f, -3f, // 3 
-                -3f, -5f, 3f,
-                3f, -5f, 3f, // 5
-                3f, 5f, 3f,
-                -3f, 5f, 3f,  // 7
-                -2f, -5f, -3f,
-                -2f, -5f, 3f,  // 9
-                -1f, -5f, -3f,
-                -1f, -5f, 3f, // 11
-                0f, -5f, -3f,
-                0f, -5f, 3f,  // 13
-                 1f, -5f, -3f,
-                1f, -5f, 3f, // 15
-                 2f, -5f, -3f,
-                2f, -5f, 3f, // 17
-                -3f, -5f, -2f,
-                3f, -5f, -2f,  // 19  // one
-                -3f, -5f, -1f,
-                3f, -5f, -1f, // 21
-                -3f, -5f, 0f,
-                3f, -5f, 0f, // 23
-                -3f, -5f, 1f,
-                3f, -5f, 1f, // 25
-                -3f, -5f, 2f,
-                3f, -5f, 2f // 27
+            float squareCoords [] = { -3f, -5f, -3f,
+                                      3f, -5f, -3f, 3f, 5f, -3f, -3f, 5f, -3f, -3f, -5f, 3f,
+                                      3f, -5f, 3f, 3f, 5f, 3f, -3f, 5f, 3f,
+                                      -2f, -5f, -3f, -2f, -5f, 3f,
+                                      -1f, -5f, -3f, -1f, -5f, 3f, 
+                                      0f, -5f, -3f, 0f, -5f, 3f, 
+                                      1f, -5f, -3f, 1f, -5f, 3f, 
+                                      2f, -5f, -3f, 2f, -5f, 3f, 
+                                      -3f, -5f, -2f, 3f, -5f, -2f,
+                                      -3f, -5f, -1f, 3f, -5f, -1f,
+                                      -3f, -5f, 0f, 3f, -5f, 0f, 
+                                      -3f, -5f, 1f, 3f, -5f, 1f, 
+                                      -3f, -5f, 2f, 3f, -5f, 2f 
             }; 
            for (int i = 0; i < 84; i++) {
                /*if (i % 3 == 1)
@@ -614,7 +597,7 @@ public class StarGLSurfaceView extends GLSurfaceView {
 
         private Vector3f transformedSphereCenter = new Vector3f(); 
         //private Ray transformedRay = new Ray(); 
-        private Matrix4f matInvertModel = new Matrix4f(); 
+        private Matrix4f matInvertBoard = new Matrix4f(); 
         private Vector3f[] mpTriangle = {
             new Vector3f(),
             new Vector3f(), 

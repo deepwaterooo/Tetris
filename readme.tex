@@ -1,4 +1,4 @@
-% Created 2016-04-09 Sat 12:45
+% Created 2016-04-11 Mon 10:47
 \documentclass[9pt,b5paper]{article}
 \usepackage{graphicx}
 \usepackage{xcolor}
@@ -39,23 +39,21 @@
 \begin{itemize}
 \item OpenGL 3D version status: 
 \begin{itemize}
+\item Still trying to adapt from the TetrisGlar app, and worked on the codes that are necessary for a real 3D instead of pseudo-3d.
+\item Understand the math part better, to remove unnessary background parts, mirror parts, beside making 2d ==> 3d, rotation could be modified to be better.
+\item Will continue work on this one today after updated "\textbf{Undertable Blackmail}" repository.
+\item Will update and report status tonight before sleep.
+\item This project is still on and updating, please don't think I could give up this one. Even I made limited progress someday, but I will make this project work after working on it day by day.
+\item 
 \item I believe about MVP, I am correct now, and I am using the same world center now.
 \item For translation, rotation, calculation transformation matrix, I still have to write these utilities in order for my Cubes/Blocks to move.
 \item And I should NOT have been blocked by this drawing for so long, but at least now I know I am correct.
 \item Will work on Cube==>Block==>Model game flow on Monday, and will update on Monday latest in the evening.
 \item 
-\item I think I understand all the theories now, but for drawing grids correctly, something are still wrong. Will work on it this weekend, and problem will be solved by coming Monday. Checkpoints include:
-\begin{itemize}
 \item Move shader and drawing back to Cube, my flow of drawing direction is inverted. I could write and get my own UNV R$^{\text{T}}$ matrix and translation matrix (though it's just a wrapper from OpengGL api functions) by calculating from setLookAtM function parameters, I believe this matrix should NOT multiply on my translated \& scaled coordinates.
 \item (model translate ==> model rotate ==> V * ModelTransRotate result ==> P * V * M, left multiply for opengl matrix, which is WRONG). the correct should be:
-\item (model Rotate ==> model Translate ==> V * ModelTransRotate result ==> P * V * M, left multiply for opengl matrix). NO no no
 \item Vector(ofNewVertex) = M$_{\text{Projection[from}}$ screen ratio] * (M$_{\text{Translation[opposite}}$ eye position] * (M$_{\text{Rotation[inverse}}$ UNV directions, from LookAt parameters for Q$^{\text{(-1)}}$ = Q$^{\text{T]}}$ * Vector(ofOriginalVertex))), now is right
-\item Shader can be packed into Utility, as well as MatrixState. May separate system out\ldots{}
-\item quareType works fine, but not lineType, or one cube in certer, to think where is the world center (0, 0, 0)?
-\item Translation and \& Rotation, I understand and I am clear what's about, maybe just move cube drawing method into cube
-\item Cube center should be an important concept here, and I need to add the 3 parameters back.
-\end{itemize}
-\item Once this one done, project should be left slightly easy, and will update the other "Undertable\ldots{}" repository accordingly on Monday.
+\item Block center should be an important concept here, and I need to add the 3 parameters back, because they need to rotate and translate, scale later on depends on the Block center.
 \item 
 \item Have spent two days tried to review someone else's code, but it was too complicated rather than developping my own code ( tetrisglar$_{\text{d9qpjwxc}}$.apk is included in home directory for referrencing).
 \item So from late this afternoon, working on my own codes, partially still referring to the other apk, but it's my flow-chart-ideas and implementation now.

@@ -5,21 +5,21 @@
 
 * Better version, pretty good
 - OpenGL 3D version status: 
+  - Still trying to adapt from the TetrisGlar app, and worked on the codes that are necessary for a real 3D instead of pseudo-3d. 
+  - Understand the math part better, to remove unnessary background parts, mirror parts, beside making 2d ==> 3d, rotation could be modified to be better. 
+  - Will continue work on this one today after updated "*Undertable Blackmail*" repository.
+  - Will update and report status tonight before sleep.  
+  - This project is still on and updating, please don't think I could give up this one. Even I made limited progress someday, but I will make this project work after working on it day by day.  
+  - 
   - I believe about MVP, I am correct now, and I am using the same world center now. 
   - For translation, rotation, calculation transformation matrix, I still have to write these utilities in order for my Cubes/Blocks to move. 
   - And I should NOT have been blocked by this drawing for so long, but at least now I know I am correct. 
   - Will work on Cube==>Block==>Model game flow on Monday, and will update on Monday latest in the evening.
   - 
-  - I think I understand all the theories now, but for drawing grids correctly, something are still wrong. Will work on it this weekend, and problem will be solved by coming Monday. Checkpoints include:
-    - Move shader and drawing back to Cube, my flow of drawing direction is inverted. I could write and get my own UNV R^T matrix and translation matrix (though it's just a wrapper from OpengGL api functions) by calculating from setLookAtM function parameters, I believe this matrix should NOT multiply on my translated & scaled coordinates. 
-    - (model translate ==> model rotate ==> V * ModelTransRotate result ==> P * V * M, left multiply for opengl matrix, which is WRONG). the correct should be: 
-    - (model Rotate ==> model Translate ==> V * ModelTransRotate result ==> P * V * M, left multiply for opengl matrix). NO no no
-    - Vector(ofNewVertex) = M_Projection[from screen ratio] * (M_Translation[opposite eye position] * (M_Rotation[inverse UNV directions, from LookAt parameters for Q^(-1) = Q^T] * Vector(ofOriginalVertex))), now is right
-    - Shader can be packed into Utility, as well as MatrixState. May separate system out...
-    - quareType works fine, but not lineType, or one cube in certer, to think where is the world center (0, 0, 0)?
-    - Translation and & Rotation, I understand and I am clear what's about, maybe just move cube drawing method into cube
-    - Cube center should be an important concept here, and I need to add the 3 parameters back. 
-  - Once this one done, project should be left slightly easy, and will update the other "Undertable..." repository accordingly on Monday. 
+  - Move shader and drawing back to Cube, my flow of drawing direction is inverted. I could write and get my own UNV R^T matrix and translation matrix (though it's just a wrapper from OpengGL api functions) by calculating from setLookAtM function parameters, I believe this matrix should NOT multiply on my translated & scaled coordinates. 
+  - (model translate ==> model rotate ==> V * ModelTransRotate result ==> P * V * M, left multiply for opengl matrix, which is WRONG). the correct should be: 
+  - Vector(ofNewVertex) = M_Projection[from screen ratio] * (M_Translation[opposite eye position] * (M_Rotation[inverse UNV directions, from LookAt parameters for Q^(-1) = Q^T] * Vector(ofOriginalVertex))), now is right
+  - Block center should be an important concept here, and I need to add the 3 parameters back, because they need to rotate and translate, scale later on depends on the Block center. 
   - 
   - Have spent two days tried to review someone else's code, but it was too complicated rather than developping my own code ( tetrisglar_d9qpjwxc.apk is included in home directory for referrencing). 
   - So from late this afternoon, working on my own codes, partially still referring to the other apk, but it's my flow-chart-ideas and implementation now. 
