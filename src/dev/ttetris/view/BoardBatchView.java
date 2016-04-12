@@ -1,6 +1,6 @@
 package dev.ttetris.view;
 
-//import dev.ttetris.util.AssetManager;
+import dev.ttetris.util.AssetManager;
 import dev.ttetris.util.Geometry;  
 import dev.ttetris.model.Board;
 import dev.ttetris.model.Cube;
@@ -14,9 +14,8 @@ import java.util.Map;
 public class BoardBatchView extends BoardView {
     private Map<Cube, CubeBatchGeometry> cubeMap = new HashMap();
 
-    //public BoardBatchView(AssetManager paramAssetManager, Board paramBoard) {
-    public BoardBatchView(Board paramBoard) {
-        super(paramBoard);
+    public BoardBatchView(AssetManager paramAssetManager, Board paramBoard) {
+        super(paramAssetManager, paramBoard);
     }
 
     public void cubeCreated(Cube paramCube) {
@@ -26,8 +25,7 @@ public class BoardBatchView extends BoardView {
         if (!bool);
         while (true) {
             if (localObject == null) {
-                //localObject = new CubeBatchGeometry(this.assetManager, paramCube.getColor());
-                localObject = new CubeBatchGeometry(paramCube.getColor());
+                localObject = new CubeBatchGeometry(this.assetManager, paramCube.getColor());
                 attachGeometry((Geometry)localObject);
             }
             ((CubeBatchGeometry)localObject).addCube(paramCube);

@@ -1,5 +1,6 @@
 package dev.ttetris.model;
 
+import dev.ttetris.model.BlockMeta;
 import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Random;
@@ -20,23 +21,14 @@ public class Block implements Cloneable, Serializable {
     private final int cubeCounts = 4;
     */
 
-    /*static {
-        createMetaBlock("Square", 1, BlockType.squareType);
-        createMetaBlock("Line", 1, BlockType.lineType);
-        createMetaBlock("LeftLightning", 3, BlockType.leftLightningType);
-        createMetaBlock("RightLightning", 4, BlockType.rightLightningType);
-        createMetaBlock("Roof", 5, BlockType.roofType);
-        createMetaBlock("LeftBoot", 6, BlockType.leftBootType);
-        createMetaBlock("RightBoot", 7, BlockType.rightBootType);
-        } */
     static {
-        createMetaBlock("Square", CubeColor.Anchient, BlockCubeShifts.squareShifts, 0.5F, 0.5F, 0.0F);
-        createMetaBlock("Line", CubeColor.Amethyst, BlockCubeShifts.lineShifts, 0.0F, 1.0F, 0.0F);
-        createMetaBlock("LeftLightning", CubeColor.Oak, BlockCubeShifts.leftLightningShifts, 1.0F, 1.0F, 0.0F);
-        createMetaBlock("RightLightning", CubeColor.MarbleRough, BlockCubeShifts.rightLightningShifts, 1.0F, 1.0F, 0.0F);
-        createMetaBlock("Roof", CubeColor.LapisLazuli, BlockCubeShifts.roofShifts, 0.0F, 0.0F, 0.0F);
-        createMetaBlock("LeftBoot", CubeColor.WhiteMarble, BlockCubeShifts.leftBootShifts, 1.0F, 1.0F, 0.0F);
-        createMetaBlock("RightBoot", CubeColor.Marble, BlockCubeShifts.rightBootShifts, 0.0F, 1.0F, 0.0F);
+        createMetaBlock("Square", CubeColor.Anchient, BlockType.squareType, 0.5F, 0.5F, 0.0F);
+        createMetaBlock("Line", CubeColor.Amethyst, BlockType.lineType, 0.0F, 1.0F, 0.0F);
+        createMetaBlock("LeftLightning", CubeColor.Oak, BlockType.leftLightningType, 1.0F, 1.0F, 0.0F);
+        createMetaBlock("RightLightning", CubeColor.MarbleRough, BlockType.rightLightningType, 1.0F, 1.0F, 0.0F);
+        createMetaBlock("Roof", CubeColor.LapisLazuli, BlockType.roofType, 0.0F, 0.0F, 0.0F);
+        createMetaBlock("LeftBoot", CubeColor.WhiteMarble, BlockType.leftBootType, 1.0F, 1.0F, 0.0F);
+        createMetaBlock("RightBoot", CubeColor.Marble, BlockType.rightBootType, 0.0F, 1.0F, 0.0F);
     }
 
     private Block() { this.cubes = null; }
@@ -47,7 +39,7 @@ public class Block implements Cloneable, Serializable {
         blocks.put(paramString, new BlockMeta(paramCubeColor, paramArrayOfCubeShift, paramFloat1, paramFloat2, paramFloat3));
     }
     
-    private Block(BlockMeta paramBlockMeta) {
+    public Block(BlockMeta paramBlockMeta) {
         CubeShift[] arrayOfCubeShift = paramBlockMeta.getShifts();
         int i = RANDOM.nextInt();
         int j = i & 0x3;
@@ -66,20 +58,25 @@ public class Block implements Cloneable, Serializable {
                                      j, k, x);
         }
     }
-
+    /*
     // constructor wrote by me for tem use
-    public Block(Cube[] type) {
-        this.cubes = type;
-        //this.color = getColor();
-        int i = RANDOM.nextInt(); // set center x y z 
-        int j = i & 0x3;
-        int k = (i & 0xC) >> 2;
-        int x = (i & 0x30) >> 4;
-        this.centerX = (float)j; // will have bug here, set fixed
-        this.centerY = (float)k;
-        this.centerZ = (float)x; 
-    }
-
+    public Block(CubeShift[] shifts, int i, int j, int k) {
+        CubeShift[] arrayOfCubeShift = shifts;
+        this.cubes = new Cube[arrayOfCubeShift.length]; // constant 4
+        for (int m = 0; ; m++) {
+            if (m >= arrayOfCubeShift.length) {
+                this.centerX = i;
+                this.centerY = j;
+                this.centerZ = k;
+                return;
+            }
+            this.cubes[m] = new Cube(paramBlockMeta.getColor(),
+                                     arrayOfCubeShift[m].getDx(), arrayOfCubeShift[m].getDy(), arrayOfCubeShift[m].getDz(),
+                                     j, k, x);
+        
+        }
+    */
+    
     public Cube[] getCubes() { return this.cubes; }
     public CubeColor getColor() {
         CubeColor color = cubes[0].getColor();

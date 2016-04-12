@@ -1,6 +1,6 @@
 package dev.ttetris.util;
 
-//import dev.anogl.Attribute;
+import dev.ttetris.util.Attribute;
 import android.opengl.GLES20;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
@@ -132,7 +132,6 @@ public final class Mesh {
         }
     }
     
-    /*
     public void bindAttribute(Attribute paramAttribute, int paramInt) {
         int i = this.attribPositions[paramAttribute.ordinal()];
         if (i < 0)
@@ -146,7 +145,7 @@ public final class Mesh {
             return new Mesh(this.verticesData, this.indicesData, this.verticesStride, this.attribPosMap, paramInt);
         return new Mesh(this.verticesData, this.verticesStride, this.attribPosMap, paramInt);
     }
-    */
+
     public Mesh createMeshWithTangents() {
         //if (this.attribPosMap.containsKey(Attribute.TANGENT))
         //return this;

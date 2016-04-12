@@ -21,11 +21,11 @@ public enum Attribute {
         PARAMS7("PARAMS7", 16, 4);
         public final String name;
         public final int i;
-        public final int j;
+        public final int size;
 
         private Attribute(String arg1, int arg2, int arg3) {
             this.name = arg1;
             this.i = arg2;
-            this.j = arg3;
+            this.size = arg3;
         }
 }

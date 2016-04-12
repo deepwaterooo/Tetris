@@ -1,6 +1,6 @@
 package dev.ttetris.model;
 
-import dev.ttetris.StarGLSurfaceView;
+//import dev.ttetris.StarGLSurfaceView;
 import dev.ttetris.util.MatrixState;
 import dev.ttetris.util.Shader;
 

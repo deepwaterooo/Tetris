@@ -2,21 +2,20 @@ package dev.ttetris.view;
 
 import java.util.HashMap;
 import java.util.Map;
-//import dev.ttetris.util.AssetManager;
+import dev.ttetris.util.AssetManager;
 import dev.ttetris.model.Board;
 import dev.ttetris.model.Cube;
 
 public class BoardDiscreteView extends BoardView {
     private Map<Cube, CubeView> cubeViews = new HashMap();
 
-    //public BoardDiscreteView(AssetManager paramAssetManager, Board paramBoard) {
-    public BoardDiscreteView(Board paramBoard) {
-        super(paramBoard);
+    public BoardDiscreteView(AssetManager paramAssetManager, Board paramBoard) {
+        super(paramAssetManager, paramBoard);
     }
 
     public void cubeCreated(Cube paramCube) {
-        //CubeView localCubeView = new CubeView(this.assetManager, paramCube);
-        CubeView localCubeView = new CubeView(paramCube);
+        CubeView localCubeView = new CubeView(this.assetManager, paramCube);
+        //CubeView localCubeView = new CubeView(paramCube);
         addChild(localCubeView);
         this.cubeViews.put(paramCube, localCubeView);
     }

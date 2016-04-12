@@ -5,7 +5,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Iterator;
 
-//import dev.anogl.AssetManager;
+import dev.ttetris.util.AssetManager;
 import dev.ttetris.util.Node;
 //import dev.anogl.ParticleGenerator;
 //import dev.anogl.ParticleParams;
@@ -15,16 +15,15 @@ import dev.ttetris.model.Board;
 import dev.ttetris.model.BoardListener;
 
 public abstract class BoardView extends Node implements BoardListener {
-    //protected AssetManager assetManager;
+    protected AssetManager assetManager;
     protected Board model;
     private Node[] disappearingTrailNodes;
     //private ParticleSystem[] disappearingTrails;
 
     private Map<Cube, CubeBatchGeometry> cubeMap = new HashMap();
 
-    //public BoardView(AssetManager paramAssetManager, Board paramBoard) {
-    public BoardView(Board paramBoard) {
-        //this.assetManager = paramAssetManager;
+    public BoardView(AssetManager paramAssetManager, Board paramBoard) {
+        this.assetManager = paramAssetManager;
         this.model = paramBoard;
         int i = -2 + paramBoard.getHeight();
         this.disappearingTrailNodes = new Node[i];

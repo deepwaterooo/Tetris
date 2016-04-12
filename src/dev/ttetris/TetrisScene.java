@@ -16,15 +16,7 @@ public class TetrisScene extends Scene {
     public TetrisScene(Game paramGame) {
         this.game = paramGame;
     }
-    /*
-    public void changeBoard() {
-        queueEvent(new Runnable() {
-                public void run() {
-                    TetrisScene.this.game.changeBoard();
-                }
-            });
-    }
-    */
+
     public Game getGame() {
         return this.game;
     }

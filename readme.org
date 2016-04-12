@@ -5,10 +5,14 @@
 
 * Better version, pretty good
 - OpenGL 3D version status: 
+  - Basic game flow debugging. just fixed one bug today. 
+  - Will read and work on the existing code, make the app run without crashing down (need add a few buttons for first page, & I had that already), and try to get an initial 3d frames and a couple of blocks showing out.
+  - Will try to finish the *Undertable* repository today. 
+  - Will work on this project during the day, go to class in the evening, and report status later in late evening. 
+  - 
   - Still trying to adapt from the TetrisGlar app, and worked on the codes that are necessary for a real 3D instead of pseudo-3d. 
   - Understand the math part better, to remove unnessary background parts, mirror parts, beside making 2d ==> 3d, rotation could be modified to be better. 
   - Will continue work on this one today after updated "*Undertable Blackmail*" repository.
-  - Will update and report status tonight before sleep.  
   - This project is still on and updating, please don't think I could give up this one. Even I made limited progress someday, but I will make this project work after working on it day by day.  
   - 
   - I believe about MVP, I am correct now, and I am using the same world center now. 

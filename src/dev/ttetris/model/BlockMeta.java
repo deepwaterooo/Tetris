@@ -1,6 +1,6 @@
 package dev.ttetris.model;
 
-class BlockMeta {
+public class BlockMeta {
     private float centerX;
     private float centerY;
     private float centerZ;

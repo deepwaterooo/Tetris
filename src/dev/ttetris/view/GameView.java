@@ -24,7 +24,6 @@ public class GameView extends Node implements GameListener {
     //private ParticleSystem[] stars2;
 
     public GameView(AssetManager paramAssetManager, Game paramGame) {
-        //public GameView(Game paramGame) {
         this.game = paramGame;
         this.assetManager = paramAssetManager;
         this.boardsNode = new Node();
@@ -55,8 +54,7 @@ public class GameView extends Node implements GameListener {
         if (this.boardsCount == 2)
             throw new RuntimeException("Maximum 2 boards can be created");
         this.boardsCount = (1 + this.boardsCount);
-        //BoardBatchView localBoardBatchView = new BoardBatchView(this.assetManager, paramBoard);
-        BoardBatchView localBoardBatchView = new BoardBatchView(paramBoard);
+        BoardBatchView localBoardBatchView = new BoardBatchView(this.assetManager, paramBoard);
         paramBoard.setListener(localBoardBatchView);
         int i = 0x1 & paramBoard.getWidth();
         float f1 = 0.0F;
@@ -187,8 +185,7 @@ public class GameView extends Node implements GameListener {
             this.nextBlockParent.removeChild(this.nextBlock);
             this.nextBlock = null;
         }
-        //this.nextBlock = new BlockView(this.assetManager, paramBlock);
-        this.nextBlock = new BlockView(paramBlock);
+        this.nextBlock = new BlockView(this.assetManager, paramBlock);
         this.nextBlockParent.addChild(this.nextBlock);
     }
 

@@ -4,6 +4,8 @@ public class TextureCube extends Texture {
   // ERROR //
   public TextureCube(java.io.InputStream[] paramArrayOfInputStream, TextureParams paramTextureParams)
   {
+      super(0, paramTextureParams);  // left for debug
+      
     // Byte code:
     //   0: aload_0
     //   1: ldc 9
