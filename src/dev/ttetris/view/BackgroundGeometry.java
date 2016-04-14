@@ -7,7 +7,7 @@ import dev.ttetris.view.material.BackgroundMaterial;
 public class BackgroundGeometry extends Geometry {
     public BackgroundGeometry(AssetManager paramAssetManager) {
         //public BackgroundGeometry() {  
-        super(paramAssetManager.getMesh("Meshes/Background.ply"), new BackgroundMaterial(paramAssetManager, "Textures/Background.png"));
+        super(paramAssetManager.getMesh("Meshes/Background.ply"), new BackgroundMaterial(paramAssetManager, "Textures/Background.png")); // 
         this.renderQueueId = -1;
     }
 }

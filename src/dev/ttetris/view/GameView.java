@@ -14,7 +14,7 @@ import dev.ttetris.model.GameState;
 
 public class GameView extends Node implements GameListener {
     private AssetManager assetManager;
-    private int boardsCount;
+    private int boardsCount; // don't need this one
     private Node boardsNode;
     private int currentStars;
     private Game game;
@@ -35,15 +35,15 @@ public class GameView extends Node implements GameListener {
     private void updateNextBlockVisibility() {
         Node localNode = this.nextBlockParent;
         if ((this.game.getState() == GameState.PLAY) && (!this.game.isPaused()));
-        for (boolean bool = true; ; bool = false) {
-            localNode.setEnabled(bool);
-            return;
-        }
+        //for (boolean bool = true; ; bool = false) {
+        //localNode.setEnabled(bool);
+        localNode.setEnabled(true);
+            //return;
+            //}
     }
 
     public void boardChangeDenied() {
     }
-
     public void boardChanged(Board paramBoard) {
         //this.stars1[this.currentStars].restart();
         //this.stars2[this.currentStars].restart();

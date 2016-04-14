@@ -1,6 +1,7 @@
 package dev.ttetris.util;
 
 public enum TextureMinFilter {
+    NEAREST("NEAREST", 0, 9700), // FOR DEBUG LATER
     LINEAR("LINEAR", 1, 9729),
     NEAREST_MIPMAP_NEAREST("NEAREST_MIPMAP_NEAREST", 2, 9984),
     NEAREST_MIPMAP_LINEAR("NEAREST_MIPMAP_LINEAR", 3, 9986),

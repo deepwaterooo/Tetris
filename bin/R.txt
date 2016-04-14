@@ -120,7 +120,7 @@ int bool abc_config_actionMenuItemAllCaps 0x7f070005
 int bool abc_config_allowActionMenuItemTextWithIcon 0x7f070004
 int bool abc_config_showMenuShortcutsWhenKeyboardPresent 0x7f070003
 int bool abc_split_action_bar_is_narrow 0x7f070002
-int color abc_search_url_text_holo 0x7f080008
+int color abc_search_url_text_holo 0x7f080009
 int color abc_search_url_text_normal 0x7f080000
 int color abc_search_url_text_pressed 0x7f080002
 int color abc_search_url_text_selected 0x7f080001
@@ -129,6 +129,7 @@ int color muted_green 0x7f080006
 int color muted_red 0x7f080003
 int color muted_yellow 0x7f080004
 int color text_violet 0x7f080007
+int color transparency 0x7f080008
 int dimen abc_action_bar_default_height 0x7f090002
 int dimen abc_action_bar_icon_vertical_padding 0x7f090003
 int dimen abc_action_bar_progress_bar_size 0x7f09000a
@@ -258,12 +259,13 @@ int id action_context_bar 0x7f06001d
 int id action_menu_divider 0x7f060016
 int id action_menu_presenter 0x7f060017
 int id action_mode_close_button 0x7f060024
-int id action_settings 0x7f06003c
+int id action_settings 0x7f06003f
 int id activity_chooser_view_content 0x7f060025
 int id always 0x7f06000b
 int id beginning 0x7f060011
 int id checkbox 0x7f06002d
 int id collapseActionView 0x7f06000d
+int id continue_game 0x7f06003c
 int id default_activity_button 0x7f060028
 int id dialog 0x7f06000e
 int id disableHome 0x7f060008
@@ -281,6 +283,7 @@ int id listMode 0x7f060001
 int id list_item 0x7f060029
 int id middle 0x7f060012
 int id never 0x7f060009
+int id new_game 0x7f06003d
 int id none 0x7f060010
 int id normal 0x7f060000
 int id progress_circular 0x7f060018
@@ -305,6 +308,7 @@ int id submit_area 0x7f060039
 int id tabMode 0x7f060002
 int id title 0x7f06002b
 int id top_action_bar 0x7f060020
+int id top_scores 0x7f06003e
 int id up 0x7f060021
 int id useLogo 0x7f060003
 int id withText 0x7f06000c
@@ -333,7 +337,10 @@ int layout abc_popup_menu_item_layout 0x7f030014
 int layout abc_search_dropdown_item_icons_2line 0x7f030015
 int layout abc_search_view 0x7f030016
 int layout abc_simple_decor 0x7f030017
-int layout support_simple_spinner_dropdown_item 0x7f030018
+int layout game 0x7f030018
+int layout loading 0x7f030019
+int layout menu 0x7f03001a
+int layout support_simple_spinner_dropdown_item 0x7f03001b
 int menu ttetris 0x7f0d0000
 int raw defaultparticle 0x7f050000
 int raw defaultramp 0x7f050001
@@ -356,8 +363,11 @@ int string abc_shareactionprovider_share_with 0x7f0b000c
 int string abc_shareactionprovider_share_with_application 0x7f0b000b
 int string action_settings 0x7f0b001b
 int string app_name 0x7f0b000d
+int string continue_game 0x7f0b0022
 int string down 0x7f0b001d
 int string exit_label 0x7f0b0013
+int string game_loading 0x7f0b0021
+int string game_over 0x7f0b0025
 int string high_scores_format 0x7f0b0019
 int string left 0x7f0b001c
 int string main_title 0x7f0b000e
@@ -365,6 +375,7 @@ int string mara_label 0x7f0b000f
 int string mode_over 0x7f0b0018
 int string mode_pause 0x7f0b0017
 int string mode_ready 0x7f0b0016
+int string new_game 0x7f0b0023
 int string right 0x7f0b001e
 int string rttleft 0x7f0b001f
 int string rttright 0x7f0b0020
@@ -373,6 +384,7 @@ int string scores_format 0x7f0b001a
 int string tetris_over 0x7f0b0015
 int string tetris_title 0x7f0b0014
 int string time_label 0x7f0b0010
+int string top_scores 0x7f0b0024
 int string toy_label 0x7f0b0011
 int style AppBaseTheme 0x7f0c008b
 int style AppTheme 0x7f0c008c

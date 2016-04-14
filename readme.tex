@@ -1,4 +1,4 @@
-% Created 2016-04-12 Tue 01:13
+% Created 2016-04-13 Wed 23:47
 \documentclass[9pt,b5paper]{article}
 \usepackage{graphicx}
 \usepackage{xcolor}
@@ -39,6 +39,9 @@
 \begin{itemize}
 \item OpenGL 3D version status: 
 \begin{itemize}
+\item working slowing step-by-step to get app run without crashing down, getting familiar with app flow \& different opengl modules, many bugs on the ways need to be fixed before onto those matrix.
+\item but will get them done. I will.
+\item 
 \item Basic game flow debugging. just fixed one bug today.
 \item Will read and work on the existing code, make the app run without crashing down (need add a few buttons for first page, \& I had that already), and try to get an initial 3d frames and a couple of blocks showing out.
 \item Will try to finish the \textbf{Undertable} repository today.
@@ -54,35 +57,27 @@
 \item And I should NOT have been blocked by this drawing for so long, but at least now I know I am correct.
 \item Will work on Cube==>Block==>Model game flow on Monday, and will update on Monday latest in the evening.
 \item 
-\item Move shader and drawing back to Cube, my flow of drawing direction is inverted. I could write and get my own UNV R$^{\text{T}}$ matrix and translation matrix (though it's just a wrapper from OpengGL api functions) by calculating from setLookAtM function parameters, I believe this matrix should NOT multiply on my translated \& scaled coordinates.
-\item (model translate ==> model rotate ==> V * ModelTransRotate result ==> P * V * M, left multiply for opengl matrix, which is WRONG). the correct should be:
-\item Vector(ofNewVertex) = M$_{\text{Projection[from}}$ screen ratio] * (M$_{\text{Translation[opposite}}$ eye position] * (M$_{\text{Rotation[inverse}}$ UNV directions, from LookAt parameters for Q$^{\text{(-1)}}$ = Q$^{\text{T]}}$ * Vector(ofOriginalVertex))), now is right
-\item Block center should be an important concept here, and I need to add the 3 parameters back, because they need to rotate and translate, scale later on depends on the Block center.
-\item 
-\item Have spent two days tried to review someone else's code, but it was too complicated rather than developping my own code ( tetrisglar$_{\text{d9qpjwxc}}$.apk is included in home directory for referrencing).
-\item So from late this afternoon, working on my own codes, partially still referring to the other apk, but it's my flow-chart-ideas and implementation now.
-\item I believe I got at least some ideas for most of the basic ideas and OpenGL technical difficulties, so the implementation won't be too hard.
 \item game layout structure:
 \end{itemize}
 \includegraphics[width=.9\linewidth]{./Screenshot_2016-04-07-11-58-28.png}
 \item most challenge part for tonight, matrix translations \& rotations\ldots{}.will continue work on it tonight
-
+\item 
 \item a video for this Tetris game can be directly watched at \url{https://www.youtube.com/watch?v=Ht4NOrEUtFk}
 \item A video for the previous DrawingFun Android App can be watched at \url{https://www.youtube.com/watch?v=YV78Tk5--5M} , or by searching \textbf{deepwaterooo Wang}.
-\item 
-\item Starting my trial for OpenGL ES, need to figure out how to draw a game board.
-\item Won't be able to work on it this weekend, but will work on it later on.
-\item 
-\item These video will serve as the indication that as an educated well practiced graduated student, I have the solid technological background, my problem solving skills, the spirit of implementing whatever ideas for apps that I feel I am capable, as well as confidence as an entry level mobile app programmer.
-\item For the Tetris game, it's NOT the best product in my mind yet (though it is pretty good now and I will make it a my version of Tetris), but I want to record it so that more friends can enjoy the so far already achieved progress, and for those who just know me would be able to know what is my interested field.
-\item By using SurfaceView who has a separate thread for drawing/painting, this game actually it pretty good already, at least should be about 80 out of 100.
-\item Though I will continuous refine this game later on when I have time (Better version will be recorded and uploaded later within a month or so.), but I won't be able to work on it day in and day out recently, having other things occupied.
 \end{itemize}
 
 \section{References}
 \label{sec-2}
-\subsection{3D design}
+\subsection{Activity.runOnUiThread()}
 \label{sec-2-1}
+\begin{itemize}
+\item \url{http://stackvoid.com/introduction-to-Message-Handler-in-Android/}
+\item \url{http://m.oschina.net/blog/97619}
+\item 
+\end{itemize}
+
+\subsection{3D design}
+\label{sec-2-2}
 \begin{itemize}
 \item c++ version: \url{https://github.com/matachi/tetris-cpp}
 \item refer 6 \url{http://www.oschina.net/question/614942_62370}
@@ -129,7 +124,7 @@
 \end{itemize}
 
 \subsection{GLSurfaceView}
-\label{sec-2-2}
+\label{sec-2-3}
 \begin{itemize}
 \item opengl: \url{http://androidblog.reindustries.com/a-real-open-gl-es-2-0-2d-tutorial-part-1/}
 \item Graphics architecture: \url{https://source.android.com/devices/graphics/architecture.html}
@@ -166,18 +161,18 @@
 \end{itemize}
 
 \subsection{eventQueue vs SurfaceView threads}
-\label{sec-2-3}
+\label{sec-2-4}
 \begin{itemize}
 \item Deeper summary, android graphics architecture: \url{http://hukai.me/android-deeper-graphics-architecture/}
 \item 2 threads, load, read, \url{http://blog.csdn.net/hellogv/article/details/5986835}
 \end{itemize}
 \subsection{Canvas Path subclass}
-\label{sec-2-4}
+\label{sec-2-5}
 \begin{itemize}
 \item how to define drawLine to be drawShapes?
 \end{itemize}
 \subsection{SurfaceView}
-\label{sec-2-5}
+\label{sec-2-6}
 \begin{itemize}
 \item Surface runnable \url{http://android.okhelp.cz/surfaceview-implements-runnable-android-code/}
 \item Example: \url{http://technicalsearch.iteye.com/blog/1967616}
@@ -195,7 +190,7 @@
 \end{itemize}
 
 \subsection{gestures}
-\label{sec-2-6}
+\label{sec-2-7}
 \begin{itemize}
 \item \url{http://www.cnblogs.com/akira90/archive/2013/03/10/2952886.html}
 \item Android 触摸手势基础 官方文档概览: \url{http://www.lxway.com/445554926.htm}

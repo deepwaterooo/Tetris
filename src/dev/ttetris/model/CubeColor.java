@@ -9,7 +9,7 @@ public enum CubeColor {
     LapisLazuli(0xffffffff, (byte) 6), // white
     WhiteMarble(0xffff00ff, (byte) 7),// magenta
     Marble(0x20320617, (byte) 8), // transparent
-    Hidden(0x12345678, (byte)9);
+    Hidden(0x12345678, (byte) 9);
 
     private final int color;
     private final byte value;

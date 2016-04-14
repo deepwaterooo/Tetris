@@ -5,6 +5,9 @@
 
 * Better version, pretty good
 - OpenGL 3D version status: 
+  - working slowing step-by-step to get app run without crashing down, getting familiar with app flow & different opengl modules, many bugs on the ways need to be fixed before onto those matrix.
+  - but will get them done. I will. 
+  - 
   - Basic game flow debugging. just fixed one bug today. 
   - Will read and work on the existing code, make the app run without crashing down (need add a few buttons for first page, & I had that already), and try to get an initial 3d frames and a couple of blocks showing out.
   - Will try to finish the *Undertable* repository today. 
@@ -20,31 +23,20 @@
   - And I should NOT have been blocked by this drawing for so long, but at least now I know I am correct. 
   - Will work on Cube==>Block==>Model game flow on Monday, and will update on Monday latest in the evening.
   - 
-  - Move shader and drawing back to Cube, my flow of drawing direction is inverted. I could write and get my own UNV R^T matrix and translation matrix (though it's just a wrapper from OpengGL api functions) by calculating from setLookAtM function parameters, I believe this matrix should NOT multiply on my translated & scaled coordinates. 
-  - (model translate ==> model rotate ==> V * ModelTransRotate result ==> P * V * M, left multiply for opengl matrix, which is WRONG). the correct should be: 
-  - Vector(ofNewVertex) = M_Projection[from screen ratio] * (M_Translation[opposite eye position] * (M_Rotation[inverse UNV directions, from LookAt parameters for Q^(-1) = Q^T] * Vector(ofOriginalVertex))), now is right
-  - Block center should be an important concept here, and I need to add the 3 parameters back, because they need to rotate and translate, scale later on depends on the Block center. 
-  - 
-  - Have spent two days tried to review someone else's code, but it was too complicated rather than developping my own code ( tetrisglar_d9qpjwxc.apk is included in home directory for referrencing). 
-  - So from late this afternoon, working on my own codes, partially still referring to the other apk, but it's my flow-chart-ideas and implementation now. 
-  - I believe I got at least some ideas for most of the basic ideas and OpenGL technical difficulties, so the implementation won't be too hard. 
   - game layout structure: 
 
   [[./Screenshot_2016-04-07-11-58-28.png]]
 - most challenge part for tonight, matrix translations & rotations....will continue work on it tonight
-
+- 
 - a video for this Tetris game can be directly watched at https://www.youtube.com/watch?v=Ht4NOrEUtFk
 - A video for the previous DrawingFun Android App can be watched at https://www.youtube.com/watch?v=YV78Tk5--5M , or by searching *deepwaterooo Wang*. 
-- 
-- Starting my trial for OpenGL ES, need to figure out how to draw a game board. 
-- Won't be able to work on it this weekend, but will work on it later on. 
-- 
-- These video will serve as the indication that as an educated well practiced graduated student, I have the solid technological background, my problem solving skills, the spirit of implementing whatever ideas for apps that I feel I am capable, as well as confidence as an entry level mobile app programmer. 
-- For the Tetris game, it's NOT the best product in my mind yet (though it is pretty good now and I will make it a my version of Tetris), but I want to record it so that more friends can enjoy the so far already achieved progress, and for those who just know me would be able to know what is my interested field. 
-- By using SurfaceView who has a separate thread for drawing/painting, this game actually it pretty good already, at least should be about 80 out of 100. 
-- Though I will continuous refine this game later on when I have time (Better version will be recorded and uploaded later within a month or so.), but I won't be able to work on it day in and day out recently, having other things occupied. 
 
 * References
+** Activity.runOnUiThread()
+- http://stackvoid.com/introduction-to-Message-Handler-in-Android/
+- http://m.oschina.net/blog/97619
+- 
+
 ** 3D design
 - c++ version: https://github.com/matachi/tetris-cpp
 - refer 6 http://www.oschina.net/question/614942_62370

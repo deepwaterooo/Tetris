@@ -1,5 +1,6 @@
 package dev.ttetris;
 
+import android.content.Intent;
 import android.app.AlertDialog;
 import android.app.AlertDialog.Builder;
 import android.app.ProgressDialog;
@@ -42,7 +43,6 @@ import dev.ttetris.util.ActivityGame;
 import dev.ttetris.util.SoundManager;
 import dev.ttetris.util.AssetManager;
 import dev.ttetris.util.SceneView;
-import dev.ttetris.util.ServerTask;
 import dev.ttetris.common.GameResult;
 import dev.ttetris.common.TopScore;
 import dev.ttetris.model.Board;
@@ -50,115 +50,54 @@ import dev.ttetris.model.Game;
 import dev.ttetris.model.GameAdapter;
 import dev.ttetris.model.GameState;
 
-// need to add a few buttons here
 public class TTetris extends ActivityGame {
-    private View continueButton;
-    private Button dailyTopScoresButton;
-    private ViewGroup gameView;
-    private Button globalTopScoresButton;
-    private TextView levelTextView;
-    private ViewGroup loadingView;
-    private MediaPlayer mediaPlayer;
-    private ViewGroup menuView;
     private View newGameButton;
-    private TextView scoreTextView;
-    private SoundManager soundManager;
-    private ActivityState state;
-    private View submitButton;
-    private TetrisScene tetrisScene;
+    private View continueButton;
     private View topScoresButton;
+    private SoundManager soundManager;
+    private MediaPlayer mediaPlayer;
+    private TetrisScene tetrisScene;
+
+    private ViewGroup menuView;
+    private ViewGroup gameView;
+    private ViewGroup loadingView;
+    private ViewGroup uiLayout;
     private ScrollView topScoresScrollView;
     private TableLayout topScoresTable;
-    private View topScoresView;
-    private ViewGroup uiLayout;
     private Vibrator vibrator;
-    //private View moveBlockLeftButton;
-    //private View moveBlockRightButton;
-    //private View rotateBlockLeftButton;
-    //private View rotateBlockRightButton;
-    //private View throwBlockButton;
 
-    private void bindGameListener(Game paramGame) {
-        paramGame.addListener(new GameAdapter() {
-                private int prevLevel = -1;
+    private TextView scoreTextView;
+    private ActivityState state;
 
-                public void boardChangeDenied() {
-                    TTetris.this.vibrator.vibrate(50L);
-                }
+    private Game loadGame() { return (Game)null; }
+    private void saveGame(Game paramGame) { }
 
-                public void boardChanged(Board paramAnonymousBoard) {
-                    TTetris.this.soundManager.play("ChangeBoard");
-                }
+    protected void OnCancelAllTasks() { super.OnCancelAllTasks(); }
 
-                public void figureFreezed() {
-                    TTetris.this.soundManager.play("FreezeBlock");
-                }
-
-                public void figureRotateDenied() {
-                    TTetris.this.vibrator.vibrate(50L);
-                }
-
-                public void gameOver() {
-                    TTetris.this.runOnUiThread(new Runnable() {
-                            public void run() {
-                                TTetris.this.changeState(ActivityState.MENU);
-                                TTetris.this.showGameOverDialog();
-                            }
-                        });
-                }
-
-                public void levelChanged(final int paramAnonymousInt) {
-                    if (this.prevLevel != -1)
-                        TTetris.this.soundManager.play("NextLevel");
-                    this.prevLevel = paramAnonymousInt;
-                    TTetris.this.runOnUiThread(new Runnable() {
-                            public void run() {                            
-                                TTetris.this.levelTextView.setText(TTetris.this.getString(2131034137) + " " + paramAnonymousInt);
-                            }
-                        });
-                }
-
-                public void lineDisappearing() {
-                    TTetris.this.soundManager.play("FireLine");
-                }
-
-                public void pointsChanged(final int paramAnonymousInt) {
-                    TTetris.this.runOnUiThread(new Runnable() {
-                            public void run() {
-                                TTetris.this.scoreTextView.setText(TTetris.this.getString(2131034136) + " " + paramAnonymousInt);
-                            }
-                        });
-                }
-
-                public void stateChanged(final GameState paramAnonymousGameState) {
-                    TTetris.this.runOnUiThread(new Runnable() {
-                            public void run() {
-                                if (paramAnonymousGameState == GameState.SUBMIT_SCORE) {
-                                    TTetris.this.continueButton.setVisibility(8);
-                                    TTetris.this.submitButton.setVisibility(0);
-                                    return;
-                                }
-                                TTetris.this.submitButton.setVisibility(8);
-                            }
-                        });
-                }
-            });
-    }
+    protected void onCreate(Bundle paramBundle) {
+        super.onCreate(paramBundle);
+        this.vibrator = ((Vibrator)getSystemService("vibrator"));
+        this.soundManager = new SoundManager(this, "Sounds");
+        
+        this.gameView = ((ViewGroup)getLayoutInflater().inflate(R.layout.game, null));
+        this.loadingView = ((ViewGroup)getLayoutInflater().inflate(R.layout.loading, null));
+        this.menuView = ((ViewGroup)getLayoutInflater().inflate(R.layout.menu, null));
+        this.continueButton = ((View)this.menuView).findViewById(R.id.continue_game); // continue_game
+        this.newGameButton = this.menuView.findViewById(R.id.new_game);
+        this.topScoresButton = this.menuView.findViewById(R.id.top_scores);
+        this.scoreTextView = ((TextView)this.gameView.findViewById(2131165191));
+        //this.topScoresView = getLayoutInflater().inflate(2130903043, null);
+        //this.topScoresTable = ((TableLayout)this.topScoresView.findViewById(2131165206));
+        //this.topScoresScrollView = ((ScrollView)this.topScoresView.findViewById(2131165205));
+        FrameLayout localFrameLayout = new FrameLayout(this);
+        this.uiLayout = new FrameLayout(this);
+        localFrameLayout.addView(this.sceneView);
+        localFrameLayout.addView(this.uiLayout);
+        bindInputListeners();
+        setContentView(localFrameLayout);
+    } 
 
     private void bindInputListeners() {
-        /*
-        this.continueButton.setOnClickListener(new View.OnClickListener() {
-                public void onClick(View paramAnonymousView) {
-                    TTetris.this.changeState(ActivityState.GAME);
-                }
-            });
-        */
-        /*
-        this.submitButton.setOnClickListener(new View.OnClickListener() {
-                public void onClick(View paramAnonymousView) {
-                    //TTetris.this.submitScore();
-                }
-                }); */
         this.newGameButton.setOnClickListener(new View.OnClickListener() {
                 public void onClick(View paramAnonymousView) {
                     Game localGame = new Game();
@@ -169,122 +108,105 @@ public class TTetris extends ActivityGame {
                     TTetris.this.changeState(ActivityState.GAME);
                 }
             });
-        /*        this.topScoresButton.setOnClickListener(new View.OnClickListener() {
+        this.continueButton.setOnClickListener(new View.OnClickListener() {
                 public void onClick(View paramAnonymousView) {
-                    TTetris.this.showTopScores(false);
+                    TTetris.this.changeState(ActivityState.GAME);
                 }
-            });
-
-        this.moveBlockLeftButton.setOnClickListener(new View.OnClickListener() {
+            }); 
+        this.topScoresButton.setOnClickListener(new View.OnClickListener() {
                 public void onClick(View paramAnonymousView) {
-                    TTetris.this.tetrisScene.moveBlockLeft();
+                    //TTetris.this.showTopScores(false);
                 }
-            });
-        this.moveBlockRightButton.setOnClickListener(new View.OnClickListener() {
-                public void onClick(View paramAnonymousView) {
-                    TTetris.this.tetrisScene.moveBlockRight();
-                }
-            });
-        this.rotateBlockLeftButton.setOnClickListener(new View.OnClickListener() {
-                public void onClick(View paramAnonymousView) {
-                    TTetris.this.tetrisScene.rotateBlockLeft();
-                }
-            });
-        this.rotateBlockRightButton.setOnClickListener(new View.OnClickListener() {
-                public void onClick(View paramAnonymousView) {
-                    TTetris.this.tetrisScene.rotateBlockRight();
-                }
-            });
+            }); /*
         this.throwBlockButton.setOnClickListener(new View.OnClickListener() {
                 public void onClick(View paramAnonymousView) {
                     TTetris.this.tetrisScene.throwBlock();
                 }
             });
-        this.changeBoardButton.setOnClickListener(new View.OnClickListener() {
-                public void onClick(View paramAnonymousView) {
-                    TTetris.this.tetrisScene.changeBoard();
-                }
-            });
+*/
+    }
 
-        this.dailyTopScoresButton.setOnClickListener(new View.OnClickListener() {
-                public void onClick(View paramAnonymousView) {
-                    TTetris.this.showTopScores(false);
+    private void bindGameListener(Game paramGame) {
+        paramGame.addListener(new GameAdapter() {
+                public void blockFreezed() { TTetris.this.soundManager.play("FreezeBlock"); }
+                public void blockRotateDenied() { TTetris.this.vibrator.vibrate(50L); }
+                public void lineDisappearing() { TTetris.this.soundManager.play("FireLine"); }
+                public void gameOver() {
+                    TTetris.this.runOnUiThread(new Runnable() {
+                            public void run() {
+                                TTetris.this.changeState(ActivityState.MENU);
+                                TTetris.this.showGameOverDialog();
+                            }
+                        });
+                }
+                /*
+                public void pointsChanged(final int paramAnonymousInt) {
+                    TTetris.this.runOnUiThread(new Runnable() {
+                            public void run() {
+                                //TTetris.this.scoreTextView.setText(TTetris.this.getString(2131034136) + " " + paramAnonymousInt);
+                                //TTetris.this.scoreTextView.setText("Score: " + paramAnonymousInt);
+                            }
+                        });
+                }
+                */
+                public void stateChanged(final GameState paramAnonymousGameState) {
+                    TTetris.this.runOnUiThread(new Runnable() {
+                            public void run() {
+                                if (paramAnonymousGameState == GameState.SUBMIT_SCORE) {
+                                    TTetris.this.continueButton.setVisibility(8);
+                                    return;
+                                }
+                            }
+                        });
                 }
             });
-        this.globalTopScoresButton.setOnClickListener(new View.OnClickListener() {
-                public void onClick(View paramAnonymousView) {
-                    TTetris.this.showTopScores(true);
-                }
-            });        */
     }
-    /*
-    private void cancelReceiveTopScoresTask() {
-        if (this.receiveTopScoresTask != null) {
-            Log.i("TTetris", "Cancel ReceiveTopScoresTask: " + this.receiveTopScoresTask.cancel(false));
-            this.receiveTopScoresTask = null;
-            dismissAlertDialog();
-        }
-        }*/
-    /*
-    private void cancelSubmitTask() {
-        if (this.submitScoreTask != null) {
-            Log.i("TTetris", "Cancel SubmitScoreTask: " + this.submitScoreTask.cancel(false));
-            this.submitScoreTask = null;
-            dismissAlertDialog();
-        }
-    }
-    */
+
     private void changeState(ActivityState paramActivityState) {
-        boolean bool;
+        boolean bool = false;
         if (this.state != paramActivityState) {
             this.uiLayout.removeAllViews();
-            //switch ($SWITCH_TABLE$ru$igsoft$tetris$ActivityState()[paramActivityState.ordinal()]) {
+            //System.out.println("paramActivityState: " + paramActivityState);
+            //System.out.println("((ActivityState)paramActivityState).ordinal(): " + (((ActivityState)paramActivityState).ordinal()));
             switch (((ActivityState)paramActivityState).ordinal()) {
+            case 0:
+                this.uiLayout.addView(this.loadingView);
+                bool = true;
+                break;
+            case 1:
+                this.uiLayout.addView(this.menuView);
+                System.out.println("addView");
+                break;
+            case 2:
+                System.out.println("got here: ");
+
+                this.uiLayout.addView(this.gameView);
+                break;
+            case 3:
+                //this.uiLayout.addView(this.topScoresView);
+                break;
             default:
                 if (this.tetrisScene != null) {
                     TetrisScene localTetrisScene = this.tetrisScene;
                     if (paramActivityState != ActivityState.GAME) {                        
                         bool = true;
-                        label73: localTetrisScene.setPaused(bool);
+                        //label73:
+                        localTetrisScene.setPaused(bool);
                     }
                 } else {
                     if ((paramActivityState != ActivityState.MENU) && (paramActivityState != ActivityState.TOP_SCORES));
-                        //break label163;
+                    //break label163;
                     startThemeMusic();
                 }
                 break;
-            case 1:
-            case 2:
-            case 3:
-            case 4:
+            }
+            this.state = paramActivityState;
+            //while (true) {
+            while (bool) {
+                bool = false;
+                releaseMediaPlayer();
             }
         }
-        while (true) {
-            this.state = paramActivityState;
-            //return;
-            this.uiLayout.addView(this.loadingView);
-            //break;
-            this.uiLayout.addView(this.menuView);
-            //break;
-            this.uiLayout.addView(this.gameView);
-            //break;
-            this.uiLayout.addView(this.topScoresView);
-            //break;
-            bool = false;
-            //break label73;
-            //label163:
-            releaseMediaPlayer();
-        }
-    }
-
-    // ERROR //
-    private Game loadGame() {
-        return (Game)null;
-    }
-
-    // ERROR //
-    private void saveGame(Game paramGame) {
-        //return (Game)null;
     }
 
     private void releaseMediaPlayer() {
@@ -308,7 +230,7 @@ public class TTetris extends ActivityGame {
         localBuilder.setNegativeButton(2131034129, new DialogInterface.OnClickListener() {
                 public void onClick(DialogInterface paramAnonymousDialogInterface, int paramAnonymousInt) {
                     TTetris.this.dismissAlertDialog();
-                    TTetris.this.tetrisScene.stopScoreSubmitting();
+                    //TTetris.this.tetrisScene.stopScoreSubmitting();
                 }
             });
         this.alertDialog = localBuilder.create();
@@ -325,16 +247,6 @@ public class TTetris extends ActivityGame {
             });
     }
 
-    private void showSubmittingProgressDialog() {
-        dismissAlertDialog();
-        this.alertDialog = ProgressDialog.show(this, "", getString(2131034133), false, true, new DialogInterface.OnCancelListener() {
-                public void onCancel(DialogInterface paramAnonymousDialogInterface) {
-                    TTetris.this.alertDialog = null;
-                    //TTetris.this.cancelSubmitTask();
-                }
-            });
-    }
-
     private void startThemeMusic() {
         if (this.mediaPlayer == null) {
             this.mediaPlayer = MediaPlayer.create(this, 2130968581);
@@ -342,20 +254,15 @@ public class TTetris extends ActivityGame {
                 this.mediaPlayer.start();
         }
     }
-
-    protected void OnCancelAllTasks() {
-        super.OnCancelAllTasks();
-        //cancelSubmitTask();
-        //cancelReceiveTopScoresTask();
-    }
-
+    /*
     protected void onAssetManagerCreated(AssetManager paramAssetManager) {
+        System.out.println("loadTextures before");
         paramAssetManager.loadTextures("Textures");
+        System.out.println("loadTextures finished");
         paramAssetManager.loadMeshes("Meshes");
     }
-
+    */
     public void onBackPressed() {
-        //switch ($SWITCH_TABLE$ru$igsoft$tetris$ActivityState()[this.state.ordinal()]) {
         switch (((ActivityState)(this.state)).ordinal()) {
         default:
             return;
@@ -369,41 +276,6 @@ public class TTetris extends ActivityGame {
         changeState(ActivityState.MENU);
     }
 
-    protected void onCreate(Bundle paramBundle) {
-        super.onCreate(paramBundle);
-        this.vibrator = ((Vibrator)getSystemService("vibrator"));
-        this.soundManager = new SoundManager(this, "Sounds");
-
-        //this.loadingView = ((ViewGroup)getLayoutInflater().inflate(2130903041, null));
-        //this.menuView = ((ViewGroup)getLayoutInflater().inflate(2130903042, null));
-        //this.continueButton = this.menuView.findViewById(2131165197);
-        //this.submitButton = this.menuView.findViewById(2131165198);
-        //this.newGameButton = this.menuView.findViewById(2131165199);
-        //this.topScoresButton = this.menuView.findViewById(2131165200);
-        //this.gameView = ((ViewGroup)getLayoutInflater().inflate(2130903040, null));
-        //this.levelTextView = ((TextView)this.gameView.findViewById(2131165192));
-        //this.scoreTextView = ((TextView)this.gameView.findViewById(2131165191));
-        /*
-        //this.moveBlockLeftButton = this.gameView.findViewById(2131165185);
-        //this.moveBlockRightButton = this.gameView.findViewById(2131165186);
-        //this.rotateBlockLeftButton = this.gameView.findViewById(2131165187);
-        //this.rotateBlockRightButton = this.gameView.findViewById(2131165189);
-        //this.throwBlockButton = this.gameView.findViewById(2131165188);
-        //this.changeBoardButton = this.gameView.findViewById(2131165190);  */
-        
-        //this.topScoresView = getLayoutInflater().inflate(2130903043, null);
-        //this.topScoresTable = ((TableLayout)this.topScoresView.findViewById(2131165206));
-        //this.topScoresScrollView = ((ScrollView)this.topScoresView.findViewById(2131165205));
-        //this.dailyTopScoresButton = ((Button)this.topScoresView.findViewById(2131165203));
-        //this.globalTopScoresButton = ((Button)this.topScoresView.findViewById(2131165204));
-        FrameLayout localFrameLayout = new FrameLayout(this);
-        this.uiLayout = new FrameLayout(this);
-        localFrameLayout.addView(this.sceneView);
-        localFrameLayout.addView(this.uiLayout);
-        bindInputListeners();
-        setContentView(localFrameLayout);
-    }
-
     protected void onPause() {
         super.onPause();
         releaseMediaPlayer();
@@ -414,10 +286,11 @@ public class TTetris extends ActivityGame {
         super.onStart();
         TetrisScene localTetrisScene = this.tetrisScene;
         Game localGame = null;
-        boolean bool = false;
+        //boolean bool = false;
         if (localTetrisScene != null) {
             localGame = this.tetrisScene.getGame();
-            bool = this.tetrisScene.isStopScoreSubmitting();
+            //bool = true;
+            //bool = this.tetrisScene.isStopScoreSubmitting();
         }
         int i;
         View localView = null;
@@ -426,7 +299,7 @@ public class TTetris extends ActivityGame {
             i = 0;
             localGame = loadGame();
             if (localGame != null);
-                //break label140;
+            //break label140;
             localGame = new Game();
             bindGameListener(localGame);
             localView = this.continueButton;
@@ -437,8 +310,8 @@ public class TTetris extends ActivityGame {
         while (true) {
             localView.setVisibility(j);
             this.tetrisScene = new TetrisScene(localGame);
-            if (bool)
-                this.tetrisScene.stopScoreSubmitting();
+            //if (bool)
+            //this.tetrisScene.stopScoreSubmitting();
             this.sceneView.setScene(this.tetrisScene);
             changeState(ActivityState.LOADING);
             this.sceneView.queuePostDrawEvent(new Runnable() {
@@ -450,12 +323,14 @@ public class TTetris extends ActivityGame {
                             });
                     }
                 });
-            //return;
+            System.out.println("got here 324");
+            return;
             //label140:
-            if ((localGame.getState() == GameState.PLAY) && (localGame.isActive()));
-            for (i = 1; ; i = 0)
-                break;
-            label169: j = 8;
+            /*
+              if ((localGame.getState() == GameState.PLAY) && (localGame.isActive()));
+              for (i = 1; ; i = 0)
+              break;
+              label169: j = 8;*/
         }
     }
 }

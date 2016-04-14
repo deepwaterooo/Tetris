@@ -15,11 +15,9 @@ public class Block implements Cloneable, Serializable {
     public float centerX;
     public float centerY;
     public float centerZ;
-    /*
-    private final float cubeSize = 1.0f;   
-    private final float shiftUnit = 0.22857f;
-    private final int cubeCounts = 4;
-    */
+    //private final float cubeSize = 1.0f;   
+    //private final float shiftUnit = 0.22857f;
+    //private final int cubeCounts = 4;
 
     static {
         createMetaBlock("Square", CubeColor.Anchient, BlockType.squareType, 0.5F, 0.5F, 0.0F);
@@ -58,24 +56,6 @@ public class Block implements Cloneable, Serializable {
                                      j, k, x);
         }
     }
-    /*
-    // constructor wrote by me for tem use
-    public Block(CubeShift[] shifts, int i, int j, int k) {
-        CubeShift[] arrayOfCubeShift = shifts;
-        this.cubes = new Cube[arrayOfCubeShift.length]; // constant 4
-        for (int m = 0; ; m++) {
-            if (m >= arrayOfCubeShift.length) {
-                this.centerX = i;
-                this.centerY = j;
-                this.centerZ = k;
-                return;
-            }
-            this.cubes[m] = new Cube(paramBlockMeta.getColor(),
-                                     arrayOfCubeShift[m].getDx(), arrayOfCubeShift[m].getDy(), arrayOfCubeShift[m].getDz(),
-                                     j, k, x);
-        
-        }
-    */
     
     public Cube[] getCubes() { return this.cubes; }
     public CubeColor getColor() {

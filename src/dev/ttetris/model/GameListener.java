@@ -1,8 +1,8 @@
 package dev.ttetris.model;
 
 public abstract interface GameListener {
-    public abstract void boardChangeDenied();
-    public abstract void boardChanged(Board paramBoard);
+    //public abstract void boardChangeDenied();
+    //public abstract void boardChanged(Board paramBoard);
     public abstract void boardCreated(Board paramBoard);
     public abstract void blockFalled();
     public abstract void blockFreezed();

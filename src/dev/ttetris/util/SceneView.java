@@ -30,15 +30,14 @@ public class SceneView extends GLSurfaceView {
                     public void onDrawFrame(GL10 paramAnonymousGL10) {
                         SceneView.this.executePreDrawEvents();
                         if (SceneView.this.activeScene != null)
-                            SceneView.this.activeScene.drawFrame(SceneView.this.assetManager, SceneView.this.getWidth(), SceneView.this.getHeight());
-                        while (true)
-                            {
-                                SceneView.this.executePostDrawEvents();
-                                //return;
-                                GLES20.glClearColor(0.0F, 0.0F, 0.0F, 1.0F);
-                                GLES20.glColorMask(true, true, true, true);
-                                GLES20.glClear(16384);
-                            }
+                            SceneView.this.activeScene.drawFrame(SceneView.this.assetManager, SceneView.this.getWidth(), SceneView.this.getHeight(), 10);  // problem here
+                        while (true) {
+                            SceneView.this.executePostDrawEvents();
+                            //return;
+                            GLES20.glClearColor(0.0F, 0.0F, 0.0F, 1.0F);
+                            GLES20.glColorMask(true, true, true, true);
+                            GLES20.glClear(16384);
+                        }
                     }
 
                     public void onSurfaceChanged(GL10 paramAnonymousGL10, int paramAnonymousInt1, int paramAnonymousInt2) {
@@ -60,7 +59,7 @@ public class SceneView extends GLSurfaceView {
                     paramAnonymousGL10.glClearColor(0.0F, 0.0F, 0.0F, 1.0F);
                     paramAnonymousGL10.glClear(16640);
                     if (SceneView.this.activeScene != null)
-                        SceneView.this.activeScene.drawFrame(SceneView.this.assetManager, SceneView.this.getWidth(), SceneView.this.getHeight());
+                        SceneView.this.activeScene.drawFrame(SceneView.this.assetManager, SceneView.this.getWidth(), SceneView.this.getHeight(), 10);
                     SceneView.this.executePostDrawEvents();
                 }
 
@@ -98,8 +97,7 @@ public class SceneView extends GLSurfaceView {
     }
 
     @Deprecated
-    public void queueEvent(Runnable paramRunnable) {
-    }
+    public void queueEvent(Runnable paramRunnable) {}
 
     public void queuePostDrawEvent(Runnable paramRunnable) {
         synchronized (this.postDrawEvents) {

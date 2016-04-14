@@ -15,127 +15,86 @@ import android.os.Bundle;
 
 public class Board implements Serializable {
     private static final long serialVersionUID = -2318261556694003675L;
-    private ArrayList<ArrayList<Cube>> disappearingCubes;
-    private float disappearingTime;
-    private Block block;
+    private ArrayList<Cube> staticCubes = new ArrayList();
     private ArrayList<Cube> blockCubes = new ArrayList(); 
+    private ArrayList<ArrayList<Cube>> disappearingCubes;
+    private int height; // y 
     private int width;  // x 
     private int depth;  // z
-    private int height; // y 
-    private transient BoardListener listener;
-    private BoardListener2 listener2;
-    private ArrayList<Cube> staticCubes = new ArrayList();
     private int xbgn;
     private int xend;
     private int ybgn;
     private int yend;
     private int zbgn;
     private int zend;
+    private Block block;
+    private float disappearingTime;
+    private transient BoardListener listener;
+    private BoardListener2 listener2;
     
-    public Board(int paramInt1, int paramInt2, int paramInt3) {
+    public int getDepth() { return this.depth; }
+    public int getHeight() { return this.height; }
+    public int getWidth() { return this.width; }
+    public int getXBGN() { return this.xbgn; }
+    public int getXEND() { return this.xend; }
+    public boolean isDisappearing() { return this.disappearingCubes != null; }
+
+    public Board(int paramInt1, int paramInt2, int paramInt3) { // height y, width(col) x, depth(row) z
         this.height = paramInt1; // y 10
         this.width = paramInt2;  // x 6
         this.depth = paramInt3;  // z 6
         
-        this.xbgn = (-paramInt2 / 2);
-        this.xend = (paramInt2 / 2);
+        this.xbgn = (-paramInt2 / 2); // -3
+        this.xend = (paramInt2 / 2);  // 3
         if ((paramInt2 & 0x1) == 0) // potentially a bug here
-            this.xbgn = (1 + this.xbgn); // -2 ?
-        // set Z to be about the same as X
-        this.zbgn = this.xbgn;
-        this.zend = this.zend;
+            this.xbgn = (1 + this.xbgn); // -2 
+        this.zbgn = this.xbgn;  // -2
+        this.zend = this.zend;  // 3
         this.ybgn = 0;
         this.yend = (paramInt3 - 1); // 9
+
+        block = new Block((BlockMeta)new BlockMeta(CubeColor.Anchient, BlockType.squareType, 0.5F, 0.5F, 0.0F));
         
-        int i = this.ybgn; // 0
-        int j = 0;
-        //label105: {}
-        int k = 0; 
-        if (i >= this.yend) {
-            j = this.xbgn;
-            if (j <= this.xend);
-                //break label180;
-            k = this.ybgn;
-            label120: if (k < this.yend);
-                //break label221;
-        }
-        for (int m = 0; ; m++) {
-            if (m >= 4) {
-                //return;
-                Cube localCube1 = new Cube(CubeColor.Brass, this.xbgn, -i, 0);
-                this.staticCubes.add(localCube1);
-                notifyCubeCreated(localCube1);
-                i++;
-                //break;
-                //label180: {}
-                Cube localCube2 = new Cube(CubeColor.Brass, j, -this.yend, 0); 
-                this.staticCubes.add(localCube2);
-                notifyCubeCreated(localCube2);
-                j++;
-                //break label105;
-                //label221: {}
-                Cube localCube3 = new Cube(CubeColor.Brass, this.xend, -k, 0); 
-                this.staticCubes.add(localCube3);
-                notifyCubeCreated(localCube3);
-                k++;
-                //break label120;
-            }
-            this.staticCubes.add(new Cube(CubeColor.Hidden, this.xbgn, -(this.ybgn - m), 0));
-            this.staticCubes.add(new Cube(CubeColor.Hidden, this.xend, -(this.ybgn - m), 0));
-        }
-    }
-
-    private ArrayList<ArrayList<Cube>> findDisappearingCubes() {
-        HashMap localHashMap = new HashMap();
-        Iterator localIterator1 = this.blockCubes.iterator();
-        Object localObject = null;
-        Iterator localIterator2 = null;
-        if (!localIterator1.hasNext()) {
-            localObject = null;
-            localIterator2 = localHashMap.values().iterator();
-        }
-        while (true) { // Y indicating height
-            if (!localIterator2.hasNext()) {
-                //return (ArrayList<ArrayList<Cube>>)localObject;
-                Cube localCube = (Cube)localIterator1.next();
-                ArrayList localArrayList1 = (ArrayList)localHashMap.get(Integer.valueOf(localCube.getY()));
-                if (localArrayList1 == null) {
-                    localArrayList1 = new ArrayList();
-                    localHashMap.put(Integer.valueOf(localCube.getY()), localArrayList1);
-                }
-                localArrayList1.add(localCube);
-                return (ArrayList<ArrayList<Cube>>)localObject;
-                //break;
-            }
-            ArrayList localArrayList2 = (ArrayList)localIterator2.next();
-            if (localArrayList2.size() == -2 + this.width) {
-                if (localObject == null)
-                    localObject = new ArrayList();
-                Collections.sort(localArrayList2);
-                ((ArrayList)localObject).add(localArrayList2);
-            }
-        }
-    }
-
-    private boolean isCellFree(int paramInt1, int paramInt2, int paramInt3) {
-        Iterator localIterator1 = this.staticCubes.iterator();
-        Iterator localIterator2 = null;
-        if (!localIterator1.hasNext())
-            localIterator2 = this.blockCubes.iterator();
-        Cube localCube2 = null;
-        do {
-            if (!localIterator2.hasNext()) //{
-                return true;
-            //} else {
-            Cube localCube1 = (Cube)localIterator1.next();
-            if ((localCube1.getX() != paramInt1) || (localCube1.getY() != paramInt2)
-                || localCube1.getZ() != paramInt3)
-                break;
-            //return false;
-            //}
-            localCube2 = (Cube)localIterator2.next();
-        } while ((localCube2.getX() != paramInt1) || (localCube2.getY() != paramInt2) || localCube2.getY() != paramInt3);
-        return false;
+        /*int i = this.ybgn; // i:y 0
+          int j = 0;         // j:x 0
+          //label105: {}
+          int k = 0;         // k:z 0
+          if (i >= this.yend) { // 9
+          j = this.xbgn; // j:x -2
+          //if (j <= this.xend);
+          //break label180;
+          k = this.ybgn; // k:y 0
+          //label120: if (k < this.yend);
+          //break label221;
+          }
+          for (int m = 0; ; m++) {
+          if (m >= 4) {
+          //return;
+          Cube localCube1 = new Cube(CubeColor.Brass, this.xbgn, -i, 0);
+          this.staticCubes.add(localCube1);
+          notifyCubeCreated(localCube1);
+          i++;
+          //break;
+          //label180: {}
+          Cube localCube2 = new Cube(CubeColor.Brass, j, -this.yend, 0); 
+          this.staticCubes.add(localCube2);
+          notifyCubeCreated(localCube2);
+          j++;
+          //break label105;
+          //label221: {}
+          Cube localCube3 = new Cube(CubeColor.Brass, this.xend, -k, 0); 
+          this.staticCubes.add(localCube3);
+          notifyCubeCreated(localCube3);
+          k++;
+          //break label120;
+          }
+          this.staticCubes.add(new Cube(CubeColor.Hidden, this.xbgn, -(this.ybgn - m), 0));
+          this.staticCubes.add(new Cube(CubeColor.Hidden, this.xend, -(this.ybgn - m), 0));
+        */
+        Cube [] localCubeArr = block.getCubes();
+        int n = localCubeArr.length;
+        for (int i = 0; i < n; i++)
+            staticCubes.add(localCubeArr[i]);
     }
 
     private void notifyCubeCreated(Cube paramCube) {
@@ -198,6 +157,59 @@ public class Board implements Serializable {
         }
     }
 
+    private ArrayList<ArrayList<Cube>> findDisappearingCubes() {
+        HashMap localHashMap = new HashMap();
+        Iterator localIterator1 = this.blockCubes.iterator();
+        Object localObject = null;
+        Iterator localIterator2 = null;
+        if (!localIterator1.hasNext()) {
+            localObject = null;
+            localIterator2 = localHashMap.values().iterator();
+        }
+        while (true) { // Y indicating height
+            if (!localIterator2.hasNext()) {
+                //return (ArrayList<ArrayList<Cube>>)localObject;
+                Cube localCube = (Cube)localIterator1.next();
+                ArrayList localArrayList1 = (ArrayList)localHashMap.get(Integer.valueOf(localCube.getY()));
+                if (localArrayList1 == null) {
+                    localArrayList1 = new ArrayList();
+                    localHashMap.put(Integer.valueOf(localCube.getY()), localArrayList1);
+                }
+                localArrayList1.add(localCube);
+                return (ArrayList<ArrayList<Cube>>)localObject;
+                //break;
+            }
+            ArrayList localArrayList2 = (ArrayList)localIterator2.next();
+            if (localArrayList2.size() == -2 + this.width) {
+                if (localObject == null)
+                    localObject = new ArrayList();
+                Collections.sort(localArrayList2);
+                ((ArrayList)localObject).add(localArrayList2);
+            }
+        }
+    }
+
+    private boolean isCellFree(int paramInt1, int paramInt2, int paramInt3) {
+        Iterator localIterator1 = this.staticCubes.iterator();
+        Iterator localIterator2 = null;
+        if (!localIterator1.hasNext())
+            localIterator2 = this.blockCubes.iterator();
+        Cube localCube2 = null;
+        do {
+            if (!localIterator2.hasNext()) //{
+                return true;
+            //} else {
+            Cube localCube1 = (Cube)localIterator1.next();
+            if ((localCube1.getX() != paramInt1) || (localCube1.getY() != paramInt2)
+                || localCube1.getZ() != paramInt3)
+                break;
+            //return false;
+            //}
+            localCube2 = (Cube)localIterator2.next();
+        } while ((localCube2.getX() != paramInt1) || (localCube2.getY() != paramInt2) || localCube2.getY() != paramInt3);
+        return false;
+    }
+
     public boolean freezeBlock(Block paramBlock) {
         if (this.block != paramBlock)
             throw new RuntimeException("Block must be the same");
@@ -226,30 +238,6 @@ public class Board implements Serializable {
             notifyLineDisappearing(((Cube)((ArrayList)localIterator.next()).get(0)).getY());
         }
         return true; // added for debugging
-    }
-
-    public int getDepth() {
-        return this.depth;
-    }
-
-    public int getHeight() {
-        return this.height;
-    }
-
-    public int getWidth() {
-        return this.width;
-    }
-
-    public int getXBGN() {
-        return this.xbgn;
-    }
-
-    public int getXEND() {
-        return this.xend;
-    }
-
-    public boolean isDisappearing() {
-        return this.disappearingCubes != null;
     }
 
     public boolean moveBlock(Block paramBlock, int paramInt1, int paramInt2, int paramInt3) {
@@ -421,54 +409,5 @@ public class Board implements Serializable {
                 notifyCubeMoved(localCube2);
             }
         }
-    }
-    
-    public enum GameStatus {
-		BEFORE_START {}, ACTIVE {}, PAUSED {}, OVER {};
-	}
-
-	public enum Move { // supposed to change
-		LEFT, RIGHT, ROTATE, DOWN
-	}
-
-	private GameStatus gameStatus = GameStatus.BEFORE_START;
-	private static final String TAG_DATA = "data";
-	private static final String TAG_ACTIVE_BLOCK = "active-block";
-    public static final int ROW = 6; // x
-    public static final int COL = 6; // z 
-    public static final int HIG = 10; // y
-
-    public int[][][] next = null;  
-    public int[][][] board = null; 
-    private int score;    
-    public int speed;
-
-    public Board() {
-        score = 0;
-        speed = 100;
-        next = new int[4][4][4];
-        board = new int[ROW][COL][HIG];
-    }
-    /*
-    // put generated Block into Next area
-    public void putNextBlock(Block b) {
-        Cube [] cubes = b.getCubes();
-        int n = cubes.length;
-        for (int i = 0; i < n; i++) {
-            int x = (int)cubes[i].getX();// + b.centerX;
-            int y = (int)cubes[i].getY();// + b.centerY;
-            int z = (int)cubes[i].getZ();// + b.centerZ;
-            next[x][y][z] = b.getColor();
-        }
-    }
-    */
-    
-	public void setCellStatus(int nRow, int nCol, int nHig, byte nStatus) {
-		board[nRow][nCol][nHig] = nStatus;
-	}
-
-    // @param x: the number of rows full and destroyed
-    public int getUpdatedScore(int x) {
-        return score += x * x * 10;
     }
 }

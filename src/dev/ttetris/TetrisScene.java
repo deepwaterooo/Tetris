@@ -13,31 +13,17 @@ public class TetrisScene extends Scene {
     private Game game;
     private boolean stopScoreSubmitting;
 
-    public TetrisScene(Game paramGame) {
-        this.game = paramGame;
-    }
-
-    public Game getGame() {
-        return this.game;
-    }
+    public TetrisScene(Game paramGame) { this.game = paramGame; }
+    public Game getGame() { return this.game; }
+    public int getGameScore() { return this.game.getPoints(); }
+    public boolean isPaused() { return this.game.isPaused(); }
+    public boolean isStopScoreSubmitting() { return this.stopScoreSubmitting; }
 
     public GameResult getGameResult() {
         GameResult localGameResult = new GameResult();
         localGameResult.setPlayTime(this.game.getPlayTime());
         localGameResult.setScore(this.game.getPoints());
         return localGameResult;
-    }
-
-    public int getGameScore() {
-        return this.game.getPoints();
-    }
-
-    public boolean isPaused() {
-        return this.game.isPaused();
-    }
-
-    public boolean isStopScoreSubmitting() {
-        return this.stopScoreSubmitting;
     }
 
     public void moveBlockLeft() {
@@ -47,7 +33,6 @@ public class TetrisScene extends Scene {
                 }
             });
     }
-
     public void moveBlockRight() {
         queueEvent(new Runnable() {
                 public void run() {
@@ -58,8 +43,8 @@ public class TetrisScene extends Scene {
 
     protected void onCreate(AssetManager paramAssetManager) {
         setFrustrum(45.0F, 1.0F, 50.0F);
-        this.renderParams.setLookAt(0.0F, 0.0F, 18.0F, 0.0F, 0.0F, 0.0F, 0.0F, 1.0F, 0.0F);
-        this.rootNode.attachGeometry(new BackgroundGeometry(paramAssetManager));
+        this.renderParams.setLookAt(4.8f, 2.2f, 4.5f, 0f, 0f, 0f, 0f, 1.0f, 0.0f); 
+        this.rootNode.attachGeometry(new BackgroundGeometry(paramAssetManager));    // ?????????????????????????????????
         GameView localGameView = new GameView(paramAssetManager, this.game);
         this.game.addListener(localGameView);
         this.rootNode.addChild(localGameView);

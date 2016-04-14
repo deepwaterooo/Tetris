@@ -7,6 +7,7 @@ import java.util.Iterator;
 
 import dev.ttetris.util.AssetManager;
 import dev.ttetris.util.Node;
+import dev.ttetris.util.Geometry;
 //import dev.anogl.ParticleGenerator;
 //import dev.anogl.ParticleParams;
 //import dev.anogl.ParticleSystem;
@@ -16,7 +17,7 @@ import dev.ttetris.model.BoardListener;
 
 public abstract class BoardView extends Node implements BoardListener {
     protected AssetManager assetManager;
-    protected Board model;
+    protected Board board;
     private Node[] disappearingTrailNodes;
     //private ParticleSystem[] disappearingTrails;
 
@@ -24,7 +25,7 @@ public abstract class BoardView extends Node implements BoardListener {
 
     public BoardView(AssetManager paramAssetManager, Board paramBoard) {
         this.assetManager = paramAssetManager;
-        this.model = paramBoard;
+        this.board = paramBoard;
         int i = -2 + paramBoard.getHeight();
         this.disappearingTrailNodes = new Node[i];
         //this.disappearingTrails = new ParticleSystem[i];
@@ -62,12 +63,12 @@ public abstract class BoardView extends Node implements BoardListener {
         }
     }
 
-    public float getHeight() { return this.model.getHeight(); }
-    public float getWidth() { return this.model.getWidth(); }
+    public float getHeight() { return this.board.getHeight(); }
+    public float getWidth() { return this.board.getWidth(); }
 
     /*
     public void lineDisappearing(int paramInt) {
-        this.disappearingTrails[(-2 + (paramInt + this.model.getHeight()))].restart();
+        this.disappearingTrails[(-2 + (paramInt + this.board.getHeight()))].restart();
     }
     */
 
@@ -78,20 +79,19 @@ public abstract class BoardView extends Node implements BoardListener {
         if (!bool);
         while (true) {
             if (localObject == null) {
-                //localObject = new CubeBatchGeometry(this.assetManager, paramCube.getType());
-                //attachGeometry((Geometry)localObject);
+                localObject = new CubeBatchGeometry(this.assetManager, paramCube.getColor());
+                attachGeometry((Geometry)localObject);
             }
             ((CubeBatchGeometry)localObject).addCube(paramCube);
             this.cubeMap.put(paramCube, (CubeBatchGeometry)localObject);
-            return;
-            //Geometry localGeometry = (Geometry)localIterator.next();
-            /*
+            //return;
+            Geometry localGeometry = (Geometry)localIterator.next();
             if (!(localGeometry instanceof CubeBatchGeometry))
                 break;
                 CubeBatchGeometry localCubeBatchGeometry = (CubeBatchGeometry)localGeometry; 
-            if ((localCubeBatchGeometry.getCubeType() != paramCube.getType()) || (localCubeBatchGeometry.isFull()))
+            if ((localCubeBatchGeometry.getCubeColor() != paramCube.getColor()) || (localCubeBatchGeometry.isFull()))
                 break;
-                localObject = localCubeBatchGeometry; */
+                localObject = localCubeBatchGeometry; 
         }
     }
 

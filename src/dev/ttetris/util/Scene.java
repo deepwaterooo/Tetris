@@ -12,8 +12,11 @@ import java.util.List;
 import java.util.Queue;
 
 public abstract class Scene {
-    private static final float DEFAULT_FPS = 30.0F;
-    private static final String TAG = "Scene";
+    //private static final float DEFAULT_FPS = 30.0F;
+    //private static final String TAG = "Scene";
+    protected int height; // y
+    protected int width;  // x
+    protected int depth;  // z
     protected float aspectRatio = 1.5F;
     protected float averageFps;
     protected boolean created;
@@ -23,7 +26,6 @@ public abstract class Scene {
     protected float fov = 45.0F;
     protected List<FrameBuffer> frameBuffers = new ArrayList();
     protected GeometryComparator geometryComparator = new GeometryComparator();
-    protected int height;
     protected long lastTime;
     protected boolean logFps;
     protected float near = 1.0F;
@@ -32,30 +34,32 @@ public abstract class Scene {
     protected Node rootNode;
     protected List<Geometry> traversedGeometries = new ArrayList();
     protected long updateInterval;
-    protected int width;
     protected float[] worldMatrix = new float[16];
 
-    public Scene() {
-        setFps(30.0F);
-    }
-
-    public void addFrameBuffer(FrameBuffer paramFrameBuffer) {
-        this.frameBuffers.add(paramFrameBuffer);
-    }
-
-    public void drawFrame(AssetManager paramAssetManager, int paramInt1, int paramInt2) {
+    public Scene() { setFps(30.0F); }
+    public void addFrameBuffer(FrameBuffer paramFrameBuffer) { this.frameBuffers.add(paramFrameBuffer); }
+    public float getAverageFps() { return this.averageFps; }
+    public float getCurrentFps() { return this.currentFps; }
+    protected void onCreate(AssetManager paramAssetManager) {}
+    protected void onResize() {}
+    protected void onUpdate(float paramFloat) {}
+    
+    public void drawFrame(AssetManager paramAssetManager, int paramInt1, int paramInt2, int paramInt3) {
         if (!this.created) {
             this.rootNode = new Node();
             this.renderParams = new RenderParams();
-            this.renderParams.setLookAt(0.0F, 0.0F, 10.0F, 0.0F, 0.0F, 0.0F, 0.0F, 1.0F, 0.0F);
+            //this.renderParams.setLookAt(0.0F, 0.0F, 10.0F, 0.0F, 0.0F, 0.0F, 0.0F, 1.0F, 0.0F);
+            this.renderParams.setLookAt(4.8f, 2.2f, 4.5f, 0f, 0f, 0f, 0f, 1.0f, 0.0f); 
             Matrix.setIdentityM(this.worldMatrix, 0);
-            onCreate(paramAssetManager);
+            onCreate(paramAssetManager);  //////????????????????????????/
             this.created = true;
         }
-        if ((this.width != paramInt1) || (this.height != paramInt2)) {
-            this.width = paramInt1;
-            this.height = paramInt2;
-            this.aspectRatio = (paramInt1 / paramInt2);
+        // 1 width COL z; 2 height HEIGHT y; 3 row ROW z;
+        if ((this.width != paramInt1) || (this.height != paramInt2) || this.depth != paramInt3) {
+            this.width = paramInt1; // x
+            this.depth = paramInt2; // z
+            this.height = paramInt3;// y
+            this.aspectRatio = (float)(paramInt1 / paramInt2);
             updateFrustrum();
             onResize();
         }
@@ -67,9 +71,28 @@ public abstract class Scene {
         if (l2 >= this.updateInterval) {
             this.lastTime = l1;
             f1 = 0.001F * (float)l2;
-            if (l2 != 0L);
-            //break label314;
-        }
+            //if (l2 != 0L);  //break label314;
+            for (float f2 = 0.0F; ; f2 = 1.0F / f1) {
+                this.currentFps = f2;
+                this.averageFps = (0.5F * (this.currentFps + this.previousFps));
+                this.previousFps = this.currentFps;
+                if (this.logFps)
+                    Log.v("Scene", "averageFps=" + this.averageFps + ", currentFps=" + this.currentFps);
+                executeEvents();
+                onUpdate(f1);
+                this.rootNode.update(f1);
+                render();
+                int i = GLES20.glGetError();
+                if (i != 0)
+                    Log.e("Scene", ErrorInfo.getDesc(i));
+                //return;
+                executeEvents();
+                Thread.yield();
+                l1 = SystemClock.uptimeMillis();
+                break;
+            } 
+            
+        }/*
         label314: for (float f2 = 0.0F; ; f2 = 1.0F / f1) {
             this.currentFps = f2;
             this.averageFps = (0.5F * (this.currentFps + this.previousFps));
@@ -88,7 +111,7 @@ public abstract class Scene {
             Thread.yield();
             l1 = SystemClock.uptimeMillis();
             break;
-        }
+            } */
     }
 
     protected void executeEvents() {
@@ -97,23 +120,6 @@ public abstract class Scene {
                 return;
             ((Runnable)this.events.poll()).run();
         }
-    }
-
-    public float getAverageFps() {
-        return this.averageFps;
-    }
-
-    public float getCurrentFps() {
-        return this.currentFps;
-    }
-
-    protected void onCreate(AssetManager paramAssetManager) {
-    }
-
-    protected void onResize() {
-    }
-
-    protected void onUpdate(float paramFloat) {
     }
 
     protected void queueEvent(Runnable paramRunnable) {

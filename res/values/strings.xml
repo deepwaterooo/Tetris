@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name">Ultimate Tetris</string>
+    <string name="app_name">Ultimate Tetris 3D</string>
     <string name="main_title">Ultimate Tetris</string>
     <string name="mara_label">MARATHON</string>
     <string name="time_label">TIME ATTACK</string>
@@ -23,5 +23,11 @@
     <string name="right">Right</string>
     <string name="rttleft">Rotate Left</string>
     <string name="rttright">Rotate Right</string>
+
+    <string name="game_loading">Loading…</string>
+    <string name="continue_game">Continue</string>
+    <string name="new_game">New Game</string>
+    <string name="top_scores">Top Scores</string>
+    <string name="game_over">Game Over</string>
 
 </resources>

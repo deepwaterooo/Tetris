@@ -858,7 +858,7 @@ containing a value of this type.
         public static final int abc_split_action_bar_is_narrow=0x7f070002;
     }
     public static final class color {
-        public static final int abc_search_url_text_holo=0x7f080008;
+        public static final int abc_search_url_text_holo=0x7f080009;
         public static final int abc_search_url_text_normal=0x7f080000;
         public static final int abc_search_url_text_pressed=0x7f080002;
         public static final int abc_search_url_text_selected=0x7f080001;
@@ -867,6 +867,7 @@ containing a value of this type.
         public static final int muted_red=0x7f080003;
         public static final int muted_yellow=0x7f080004;
         public static final int text_violet=0x7f080007;
+        public static final int transparency=0x7f080008;
     }
     public static final class dimen {
         /**  Default height of an action bar. 
@@ -1103,12 +1104,13 @@ containing a value of this type.
         public static final int action_menu_divider=0x7f060016;
         public static final int action_menu_presenter=0x7f060017;
         public static final int action_mode_close_button=0x7f060024;
-        public static final int action_settings=0x7f06003c;
+        public static final int action_settings=0x7f06003f;
         public static final int activity_chooser_view_content=0x7f060025;
         public static final int always=0x7f06000b;
         public static final int beginning=0x7f060011;
         public static final int checkbox=0x7f06002d;
         public static final int collapseActionView=0x7f06000d;
+        public static final int continue_game=0x7f06003c;
         public static final int default_activity_button=0x7f060028;
         public static final int dialog=0x7f06000e;
         public static final int disableHome=0x7f060008;
@@ -1126,6 +1128,7 @@ containing a value of this type.
         public static final int list_item=0x7f060029;
         public static final int middle=0x7f060012;
         public static final int never=0x7f060009;
+        public static final int new_game=0x7f06003d;
         public static final int none=0x7f060010;
         public static final int normal=0x7f060000;
         public static final int progress_circular=0x7f060018;
@@ -1150,6 +1153,7 @@ containing a value of this type.
         public static final int tabMode=0x7f060002;
         public static final int title=0x7f06002b;
         public static final int top_action_bar=0x7f060020;
+        public static final int top_scores=0x7f06003e;
         public static final int up=0x7f060021;
         public static final int useLogo=0x7f060003;
         public static final int withText=0x7f06000c;
@@ -1204,7 +1208,10 @@ containing a value of this type.
         public static final int abc_search_dropdown_item_icons_2line=0x7f030015;
         public static final int abc_search_view=0x7f030016;
         public static final int abc_simple_decor=0x7f030017;
-        public static final int support_simple_spinner_dropdown_item=0x7f030018;
+        public static final int game=0x7f030018;
+        public static final int loading=0x7f030019;
+        public static final int menu=0x7f03001a;
+        public static final int support_simple_spinner_dropdown_item=0x7f03001b;
     }
     public static final class menu {
         public static final int ttetris=0x7f0d0000;
@@ -1260,8 +1267,11 @@ containing a value of this type.
         public static final int abc_shareactionprovider_share_with_application=0x7f0b000b;
         public static final int action_settings=0x7f0b001b;
         public static final int app_name=0x7f0b000d;
+        public static final int continue_game=0x7f0b0022;
         public static final int down=0x7f0b001d;
         public static final int exit_label=0x7f0b0013;
+        public static final int game_loading=0x7f0b0021;
+        public static final int game_over=0x7f0b0025;
         public static final int high_scores_format=0x7f0b0019;
         public static final int left=0x7f0b001c;
         public static final int main_title=0x7f0b000e;
@@ -1269,6 +1279,7 @@ containing a value of this type.
         public static final int mode_over=0x7f0b0018;
         public static final int mode_pause=0x7f0b0017;
         public static final int mode_ready=0x7f0b0016;
+        public static final int new_game=0x7f0b0023;
         public static final int right=0x7f0b001e;
         public static final int rttleft=0x7f0b001f;
         public static final int rttright=0x7f0b0020;
@@ -1277,6 +1288,7 @@ containing a value of this type.
         public static final int tetris_over=0x7f0b0015;
         public static final int tetris_title=0x7f0b0014;
         public static final int time_label=0x7f0b0010;
+        public static final int top_scores=0x7f0b0024;
         public static final int toy_label=0x7f0b0011;
     }
     public static final class style {

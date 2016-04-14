@@ -59,7 +59,7 @@ public class Game implements BoardListener2, Serializable {
     private float getFallTime() {
         return 1.1F + -0.75F * Math.min(1.0F, (-1 + this.level) / 9.0F);
     }
-
+    /*
     private void noitfyBoardChangeDenied() {
         Iterator localIterator = this.listeners.iterator();
         while (true) {
@@ -77,7 +77,7 @@ public class Game implements BoardListener2, Serializable {
             ((GameListener)localIterator.next()).boardChanged(paramBoard);
         }
     }
-
+    */
     private void notifyBlockFalled() {
         Iterator localIterator = this.listeners.iterator();
         while (true) {

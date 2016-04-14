@@ -17,7 +17,6 @@ public class BoardBatchView extends BoardView {
     public BoardBatchView(AssetManager paramAssetManager, Board paramBoard) {
         super(paramAssetManager, paramBoard);
     }
-
     public void cubeCreated(Cube paramCube) {
         Iterator localIterator = getGeometries().iterator();
         boolean bool = localIterator.hasNext();

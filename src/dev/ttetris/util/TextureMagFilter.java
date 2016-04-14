@@ -1,6 +1,7 @@
 package dev.ttetris.util;
 
 public enum TextureMagFilter {
+    NEAREST("NEAREST", 0, 9700), // FOR LATER DEBUG
     LINEAR("LINEAR", 1, 9729); // add one more value
 
     private String name;
