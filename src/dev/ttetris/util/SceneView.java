@@ -18,9 +18,7 @@ public class SceneView extends GLSurfaceView {
     protected Queue<Runnable> postDrawEvents = new LinkedList();
     protected Queue<Runnable> preDrawEvents = new LinkedList();
 
-    public SceneView(Context paramContext) {
-        this(paramContext, null);
-    }
+    public SceneView(Context paramContext) { this(paramContext, null); }
 
     public SceneView(Context paramContext, final OnAssetManagerCreated paramOnAssetManagerCreated) {
         super(paramContext);
@@ -30,7 +28,7 @@ public class SceneView extends GLSurfaceView {
                     public void onDrawFrame(GL10 paramAnonymousGL10) {
                         SceneView.this.executePreDrawEvents();
                         if (SceneView.this.activeScene != null)
-                            SceneView.this.activeScene.drawFrame(SceneView.this.assetManager, SceneView.this.getWidth(), SceneView.this.getHeight(), 10);  // problem here
+                            SceneView.this.activeScene.drawFrame(SceneView.this.assetManager, SceneView.this.getWidth(), SceneView.this.getHeight(), 10);// problem here 10
                         while (true) {
                             SceneView.this.executePostDrawEvents();
                             //return;
@@ -53,7 +51,7 @@ public class SceneView extends GLSurfaceView {
                 });
             return;
         }
-        setRenderer(new GLSurfaceView.Renderer() {
+        setRenderer(new GLSurfaceView.Renderer() { // for GL10, ignore this part at this time
                 public void onDrawFrame(GL10 paramAnonymousGL10) {
                     SceneView.this.executePreDrawEvents();
                     paramAnonymousGL10.glClearColor(0.0F, 0.0F, 0.0F, 1.0F);
@@ -62,11 +60,9 @@ public class SceneView extends GLSurfaceView {
                         SceneView.this.activeScene.drawFrame(SceneView.this.assetManager, SceneView.this.getWidth(), SceneView.this.getHeight(), 10);
                     SceneView.this.executePostDrawEvents();
                 }
-
                 public void onSurfaceChanged(GL10 paramAnonymousGL10, int paramAnonymousInt1, int paramAnonymousInt2) {
                     paramAnonymousGL10.glViewport(0, 0, paramAnonymousInt1, paramAnonymousInt2);
                 }
-
                 public void onSurfaceCreated(GL10 paramAnonymousGL10, EGLConfig paramAnonymousEGLConfig) {
                     SceneView.this.activeScene = null;
                     SceneView.this.assetManager = new AssetManager(SceneView.this.getContext(), SceneView.DEFAULT_TEXTURE_PARAMS);
@@ -74,10 +70,6 @@ public class SceneView extends GLSurfaceView {
                         paramOnAssetManagerCreated.onCreated(SceneView.this.assetManager);
                 }
             });
-    }
-
-    private boolean detectOpenGLES20() {
-        return ((ActivityManager)getContext().getSystemService("activity")).getDeviceConfigurationInfo().reqGlEsVersion >= 131072;
     }
 
     private void executePostDrawEvents() {
@@ -98,6 +90,10 @@ public class SceneView extends GLSurfaceView {
 
     @Deprecated
     public void queueEvent(Runnable paramRunnable) {}
+
+    public static abstract interface OnAssetManagerCreated {
+        public abstract void onCreated(AssetManager paramAssetManager);
+    }
 
     public void queuePostDrawEvent(Runnable paramRunnable) {
         synchronized (this.postDrawEvents) {
@@ -121,7 +117,7 @@ public class SceneView extends GLSurfaceView {
             });
     }
 
-    public static abstract interface OnAssetManagerCreated {
-        public abstract void onCreated(AssetManager paramAssetManager);
+    private boolean detectOpenGLES20() {
+        return ((ActivityManager)getContext().getSystemService("activity")).getDeviceConfigurationInfo().reqGlEsVersion >= 131072;
     }
 }

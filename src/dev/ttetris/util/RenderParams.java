@@ -7,13 +7,13 @@ import dev.ttetris.util.Vector3;
 public class RenderParams implements Cloneable {
     public final float[] cameraPositionView = new float[4];
     public final float[] cameraPositionWorld = new float[4];
-    //public Light light;
-    public Material prevMaterial;
     public final float[] projMatrix = new float[16];
     public final float[] reflectionMatrix = new float[16];
     public final float[] viewInvMatrix = new float[16];
     public final float[] viewMatrix = new float[16];
     public final float[] viewProjMatrix = new float[16];
+    public Material prevMaterial;
+    //public Light light;
 
     private void buildReflectionMatrix(Plane paramPlane) {
         this.reflectionMatrix[0] = (1.0F + -2.0F * paramPlane.normal.x * paramPlane.normal.x);
@@ -38,8 +38,7 @@ public class RenderParams implements Cloneable {
         try {
             RenderParams localRenderParams = (RenderParams)super.clone();
             return localRenderParams;
-        }
-        catch (CloneNotSupportedException localCloneNotSupportedException) {
+        } catch (CloneNotSupportedException localCloneNotSupportedException) {
             throw new RuntimeException(localCloneNotSupportedException);
         }
     }

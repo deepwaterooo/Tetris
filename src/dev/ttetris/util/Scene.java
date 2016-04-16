@@ -14,25 +14,26 @@ import java.util.Queue;
 public abstract class Scene {
     //private static final float DEFAULT_FPS = 30.0F;
     //private static final String TAG = "Scene";
+    protected List<FrameBuffer> frameBuffers = new ArrayList();
+    protected Queue<Runnable> events = new LinkedList();
+    protected GeometryComparator geometryComparator = new GeometryComparator();
+    protected List<Geometry> traversedGeometries = new ArrayList();
+    protected RenderParams renderParams;
+    protected float previousFps;
+    protected float currentFps;
+    protected float averageFps;
+    protected float fov = 45.0F;  // Frustr
+    protected float aspectRatio = 1.5F;
+    protected float near = 1.0F;
+    protected float far = 100.0F;
+
     protected int height; // y
     protected int width;  // x
     protected int depth;  // z
-    protected float aspectRatio = 1.5F;
-    protected float averageFps;
-    protected boolean created;
-    protected float currentFps;
-    protected Queue<Runnable> events = new LinkedList();
-    protected float far = 100.0F;
-    protected float fov = 45.0F;
-    protected List<FrameBuffer> frameBuffers = new ArrayList();
-    protected GeometryComparator geometryComparator = new GeometryComparator();
-    protected long lastTime;
-    protected boolean logFps;
-    protected float near = 1.0F;
-    protected float previousFps;
-    protected RenderParams renderParams;
     protected Node rootNode;
-    protected List<Geometry> traversedGeometries = new ArrayList();
+    protected boolean created;
+    protected boolean logFps;
+    protected long lastTime;
     protected long updateInterval;
     protected float[] worldMatrix = new float[16];
 
@@ -51,7 +52,7 @@ public abstract class Scene {
             //this.renderParams.setLookAt(0.0F, 0.0F, 10.0F, 0.0F, 0.0F, 0.0F, 0.0F, 1.0F, 0.0F);
             this.renderParams.setLookAt(4.8f, 2.2f, 4.5f, 0f, 0f, 0f, 0f, 1.0f, 0.0f); 
             Matrix.setIdentityM(this.worldMatrix, 0);
-            onCreate(paramAssetManager);  //////????????????????????????/
+            onCreate(paramAssetManager);  
             this.created = true;
         }
         // 1 width COL z; 2 height HEIGHT y; 3 row ROW z;

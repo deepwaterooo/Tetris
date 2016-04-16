@@ -15,15 +15,12 @@ public class Node {
     private float x = 0.0F;
     private float y = 0.0F;
     private float z = 0.0F;
-    
     private float rx = 0.0F;
     private float ry = 0.0F;
     private float rz = 0.0F;
-    
     private float sx = 1.0F;
     private float sy = 1.0F;
     private float sz = 1.0F;
-    
     private float[] worldMatrix = new float[16];
     private float[] localMatrix = new float[16];
     private boolean dirty = true;
@@ -169,7 +166,8 @@ public class Node {
     public void traverseSceneGraph(List<Geometry> paramList, float[] paramArrayOfFloat) {
         if (!this.enabled)
             return;
-        //label83: Iterator localIterator1;
+        //label83:
+        Iterator localIterator1 = null;
         if (this.dirty) {
             Matrix.setIdentityM(this.localMatrix, 0);
             Matrix.translateM(this.localMatrix, 0, this.x, this.y, this.z);
@@ -181,39 +179,39 @@ public class Node {
             }
         } else {
             Matrix.multiplyMM(this.worldMatrix, 0, paramArrayOfFloat, 0, this.localMatrix, 0);
-            //localIterator1 = this.geometries.iterator();
+            localIterator1 = this.geometries.iterator();
         }
-        while (true) { /*
+        while (true) { 
             if (!localIterator1.hasNext()) {
                 Iterator localIterator2 = this.children.iterator();
                 while (localIterator2.hasNext())
                     ((Node)localIterator2.next()).traverseSceneGraph(paramList, this.worldMatrix);
-                break;
+                //break;
                 if (Math.abs(this.rx) > 1.0E-06F)
                     Matrix.rotateM(this.localMatrix, 0, this.rx, 1.0F, 0.0F, 0.0F);
                 if (Math.abs(this.ry) > 1.0E-06F)
                     Matrix.rotateM(this.localMatrix, 0, this.ry, 0.0F, 1.0F, 0.0F);
-                if (Math.abs(this.rz) <= 1.0E-06F)
-                    break label83;
+                if (Math.abs(this.rz) <= 1.0E-06F);
+                //break label83;
                 Matrix.rotateM(this.localMatrix, 0, this.rz, 0.0F, 0.0F, 1.0F);
-                break label83;
+                //break label83;
             }
             Geometry localGeometry = (Geometry)localIterator1.next();  
             if (localGeometry.enabled) {
                 localGeometry.setWorldMatrix(this.worldMatrix);
                 paramList.add(localGeometry);
-                } */
+            } 
         }
     }
 
     public void update(float paramFloat) {
         Iterator localIterator1 = this.geometries.iterator();
-        Iterator localIterator2;
+        Iterator localIterator2 = null;
         if (!localIterator1.hasNext())
             localIterator2 = this.children.iterator();
-        while (true) { /*
+        while (true) {
             if (!localIterator2.hasNext()) {
-                return;
+                //return;
                 Geometry localGeometry = (Geometry)localIterator1.next();
                 if (!localGeometry.enabled)
                     break;
@@ -222,7 +220,7 @@ public class Node {
                 } 
             Node localNode = (Node)localIterator2.next();
             if (localNode.enabled)
-            localNode.update(paramFloat);  */
+            localNode.update(paramFloat);  
         }
     }
 }

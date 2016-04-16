@@ -9,6 +9,11 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
+import java.lang.StringBuilder;
+import java.io.BufferedReader;
+import java.io.FileReader;
+import android.content.res.AssetFileDescriptor;
+
 import dev.ttetris.util.MeshLoader;
 import dev.ttetris.util.MeshPlyLoader;
 
@@ -32,11 +37,90 @@ public class AssetManager {
         this.meshLoaders.put("ply", new MeshPlyLoader());
     }
 
+    //private Map<String, Shader> shadersByFilePath = new HashMap();  // why do I need to add into map?
+    //private Map<Integer, Shader> shadersById = new HashMap(); // need to added into this one as well?
+    public Shader getShader(String paramString) { // Shaders/Background.glsl
+        String outputFileSeparatedById = "// #SplitMarker";
+        String line = null;
+        StringBuilder shaderSource = new StringBuilder();
+        StringBuilder shaderSourceVert = new StringBuilder();
+        try {
+            AssetFileDescriptor descriptor = this.context.getAssets().openFd(paramString);
+            BufferedReader shaderReader = new BufferedReader(new FileReader(descriptor.getFileDescriptor()));
+            line = shaderReader.readLine();
+            while (line != null) {
+                if (line.startsWith(outputFileSeparatedById)) {
+                    shaderSourceVert = shaderSource.append("\n");
+                    shaderSource = new StringBuilder();
+                    line = shaderReader.readLine(); // skip separator line
+                }
+                while (line != null && !line.startsWith(outputFileSeparatedById)) {
+                    shaderSource.append(line).append("\n");
+                    line = shaderReader.readLine();
+                }
+            }
+            shaderReader.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.exit(1);
+        }
+        shadersByFilePath.put(paramString, new Shader(shaderSourceVert.toString(), shaderSource.toString()));
+        return new Shader(shaderSourceVert.toString(), shaderSource.toString()); 
+
+        // Byte code:
+        //   0: aload_0
+        //   1: getfield 86	ru/igsoft/anogl/AssetManager:shadersByFilePath	Ljava/util/Map;
+        //   4: aload_1
+        //   5: invokeinterface 165 2 0
+        //   10: checkcast 228	ru/igsoft/anogl/Shader
+        //   13: astore_2
+        //   14: aload_2
+        //   15: ifnonnull +36 -> 51
+        //   18: new 228	ru/igsoft/anogl/Shader
+        //   21: dup
+        //   22: aload_0
+        //   23: getfield 100	ru/igsoft/anogl/AssetManager:context	Landroid/content/Context;
+        //   26: invokevirtual 173	android/content/Context:getAssets	()Landroid/content/res/AssetManager;
+        //   29: aload_1
+        //   30: invokevirtual 179	android/content/res/AssetManager:open	(Ljava/lang/String;)Ljava/io/InputStream;
+        //   33: invokespecial 241	ru/igsoft/anogl/Shader:<init>	(Ljava/io/InputStream;)V
+        //   36: astore_3
+        //   37: aload_0
+        //   38: getfield 86	ru/igsoft/anogl/AssetManager:shadersByFilePath	Ljava/util/Map;
+        //   41: aload_1
+        //   42: aload_3
+        //   43: invokeinterface 113 3 0
+        //   48: pop
+        //   49: aload_3
+        //   50: astore_2
+        //   51: aload_2
+        //   52: areturn
+        //   53: astore 6
+        //   55: new 184	java/lang/RuntimeException
+        //   58: dup
+        //   59: new 121	java/lang/StringBuilder
+        //   62: dup
+        //   63: ldc 244
+        //   65: invokespecial 126	java/lang/StringBuilder:<init>	(Ljava/lang/String;)V
+        //   68: aload_1
+        //   69: invokevirtual 130	java/lang/StringBuilder:append	(Ljava/lang/String;)Ljava/lang/StringBuilder;
+        //   72: invokevirtual 134	java/lang/StringBuilder:toString	()Ljava/lang/String;
+        //   75: invokespecial 187	java/lang/RuntimeException:<init>	(Ljava/lang/String;)V
+        //   78: athrow
+        //   79: astore 4
+        //   81: goto -26 -> 55
+        //
+        // Exception table:
+        //   from	to	target	type
+        //   18	37	53	java/io/IOException
+        //   37	49	79	java/io/IOException
+    }
+
     public void loadTextures(String paramString, TextureParams paramTextureParams) {
+        int j = 0;
+        int i = 0;
+        Iterator localIterator = null;
         while (true) {
-            int j = 0;
-            int i = 0;
-            Iterator localIterator = null;
             try {
                 HashSet localHashSet = new HashSet();
                 String[] arrayOfString = this.context.getAssets().list(paramString);
@@ -50,7 +134,8 @@ public class AssetManager {
                     }
                 } else {
                     String str = arrayOfString[j];
-                    System.out.println("str: " + str);
+                    
+                    System.out.println("Testure str: " + str);
                     System.out.println("isCubemapFaceFile(str): " + isCubemapFaceFile(str));
 
                     if (isCubemapFaceFile(str))
@@ -233,61 +318,6 @@ public class AssetManager {
             this.shadersById.put(Integer.valueOf(paramInt), localShader);
         }
         return localShader;
-    }
-
-    // ERROR //
-    public Shader getShader(String paramString) {
-        // could walk around by two final strings,
-        // but better to have a parser class/method, will work on this one later.
-        
-        return (Shader)null;
-        // Byte code:
-        //   0: aload_0
-        //   1: getfield 86	ru/igsoft/anogl/AssetManager:shadersByFilePath	Ljava/util/Map;
-        //   4: aload_1
-        //   5: invokeinterface 165 2 0
-        //   10: checkcast 228	ru/igsoft/anogl/Shader
-        //   13: astore_2
-        //   14: aload_2
-        //   15: ifnonnull +36 -> 51
-        //   18: new 228	ru/igsoft/anogl/Shader
-        //   21: dup
-        //   22: aload_0
-        //   23: getfield 100	ru/igsoft/anogl/AssetManager:context	Landroid/content/Context;
-        //   26: invokevirtual 173	android/content/Context:getAssets	()Landroid/content/res/AssetManager;
-        //   29: aload_1
-        //   30: invokevirtual 179	android/content/res/AssetManager:open	(Ljava/lang/String;)Ljava/io/InputStream;
-        //   33: invokespecial 241	ru/igsoft/anogl/Shader:<init>	(Ljava/io/InputStream;)V
-        //   36: astore_3
-        //   37: aload_0
-        //   38: getfield 86	ru/igsoft/anogl/AssetManager:shadersByFilePath	Ljava/util/Map;
-        //   41: aload_1
-        //   42: aload_3
-        //   43: invokeinterface 113 3 0
-        //   48: pop
-        //   49: aload_3
-        //   50: astore_2
-        //   51: aload_2
-        //   52: areturn
-        //   53: astore 6
-        //   55: new 184	java/lang/RuntimeException
-        //   58: dup
-        //   59: new 121	java/lang/StringBuilder
-        //   62: dup
-        //   63: ldc 244
-        //   65: invokespecial 126	java/lang/StringBuilder:<init>	(Ljava/lang/String;)V
-        //   68: aload_1
-        //   69: invokevirtual 130	java/lang/StringBuilder:append	(Ljava/lang/String;)Ljava/lang/StringBuilder;
-        //   72: invokevirtual 134	java/lang/StringBuilder:toString	()Ljava/lang/String;
-        //   75: invokespecial 187	java/lang/RuntimeException:<init>	(Ljava/lang/String;)V
-        //   78: athrow
-        //   79: astore 4
-        //   81: goto -26 -> 55
-        //
-        // Exception table:
-        //   from	to	target	type
-        //   18	37	53	java/io/IOException
-        //   37	49	79	java/io/IOException
     }
 
     public Texture getTexture(int paramInt) {
