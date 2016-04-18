@@ -7,7 +7,6 @@ final extension = android {
     buildToolsVersion "23.0.3"
 
     defaultConfig {
-        applicationId "dev.ttetris"
         minSdkVersion 8
         targetSdkVersion 8
     }
