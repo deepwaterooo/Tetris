@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<items version="2" >
+
+    <item
+        jar="/Users/qunyan/AndroidStudioProjects/Tetris/app/build/intermediates/incremental-classes/debug/instant-run-bootstrap.jar"
+        jumboMode="true"
+        revision="23.0.3"
+        sha1="92bfdcc6903e36c99b96913bcb774b6996858e0c">
+        <dex dex="/Users/qunyan/AndroidStudioProjects/Tetris/app/build/intermediates/transforms/dex/debug/folders/1000/10/instant-run-bootstrap_3fce6840841bf305dd6600ffd08dc91225b5862a/classes.dex" />
+    </item>
+
+</items>
