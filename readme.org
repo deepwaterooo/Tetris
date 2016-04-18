@@ -5,8 +5,11 @@
 
 * Better version, pretty good
 - OpenGL 3D version status: 
+<<<<<<< HEAD
   - getting the way for gradle
   - 
+=======
+>>>>>>> f38ac121276eaa29d155f24327a45ed044cc307c
   - basic Necessary changed has been made, but due to lack of necessary informations, debugging for game flow becomes kind of difficult. 
   - working on configuring Android studio environment, and configuring debugging tools so that I could potentially get more information for debugging. 
   - will update on Sunday evening for studio version. 
