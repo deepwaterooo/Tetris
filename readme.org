@@ -1,0 +1,160 @@
+#+latex_class: cn-article
+#+latex_header: \lstset{language=c++,numbers=left,numberstyle=\tiny,basicstyle=\ttfamily\small,tabsize=4,frame=none,escapeinside=``,extendedchars=false,keywordstyle=\color{blue!70},commentstyle=\color{red!55!green!55!blue!55!},rulesepcolor=\color{red!20!green!20!blue!20!}}
+#+title: Tetris - Basic Implementation Practice for Android
+#+author: deepwaterooo
+
+* Better version, pretty good
+- OpenGL 3D version status: 
+  - getting the way for gradle
+  - 
+  - basic Necessary changed has been made, but due to lack of necessary informations, debugging for game flow becomes kind of difficult. 
+  - working on configuring Android studio environment, and configuring debugging tools so that I could potentially get more information for debugging. 
+  - will update on Sunday evening for studio version. 
+  - 
+  - working slowing step-by-step to get app run without crashing down, getting familiar with app flow & different opengl modules, many bugs on the ways need to be fixed before onto those matrix.
+  - but will get them done. I will. 
+  - 
+  - game layout structure: 
+
+  [[./Screenshot_2016-04-07-11-58-28.png]]
+- most challenge part for tonight, matrix translations & rotations....will continue work on it tonight
+- 
+- a video for this Tetris game can be directly watched at https://www.youtube.com/watch?v=Ht4NOrEUtFk
+- A video for the previous DrawingFun Android App can be watched at https://www.youtube.com/watch?v=YV78Tk5--5M , or by searching *deepwaterooo Wang*. 
+
+* References
+** Activity.runOnUiThread()
+- http://stackvoid.com/introduction-to-Message-Handler-in-Android/
+- http://m.oschina.net/blog/97619
+- 
+
+** 3D design
+- c++ version: https://github.com/matachi/tetris-cpp
+- refer 6 http://www.oschina.net/question/614942_62370
+- http://www.oschina.net/question/565065_67280
+- triangle: http://stackoverflow.com/questions/9945321/triangle-opengl-in-android
+- https://gist.github.com/SebastianJay/3316001
+- 射线拾取： http://itdocument.com/479827008/
+- 旋转及手势： http://vaero.blog.51cto.com/4350852/790620
+- 2 http://vaero.blog.51cto.com/4350852/790637
+- http://www.lai18.com/content/951343.html
+- opengl选择与反馈： http://zhidao.baidu.com/question/496046750245095004.html
+- http://wenku.baidu.com/view/58190d1efad6195f312ba6f7.html
+- c++ http://blog.csdn.net/u010223072/article/details/45369075
+- http://codercdy.com/2015/06/17/openglxue-xi-bi-ji-xuan-ze-he-fan-kui/
+- https://books.google.com/books?id=u6EHM_OzaFQC&pg=PA1987&lpg=PA1987&dq=opengl%E9%80%89%E6%8B%A9%E4%B8%8E%E5%8F%8D%E9%A6%88&source=bl&ots=L9Y66QSEhu&sig=f1h_RadXRDFsa9L5IY430HGTG34&hl=en&sa=X&ved=0ahUKEwjA6vTRo_jLAhVH3mMKHQIXBxYQ6AEIPDAE#v=onepage&q=opengl%E9%80%89%E6%8B%A9%E4%B8%8E%E5%8F%8D%E9%A6%88&f=false
+- c++ codes: http://dev.gameres.com/program/Visual/3D/Selection.htm
+- 画线： c++ http://www.programgo.com/article/43724048060/
+- draw line: http://www.linuxidc.com/Linux/2011-09/42307p3.htm
+- http://stackoverflow.com/questions/9217702/open-gl-es-2-0-drawing-a-simple-line
+- 距阵变换： http://www.cnblogs.com/caster99/p/4780984.html
+- http://www.flakor.cn/2014-05-15-384.html
+- shader util: http://blog.csdn.net/shulianghan/article/details/17020359
+- 详解距阵变换：http://www.cnblogs.com/kesalin/archive/2012/12/06/3D_math.html
+- http://mail.cfanz.cn/index.php?c=article&a=read&id=270244
+- one example: http://www.apkbus.com/blog-99192-39498.html
+- ex2 for shader matrix: http://www.voidcn.com/blog/peanut__love/article/p-2891341.html
+- 西蒙iPhone-OpenGL ES 中文教程专题: http://www.cocoachina.com/special/2010/0126/404.html
+- 运动： http://www.cocoachina.com/bbs/read.php?tid-7601-fpage-10.html
+- 
+- 距阵： http://blog.csdn.net/wangdingqiaoit/article/details/39010077
+- http://blog.csdn.net/popy007/article/details/5120158 UNV
+- http://www.tqcto.com/article/mobile/23873.html eye
+- http://blog.csdn.net/wangdingqiaoit/article/details/39937019
+- https://developer.apple.com/library/ios/documentation/3DDrawing/Conceptual/OpenGLES_ProgrammingGuide/Introduction/Introduction.html
+- http://blog.csdn.net/shulianghan/article/details/46680803
+- rotation: http://stackoverflow.com/questions/13480043/opengl-es-android-matrix-transformations
+- glsl example: http://cse.csusb.edu/tongyu/courses/cs520/notes/android-es2.php
+- shader parser: http://stackoverflow.com/questions/19452240/opengl-glsl-void-parse-error-on-vertex-shader
+- separate file: http://stackoverflow.com/questions/30345816/splitting-a-text-file-into-multiple-files-by-specific-character-sequence
+- 
+- 
+- 
+- 
+
+** GLSurfaceView
+- opengl: http://androidblog.reindustries.com/a-real-open-gl-es-2-0-2d-tutorial-part-1/
+- Graphics architecture: https://source.android.com/devices/graphics/architecture.html
+- http://stackoverflow.com/questions/5169338/android-deciding-between-surfaceview-and-opengl-glsurfaceview
+- *引路蜂* better: http://blog.csdn.net/mapdigit/article/details/7526556
+- 真正的3D图形： http://www.imobilebbs.com/wordpress/archives/1554
+- a Cube: http://www.oschina.net/question/4873_28325
+- modification: https://github.com/googleglass/gdk-apidemo-sample/blob/master/app/src/main/java/com/google/android/glass/sample/apidemo/opengl/Cube.java
+- Android OpenGL ES 简明开发教程小结: http://www.imobilebbs.com/wordpress/archives/1583
+- 
+- 
+- 
+
+- http://hellosure.github.io/android/2015/06/01/android-glsurfaceview/
+- http://ju.outofmemory.cn/entry/172850
+- 画图： http://www.mobile-open.com/2015/81568.html
+- http://tangzm.com/blog/?p=20
+- http://www.apkbus.com/blog-99192-39584.html
+- onDrawFrame intro: http://www.jayway.com/2009/12/03/opengl-es-tutorial-for-android-part-i/
+- failed: http://stackoverflow.com/questions/28711850/android-opengl-how-to-draw-a-rectangle
+- onTouchEvent: http://blog.csdn.net/niu_gao/article/details/8673662
+- volatile http://www.voidcn.com/blog/fanfanxiaozu/article/p-3668133.html
+- http://mobile.51cto.com/aengine-437172.htm
+- OpenGLES related: http://stackoverflow.com/questions/9945321/triangle-opengl-in-android
+- OpenGL ES 2.0 Sample Code: http://androidbook.com/item/4254
+- intros:详解 http://blog.csdn.net/niu_gao/article/details/7566297
+- 画线： http://www.cnblogs.com/lhxin/archive/2012/06/01/2530828.html
+- http://bbs.9ria.com/thread-201740-1-1.html
+- http://imgtec.eetrend.com/blog/5078
+- draw a ball http://shikezhi.com/html/2015/android_1022/561912.html
+- for Board c++: http://www.jiancool.com/article/24471349949/
+- possible? http://code1.okbase.net/codefile/CCFormatter.java_2015072733469_393.htm
+- http://www.mobile-open.com/2015/80379.html
+
+** eventQueue vs SurfaceView threads
+- Deeper summary, android graphics architecture: http://hukai.me/android-deeper-graphics-architecture/
+- 2 threads, load, read, http://blog.csdn.net/hellogv/article/details/5986835
+** Canvas Path subclass
+- how to define drawLine to be drawShapes?
+** SurfaceView
+- Surface runnable http://android.okhelp.cz/surfaceview-implements-runnable-android-code/
+- Example: http://technicalsearch.iteye.com/blog/1967616
+- http://www.jcodecraeer.com/a/anzhuokaifa/androidkaifa/2012/1201/656.html
+- Event Queue: http://www.leestorm.com/post/17.html
+- lockCanvas(Rect小区) http://blog.csdn.net/alexander_xfl/article/details/13000347
+- example: http://fanli7.net/a/JAVAbiancheng/ANT/20120424/160203.html
+- MotionEvent: http://android.jobbole.com/82072/
+- surfaceview双缓冲： http://blog.csdn.net/cnbloger/article/details/7404485
+- sth worth try: http://www.lxway.com/969295592.htm
+- Dont Understand: http://blog.sina.com.cn/s/blog_5a6f39cf01012rtv.html
+- tried: http://bbs.csdn.net/topics/370074255 drawBitmap 2 canvas
+- slightly complicated: http://www.lxway.com/148606691.htm
+- slightly complicated: http://www.lxway.com/186948856.htm
+
+** gestures
+- http://www.cnblogs.com/akira90/archive/2013/03/10/2952886.html
+- Android 触摸手势基础 官方文档概览: http://www.lxway.com/445554926.htm
+- 手势: http://wiki.jikexueyuan.com/project/material-design/patterns/gestures.html
+- http://www.lxway.com/601620614.htm
+- http://www.lxway.com/282219004.htm
+- http://www.lxway.com/906451412.htm
+- http://www.lxway.com/146619692.htm
+- http://www.lxway.com/4420294641.htm
+- http://www.lxway.com/155059816.htm
+- http://www.lxway.com/4019928952.htm
+- 例子： http://bbs.chinaunix.net/thread-3634477-1-1.html
+- 例子： http://www.bestappsmarket.com/p/app?appId=1192877&title=tetris-%E4%BF%84%E7%BD%97%E6%96%AF%E6%96%B9%E5%9D%97
+- 例子： http://bbs.chinaunix.net/thread-3634477-1-1.html
+
+- iTetris: http://searchapp.soft4fun.net/article/information/iTetris%20%E4%BF%84%E7%BD%97%E6%96%AF%E6%96%B9%E5%9D%97/313319
+- left right: http://www.jb51.net/article/77028.htm
+- AI: http://www.cnblogs.com/youngshall/archive/2009/03/24/1420682.html
+- 
+- 3/11/2016 Friday
+- https://github.com/Almeros/android-gesture-detectors mac
+- http://www.jcodecraeer.com/a/anzhuokaifa/androidkaifa/2015/0211/2467.html
+- http://www.hejun.biz/81.html
+- http://www.jb51.net/article/38166.htm
+- http://www.jb51.net/article/37717.htm
+- http://mobile.51cto.com/aprogram-394841.htm
+
+- TetrisBattle特殊轉入教學(Z S J L I)
+  - https://www.youtube.com/watch?v=zW6Gp_7jl9I
+- 推箱子： 第11章 Android游戏开发视频教程 益智游戏——推箱子
+  - https://www.youtube.com/watch?v=glzxII1-P0A 2.5D
+- 祖码游戏的设计与实现

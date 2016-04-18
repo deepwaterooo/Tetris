@@ -1,0 +1,393 @@
+ECLIPSE ANDROID PROJECT IMPORT SUMMARY
+======================================
+
+Ignored Files:
+--------------
+The following files were *not* copied into the new Gradle project; you
+should evaluate whether these are still needed in your project and if
+so manually move them:
+
+* .idea/
+* .idea/.name
+* .idea/Tetris.iml
+* .idea/compiler.xml
+* .idea/copyright/
+* .idea/copyright/profiles_settings.xml
+* .idea/encodings.xml
+* .idea/misc.xml
+* .idea/modules.xml
+* .idea/vcs.xml
+* .idea/workspace.xml
+* .metadata/
+* .metadata/.lock
+* .metadata/.log
+* .metadata/.plugins/
+* .metadata/.plugins/com.android.ide.eclipse.adt/
+* .metadata/.plugins/com.android.ide.eclipse.adt/palette-preview-r16b-20-apptheme-37wvganexusone/
+* .metadata/.plugins/com.android.ide.eclipse.adt/palette-preview-r16b-20-apptheme-37wvganexusone/Switch.png
+* .metadata/.plugins/com.android.ide.eclipse.adt/palette-preview-r16b-20-apptheme-37wvganexusone/TabHost.png
+* .metadata/.plugins/com.android.ide.eclipse.adt/palette-preview-r16b-20-apptheme-37wvganexusone/TabWidget.png
+* .metadata/.plugins/com.android.ide.eclipse.adt/palette-preview-r16b-20-apptheme-37wvganexusone/preview.properties
+* .metadata/.plugins/org.eclipse.cdt.core/
+* .metadata/.plugins/org.eclipse.cdt.core/.log
+* .metadata/.plugins/org.eclipse.cdt.make.core/
+* .metadata/.plugins/org.eclipse.cdt.make.core/specs.c
+* .metadata/.plugins/org.eclipse.cdt.make.core/specs.cpp
+* .metadata/.plugins/org.eclipse.core.resources/
+* .metadata/.plugins/org.eclipse.core.resources/.history/
+* .metadata/.plugins/org.eclipse.core.resources/.history/1f/
+* .metadata/.plugins/org.eclipse.core.resources/.history/1f/f03f4026964200141c19eb3ec7963ca1
+* .metadata/.plugins/org.eclipse.core.resources/.history/34/
+* .metadata/.plugins/org.eclipse.core.resources/.history/34/909c55689c4200141361c3ac47ddb472
+* .metadata/.plugins/org.eclipse.core.resources/.history/47/
+* .metadata/.plugins/org.eclipse.core.resources/.history/47/506ba7298c42001415d0c2e3330bcd55
+* .metadata/.plugins/org.eclipse.core.resources/.history/4e/
+* .metadata/.plugins/org.eclipse.core.resources/.history/4e/50fef01a9142001415d0c2e3330bcd55
+* .metadata/.plugins/org.eclipse.core.resources/.history/74/
+* .metadata/.plugins/org.eclipse.core.resources/.history/74/90da92aecc4600141539ad12c10068b9
+* .metadata/.plugins/org.eclipse.core.resources/.history/88/
+* .metadata/.plugins/org.eclipse.core.resources/.history/88/80c929951e4800141649bd6909210ea3
+* .metadata/.plugins/org.eclipse.core.resources/.history/91/
+* .metadata/.plugins/org.eclipse.core.resources/.history/91/f02fb4becc4600141539ad12c10068b9
+* .metadata/.plugins/org.eclipse.core.resources/.history/98/
+* .metadata/.plugins/org.eclipse.core.resources/.history/98/c05ead298c42001415d0c2e3330bcd55
+* .metadata/.plugins/org.eclipse.core.resources/.history/a0/
+* .metadata/.plugins/org.eclipse.core.resources/.history/a0/b0674926964200141c19eb3ec7963ca1
+* .metadata/.plugins/org.eclipse.core.resources/.history/a0/b06cf2a31e4800141649bd6909210ea3
+* .metadata/.plugins/org.eclipse.core.resources/.history/a7/
+* .metadata/.plugins/org.eclipse.core.resources/.history/a7/a0c9f5fb204800141a7cd64728f4bbd1
+* .metadata/.plugins/org.eclipse.core.resources/.history/ac/
+* .metadata/.plugins/org.eclipse.core.resources/.history/ac/f09b3dbacc4600141539ad12c10068b9
+* .metadata/.plugins/org.eclipse.core.resources/.history/b1/
+* .metadata/.plugins/org.eclipse.core.resources/.history/b1/80eb35b5cc4600141539ad12c10068b9
+* .metadata/.plugins/org.eclipse.core.resources/.history/b1/e053906dce46001415a6b53e85bfec92
+* .metadata/.plugins/org.eclipse.core.resources/.history/bb/
+* .metadata/.plugins/org.eclipse.core.resources/.history/bb/e04eaa9bcc4600141539ad12c10068b9
+* .metadata/.plugins/org.eclipse.core.resources/.history/d1/
+* .metadata/.plugins/org.eclipse.core.resources/.history/d1/c08e4926964200141c19eb3ec7963ca1
+* .metadata/.plugins/org.eclipse.core.resources/.history/d4/
+* .metadata/.plugins/org.eclipse.core.resources/.history/d4/802e3f26964200141c19eb3ec7963ca1
+* .metadata/.plugins/org.eclipse.core.resources/.history/e1/
+* .metadata/.plugins/org.eclipse.core.resources/.history/e1/e0fb31f41f4800141acb90432e5e620d
+* .metadata/.plugins/org.eclipse.core.resources/.history/e2/
+* .metadata/.plugins/org.eclipse.core.resources/.history/e2/70c4a3e4cf460014199bbfebbe6d5017
+* .metadata/.plugins/org.eclipse.core.resources/.history/f3/
+* .metadata/.plugins/org.eclipse.core.resources/.history/f3/a0bda5298c42001415d0c2e3330bcd55
+* .metadata/.plugins/org.eclipse.core.resources/.history/f9/
+* .metadata/.plugins/org.eclipse.core.resources/.history/f9/c09dccdec946001415f79cda1b8235a7
+* .metadata/.plugins/org.eclipse.core.resources/.history/fc/
+* .metadata/.plugins/org.eclipse.core.resources/.history/fc/b037ad298c42001415d0c2e3330bcd55
+* .metadata/.plugins/org.eclipse.core.resources/.projects/
+* .metadata/.plugins/org.eclipse.core.resources/.projects/FirstApp/
+* .metadata/.plugins/org.eclipse.core.resources/.projects/FirstApp/.indexes/
+* .metadata/.plugins/org.eclipse.core.resources/.projects/FirstApp/.indexes/a0/
+* .metadata/.plugins/org.eclipse.core.resources/.projects/FirstApp/.indexes/a0/5f/
+* .metadata/.plugins/org.eclipse.core.resources/.projects/FirstApp/.indexes/a0/5f/properties.index
+* .metadata/.plugins/org.eclipse.core.resources/.projects/FirstApp/.indexes/a0/8a/
+* .metadata/.plugins/org.eclipse.core.resources/.projects/FirstApp/.indexes/a0/8a/properties.index
+* .metadata/.plugins/org.eclipse.core.resources/.projects/FirstApp/.indexes/a0/d6/
+* .metadata/.plugins/org.eclipse.core.resources/.projects/FirstApp/.indexes/a0/d6/properties.index
+* .metadata/.plugins/org.eclipse.core.resources/.projects/FirstApp/.indexes/a0/de/
+* .metadata/.plugins/org.eclipse.core.resources/.projects/FirstApp/.indexes/a0/de/properties.index
+* .metadata/.plugins/org.eclipse.core.resources/.projects/FirstApp/.indexes/a0/eb/
+* .metadata/.plugins/org.eclipse.core.resources/.projects/FirstApp/.indexes/a0/eb/properties.index
+* .metadata/.plugins/org.eclipse.core.resources/.projects/FirstApp/.indexes/a0/ee/
+* .metadata/.plugins/org.eclipse.core.resources/.projects/FirstApp/.indexes/a0/ee/properties.index
+* .metadata/.plugins/org.eclipse.core.resources/.projects/FirstApp/.indexes/properties.index
+* .metadata/.plugins/org.eclipse.core.resources/.projects/FirstApp/.markers
+* .metadata/.plugins/org.eclipse.core.resources/.projects/FirstApp/.markers.snap
+* .metadata/.plugins/org.eclipse.core.resources/.projects/FirstApp/.syncinfo.snap
+* .metadata/.plugins/org.eclipse.core.resources/.projects/Sudoku/
+* .metadata/.plugins/org.eclipse.core.resources/.projects/Sudoku/.indexes/
+* .metadata/.plugins/org.eclipse.core.resources/.projects/Sudoku/.indexes/a0/
+* .metadata/.plugins/org.eclipse.core.resources/.projects/Sudoku/.indexes/a0/5f/
+* .metadata/.plugins/org.eclipse.core.resources/.projects/Sudoku/.indexes/a0/5f/properties.index
+* .metadata/.plugins/org.eclipse.core.resources/.projects/Sudoku/.indexes/a0/8a/
+* .metadata/.plugins/org.eclipse.core.resources/.projects/Sudoku/.indexes/a0/8a/properties.index
+* .metadata/.plugins/org.eclipse.core.resources/.projects/Sudoku/.indexes/a0/d6/
+* .metadata/.plugins/org.eclipse.core.resources/.projects/Sudoku/.indexes/a0/d6/properties.index
+* .metadata/.plugins/org.eclipse.core.resources/.projects/Sudoku/.indexes/a0/de/
+* .metadata/.plugins/org.eclipse.core.resources/.projects/Sudoku/.indexes/a0/de/properties.index
+* .metadata/.plugins/org.eclipse.core.resources/.projects/Sudoku/.indexes/a0/eb/
+* .metadata/.plugins/org.eclipse.core.resources/.projects/Sudoku/.indexes/a0/eb/properties.index
+* .metadata/.plugins/org.eclipse.core.resources/.projects/Sudoku/.indexes/a0/ee/
+* .metadata/.plugins/org.eclipse.core.resources/.projects/Sudoku/.indexes/a0/ee/properties.index
+* .metadata/.plugins/org.eclipse.core.resources/.projects/Sudoku/.indexes/properties.index
+* .metadata/.plugins/org.eclipse.core.resources/.projects/Sudoku/.markers.snap
+* .metadata/.plugins/org.eclipse.core.resources/.projects/Sudoku/.syncinfo.snap
+* .metadata/.plugins/org.eclipse.core.resources/.projects/appcompat_v7/
+* .metadata/.plugins/org.eclipse.core.resources/.projects/appcompat_v7/.indexes/
+* .metadata/.plugins/org.eclipse.core.resources/.projects/appcompat_v7/.indexes/a0/
+* .metadata/.plugins/org.eclipse.core.resources/.projects/appcompat_v7/.indexes/a0/1/
+* .metadata/.plugins/org.eclipse.core.resources/.projects/appcompat_v7/.indexes/a0/1/properties.index
+* .metadata/.plugins/org.eclipse.core.resources/.projects/appcompat_v7/.indexes/a0/11/
+* .metadata/.plugins/org.eclipse.core.resources/.projects/appcompat_v7/.indexes/a0/11/properties.index
+* .metadata/.plugins/org.eclipse.core.resources/.projects/appcompat_v7/.indexes/a0/12/
+* .metadata/.plugins/org.eclipse.core.resources/.projects/appcompat_v7/.indexes/a0/12/properties.index
+* .metadata/.plugins/org.eclipse.core.resources/.projects/appcompat_v7/.indexes/a0/16/
+* .metadata/.plugins/org.eclipse.core.resources/.projects/appcompat_v7/.indexes/a0/16/properties.index
+* .metadata/.plugins/org.eclipse.core.resources/.projects/appcompat_v7/.indexes/a0/17/
+* .metadata/.plugins/org.eclipse.core.resources/.projects/appcompat_v7/.indexes/a0/17/properties.index
+* .metadata/.plugins/org.eclipse.core.resources/.projects/appcompat_v7/.indexes/a0/1c/
+* .metadata/.plugins/org.eclipse.core.resources/.projects/appcompat_v7/.indexes/a0/1c/properties.index
+* .metadata/.plugins/org.eclipse.core.resources/.projects/appcompat_v7/.indexes/a0/1d/
+* .metadata/.plugins/org.eclipse.core.resources/.projects/appcompat_v7/.indexes/a0/1d/properties.index
+* .metadata/.plugins/org.eclipse.core.resources/.projects/appcompat_v7/.indexes/a0/1f/
+* .metadata/.plugins/org.eclipse.core.resources/.projects/appcompat_v7/.indexes/a0/1f/properties.index
+* .metadata/.plugins/org.eclipse.core.resources/.projects/appcompat_v7/.indexes/a0/30/
+* .metadata/.plugins/org.eclipse.core.resources/.projects/appcompat_v7/.indexes/a0/30/properties.index
+* .metadata/.plugins/org.eclipse.core.resources/.projects/appcompat_v7/.indexes/a0/32/
+* .metadata/.plugins/org.eclipse.core.resources/.projects/appcompat_v7/.indexes/a0/32/properties.index
+* .metadata/.plugins/org.eclipse.core.resources/.projects/appcompat_v7/.indexes/a0/38/
+* .metadata/.plugins/org.eclipse.core.resources/.projects/appcompat_v7/.indexes/a0/38/properties.index
+* .metadata/.plugins/org.eclipse.core.resources/.projects/appcompat_v7/.indexes/a0/3a/
+* .metadata/.plugins/org.eclipse.core.resources/.projects/appcompat_v7/.indexes/a0/3a/properties.index
+* .metadata/.plugins/org.eclipse.core.resources/.projects/appcompat_v7/.indexes/a0/3e/
+* .metadata/.plugins/org.eclipse.core.resources/.projects/appcompat_v7/.indexes/a0/3e/properties.index
+* .metadata/.plugins/org.eclipse.core.resources/.projects/appcompat_v7/.indexes/a0/44/
+* .metadata/.plugins/org.eclipse.core.resources/.projects/appcompat_v7/.indexes/a0/44/properties.index
+* .metadata/.plugins/org.eclipse.core.resources/.projects/appcompat_v7/.indexes/a0/47/
+* .metadata/.plugins/org.eclipse.core.resources/.projects/appcompat_v7/.indexes/a0/47/properties.index
+* .metadata/.plugins/org.eclipse.core.resources/.projects/appcompat_v7/.indexes/a0/48/
+* .metadata/.plugins/org.eclipse.core.resources/.projects/appcompat_v7/.indexes/a0/48/properties.index
+* .metadata/.plugins/org.eclipse.core.resources/.projects/appcompat_v7/.indexes/a0/49/
+* .metadata/.plugins/org.eclipse.core.resources/.projects/appcompat_v7/.indexes/a0/49/properties.index
+* .metadata/.plugins/org.eclipse.core.resources/.projects/appcompat_v7/.indexes/a0/4a/
+* .metadata/.plugins/org.eclipse.core.resources/.projects/appcompat_v7/.indexes/a0/4a/properties.index
+* .metadata/.plugins/org.eclipse.core.resources/.projects/appcompat_v7/.indexes/a0/5/
+* .metadata/.plugins/org.eclipse.core.resources/.projects/appcompat_v7/.indexes/a0/5/properties.index
+* .metadata/.plugins/org.eclipse.core.resources/.projects/appcompat_v7/.indexes/a0/50/
+* .metadata/.plugins/org.eclipse.core.resources/.projects/appcompat_v7/.indexes/a0/50/properties.index
+* .metadata/.plugins/org.eclipse.core.resources/.projects/appcompat_v7/.indexes/a0/54/
+* .metadata/.plugins/org.eclipse.core.resources/.projects/appcompat_v7/.indexes/a0/54/properties.index
+* .metadata/.plugins/org.eclipse.core.resources/.projects/appcompat_v7/.indexes/a0/62/
+* .metadata/.plugins/org.eclipse.core.resources/.projects/appcompat_v7/.indexes/a0/62/properties.index
+* .metadata/.plugins/org.eclipse.core.resources/.projects/appcompat_v7/.indexes/a0/63/
+* .metadata/.plugins/org.eclipse.core.resources/.projects/appcompat_v7/.indexes/a0/63/properties.index
+* .metadata/.plugins/org.eclipse.core.resources/.projects/appcompat_v7/.indexes/a0/68/
+* .metadata/.plugins/org.eclipse.core.resources/.projects/appcompat_v7/.indexes/a0/68/properties.index
+* .metadata/.plugins/org.eclipse.core.resources/.projects/appcompat_v7/.indexes/a0/6b/
+* .metadata/.plugins/org.eclipse.core.resources/.projects/appcompat_v7/.indexes/a0/6b/properties.index
+* .metadata/.plugins/org.eclipse.core.resources/.projects/appcompat_v7/.indexes/a0/6d/
+* .metadata/.plugins/org.eclipse.core.resources/.projects/appcompat_v7/.indexes/a0/6d/properties.index
+* .metadata/.plugins/org.eclipse.core.resources/.projects/appcompat_v7/.indexes/a0/71/
+* .metadata/.plugins/org.eclipse.core.resources/.projects/appcompat_v7/.indexes/a0/71/properties.index
+* .metadata/.plugins/org.eclipse.core.resources/.projects/appcompat_v7/.indexes/a0/74/
+* .metadata/.plugins/org.eclipse.core.resources/.projects/appcompat_v7/.indexes/a0/74/properties.index
+* .metadata/.plugins/org.eclipse.core.resources/.projects/appcompat_v7/.indexes/a0/79/
+* .metadata/.plugins/org.eclipse.core.resources/.projects/appcompat_v7/.indexes/a0/79/properties.index
+* .metadata/.plugins/org.eclipse.core.resources/.projects/appcompat_v7/.indexes/a0/7f/
+* .metadata/.plugins/org.eclipse.core.resources/.projects/appcompat_v7/.indexes/a0/7f/properties.index
+* .metadata/.plugins/org.eclipse.core.resources/.projects/appcompat_v7/.indexes/a0/8e/
+* .metadata/.plugins/org.eclipse.core.resources/.projects/appcompat_v7/.indexes/a0/8e/properties.index
+* .metadata/.plugins/org.eclipse.core.resources/.projects/appcompat_v7/.indexes/a0/91/
+* .metadata/.plugins/org.eclipse.core.resources/.projects/appcompat_v7/.indexes/a0/91/properties.index
+* .metadata/.plugins/org.eclipse.core.resources/.projects/appcompat_v7/.indexes/a0/93/
+* .metadata/.plugins/org.eclipse.core.resources/.projects/appcompat_v7/.indexes/a0/93/properties.index
+* .metadata/.plugins/org.eclipse.core.resources/.projects/appcompat_v7/.indexes/a0/9c/
+* .metadata/.plugins/org.eclipse.core.resources/.projects/appcompat_v7/.indexes/a0/9c/properties.index
+* .metadata/.plugins/org.eclipse.core.resources/.projects/appcompat_v7/.indexes/a0/9f/
+* .metadata/.plugins/org.eclipse.core.resources/.projects/appcompat_v7/.indexes/a0/9f/properties.index
+* .metadata/.plugins/org.eclipse.core.resources/.projects/appcompat_v7/.indexes/a0/a9/
+* .metadata/.plugins/org.eclipse.core.resources/.projects/appcompat_v7/.indexes/a0/a9/properties.index
+* .metadata/.plugins/org.eclipse.core.resources/.projects/appcompat_v7/.indexes/a0/b/
+* .metadata/.plugins/org.eclipse.core.resources/.projects/appcompat_v7/.indexes/a0/b/properties.index
+* .metadata/.plugins/org.eclipse.core.resources/.projects/appcompat_v7/.indexes/a0/b2/
+* .metadata/.plugins/org.eclipse.core.resources/.projects/appcompat_v7/.indexes/a0/b2/properties.index
+* .metadata/.plugins/org.eclipse.core.resources/.projects/appcompat_v7/.indexes/a0/b4/
+* .metadata/.plugins/org.eclipse.core.resources/.projects/appcompat_v7/.indexes/a0/b4/properties.index
+* .metadata/.plugins/org.eclipse.core.resources/.projects/appcompat_v7/.indexes/a0/b7/
+* .metadata/.plugins/org.eclipse.core.resources/.projects/appcompat_v7/.indexes/a0/b7/properties.index
+* .metadata/.plugins/org.eclipse.core.resources/.projects/appcompat_v7/.indexes/a0/ba/
+* .metadata/.plugins/org.eclipse.core.resources/.projects/appcompat_v7/.indexes/a0/ba/properties.index
+* .metadata/.plugins/org.eclipse.core.resources/.projects/appcompat_v7/.indexes/a0/c1/
+* .metadata/.plugins/org.eclipse.core.resources/.projects/appcompat_v7/.indexes/a0/c1/properties.index
+* .metadata/.plugins/org.eclipse.core.resources/.projects/appcompat_v7/.indexes/a0/c2/
+* .metadata/.plugins/org.eclipse.core.resources/.projects/appcompat_v7/.indexes/a0/c2/properties.index
+* .metadata/.plugins/org.eclipse.core.resources/.projects/appcompat_v7/.indexes/a0/c7/
+* .metadata/.plugins/org.eclipse.core.resources/.projects/appcompat_v7/.indexes/a0/c7/properties.index
+* .metadata/.plugins/org.eclipse.core.resources/.projects/appcompat_v7/.indexes/a0/cb/
+* .metadata/.plugins/org.eclipse.core.resources/.projects/appcompat_v7/.indexes/a0/cb/properties.index
+* .metadata/.plugins/org.eclipse.core.resources/.projects/appcompat_v7/.indexes/a0/cd/
+* .metadata/.plugins/org.eclipse.core.resources/.projects/appcompat_v7/.indexes/a0/cd/properties.index
+* .metadata/.plugins/org.eclipse.core.resources/.projects/appcompat_v7/.indexes/a0/ce/
+* .metadata/.plugins/org.eclipse.core.resources/.projects/appcompat_v7/.indexes/a0/ce/properties.index
+* .metadata/.plugins/org.eclipse.core.resources/.projects/appcompat_v7/.indexes/a0/d6/
+* .metadata/.plugins/org.eclipse.core.resources/.projects/appcompat_v7/.indexes/a0/d6/properties.index
+* .metadata/.plugins/org.eclipse.core.resources/.projects/appcompat_v7/.indexes/a0/d8/
+* .metadata/.plugins/org.eclipse.core.resources/.projects/appcompat_v7/.indexes/a0/d8/properties.index
+* .metadata/.plugins/org.eclipse.core.resources/.projects/appcompat_v7/.indexes/a0/da/
+* .metadata/.plugins/org.eclipse.core.resources/.projects/appcompat_v7/.indexes/a0/da/properties.index
+* .metadata/.plugins/org.eclipse.core.resources/.projects/appcompat_v7/.indexes/a0/de/
+* .metadata/.plugins/org.eclipse.core.resources/.projects/appcompat_v7/.indexes/a0/de/properties.index
+* .metadata/.plugins/org.eclipse.core.resources/.projects/appcompat_v7/.indexes/a0/df/
+* .metadata/.plugins/org.eclipse.core.resources/.projects/appcompat_v7/.indexes/a0/df/properties.index
+* .metadata/.plugins/org.eclipse.core.resources/.projects/appcompat_v7/.indexes/a0/eb/
+* .metadata/.plugins/org.eclipse.core.resources/.projects/appcompat_v7/.indexes/a0/eb/properties.index
+* .metadata/.plugins/org.eclipse.core.resources/.projects/appcompat_v7/.indexes/a0/ed/
+* .metadata/.plugins/org.eclipse.core.resources/.projects/appcompat_v7/.indexes/a0/ed/properties.index
+* .metadata/.plugins/org.eclipse.core.resources/.projects/appcompat_v7/.indexes/a0/ee/
+* .metadata/.plugins/org.eclipse.core.resources/.projects/appcompat_v7/.indexes/a0/ee/properties.index
+* .metadata/.plugins/org.eclipse.core.resources/.projects/appcompat_v7/.indexes/a0/f3/
+* .metadata/.plugins/org.eclipse.core.resources/.projects/appcompat_v7/.indexes/a0/f3/properties.index
+* .metadata/.plugins/org.eclipse.core.resources/.projects/appcompat_v7/.indexes/a0/f4/
+* .metadata/.plugins/org.eclipse.core.resources/.projects/appcompat_v7/.indexes/a0/f4/properties.index
+* .metadata/.plugins/org.eclipse.core.resources/.projects/appcompat_v7/.indexes/a0/f6/
+* .metadata/.plugins/org.eclipse.core.resources/.projects/appcompat_v7/.indexes/a0/f6/properties.index
+* .metadata/.plugins/org.eclipse.core.resources/.projects/appcompat_v7/.indexes/a0/f7/
+* .metadata/.plugins/org.eclipse.core.resources/.projects/appcompat_v7/.indexes/a0/f7/properties.index
+* .metadata/.plugins/org.eclipse.core.resources/.projects/appcompat_v7/.indexes/a0/f8/
+* .metadata/.plugins/org.eclipse.core.resources/.projects/appcompat_v7/.indexes/a0/f8/properties.index
+* .metadata/.plugins/org.eclipse.core.resources/.projects/appcompat_v7/.indexes/a0/fc/
+* .metadata/.plugins/org.eclipse.core.resources/.projects/appcompat_v7/.indexes/a0/fc/properties.index
+* .metadata/.plugins/org.eclipse.core.resources/.projects/appcompat_v7/.indexes/a0/fd/
+* .metadata/.plugins/org.eclipse.core.resources/.projects/appcompat_v7/.indexes/a0/fd/properties.index
+* .metadata/.plugins/org.eclipse.core.resources/.projects/appcompat_v7/.indexes/a0/fe/
+* .metadata/.plugins/org.eclipse.core.resources/.projects/appcompat_v7/.indexes/a0/fe/properties.index
+* .metadata/.plugins/org.eclipse.core.resources/.projects/appcompat_v7/.indexes/properties.index
+* .metadata/.plugins/org.eclipse.core.resources/.projects/appcompat_v7/.markers.snap
+* .metadata/.plugins/org.eclipse.core.resources/.projects/appcompat_v7/.syncinfo.snap
+* .metadata/.plugins/org.eclipse.core.resources/.root/
+* .metadata/.plugins/org.eclipse.core.resources/.root/.indexes/
+* .metadata/.plugins/org.eclipse.core.resources/.root/.indexes/history.version
+* .metadata/.plugins/org.eclipse.core.resources/.root/.indexes/properties.index
+* .metadata/.plugins/org.eclipse.core.resources/.root/.indexes/properties.version
+* .metadata/.plugins/org.eclipse.core.resources/.root/.markers.snap
+* .metadata/.plugins/org.eclipse.core.resources/.root/21.tree
+* .metadata/.plugins/org.eclipse.core.resources/.safetable/
+* .metadata/.plugins/org.eclipse.core.resources/.safetable/org.eclipse.core.resources
+* .metadata/.plugins/org.eclipse.core.resources/.snap
+* .metadata/.plugins/org.eclipse.core.runtime/
+* .metadata/.plugins/org.eclipse.core.runtime/.settings/
+* .metadata/.plugins/org.eclipse.core.runtime/.settings/com.android.ide.eclipse.adt.prefs
+* .metadata/.plugins/org.eclipse.core.runtime/.settings/com.android.ide.eclipse.ddms.prefs
+* .metadata/.plugins/org.eclipse.core.runtime/.settings/org.eclipse.cdt.debug.core.prefs
+* .metadata/.plugins/org.eclipse.core.runtime/.settings/org.eclipse.cdt.ui.prefs
+* .metadata/.plugins/org.eclipse.core.runtime/.settings/org.eclipse.core.resources.prefs
+* .metadata/.plugins/org.eclipse.core.runtime/.settings/org.eclipse.debug.core.prefs
+* .metadata/.plugins/org.eclipse.core.runtime/.settings/org.eclipse.debug.ui.prefs
+* .metadata/.plugins/org.eclipse.core.runtime/.settings/org.eclipse.jdt.core.prefs
+* .metadata/.plugins/org.eclipse.core.runtime/.settings/org.eclipse.jdt.launching.prefs
+* .metadata/.plugins/org.eclipse.core.runtime/.settings/org.eclipse.jdt.ui.prefs
+* .metadata/.plugins/org.eclipse.core.runtime/.settings/org.eclipse.team.ui.prefs
+* .metadata/.plugins/org.eclipse.core.runtime/.settings/org.eclipse.ui.editors.prefs
+* .metadata/.plugins/org.eclipse.core.runtime/.settings/org.eclipse.ui.ide.prefs
+* .metadata/.plugins/org.eclipse.core.runtime/.settings/org.eclipse.wst.sse.core.prefs
+* .metadata/.plugins/org.eclipse.core.runtime/.settings/org.eclipse.wst.sse.ui.prefs
+* .metadata/.plugins/org.eclipse.debug.core/
+* .metadata/.plugins/org.eclipse.debug.core/.launches/
+* .metadata/.plugins/org.eclipse.debug.core/.launches/FirstApp.launch
+* .metadata/.plugins/org.eclipse.debug.core/.launches/New_configuration (2).launch
+* .metadata/.plugins/org.eclipse.debug.core/.launches/New_configuration.launch
+* .metadata/.plugins/org.eclipse.debug.core/.launches/Sudoku.launch
+* .metadata/.plugins/org.eclipse.debug.ui/
+* .metadata/.plugins/org.eclipse.debug.ui/dialog_settings.xml
+* .metadata/.plugins/org.eclipse.debug.ui/launchConfigurationHistory.xml
+* .metadata/.plugins/org.eclipse.e4.workbench/
+* .metadata/.plugins/org.eclipse.e4.workbench/workbench.xmi
+* .metadata/.plugins/org.eclipse.jdt.core/
+* .metadata/.plugins/org.eclipse.jdt.core/123565021.index
+* .metadata/.plugins/org.eclipse.jdt.core/1270315800.index
+* .metadata/.plugins/org.eclipse.jdt.core/1310218363.index
+* .metadata/.plugins/org.eclipse.jdt.core/1480226211.index
+* .metadata/.plugins/org.eclipse.jdt.core/166037822.index
+* .metadata/.plugins/org.eclipse.jdt.core/277801096.index
+* .metadata/.plugins/org.eclipse.jdt.core/286301833.index
+* .metadata/.plugins/org.eclipse.jdt.core/2867976293.index
+* .metadata/.plugins/org.eclipse.jdt.core/367873961.index
+* .metadata/.plugins/org.eclipse.jdt.core/externalLibsTimeStamps
+* .metadata/.plugins/org.eclipse.jdt.core/indexNamesMap.txt
+* .metadata/.plugins/org.eclipse.jdt.core/invalidArchivesCache
+* .metadata/.plugins/org.eclipse.jdt.core/javaLikeNames.txt
+* .metadata/.plugins/org.eclipse.jdt.core/nonChainingJarsCache
+* .metadata/.plugins/org.eclipse.jdt.core/savedIndexNames.txt
+* .metadata/.plugins/org.eclipse.jdt.core/variablesAndContainers.dat
+* .metadata/.plugins/org.eclipse.jdt.launching/
+* .metadata/.plugins/org.eclipse.jdt.launching/.install.xml
+* .metadata/.plugins/org.eclipse.jdt.launching/libraryInfos.xml
+* .metadata/.plugins/org.eclipse.jdt.ui/
+* .metadata/.plugins/org.eclipse.jdt.ui/OpenTypeHistory.xml
+* .metadata/.plugins/org.eclipse.jdt.ui/QualifiedTypeNameHistory.xml
+* .metadata/.plugins/org.eclipse.jdt.ui/dialog_settings.xml
+* .metadata/.plugins/org.eclipse.ltk.core.refactoring/
+* .metadata/.plugins/org.eclipse.ltk.core.refactoring/.refactorings/
+* .metadata/.plugins/org.eclipse.ltk.core.refactoring/.refactorings/.workspace/
+* .metadata/.plugins/org.eclipse.ltk.core.refactoring/.refactorings/.workspace/2014/
+* .metadata/.plugins/org.eclipse.ltk.core.refactoring/.refactorings/.workspace/2014/9/
+* .metadata/.plugins/org.eclipse.ltk.core.refactoring/.refactorings/.workspace/2014/9/39/
+* .metadata/.plugins/org.eclipse.ltk.core.refactoring/.refactorings/.workspace/2014/9/39/refactorings.history
+* .metadata/.plugins/org.eclipse.ltk.core.refactoring/.refactorings/.workspace/2014/9/39/refactorings.index
+* .metadata/.plugins/org.eclipse.ltk.ui.refactoring/
+* .metadata/.plugins/org.eclipse.ltk.ui.refactoring/dialog_settings.xml
+* .metadata/.plugins/org.eclipse.ui.ide/
+* .metadata/.plugins/org.eclipse.ui.ide/dialog_settings.xml
+* .metadata/.plugins/org.eclipse.ui.workbench.texteditor/
+* .metadata/.plugins/org.eclipse.ui.workbench.texteditor/dialog_settings.xml
+* .metadata/.plugins/org.eclipse.ui.workbench/
+* .metadata/.plugins/org.eclipse.ui.workbench/dialog_settings.xml
+* .metadata/.plugins/org.eclipse.ui.workbench/workingsets.xml
+* .metadata/.plugins/org.eclipse.wst.sse.ui/
+* .metadata/.plugins/org.eclipse.wst.sse.ui/dialog_settings.xml
+* .metadata/.plugins/org.eclipse.wst.xml.core/
+* .metadata/.plugins/org.eclipse.wst.xml.core/default_catalog.xml
+* .metadata/.plugins/org.eclipse.wst.xml.core/system_catalog.xml
+* .metadata/version.ini
+* 2016_03_30_23_14_24.mp4
+* Screenshot_2016-04-07-11-58-28.png
+* Speedbar.org
+* Speedbar.pdf
+* ic_launcher-web.png
+* jd-gui.cfg
+* proguard-project.txt
+* readme.org
+* readme.pdf
+* readme.tex
+* tetrisglar_d9qpjwxc.apk
+* ttetris-2d/
+* ttetris-2d/ActGameover.java
+* ttetris-2d/ActivityGame.java
+* ttetris-2d/Block.java
+* ttetris-2d/Dimension.java
+* ttetris-2d/Model.java
+* ttetris-2d/Point.java
+* ttetris-2d/StarSurfaceView.java
+* ttetris-2d/TTetris.java
+
+Replaced Libraries with Dependencies:
+-------------------------------------
+The importer recognized the following library projects as third party
+libraries and replaced them with Gradle dependencies instead. This has
+the advantage that more explicit version information is known, and the
+libraries can be updated automatically. However, it is possible that
+the source files in your project were of an older version than the
+dependency we picked, which could render the project not compileable.
+You can disable the library replacement in the import wizard and try
+again:
+
+appcompat-v7 => [com.android.support:appcompat-v7:20.0.0]
+
+Moved Files:
+------------
+Android Gradle projects use a different directory structure than ADT
+Eclipse projects. Here's how the projects were restructured:
+
+* AndroidManifest.xml => app/src/main/AndroidManifest.xml
+* assets/ => app/src/main/assets/
+* libs/vecmath.jar => app/libs/vecmath.jar
+* res/ => app/src/main/res/
+* src/ => app/src/main/java/
+
+Next Steps:
+-----------
+You can now build the project. The Gradle project needs network
+connectivity to download dependencies.
+
+Bugs:
+-----
+If for some reason your project does not build, and you determine that
+it is due to a bug or limitation of the Eclipse to Gradle importer,
+please file a bug at http://b.android.com with category
+Component-Tools.
+
+(This import summary is for your information only, and can be deleted
+after import once you are satisfied with the results.)

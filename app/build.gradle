@@ -1,0 +1,26 @@
+import com.android.build.gradle.AppExtension
+
+apply plugin: 'com.android.application'
+
+final extension = android {
+    compileSdkVersion 20
+    buildToolsVersion "23.0.3"
+
+    defaultConfig {
+        applicationId "dev.ttetris"
+        minSdkVersion 8
+        targetSdkVersion 8
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.txt'
+        }
+    }
+}
+
+dependencies {
+    compile 'com.android.support:appcompat-v7:20.0.0'
+    compile files('libs/vecmath.jar')
+}
