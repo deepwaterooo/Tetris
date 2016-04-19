@@ -18,7 +18,7 @@ import dev.ttetris.util.MeshLoader;
 import dev.ttetris.util.MeshPlyLoader;
 
 public class AssetManager {
-    private static final String[] CUBEMAP_FACES = { "RT", "LF", "UP", "DN", "FR", "BK" };
+    private static final String[] CUBEMAP_FACES = { "RT", "LF", "UP", "DN", "FR", "BK" }; // supposed to have way more than this, or 6 faces
     private static final String CUBEMAP_FACE_PATTERN = ".*_(RT|LF|UP|DN|FR|BK)(\\.\\w*)?$";
     private static final TextureParams CUBEMAP_TEXTURE_PARAMS = new TextureParams(TextureMinFilter.LINEAR, TextureMagFilter.LINEAR, TextureWrap.CLAMP_TO_EDGE, TextureWrap.CLAMP_TO_EDGE);
     private Context context;
@@ -115,15 +115,16 @@ public class AssetManager {
         //   18	37	53	java/io/IOException
         //   37	49	79	java/io/IOException
     }
-
+    // what does the second parameter used for ? below ||
     public void loadTextures(String paramString, TextureParams paramTextureParams) {
         int j = 0;
         int i = 0;
         Iterator localIterator = null;
+        String [] arrayOfString = null;
         while (true) {
             try {
                 HashSet localHashSet = new HashSet();
-                String[] arrayOfString = this.context.getAssets().list(paramString);
+                arrayOfString = this.context.getAssets().list(paramString);  // source of ANR
                 i = arrayOfString.length;
                 if (j >= i) {
                     localIterator = localHashSet.iterator();
@@ -146,11 +147,55 @@ public class AssetManager {
                 }
             }
             catch (IOException localIOException) {
+                localIOException.printStackTrace();
                 throw new RuntimeException("Cannot load textures from dir: " + paramString, localIOException);
             }
+            
             //getCubeTexture((String)localIterator.next());
             //continue;
             //j++;
+        }
+    }
+
+    private String getCubemapFileByFace(String paramString) {
+        String[] arrayOfString1 = splitFilename(paramString);
+        String[] arrayOfString2 = CUBEMAP_FACES;
+        int i = arrayOfString2.length; // 6
+        for (int j = 0; ; j++) {
+            String str3 = "";
+            if (j >= i)
+                str3 = paramString;
+            do {
+                //return str3;
+                String str1 = arrayOfString2[j]; // faces 6
+                String str2 = "_" + str1;
+                if (!arrayOfString1[0].endsWith(str2))
+                    break;
+                str3 = arrayOfString1[0].substring(0, arrayOfString1[0].length() - str2.length());
+                return str3;  // may NOT be correct
+            } while (arrayOfString1[1] == null);
+            return str3 + arrayOfString1[1];
+        }
+    }
+
+    private String[] splitFilename(String paramString) {
+        String str1 = paramString;
+        int i = paramString.lastIndexOf('.');
+        String str2 = null;
+        boolean bool = false;
+        if (i != -1) {
+            str2 = paramString.substring(i);
+            if (!str2.contains("/"))
+                bool = true;
+                //break label51;
+            else 
+                str2 = null;
+        }
+        while (bool) {
+            //return new String[] { str1, str2 };
+            //label51:
+            str1 = paramString.substring(0, i);
+            return new String[] { str1, str2 };
         }
     }
 
@@ -207,27 +252,6 @@ public class AssetManager {
         //   39	52	84	java/io/IOException
     }
 
-    private String getCubemapFileByFace(String paramString) {
-        String[] arrayOfString1 = splitFilename(paramString);
-        String[] arrayOfString2 = CUBEMAP_FACES;
-        int i = arrayOfString2.length;
-        for (int j = 0; ; j++) {
-            String str3 = "";
-            if (j >= i)
-                str3 = paramString;
-            do {
-                //return str3;
-                String str1 = arrayOfString2[j];
-                String str2 = "_" + str1;
-                if (!arrayOfString1[0].endsWith(str2))
-                    break;
-                str3 = arrayOfString1[0].substring(0, arrayOfString1[0].length() - str2.length());
-            }
-            while (arrayOfString1[1] == null);
-            return str3 + arrayOfString1[1];
-        }
-    }
-
     private boolean isCubemapFaceFile(String paramString) {
         return paramString.matches(".*_(RT|LF|UP|DN|FR|BK)(\\.\\w*)?$");
     }
@@ -246,24 +270,6 @@ public class AssetManager {
                 }
         }
         return null;
-    }
-
-    private String[] splitFilename(String paramString) {
-        String str1 = paramString;
-        int i = paramString.lastIndexOf('.');
-        String str2 = null;
-        if (i != -1) {
-            str2 = paramString.substring(i);
-            if (!str2.contains("/"));
-                //break label51;
-            str2 = null;
-        }
-        while (true) {
-            //return new String[] { str1, str2 };
-            //label51:
-            str1 = paramString.substring(0, i);
-            return new String[] { str1, str2 };
-        }
     }
 
     public Texture getCubeTexture(String paramString) {
