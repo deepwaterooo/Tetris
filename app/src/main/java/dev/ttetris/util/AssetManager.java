@@ -66,55 +66,8 @@ public class AssetManager {
         }
         shadersByFilePath.put(paramString, new Shader(shaderSourceVert.toString(), shaderSource.toString()));
         return new Shader(shaderSourceVert.toString(), shaderSource.toString()); 
-
-        // Byte code:
-        //   0: aload_0
-        //   1: getfield 86	ru/igsoft/anogl/AssetManager:shadersByFilePath	Ljava/util/Map;
-        //   4: aload_1
-        //   5: invokeinterface 165 2 0
-        //   10: checkcast 228	ru/igsoft/anogl/Shader
-        //   13: astore_2
-        //   14: aload_2
-        //   15: ifnonnull +36 -> 51
-        //   18: new 228	ru/igsoft/anogl/Shader
-        //   21: dup
-        //   22: aload_0
-        //   23: getfield 100	ru/igsoft/anogl/AssetManager:context	Landroid/content/Context;
-        //   26: invokevirtual 173	android/content/Context:getAssets	()Landroid/content/res/AssetManager;
-        //   29: aload_1
-        //   30: invokevirtual 179	android/content/res/AssetManager:open	(Ljava/lang/String;)Ljava/io/InputStream;
-        //   33: invokespecial 241	ru/igsoft/anogl/Shader:<init>	(Ljava/io/InputStream;)V
-        //   36: astore_3
-        //   37: aload_0
-        //   38: getfield 86	ru/igsoft/anogl/AssetManager:shadersByFilePath	Ljava/util/Map;
-        //   41: aload_1
-        //   42: aload_3
-        //   43: invokeinterface 113 3 0
-        //   48: pop
-        //   49: aload_3
-        //   50: astore_2
-        //   51: aload_2
-        //   52: areturn
-        //   53: astore 6
-        //   55: new 184	java/lang/RuntimeException
-        //   58: dup
-        //   59: new 121	java/lang/StringBuilder
-        //   62: dup
-        //   63: ldc 244
-        //   65: invokespecial 126	java/lang/StringBuilder:<init>	(Ljava/lang/String;)V
-        //   68: aload_1
-        //   69: invokevirtual 130	java/lang/StringBuilder:append	(Ljava/lang/String;)Ljava/lang/StringBuilder;
-        //   72: invokevirtual 134	java/lang/StringBuilder:toString	()Ljava/lang/String;
-        //   75: invokespecial 187	java/lang/RuntimeException:<init>	(Ljava/lang/String;)V
-        //   78: athrow
-        //   79: astore 4
-        //   81: goto -26 -> 55
-        //
-        // Exception table:
-        //   from	to	target	type
-        //   18	37	53	java/io/IOException
-        //   37	49	79	java/io/IOException
     }
+
     // what does the second parameter used for ? below ||
     public void loadTextures(String paramString, TextureParams paramTextureParams) {
         int j = 0;
@@ -132,11 +85,15 @@ public class AssetManager {
                     if (localIterator.hasNext()) {
                         getCubeTexture((String)localIterator.next());
                         continue;
-                    }
+                    } else {
+                        System.out.println("I have got here at least onece");
+    
+                        return;
+                    }   // has to be able to return, otherwise infinite loops
                 } else {
-                    String str = arrayOfString[j];
+                    String str = arrayOfString[j]; 
                     
-                    System.out.println("Testure str: " + str);
+                    System.out.println("Testure str: " + str); // Testure str: Star.png
                     System.out.println("isCubemapFaceFile(str): " + isCubemapFaceFile(str));
 
                     if (isCubemapFaceFile(str))
@@ -161,8 +118,9 @@ public class AssetManager {
         String[] arrayOfString1 = splitFilename(paramString);
         String[] arrayOfString2 = CUBEMAP_FACES;
         int i = arrayOfString2.length; // 6
+        String str3 = "";
         for (int j = 0; ; j++) {
-            String str3 = "";
+            str3 = "";
             if (j >= i)
                 str3 = paramString;
             do {
@@ -172,19 +130,20 @@ public class AssetManager {
                 if (!arrayOfString1[0].endsWith(str2))
                     break;
                 str3 = arrayOfString1[0].substring(0, arrayOfString1[0].length() - str2.length());
-                return str3;  // may NOT be correct
+                //return str3;  // may NOT be correct
             } while (arrayOfString1[1] == null);
-            return str3 + arrayOfString1[1];
+            return str3 + arrayOfString1[1]; // null ???
         }
+        //return str3 + arrayOfString1[1]; // null ???
     }
 
-    private String[] splitFilename(String paramString) {
+    private String[] splitFilename(String paramString) { // don't understand what does this function want to do
         String str1 = paramString;
         int i = paramString.lastIndexOf('.');
         String str2 = null;
         boolean bool = false;
         if (i != -1) {
-            str2 = paramString.substring(i);
+            str2 = paramString.substring(i); // .png
             if (!str2.contains("/"))
                 bool = true;
                 //break label51;
@@ -195,8 +154,8 @@ public class AssetManager {
             //return new String[] { str1, str2 };
             //label51:
             str1 = paramString.substring(0, i);
-            return new String[] { str1, str2 };
         }
+        return new String[] { str1, str2 };
     }
 
     // ERROR //

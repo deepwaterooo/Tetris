@@ -90,7 +90,7 @@ public class Block implements Cloneable, Serializable {
         }
     }
 
-    public void shiftBlock(int paramInt1, int paramInt2, int paramInt3) { // Æ½ÒÆ
+    public void shiftBlock(int paramInt1, int paramInt2, int paramInt3) {
         Cube[] arrayOfCube = getCubes();
         int i = arrayOfCube.length;  // 4
         for (int j = 0; ; j++) {

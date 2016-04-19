@@ -1,6 +1,6 @@
 package dev.ttetris.util;
 
-public final class Quaternion { // 四元
+public final class Quaternion { //
     public static final Quaternion IDENTITY = new Quaternion(1.0F, 0.0F, 0.0F, 0.0F);
     public final float x;
     public final float y;
@@ -15,7 +15,7 @@ public final class Quaternion { // 四元
     }
 
     public Quaternion(Vector3 paramVector3, float paramFloat) {
-        float f1 = (float)Math.toRadians(0.5D * paramFloat); // 孤度
+        float f1 = (float)Math.toRadians(0.5D * paramFloat); // 
         float f2 = (float)Math.sin(f1);
         this.x = (f2 * paramVector3.x);
         this.y = (f2 * paramVector3.y);

@@ -1,0 +1,3 @@
+CHANGED,/Users/qunyan/AndroidStudioProjects/Tetris/app/build/intermediates/transforms/instantRun/debug/folders/4000/5/enhanced/com/android/tools/fd/runtime/AppPatchesLoaderImpl.class
+CHANGED,/Users/qunyan/AndroidStudioProjects/Tetris/app/build/intermediates/transforms/instantRun/debug/folders/4000/5/enhanced/dev/ttetris/util/AssetManager$override.class
+CHANGED,/Users/qunyan/AndroidStudioProjects/Tetris/app/build/intermediates/transforms/instantRun/debug/folders/4000/5/enhanced/dev/ttetris/model/Cube$override.class

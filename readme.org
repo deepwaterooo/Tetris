@@ -5,17 +5,15 @@
 
 * Better version, pretty good
 - OpenGL 3D version status: 
+  - Takes way too long for Gc, need to look into it and think about it. 
+  - Will work on DorkyMonkey for some hours, and come back here. 
+  - This project will be ongoing secondary priority project fo recent days considering my first priority will be current course projects. 
+  - Will update DorkyMonkeyrepository tonight. 
+  - 
   - Fixed improper non-png file bug.
   - studio to recognize Chinese in imported source file originally form Eclipse.
   - debug traces.txt to identify the ANR source in AssetManager.java line 127.
   - working on the several related functions initializing my again process of debugging game flow in Studio environment. 
-  - 
-  - basic Necessary changed has been made, but due to lack of necessary informations, debugging for game flow becomes kind of difficult. 
-  - working on configuring Android studio environment, and configuring debugging tools so that I could potentially get more information for debugging. 
-  - will update on Sunday evening for studio version. 
-  - 
-  - working slowing step-by-step to get app run without crashing down, getting familiar with app flow & different opengl modules, many bugs on the ways need to be fixed before onto those matrix.
-  - but will get them done. I will. 
   - 
   - game layout structure: 
 
@@ -30,7 +28,7 @@
 - http://stackvoid.com/introduction-to-Message-Handler-in-Android/
 - http://m.oschina.net/blog/97619
 - AssetManager: http://m.jb51.net/article/57341.htm
-
+- A 3d reference: https://github.com/kdomic/android-3d-tetris
 ** 3D design
 - c++ version: https://github.com/matachi/tetris-cpp
 - refer 6 http://www.oschina.net/question/614942_62370

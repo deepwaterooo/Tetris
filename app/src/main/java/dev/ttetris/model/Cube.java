@@ -29,7 +29,7 @@ public class Cube implements Cloneable, Comparable<Cube>, Serializable {
     
 	FloatBuffer mVertexBuffer;
 	FloatBuffer mColorBuffer;
-    static float[] mMMatrix = new float[16];// 具体物体的移动旋转矩阵，旋转、平移
+    static float[] mMMatrix = new float[16];
 
     private CubeColor color; 
     private float [] coords;
@@ -160,12 +160,9 @@ public class Cube implements Cloneable, Comparable<Cube>, Serializable {
 	public void drawSelf(){
 		GLES20.glUseProgram(mProgram);
 
-		// 初始化变换矩阵
 		Matrix.setRotateM(mMMatrix, 0, 0, 0, 1, 0);
-		// 设置沿Z轴正向位移1
 		Matrix.translateM(mMMatrix, 0, -4.2f, -2.2f, -2.0f);
 
-        // 应用投影和视口变换
         GLES20.glUniformMatrix4fv(mMVPMatrixHandle, 1, false, MatrixState.getFinalMatrix(), 0);
         //GLES20.glUniformMatrix4fv(mMVPMatrixHandle, 1, false, Cube.getFinalMatrix(mMMatrix), 0);
 
@@ -174,7 +171,6 @@ public class Cube implements Cloneable, Comparable<Cube>, Serializable {
         GLES20.glEnableVertexAttribArray(mPositionHandle);
         GLES20.glEnableVertexAttribArray(mColorHandle);
         /*
-        // 获得形状的变换矩阵的handle
         mMVPMatrixHandle = GLES20.glGetUniformLocation(mProgram, "uMVPMatrix");
         */
         GLES20.glLineWidth(3.0f);

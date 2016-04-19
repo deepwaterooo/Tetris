@@ -15,7 +15,7 @@ public final class BlockType {
         arrayOfCubeShift1[1] = new CubeShift(0, 1, 0);
         arrayOfCubeShift1[2] = new CubeShift(1, 0, 0);
         arrayOfCubeShift1[3] = new CubeShift(1, 1, 0);
-        squareType = arrayOfCubeShift1; // Ìï
+        squareType = arrayOfCubeShift1; //
         
         CubeShift[] arrayOfCubeShift2 = new CubeShift[4];
         arrayOfCubeShift2[0] = new CubeShift(0, 0, 0);

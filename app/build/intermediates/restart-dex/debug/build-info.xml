@@ -4,7 +4,7 @@
     api-level="22"
     density="hdpi"
     format="7"
-    timestamp="1461014941366734000" >
+    timestamp="1461089289515218000" >
 
     <task
         name="javac"
@@ -23,7 +23,7 @@
         location="/Users/qunyan/AndroidStudioProjects/Tetris/app/build/outputs/apk/app-debug.apk"
         type="MAIN" />
 
-    <build timestamp="1461014941366734000" >
+    <build timestamp="1461089289515218000" >
         <artifact
             location="/Users/qunyan/AndroidStudioProjects/Tetris/app/build/outputs/apk/app-debug.apk"
             type="MAIN" />
