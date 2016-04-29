@@ -1,3 +1,10 @@
+CHANGED,/Users/qunyan/AndroidStudioProjects/Tetris/app/build/intermediates/transforms/instantRun/debug/folders/4000/5/enhanced/dev/ttetris/TetrisScene$6$override.class
+CHANGED,/Users/qunyan/AndroidStudioProjects/Tetris/app/build/intermediates/transforms/instantRun/debug/folders/4000/5/enhanced/dev/ttetris/TetrisScene$5$override.class
 CHANGED,/Users/qunyan/AndroidStudioProjects/Tetris/app/build/intermediates/transforms/instantRun/debug/folders/4000/5/enhanced/com/android/tools/fd/runtime/AppPatchesLoaderImpl.class
+CHANGED,/Users/qunyan/AndroidStudioProjects/Tetris/app/build/intermediates/transforms/instantRun/debug/folders/4000/5/enhanced/dev/ttetris/TetrisScene$3$override.class
+CHANGED,/Users/qunyan/AndroidStudioProjects/Tetris/app/build/intermediates/transforms/instantRun/debug/folders/4000/5/enhanced/dev/ttetris/model/Game$override.class
+CHANGED,/Users/qunyan/AndroidStudioProjects/Tetris/app/build/intermediates/transforms/instantRun/debug/folders/4000/5/enhanced/dev/ttetris/view/GameView$override.class
 CHANGED,/Users/qunyan/AndroidStudioProjects/Tetris/app/build/intermediates/transforms/instantRun/debug/folders/4000/5/enhanced/dev/ttetris/util/AssetManager$override.class
-CHANGED,/Users/qunyan/AndroidStudioProjects/Tetris/app/build/intermediates/transforms/instantRun/debug/folders/4000/5/enhanced/dev/ttetris/model/Cube$override.class
+CHANGED,/Users/qunyan/AndroidStudioProjects/Tetris/app/build/intermediates/transforms/instantRun/debug/folders/4000/5/enhanced/dev/ttetris/TetrisScene$4$override.class
+CHANGED,/Users/qunyan/AndroidStudioProjects/Tetris/app/build/intermediates/transforms/instantRun/debug/folders/4000/5/enhanced/dev/ttetris/TetrisScene$override.class
+CHANGED,/Users/qunyan/AndroidStudioProjects/Tetris/app/build/intermediates/transforms/instantRun/debug/folders/4000/5/enhanced/dev/ttetris/TetrisScene$7$override.class

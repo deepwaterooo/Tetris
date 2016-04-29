@@ -86,15 +86,13 @@ public class AssetManager {
                         getCubeTexture((String)localIterator.next());
                         continue;
                     } else {
-                        System.out.println("I have got here at least onece");
-    
                         return;
-                    }   // has to be able to return, otherwise infinite loops
+                    }   
                 } else {
                     String str = arrayOfString[j]; 
                     
-                    System.out.println("Testure str: " + str); // Testure str: Star.png
-                    System.out.println("isCubemapFaceFile(str): " + isCubemapFaceFile(str));
+                    //System.out.println("Testure str: " + str); // Testure str: Star.png
+                    //System.out.println("isCubemapFaceFile(str): " + isCubemapFaceFile(str));
 
                     if (isCubemapFaceFile(str))
                         localHashSet.add(paramString + "/" + getCubemapFileByFace(str));
@@ -302,15 +300,19 @@ public class AssetManager {
         return getTexture(paramString, this.defaultTextureParams);
     }
 
-    public void loadMeshes(String paramString) {
+    public void loadMeshes(String paramString) { // dead lock
         int i = 0;
         int j = 0;
         do
             try {
                 String[] arrayOfString = this.context.getAssets().list(paramString);
                 i = arrayOfString.length;
+                System.out.println("AssetManager loadMeshes i: " + i);
+
                 //continue;
                 String str = arrayOfString[j];
+                System.out.println("str: " + str);
+
                 getMesh(paramString + "/" + str);
                 j++;
             }
@@ -327,9 +329,12 @@ public class AssetManager {
             try {
                 String[] arrayOfString = this.context.getAssets().list(paramString);
                 i = arrayOfString.length;
+
                 //continue;
                 String str = arrayOfString[j];
-                getShader(paramString + "/" + str);
+                System.out.println("str: " + str);
+
+                getShader(paramString + "/" + str);     
                 j++;
             }
             catch (IOException localIOException) {

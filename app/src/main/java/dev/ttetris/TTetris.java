@@ -102,7 +102,7 @@ public class TTetris extends ActivityGame {
                 public void onClick(View paramAnonymousView) {
                     Game localGame = new Game();
                     TTetris.this.bindGameListener(localGame);
-                    TTetris.this.tetrisScene = new TetrisScene(localGame);
+                    TTetris.this.tetrisScene = new TetrisScene(localGame); // tetrisScene
                     TTetris.this.sceneView.setScene(TTetris.this.tetrisScene);
                     TTetris.this.continueButton.setVisibility(0);
                     TTetris.this.changeState(ActivityState.GAME);
@@ -255,11 +255,12 @@ public class TTetris extends ActivityGame {
         }
     }
 
-    protected void onAssetManagerCreated(AssetManager paramAssetManager) {
-        System.out.println("loadTextures before");
+    protected void onAssetManagerCreated(AssetManager paramAssetManager) {    // loadMeshes() deadlock in AssetManager
         paramAssetManager.loadTextures("Textures");
-        System.out.println("loadTextures finished");
-        paramAssetManager.loadMeshes("Meshes");
+
+        //System.out.println("loadTextures finished, loading meshes...");
+        //paramAssetManager.loadMeshes("Meshes"); // deadlock here
+        //System.out.println("loadMeshes finished...");
     }
 
     public void onBackPressed() {

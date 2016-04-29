@@ -36,6 +36,10 @@
         "source": "/Users/qunyan/AndroidStudioProjects/Tetris/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/20.0.0/res/drawable-hdpi/abc_cab_background_top_holo_dark.9.png"
     },
     {
+        "merged": "/Users/qunyan/AndroidStudioProjects/Tetris/app/build/intermediates/res/merged/debug/drawable-hdpi-v4/androidcamera.png",
+        "source": "/Users/qunyan/AndroidStudioProjects/Tetris/app/src/main/res/drawable-hdpi/androidcamera.png"
+    },
+    {
         "merged": "/Users/qunyan/AndroidStudioProjects/Tetris/app/build/intermediates/res/merged/debug/drawable-hdpi-v4/abc_ic_clear_search_api_holo_light.png",
         "source": "/Users/qunyan/AndroidStudioProjects/Tetris/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/20.0.0/res/drawable-hdpi/abc_ic_clear_search_api_holo_light.png"
     },
@@ -128,6 +132,46 @@
         "source": "/Users/qunyan/AndroidStudioProjects/Tetris/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/20.0.0/res/drawable-hdpi/abc_spinner_ab_disabled_holo_dark.9.png"
     },
     {
+        "merged": "/Users/qunyan/AndroidStudioProjects/Tetris/app/build/intermediates/res/merged/debug/drawable-hdpi-v4/snow_leopard.png",
+        "source": "/Users/qunyan/AndroidStudioProjects/Tetris/app/src/main/res/drawable-hdpi/snow_leopard.png"
+    },
+    {
+        "merged": "/Users/qunyan/AndroidStudioProjects/Tetris/app/build/intermediates/res/merged/debug/drawable-hdpi-v4/abc_ic_search.png",
+        "source": "/Users/qunyan/AndroidStudioProjects/Tetris/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/20.0.0/res/drawable-hdpi/abc_ic_search.png"
+    },
+    {
+        "merged": "/Users/qunyan/AndroidStudioProjects/Tetris/app/build/intermediates/res/merged/debug/drawable-hdpi-v4/abc_ic_go_search_api_holo_light.png",
+        "source": "/Users/qunyan/AndroidStudioProjects/Tetris/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/20.0.0/res/drawable-hdpi/abc_ic_go_search_api_holo_light.png"
+    },
+    {
+        "merged": "/Users/qunyan/AndroidStudioProjects/Tetris/app/build/intermediates/res/merged/debug/drawable-hdpi-v4/tetris.png",
+        "source": "/Users/qunyan/AndroidStudioProjects/Tetris/app/src/main/res/drawable-hdpi/tetris.png"
+    },
+    {
+        "merged": "/Users/qunyan/AndroidStudioProjects/Tetris/app/build/intermediates/res/merged/debug/drawable-hdpi-v4/abc_textfield_search_right_default_holo_light.9.png",
+        "source": "/Users/qunyan/AndroidStudioProjects/Tetris/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/20.0.0/res/drawable-hdpi/abc_textfield_search_right_default_holo_light.9.png"
+    },
+    {
+        "merged": "/Users/qunyan/AndroidStudioProjects/Tetris/app/build/intermediates/res/merged/debug/drawable-hdpi-v4/abc_ic_menu_moreoverflow_normal_holo_dark.png",
+        "source": "/Users/qunyan/AndroidStudioProjects/Tetris/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/20.0.0/res/drawable-hdpi/abc_ic_menu_moreoverflow_normal_holo_dark.png"
+    },
+    {
+        "merged": "/Users/qunyan/AndroidStudioProjects/Tetris/app/build/intermediates/res/merged/debug/drawable-hdpi-v4/abc_list_focused_holo.9.png",
+        "source": "/Users/qunyan/AndroidStudioProjects/Tetris/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/20.0.0/res/drawable-hdpi/abc_list_focused_holo.9.png"
+    },
+    {
+        "merged": "/Users/qunyan/AndroidStudioProjects/Tetris/app/build/intermediates/res/merged/debug/drawable-hdpi-v4/abc_ab_stacked_solid_dark_holo.9.png",
+        "source": "/Users/qunyan/AndroidStudioProjects/Tetris/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/20.0.0/res/drawable-hdpi/abc_ab_stacked_solid_dark_holo.9.png"
+    },
+    {
+        "merged": "/Users/qunyan/AndroidStudioProjects/Tetris/app/build/intermediates/res/merged/debug/drawable-hdpi-v4/abc_spinner_ab_focused_holo_light.9.png",
+        "source": "/Users/qunyan/AndroidStudioProjects/Tetris/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/20.0.0/res/drawable-hdpi/abc_spinner_ab_focused_holo_light.9.png"
+    },
+    {
+        "merged": "/Users/qunyan/AndroidStudioProjects/Tetris/app/build/intermediates/res/merged/debug/drawable-hdpi-v4/mmtitle_bg_alpha.png",
+        "source": "/Users/qunyan/AndroidStudioProjects/Tetris/app/src/main/res/drawable-hdpi/mmtitle_bg_alpha.png"
+    },
+    {
         "merged": "/Users/qunyan/AndroidStudioProjects/Tetris/app/build/intermediates/res/merged/debug/drawable-hdpi-v4/abc_list_selector_disabled_holo_dark.9.png",
         "source": "/Users/qunyan/AndroidStudioProjects/Tetris/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/20.0.0/res/drawable-hdpi/abc_list_selector_disabled_holo_dark.9.png"
     },
@@ -138,14 +182,6 @@
     {
         "merged": "/Users/qunyan/AndroidStudioProjects/Tetris/app/build/intermediates/res/merged/debug/drawable-hdpi-v4/abc_ic_cab_done_holo_dark.png",
         "source": "/Users/qunyan/AndroidStudioProjects/Tetris/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/20.0.0/res/drawable-hdpi/abc_ic_cab_done_holo_dark.png"
-    },
-    {
-        "merged": "/Users/qunyan/AndroidStudioProjects/Tetris/app/build/intermediates/res/merged/debug/drawable-hdpi-v4/abc_ic_search.png",
-        "source": "/Users/qunyan/AndroidStudioProjects/Tetris/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/20.0.0/res/drawable-hdpi/abc_ic_search.png"
-    },
-    {
-        "merged": "/Users/qunyan/AndroidStudioProjects/Tetris/app/build/intermediates/res/merged/debug/drawable-hdpi-v4/abc_ic_go_search_api_holo_light.png",
-        "source": "/Users/qunyan/AndroidStudioProjects/Tetris/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/20.0.0/res/drawable-hdpi/abc_ic_go_search_api_holo_light.png"
     },
     {
         "merged": "/Users/qunyan/AndroidStudioProjects/Tetris/app/build/intermediates/res/merged/debug/drawable-hdpi-v4/abc_spinner_ab_disabled_holo_light.9.png",
@@ -176,48 +212,28 @@
         "source": "/Users/qunyan/AndroidStudioProjects/Tetris/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/20.0.0/res/drawable-hdpi/abc_ic_clear_normal.png"
     },
     {
-        "merged": "/Users/qunyan/AndroidStudioProjects/Tetris/app/build/intermediates/res/merged/debug/drawable-hdpi-v4/abc_ab_transparent_dark_holo.9.png",
-        "source": "/Users/qunyan/AndroidStudioProjects/Tetris/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/20.0.0/res/drawable-hdpi/abc_ab_transparent_dark_holo.9.png"
-    },
-    {
         "merged": "/Users/qunyan/AndroidStudioProjects/Tetris/app/build/intermediates/res/merged/debug/drawable-hdpi-v4/abc_ic_ab_back_holo_dark.png",
         "source": "/Users/qunyan/AndroidStudioProjects/Tetris/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/20.0.0/res/drawable-hdpi/abc_ic_ab_back_holo_dark.png"
     },
     {
-        "merged": "/Users/qunyan/AndroidStudioProjects/Tetris/app/build/intermediates/res/merged/debug/drawable-hdpi-v4/tetris.png",
-        "source": "/Users/qunyan/AndroidStudioProjects/Tetris/app/src/main/res/drawable-hdpi/tetris.png"
+        "merged": "/Users/qunyan/AndroidStudioProjects/Tetris/app/build/intermediates/res/merged/debug/drawable-hdpi-v4/abc_ab_transparent_dark_holo.9.png",
+        "source": "/Users/qunyan/AndroidStudioProjects/Tetris/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/20.0.0/res/drawable-hdpi/abc_ab_transparent_dark_holo.9.png"
     },
     {
         "merged": "/Users/qunyan/AndroidStudioProjects/Tetris/app/build/intermediates/res/merged/debug/drawable-hdpi-v4/abc_ab_stacked_transparent_dark_holo.9.png",
         "source": "/Users/qunyan/AndroidStudioProjects/Tetris/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/20.0.0/res/drawable-hdpi/abc_ab_stacked_transparent_dark_holo.9.png"
     },
     {
-        "merged": "/Users/qunyan/AndroidStudioProjects/Tetris/app/build/intermediates/res/merged/debug/drawable-hdpi-v4/abc_textfield_search_right_default_holo_light.9.png",
-        "source": "/Users/qunyan/AndroidStudioProjects/Tetris/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/20.0.0/res/drawable-hdpi/abc_textfield_search_right_default_holo_light.9.png"
-    },
-    {
         "merged": "/Users/qunyan/AndroidStudioProjects/Tetris/app/build/intermediates/res/merged/debug/drawable-hdpi-v4/abc_ab_stacked_transparent_light_holo.9.png",
         "source": "/Users/qunyan/AndroidStudioProjects/Tetris/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/20.0.0/res/drawable-hdpi/abc_ab_stacked_transparent_light_holo.9.png"
-    },
-    {
-        "merged": "/Users/qunyan/AndroidStudioProjects/Tetris/app/build/intermediates/res/merged/debug/drawable-hdpi-v4/abc_ic_menu_moreoverflow_normal_holo_dark.png",
-        "source": "/Users/qunyan/AndroidStudioProjects/Tetris/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/20.0.0/res/drawable-hdpi/abc_ic_menu_moreoverflow_normal_holo_dark.png"
     },
     {
         "merged": "/Users/qunyan/AndroidStudioProjects/Tetris/app/build/intermediates/res/merged/debug/drawable-hdpi-v4/abc_ab_bottom_transparent_dark_holo.9.png",
         "source": "/Users/qunyan/AndroidStudioProjects/Tetris/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/20.0.0/res/drawable-hdpi/abc_ab_bottom_transparent_dark_holo.9.png"
     },
     {
-        "merged": "/Users/qunyan/AndroidStudioProjects/Tetris/app/build/intermediates/res/merged/debug/drawable-hdpi-v4/abc_list_focused_holo.9.png",
-        "source": "/Users/qunyan/AndroidStudioProjects/Tetris/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/20.0.0/res/drawable-hdpi/abc_list_focused_holo.9.png"
-    },
-    {
-        "merged": "/Users/qunyan/AndroidStudioProjects/Tetris/app/build/intermediates/res/merged/debug/drawable-hdpi-v4/abc_ab_stacked_solid_dark_holo.9.png",
-        "source": "/Users/qunyan/AndroidStudioProjects/Tetris/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/20.0.0/res/drawable-hdpi/abc_ab_stacked_solid_dark_holo.9.png"
-    },
-    {
-        "merged": "/Users/qunyan/AndroidStudioProjects/Tetris/app/build/intermediates/res/merged/debug/drawable-hdpi-v4/abc_spinner_ab_focused_holo_light.9.png",
-        "source": "/Users/qunyan/AndroidStudioProjects/Tetris/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/20.0.0/res/drawable-hdpi/abc_spinner_ab_focused_holo_light.9.png"
+        "merged": "/Users/qunyan/AndroidStudioProjects/Tetris/app/build/intermediates/res/merged/debug/drawable-hdpi-v4/android.png",
+        "source": "/Users/qunyan/AndroidStudioProjects/Tetris/app/src/main/res/drawable-hdpi/android.png"
     },
     {
         "merged": "/Users/qunyan/AndroidStudioProjects/Tetris/app/build/intermediates/res/merged/debug/drawable-hdpi-v4/abc_textfield_search_default_holo_dark.9.png",
@@ -278,6 +294,10 @@
     {
         "merged": "/Users/qunyan/AndroidStudioProjects/Tetris/app/build/intermediates/res/merged/debug/drawable-hdpi-v4/abc_ab_bottom_transparent_light_holo.9.png",
         "source": "/Users/qunyan/AndroidStudioProjects/Tetris/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/20.0.0/res/drawable-hdpi/abc_ab_bottom_transparent_light_holo.9.png"
+    },
+    {
+        "merged": "/Users/qunyan/AndroidStudioProjects/Tetris/app/build/intermediates/res/merged/debug/drawable-hdpi-v4/accountadd.png",
+        "source": "/Users/qunyan/AndroidStudioProjects/Tetris/app/src/main/res/drawable-hdpi/accountadd.png"
     },
     {
         "merged": "/Users/qunyan/AndroidStudioProjects/Tetris/app/build/intermediates/res/merged/debug/drawable-hdpi-v4/abc_ic_voice_search.png",

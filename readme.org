@@ -5,15 +5,9 @@
 
 * Better version, pretty good
 - OpenGL 3D version status: 
-  - Takes way too long for Gc, need to look into it and think about it. 
-  - Will work on DorkyMonkey for some hours, and come back here. 
+  - After having understood texture and lights better, tried to debug this one for a while, but still complicated design and layout still make this one to some extend difficult for me for now. 
+  - Will work on Cube project, and build a simple version of opengl tetris game from that app first, and come back to this one later. 
   - This project will be ongoing secondary priority project fo recent days considering my first priority will be current course projects. 
-  - Will update DorkyMonkeyrepository tonight. 
-  - 
-  - Fixed improper non-png file bug.
-  - studio to recognize Chinese in imported source file originally form Eclipse.
-  - debug traces.txt to identify the ANR source in AssetManager.java line 127.
-  - working on the several related functions initializing my again process of debugging game flow in Studio environment. 
   - 
   - game layout structure: 
 

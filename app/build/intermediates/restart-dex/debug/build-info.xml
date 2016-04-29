@@ -4,26 +4,26 @@
     api-level="22"
     density="hdpi"
     format="7"
-    timestamp="1461089289515218000" >
+    timestamp="1461970388756681000" >
 
     <task
         name="javac"
-        duration="0" />
+        duration="387" />
     <task
         name="instant-run-dex"
         duration="0" />
     <task
         name="instant-run-transform"
-        duration="0" />
+        duration="76" />
     <task
         name="verifier"
-        duration="0" />
+        duration="12" />
 
     <artifact
         location="/Users/qunyan/AndroidStudioProjects/Tetris/app/build/outputs/apk/app-debug.apk"
         type="MAIN" />
 
-    <build timestamp="1461089289515218000" >
+    <build timestamp="1461970388756681000" >
         <artifact
             location="/Users/qunyan/AndroidStudioProjects/Tetris/app/build/outputs/apk/app-debug.apk"
             type="MAIN" />

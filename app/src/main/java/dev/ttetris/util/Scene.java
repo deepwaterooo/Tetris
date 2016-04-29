@@ -135,8 +135,8 @@ public abstract class Scene {
     }
 
     protected void render() {
-        if (!this.created)
-            throw new RuntimeException("Scene not created");
+        if (!this.created) throw new RuntimeException("Scene not created");
+
         this.traversedGeometries.clear();
         this.rootNode.traverseSceneGraph(this.traversedGeometries, this.worldMatrix);
         Collections.sort(this.traversedGeometries, this.geometryComparator);

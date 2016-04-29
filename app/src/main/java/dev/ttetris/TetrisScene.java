@@ -43,9 +43,12 @@ public class TetrisScene extends Scene {
 
     protected void onCreate(AssetManager paramAssetManager) {
         setFrustrum(45.0F, 1.0F, 50.0F);
-        this.renderParams.setLookAt(4.8f, 2.2f, 4.5f, 0f, 0f, 0f, 0f, 1.0f, 0.0f); 
-        this.rootNode.attachGeometry(new BackgroundGeometry(paramAssetManager));    // ?????????????????????????????????
+        this.renderParams.setLookAt(4.8f, 2.2f, 4.5f, 0f, 0f, 0f, 0f, 1.0f, 0.0f); // supposed to change this one
+        this.rootNode.attachGeometry(new BackgroundGeometry(paramAssetManager)); 
+System.out.println("got here TetrisScene before GameView");
         GameView localGameView = new GameView(paramAssetManager, this.game);
+System.out.println("got here TetrisScene");
+
         this.game.addListener(localGameView);
         this.rootNode.addChild(localGameView);
     }

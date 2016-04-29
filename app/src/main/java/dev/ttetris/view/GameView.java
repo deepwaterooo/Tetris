@@ -30,6 +30,8 @@ public class GameView extends Node implements GameListener {
         addChild(this.boardsNode);
         this.nextBlockParent = new Node();
         addChild(this.nextBlockParent);
+        System.out.println("GameView created");
+
     }
 
     private void updateNextBlockVisibility() {
@@ -40,14 +42,6 @@ public class GameView extends Node implements GameListener {
         localNode.setEnabled(true);
             //return;
             //}
-    }
-
-    public void boardChangeDenied() {
-    }
-    public void boardChanged(Board paramBoard) {
-        //this.stars1[this.currentStars].restart();
-        //this.stars2[this.currentStars].restart();
-        //this.currentStars = ((1 + this.currentStars) % 2);
     }
 
     public void boardCreated(Board paramBoard) {
@@ -89,42 +83,8 @@ public class GameView extends Node implements GameListener {
             //break label415;
             m = 0;
             //localGlassView.setRotation(0.0F, m, 0.0F);
-            if (this.boardsCount == 2) {
-                //localParticleSystemParams = new ParticleSystemParams();
-                //localParticleSystemParams.numParticles = 15;
-                //localParticleSystemParams.colorTexture = "Textures/Star.png";
-                //localParticleSystemParams.rampTexture = "Ramp/StarRamp.png";
-                //local1 = new ParticleGenerator() {
-                /*
-                        private float dt;
-                        private float dy;
 
-                        public void generateParticle(int paramAnonymousInt, ParticleParams paramAnonymousParticleParams)
-                        {
-                            paramAnonymousParticleParams.lifeTime = 1.2F;
-                            paramAnonymousParticleParams.lifeTimeRange = 0.1F;
-                            paramAnonymousParticleParams.endSize = 2.5F;
-                            paramAnonymousParticleParams.startSize = 2.5F;
-                            paramAnonymousParticleParams.position[1] = (paramAnonymousInt * this.dy);
-                            paramAnonymousParticleParams.startTime = (paramAnonymousInt * this.dt);
-                            float[] arrayOfFloat1 = paramAnonymousParticleParams.colorMult;
-                            float[] arrayOfFloat2 = paramAnonymousParticleParams.colorMult;
-                            paramAnonymousParticleParams.colorMult[2] = 0.65F;
-                            arrayOfFloat2[1] = 0.65F;
-                            arrayOfFloat1[0] = 0.65F;
-                            float[] arrayOfFloat3 = paramAnonymousParticleParams.colorMultRange;
-                            float[] arrayOfFloat4 = paramAnonymousParticleParams.colorMultRange;
-                            paramAnonymousParticleParams.colorMultRange[2] = 0.35F;
-                            arrayOfFloat4[1] = 0.35F;
-                            arrayOfFloat3[0] = 0.35F;
-                            paramAnonymousParticleParams.velocity[0] = 0.9F;
-                            paramAnonymousParticleParams.velocityRange[0] = 0.2F;
-                            float[] arrayOfFloat5 = paramAnonymousParticleParams.velocityRange;
-                            paramAnonymousParticleParams.velocityRange[2] = 0.2F;
-                            arrayOfFloat5[1] = 0.2F;
-                        }
-                        };  */
-                localNode1 = new Node();
+            localNode1 = new Node();
                 addChild(localNode1);
                 localNode1.setPosition(0.5F * localBoardBatchView.getWidth(), 0.5F + -0.5F * localBoardBatchView.getHeight(), 0.5F);
                 localNode2 = new Node();
@@ -133,9 +93,8 @@ public class GameView extends Node implements GameListener {
                 localNode2.setRotation(0.0F, 180.0F, 0.0F);
                 //this.stars1 = new ParticleSystem[2];
                 //this.stars2 = new ParticleSystem[2];
-            }
         }
-        for (int n = 0; ; n++) {
+        for (int n = 0; ; n++) 
             if (n >= 2) {
                 //return;
                 j = -1;
@@ -147,37 +106,28 @@ public class GameView extends Node implements GameListener {
                 m = 180;
                 //break label225;
             }
-            //this.stars1[n] = new ParticleSystem(this.assetManager, localParticleSystemParams, local1);
-            //localNode1.attachGeometry(this.stars1[n]);
-            //this.stars1[n].setRenderQueueId(3);
-            //this.stars1[n].setAutoDisabled(true);
-            //this.stars2[n] = new ParticleSystem(this.assetManager, localParticleSystemParams, local1);
-            //localNode2.attachGeometry(this.stars2[n]);
-            //this.stars2[n].setRenderQueueId(3);
-            //this.stars2[n].setAutoDisabled(true);
-        }
+        //this.stars1[n] = new ParticleSystem(this.assetManager, localParticleSystemParams, local1);
+        //localNode1.attachGeometry(this.stars1[n]);
+        //this.stars1[n].setRenderQueueId(3);
+        //this.stars1[n].setAutoDisabled(true);
+        //this.stars2[n] = new ParticleSystem(this.assetManager, localParticleSystemParams, local1);
+        //localNode2.attachGeometry(this.stars2[n]);
+        //this.stars2[n].setRenderQueueId(3);
+        //this.stars2[n].setAutoDisabled(true);
     }
 
-    public void blockFalled() {
-    }
-
-    public void blockFreezed() {
-    }
-
-    public void blockRotateDenied() {
-    }
+    public void blockFalled() { }
+    public void blockFreezed() { }
+    public void blockRotateDenied() { }
+    public void levelChanged(int paramInt) { }
+    public void lineDisappearing() { }
+    public void pointsChanged(int paramInt) { }
 
     public void gameOver() {
         if (this.nextBlock != null) {
             this.nextBlock.removeFromParent();
             this.nextBlock = null;
         }
-    }
-
-    public void levelChanged(int paramInt) {
-    }
-
-    public void lineDisappearing() {
     }
 
     public void nextBlockGenerated(Block paramBlock) {
@@ -193,8 +143,6 @@ public class GameView extends Node implements GameListener {
         updateNextBlockVisibility();
     }
 
-    public void pointsChanged(int paramInt) {
-    }
 
     public void stateChanged(GameState paramGameState) {
         updateNextBlockVisibility();

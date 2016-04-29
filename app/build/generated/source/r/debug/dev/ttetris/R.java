@@ -819,14 +819,19 @@ containing a value of this type.
         public static final int abc_textfield_searchview_holo_light=0x7f020054;
         public static final int abc_textfield_searchview_right_holo_dark=0x7f020055;
         public static final int abc_textfield_searchview_right_holo_light=0x7f020056;
-        public static final int changeboard=0x7f020057;
-        public static final int ic_launcher=0x7f020058;
-        public static final int moveleft=0x7f020059;
-        public static final int moveright=0x7f02005a;
-        public static final int rotateleft=0x7f02005b;
-        public static final int rotateright=0x7f02005c;
-        public static final int tetris=0x7f02005d;
-        public static final int throwfigure=0x7f02005e;
+        public static final int accountadd=0x7f020057;
+        public static final int android=0x7f020058;
+        public static final int androidcamera=0x7f020059;
+        public static final int changeboard=0x7f02005a;
+        public static final int ic_launcher=0x7f02005b;
+        public static final int mmtitle_bg_alpha=0x7f02005c;
+        public static final int moveleft=0x7f02005d;
+        public static final int moveright=0x7f02005e;
+        public static final int rotateleft=0x7f02005f;
+        public static final int rotateright=0x7f020060;
+        public static final int snow_leopard=0x7f020061;
+        public static final int tetris=0x7f020062;
+        public static final int throwfigure=0x7f020063;
     }
     public static final class id {
         public static final int action_bar=0x7f0c001c;

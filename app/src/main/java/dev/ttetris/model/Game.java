@@ -34,7 +34,8 @@ public class Game implements BoardListener2, Serializable {
         this.fallTimer = this.fallTime;
         this.level = 1;
         this.listeners = new ArrayList();
-        this.boardsRotation = new Interpolator(0.0F, 180.0F, 0.7F);
+        this.boardsRotation = new Interpolator(0.0F, 180.0F, 0.7F);  // don't understand this one
+        System.out.println("new Game constructor");
     }
 
     private void addPoints(int paramInt) {
@@ -59,25 +60,7 @@ public class Game implements BoardListener2, Serializable {
     private float getFallTime() {
         return 1.1F + -0.75F * Math.min(1.0F, (-1 + this.level) / 9.0F);
     }
-    /*
-    private void noitfyBoardChangeDenied() {
-        Iterator localIterator = this.listeners.iterator();
-        while (true) {
-            if (!localIterator.hasNext())
-                return;
-            ((GameListener)localIterator.next()).boardChangeDenied();
-        }
-    }
 
-    private void notifyChangeBoard(Board paramBoard) {
-        Iterator localIterator = this.listeners.iterator();
-        while (true) {
-            if (!localIterator.hasNext())
-                return;
-            ((GameListener)localIterator.next()).boardChanged(paramBoard);
-        }
-    }
-    */
     private void notifyBlockFalled() {
         Iterator localIterator = this.listeners.iterator();
         while (true) {
