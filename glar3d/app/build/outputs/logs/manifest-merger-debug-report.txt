@@ -1,0 +1,85 @@
+-- Merging decision tree log ---
+manifest
+ADDED from /Users/qunyan/AndroidStudioProjects/tetris/glar3d/app/src/main/AndroidManifest.xml:2:1-43:12
+	xmlns:android
+		ADDED from /Users/qunyan/AndroidStudioProjects/tetris/glar3d/app/src/main/AndroidManifest.xml:2:11-69
+	package
+		ADDED from /Users/qunyan/AndroidStudioProjects/tetris/glar3d/app/src/main/AndroidManifest.xml:3:5-26
+	android:versionName
+		ADDED from /Users/qunyan/AndroidStudioProjects/tetris/glar3d/app/src/main/AndroidManifest.xml:5:5-30
+		INJECTED from /Users/qunyan/AndroidStudioProjects/tetris/glar3d/app/src/main/AndroidManifest.xml
+		INJECTED from /Users/qunyan/AndroidStudioProjects/tetris/glar3d/app/src/main/AndroidManifest.xml
+	android:versionCode
+		ADDED from /Users/qunyan/AndroidStudioProjects/tetris/glar3d/app/src/main/AndroidManifest.xml:4:5-28
+		INJECTED from /Users/qunyan/AndroidStudioProjects/tetris/glar3d/app/src/main/AndroidManifest.xml
+		INJECTED from /Users/qunyan/AndroidStudioProjects/tetris/glar3d/app/src/main/AndroidManifest.xml
+uses-feature#0x00020000
+ADDED from /Users/qunyan/AndroidStudioProjects/tetris/glar3d/app/src/main/AndroidManifest.xml:7:3-89
+	android:required
+		ADDED from /Users/qunyan/AndroidStudioProjects/tetris/glar3d/app/src/main/AndroidManifest.xml:7:50-73
+	android:glEsVersion
+		ADDED from /Users/qunyan/AndroidStudioProjects/tetris/glar3d/app/src/main/AndroidManifest.xml:7:17-49
+uses-permission#android.permission.INTERNET
+ADDED from /Users/qunyan/AndroidStudioProjects/tetris/glar3d/app/src/main/AndroidManifest.xml:8:3-64
+	android:name
+		ADDED from /Users/qunyan/AndroidStudioProjects/tetris/glar3d/app/src/main/AndroidManifest.xml:8:20-62
+supports-gl-texture#GL_OES_compressed_ETC1_RGB8_texture
+ADDED from /Users/qunyan/AndroidStudioProjects/tetris/glar3d/app/src/main/AndroidManifest.xml:10:3-77
+	android:name
+		ADDED from /Users/qunyan/AndroidStudioProjects/tetris/glar3d/app/src/main/AndroidManifest.xml:10:24-74
+supports-gl-texture#GL_OES_compressed_paletted_texture
+ADDED from /Users/qunyan/AndroidStudioProjects/tetris/glar3d/app/src/main/AndroidManifest.xml:11:3-75
+	android:name
+		ADDED from /Users/qunyan/AndroidStudioProjects/tetris/glar3d/app/src/main/AndroidManifest.xml:11:24-73
+uses-sdk
+ADDED from /Users/qunyan/AndroidStudioProjects/tetris/glar3d/app/src/main/AndroidManifest.xml:12:3-14:38
+MERGED from [com.android.support:appcompat-v7:20.0.0] /Users/qunyan/AndroidStudioProjects/tetris/glar3d/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/20.0.0/AndroidManifest.xml:16:5-42
+MERGED from [com.android.support:support-v4:20.0.0] /Users/qunyan/AndroidStudioProjects/tetris/glar3d/app/build/intermediates/exploded-aar/com.android.support/support-v4/20.0.0/AndroidManifest.xml:16:5-42
+	android:targetSdkVersion
+		ADDED from /Users/qunyan/AndroidStudioProjects/tetris/glar3d/app/src/main/AndroidManifest.xml:14:7-35
+		INJECTED from /Users/qunyan/AndroidStudioProjects/tetris/glar3d/app/src/main/AndroidManifest.xml
+		INJECTED from /Users/qunyan/AndroidStudioProjects/tetris/glar3d/app/src/main/AndroidManifest.xml
+	android:minSdkVersion
+		ADDED from /Users/qunyan/AndroidStudioProjects/tetris/glar3d/app/src/main/AndroidManifest.xml:13:7-32
+		INJECTED from /Users/qunyan/AndroidStudioProjects/tetris/glar3d/app/src/main/AndroidManifest.xml
+		INJECTED from /Users/qunyan/AndroidStudioProjects/tetris/glar3d/app/src/main/AndroidManifest.xml
+application
+ADDED from /Users/qunyan/AndroidStudioProjects/tetris/glar3d/app/src/main/AndroidManifest.xml:16:5-41:19
+MERGED from [com.android.support:appcompat-v7:20.0.0] /Users/qunyan/AndroidStudioProjects/tetris/glar3d/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/20.0.0/AndroidManifest.xml:17:5-19
+MERGED from [com.android.support:support-v4:20.0.0] /Users/qunyan/AndroidStudioProjects/tetris/glar3d/app/build/intermediates/exploded-aar/com.android.support/support-v4/20.0.0/AndroidManifest.xml:17:5-19
+	android:label
+		ADDED from /Users/qunyan/AndroidStudioProjects/tetris/glar3d/app/src/main/AndroidManifest.xml:19:9-41
+	android:allowBackup
+		ADDED from /Users/qunyan/AndroidStudioProjects/tetris/glar3d/app/src/main/AndroidManifest.xml:17:9-35
+	android:icon
+		ADDED from /Users/qunyan/AndroidStudioProjects/tetris/glar3d/app/src/main/AndroidManifest.xml:18:9-45
+	android:theme
+		ADDED from /Users/qunyan/AndroidStudioProjects/tetris/glar3d/app/src/main/AndroidManifest.xml:20:9-40
+activity#dev.ttetris.TTetris
+ADDED from /Users/qunyan/AndroidStudioProjects/tetris/glar3d/app/src/main/AndroidManifest.xml:21:9-29:20
+	android:label
+		ADDED from /Users/qunyan/AndroidStudioProjects/tetris/glar3d/app/src/main/AndroidManifest.xml:23:13-45
+	android:name
+		ADDED from /Users/qunyan/AndroidStudioProjects/tetris/glar3d/app/src/main/AndroidManifest.xml:22:13-36
+intent-filter#android.intent.action.MAIN+android.intent.category.LAUNCHER
+ADDED from /Users/qunyan/AndroidStudioProjects/tetris/glar3d/app/src/main/AndroidManifest.xml:24:13-28:29
+action#android.intent.action.MAIN
+ADDED from /Users/qunyan/AndroidStudioProjects/tetris/glar3d/app/src/main/AndroidManifest.xml:25:17-69
+	android:name
+		ADDED from /Users/qunyan/AndroidStudioProjects/tetris/glar3d/app/src/main/AndroidManifest.xml:25:25-66
+category#android.intent.category.LAUNCHER
+ADDED from /Users/qunyan/AndroidStudioProjects/tetris/glar3d/app/src/main/AndroidManifest.xml:27:17-77
+	android:name
+		ADDED from /Users/qunyan/AndroidStudioProjects/tetris/glar3d/app/src/main/AndroidManifest.xml:27:27-74
+activity#dev.ttetris.ActivityGame
+ADDED from /Users/qunyan/AndroidStudioProjects/tetris/glar3d/app/src/main/AndroidManifest.xml:31:2-34:20
+	android:label
+		ADDED from /Users/qunyan/AndroidStudioProjects/tetris/glar3d/app/src/main/AndroidManifest.xml:33:13-49
+	android:name
+		ADDED from /Users/qunyan/AndroidStudioProjects/tetris/glar3d/app/src/main/AndroidManifest.xml:32:6-34
+activity#dev.ttetris.ActGameover
+ADDED from /Users/qunyan/AndroidStudioProjects/tetris/glar3d/app/src/main/AndroidManifest.xml:36:2-39:20
+	android:label
+		ADDED from /Users/qunyan/AndroidStudioProjects/tetris/glar3d/app/src/main/AndroidManifest.xml:38:13-48
+	android:name
+		ADDED from /Users/qunyan/AndroidStudioProjects/tetris/glar3d/app/src/main/AndroidManifest.xml:37:6-33

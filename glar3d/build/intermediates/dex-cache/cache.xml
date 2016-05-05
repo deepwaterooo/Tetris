@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<items version="2" >
+
+    <item
+        jar="/Users/qunyan/AndroidStudioProjects/tetris/glar3d/app/build/intermediates/incremental-classes/debug/instant-run-bootstrap.jar"
+        jumboMode="true"
+        revision="23.0.3"
+        sha1="07ae70bb2378f16637c21107985347e7a69d2799">
+        <dex dex="/Users/qunyan/AndroidStudioProjects/tetris/glar3d/app/build/intermediates/transforms/dex/debug/folders/1000/10/instant-run-bootstrap_93a53147cca84bf1da9083047129640d2ff30acf/classes.dex" />
+    </item>
+    <item
+        jar="/Users/qunyan/AndroidStudioProjects/tetris/glar3d/app/build/intermediates/exploded-aar/com.android.support/support-v4/20.0.0/jars/libs/internal_impl-20.0.0.jar"
+        jumboMode="true"
+        revision="23.0.3"
+        sha1="e40b3078e3fbd353c9f44da8df25a8fc0078209d">
+        <dex dex="/Users/qunyan/AndroidStudioProjects/tetris/glar3d/app/build/intermediates/transforms/dex/debug/folders/1000/10/internal_impl-20.0.0_24281bde862b9f5a032792fbfd9cebe1ff4a95e7/classes.dex" />
+    </item>
+    <item
+        jar="/Users/qunyan/AndroidStudioProjects/tetris/glar3d/app/libs/vecmath.jar"
+        jumboMode="true"
+        revision="23.0.3"
+        sha1="dbdc74baea4b41ef5b248b1b613d9276590dcc50">
+        <dex dex="/Users/qunyan/AndroidStudioProjects/tetris/glar3d/app/build/intermediates/transforms/dex/debug/folders/1000/2/vecmath_c24d0acef23b1aab96af991e111857ab431b4a8e/classes.dex" />
+    </item>
+    <item
+        jar="/Users/qunyan/Library/Android/sdk/extras/android/m2repository/com/android/support/support-annotations/20.0.0/support-annotations-20.0.0.jar"
+        jumboMode="true"
+        revision="23.0.3"
+        sha1="9d9013e9ff35fc3756411e62873c363c70c638fa">
+        <dex dex="/Users/qunyan/AndroidStudioProjects/tetris/glar3d/app/build/intermediates/transforms/dex/debug/folders/1000/10/support-annotations-20.0.0_62344ff8c1dc97c056ce9def76237c1ad2333efd/classes.dex" />
+    </item>
+    <item
+        jar="/Users/qunyan/AndroidStudioProjects/tetris/glar3d/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/20.0.0/jars/classes.jar"
+        jumboMode="true"
+        revision="23.0.3"
+        sha1="f21927d22fe31889ecce94dd697a2e75b137e0ef">
+        <dex dex="/Users/qunyan/AndroidStudioProjects/tetris/glar3d/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.android.support-appcompat-v7-20.0.0_fbb0adad177d226a9adb3e9f6175051eddb1dca5/classes.dex" />
+    </item>
+    <item
+        jar="/Users/qunyan/AndroidStudioProjects/tetris/glar3d/app/build/intermediates/exploded-aar/com.android.support/support-v4/20.0.0/jars/classes.jar"
+        jumboMode="true"
+        revision="23.0.3"
+        sha1="8694693636ab36910c8100ce527c258ff3ebece0">
+        <dex dex="/Users/qunyan/AndroidStudioProjects/tetris/glar3d/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.android.support-support-v4-20.0.0_32ba05aef554f1f557fc8c6d1e41e48f8cda0357/classes.dex" />
+    </item>
+    <item
+        jar="/Users/qunyan/AndroidStudioProjects/tetris/glar3d/app/build/intermediates/incremental-runtime-classes/debug/instant-run.jar"
+        jumboMode="true"
+        revision="23.0.3"
+        sha1="7c0169ce1d60fb1257ad51643b00f257e978deb7">
+        <dex dex="/Users/qunyan/AndroidStudioProjects/tetris/glar3d/app/build/intermediates/transforms/dex/debug/folders/1000/10/instant-run_0b81671e6e6d5c75435ebc74619dcc1251a03545/classes.dex" />
+    </item>
+
+</items>

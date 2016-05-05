@@ -1,0 +1,130 @@
+ECLIPSE ANDROID PROJECT IMPORT SUMMARY
+======================================
+
+Ignored Files:
+--------------
+The following files were *not* copied into the new Gradle project; you
+should evaluate whether these are still needed in your project and if
+so manually move them:
+
+* .DS_Store
+* BlockShapes.org
+* Screenshot_2016-04-09-12-33-29.png
+* Screenshot_2016-04-09-12-35-37.png
+* Screenshot_2016-04-09-12-37-33.png
+* dev-bk/
+* dev-bk/angam/
+* dev-bk/angam/Interpolator.java
+* dev-bk/angam/openAllFiles.sh
+* dev-bk/anogl/
+* dev-bk/anogl/AssetManager.java
+* dev-bk/anogl/Attribute.java
+* dev-bk/anogl/FrameBuffer.java
+* dev-bk/anogl/Geometry.java
+* dev-bk/anogl/GeometryComparator.java
+* dev-bk/anogl/Light.java
+* dev-bk/anogl/Material.java
+* dev-bk/anogl/Mesh.java
+* dev-bk/anogl/Node.java
+* dev-bk/anogl/RenderParams.java
+* dev-bk/anogl/Scene.java
+* dev-bk/anogl/openAllFiles.sh
+* dev-bk/anogl/utils/
+* dev-bk/anogl/utils/MeshLoader.java
+* dev-bk/anogl/utils/MeshPlyLoader.java
+* dev-bk/anvma/
+* dev-bk/anvma/Matrix3.java
+* dev-bk/anvma/Plane.java
+* dev-bk/anvma/Quaternion.java
+* dev-bk/anvma/Vector3.java
+* dev-bk/anvma/openAllFiles.sh
+* dev-bk/ttetris/
+* dev-bk/ttetris/ActGameover.java
+* dev-bk/ttetris/ActivityGame.java
+* dev-bk/ttetris/ActivityState.java
+* dev-bk/ttetris/Block.java
+* dev-bk/ttetris/Model.java
+* dev-bk/ttetris/Square.java
+* dev-bk/ttetris/StarGLSurfaceView.java
+* dev-bk/ttetris/StarRenderer.java
+* dev-bk/ttetris/TTetris.java
+* dev-bk/ttetris/TetrisActivity.java
+* dev-bk/ttetris/TetrisScene.java
+* dev-bk/ttetris/Triangle.java
+* dev-bk/ttetris/common/
+* dev-bk/ttetris/common/GameResult.java
+* dev-bk/ttetris/common/TopScore.java
+* dev-bk/ttetris/model/
+* dev-bk/ttetris/model/Block.java
+* dev-bk/ttetris/model/BlockCubeShifts.java
+* dev-bk/ttetris/model/BlockMeta.java
+* dev-bk/ttetris/model/Board.java
+* dev-bk/ttetris/model/BoardListener.java
+* dev-bk/ttetris/model/BoardListener2.java
+* dev-bk/ttetris/model/Constants.java
+* dev-bk/ttetris/model/Cube.java
+* dev-bk/ttetris/model/CubeBatch.java
+* dev-bk/ttetris/model/CubeBatchGeometry.java
+* dev-bk/ttetris/model/CubeColor.java
+* dev-bk/ttetris/model/CubeShift.java
+* dev-bk/ttetris/model/CubeType.java
+* dev-bk/ttetris/model/Game.java
+* dev-bk/ttetris/model/GameAdapter.java
+* dev-bk/ttetris/model/GameListener.java
+* dev-bk/ttetris/model/GameState.java
+* dev-bk/ttetris/model/Model.java
+* dev-bk/ttetris/model/ModelListener.java
+* dev-bk/ttetris/model/ModelListener2.java
+* dev-bk/ttetris/model/openAllFiles.sh
+* dev-bk/ttetris/openAllFiles.sh
+* dev-bk/ttetris/view/
+* dev-bk/ttetris/view/BackgroundGeometry.java
+* dev-bk/ttetris/view/BlockView.java
+* dev-bk/ttetris/view/BoardBatchView.java
+* dev-bk/ttetris/view/BoardDiscreteView.java
+* dev-bk/ttetris/view/BoardView.java
+* dev-bk/ttetris/view/CubeBatch.java
+* dev-bk/ttetris/view/CubeBatchGeometry.java
+* dev-bk/ttetris/view/CubeView.java
+* dev-bk/ttetris/view/GameView.java
+* dev-bk/ttetris/view/GlassView.java
+* dev-bk/ttetris/view/ModelView.java
+* dev-bk/ttetris/view/ViewConstants.java
+* dev-bk/ttetris/view/material/
+* dev-bk/ttetris/view/material/BackgroundMaterial.java
+* dev-bk/ttetris/view/material/BrickBatchMaterial.java
+* dev-bk/ttetris/view/material/BrickEnvBatchMaterial.java
+* dev-bk/ttetris/view/material/BrickMaterial.java
+* dev-bk/ttetris/view/material/CubeBatchMaterial.java
+* dev-bk/ttetris/view/material/GlassDiffuseMaterial.java
+* dev-bk/ttetris/view/material/GlassSpecularMaterial.java
+* readme.org
+* readme.pdf
+* readme.tex
+
+Moved Files:
+------------
+Android Gradle projects use a different directory structure than ADT
+Eclipse projects. Here's how the projects were restructured:
+
+* AndroidManifest.xml => app/src/main/AndroidManifest.xml
+* assets/ => app/src/main/assets/
+* libs/vecmath.jar => app/libs/vecmath.jar
+* res/ => app/src/main/res/
+* src/ => app/src/main/java/
+* src/dev/ttetris/openAllFiles.sh => app/src/main/resources/dev/ttetris/openAllFiles.sh
+
+Next Steps:
+-----------
+You can now build the project. The Gradle project needs network
+connectivity to download dependencies.
+
+Bugs:
+-----
+If for some reason your project does not build, and you determine that
+it is due to a bug or limitation of the Eclipse to Gradle importer,
+please file a bug at http://b.android.com with category
+Component-Tools.
+
+(This import summary is for your information only, and can be deleted
+after import once you are satisfied with the results.)

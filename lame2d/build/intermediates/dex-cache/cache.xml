@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<items version="2" >
+
+    <item
+        jar="/Users/qunyan/AndroidStudioProjects/tetris/lame2d/app/build/intermediates/incremental-runtime-classes/debug/instant-run.jar"
+        jumboMode="true"
+        revision="22.0.1"
+        sha1="37474ca563aaaad351a707a6921b061a4d98b665">
+        <dex dex="/Users/qunyan/AndroidStudioProjects/tetris/lame2d/app/build/intermediates/transforms/dex/debug/folders/1000/10/instant-run_8ef7078067559e0a0af915dfaeca60dc5b45b24b/classes.dex" />
+    </item>
+    <item
+        jar="/Users/qunyan/AndroidStudioProjects/tetris/lame2d/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/22.2.1/jars/classes.jar"
+        jumboMode="true"
+        revision="22.0.1"
+        sha1="4486e953d1f35f8ccab098b1dd67146366d5f731">
+        <dex dex="/Users/qunyan/AndroidStudioProjects/tetris/lame2d/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.android.support-appcompat-v7-22.2.1_9780bc1d00de849c32aff459fbe9ae812a0f5463/classes.dex" />
+    </item>
+    <item
+        jar="/Users/qunyan/AndroidStudioProjects/tetris/lame2d/app/build/intermediates/exploded-aar/com.android.support/support-v4/22.2.1/jars/classes.jar"
+        jumboMode="true"
+        revision="22.0.1"
+        sha1="f8efd0096475e0daf054267b61544e10dc776503">
+        <dex dex="/Users/qunyan/AndroidStudioProjects/tetris/lame2d/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.android.support-support-v4-22.2.1_6ad986f77aa2a7ad32429c8b82429eda112c4335/classes.dex" />
+    </item>
+    <item
+        jar="/Users/qunyan/AndroidStudioProjects/tetris/lame2d/app/build/intermediates/exploded-aar/com.android.support/support-v4/22.2.1/jars/libs/internal_impl-22.2.1.jar"
+        jumboMode="true"
+        revision="22.0.1"
+        sha1="c471eaaba13ff64f6e0383d1c30a9cdc9a97efeb">
+        <dex dex="/Users/qunyan/AndroidStudioProjects/tetris/lame2d/app/build/intermediates/transforms/dex/debug/folders/1000/10/internal_impl-22.2.1_f250160c7400aa8aaabbb3e8fe4a652c76921818/classes.dex" />
+    </item>
+    <item
+        jar="/Users/qunyan/Library/Android/sdk/extras/android/m2repository/com/android/support/support-annotations/22.2.1/support-annotations-22.2.1.jar"
+        jumboMode="true"
+        revision="22.0.1"
+        sha1="61a0ff5c29295ec56d7e0bd3d25d95dbf71b4b2b">
+        <dex dex="/Users/qunyan/AndroidStudioProjects/tetris/lame2d/app/build/intermediates/transforms/dex/debug/folders/1000/10/support-annotations-22.2.1_531dfb2646c14451b41d7d8739e43fe3ed4735e2/classes.dex" />
+    </item>
+    <item
+        jar="/Users/qunyan/AndroidStudioProjects/tetris/lame2d/app/build/intermediates/incremental-classes/debug/instant-run-bootstrap.jar"
+        jumboMode="true"
+        revision="22.0.1"
+        sha1="e5966a574a8ea06d440dc7d2afbeb8ba6fe84ef9">
+        <dex dex="/Users/qunyan/AndroidStudioProjects/tetris/lame2d/app/build/intermediates/transforms/dex/debug/folders/1000/10/instant-run-bootstrap_26353724e8021a3ed8046f26255fe629460929d8/classes.dex" />
+    </item>
+
+</items>
