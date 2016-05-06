@@ -174,11 +174,6 @@ public class Cube implements Cloneable, Comparable<Cube>, Serializable {
     public float getY() { return this.y; }
     public float getZ() { return this.z; }
 
-    /*
-    public void setSize(float size) {
-        this.size = size;
-        } */
-    
 	public static float[] getFinalMatrix(float[] spec) {
 		mMVPMatrix = new float[16];
 		Matrix.multiplyMM(mMVPMatrix, 0, mVMatrix, 0, spec, 0);

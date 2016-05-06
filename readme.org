@@ -3,11 +3,11 @@
 #+title: Tetris - Basic Implementation Practice for Android
 #+author: deepwaterooo
 
-* Better version, pretty good
-** OpenGL 3D tetris status
-- I didn't do anything, but Emacs + Auctex + org-mode export pdf Chinese just displayed as I wished~~!!!!
-- Will work on Cube project, and build a simple version of opengl tetris game from that app first, and come back to this one later. 
-- This project will be ongoing secondary priority project fo recent days considering my first priority will be current course projects. 
+* Upgrading versions, pretty good
+** OpenGL 3d tetris status
+- "Cube" was implemented using GL10, but will implement using GL20 for 3d & glar3d. 
+- I just has not got used to Mac "didn't-quit-from-program-yet" style. As far as I open new Emacs window I will have two speedbars, which is very convenient for me surfing files from different folders when trying to adapt codes from another repository folder. So command-based editors as powerful as Emacs is, I share the same enthusiasm and love on it as my beloved cousin does too~!
+- Will work on Cube project, fix DorkyMonkey bug tonight and tomorrow. Once tomorrow midnight (11:55pm) which is the Cube project due time, this tetris opengl fundamental 3d will be my priority for coming several days. 
 - 3d game layout structure: 
 
   [[./glar3d/Screenshot_2016-04-07-11-58-28.png]]
@@ -17,8 +17,8 @@
 ** folders
 - lame2d: the very first version of the game.
 - 2d: SurfaceView redering 2d Implementation.
-- 3d: will work on a simple opengl 3d version first.
-- glar3d: opengl 3d adapt from tetrisglar app, will implement when simple 3d version is done. (After having understood texture and lights better, tried to debug this one for a while, but still complicated design and layout still make this one to some extend difficult for me for now.)
+- 3d: will work on a simple opengl 3d version first. Currently working on this one, will spend a few of following days on this one as well. 
+- glar3d: upgraded opengl 3d version adapted from tetrisglar app with textures and music, and real 3d instead of any pseudo one, will implement this one when simple 3d version is done. (After having understood texture and lights better, tried to debug this one for a while, but still complicated design and layout still make this one to some extend difficult for me for now.)
 
 * References
 ** Activity.runOnUiThread()
