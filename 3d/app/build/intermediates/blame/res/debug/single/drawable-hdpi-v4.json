@@ -44,12 +44,12 @@
         "source": "/Users/qunyan/AndroidStudioProjects/tetris/3d/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/22.2.1/res/drawable-hdpi/abc_ic_menu_selectall_mtrl_alpha.png"
     },
     {
-        "merged": "/Users/qunyan/AndroidStudioProjects/tetris/3d/app/build/intermediates/res/merged/debug/drawable-hdpi-v4/abc_ic_ab_back_mtrl_am_alpha.png",
-        "source": "/Users/qunyan/AndroidStudioProjects/tetris/3d/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/22.2.1/res/drawable-hdpi/abc_ic_ab_back_mtrl_am_alpha.png"
-    },
-    {
         "merged": "/Users/qunyan/AndroidStudioProjects/tetris/3d/app/build/intermediates/res/merged/debug/drawable-hdpi-v4/tetris.png",
         "source": "/Users/qunyan/AndroidStudioProjects/tetris/3d/app/src/main/res/drawable-hdpi/tetris.png"
+    },
+    {
+        "merged": "/Users/qunyan/AndroidStudioProjects/tetris/3d/app/build/intermediates/res/merged/debug/drawable-hdpi-v4/abc_ic_ab_back_mtrl_am_alpha.png",
+        "source": "/Users/qunyan/AndroidStudioProjects/tetris/3d/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/22.2.1/res/drawable-hdpi/abc_ic_ab_back_mtrl_am_alpha.png"
     },
     {
         "merged": "/Users/qunyan/AndroidStudioProjects/tetris/3d/app/build/intermediates/res/merged/debug/drawable-hdpi-v4/abc_ic_go_search_api_mtrl_alpha.png",

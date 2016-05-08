@@ -40,12 +40,12 @@
         "source": "/Users/qunyan/AndroidStudioProjects/tetris/3d/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/22.2.1/res/layout/abc_search_view.xml"
     },
     {
-        "merged": "/Users/qunyan/AndroidStudioProjects/tetris/3d/app/build/intermediates/res/merged/debug/layout/gameover.xml",
-        "source": "/Users/qunyan/AndroidStudioProjects/tetris/3d/app/src/main/res/layout/gameover.xml"
-    },
-    {
         "merged": "/Users/qunyan/AndroidStudioProjects/tetris/3d/app/build/intermediates/res/merged/debug/layout/select_dialog_item_material.xml",
         "source": "/Users/qunyan/AndroidStudioProjects/tetris/3d/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/22.2.1/res/layout/select_dialog_item_material.xml"
+    },
+    {
+        "merged": "/Users/qunyan/AndroidStudioProjects/tetris/3d/app/build/intermediates/res/merged/debug/layout/gameover.xml",
+        "source": "/Users/qunyan/AndroidStudioProjects/tetris/3d/app/src/main/res/layout/gameover.xml"
     },
     {
         "merged": "/Users/qunyan/AndroidStudioProjects/tetris/3d/app/build/intermediates/res/merged/debug/layout/abc_list_menu_item_layout.xml",

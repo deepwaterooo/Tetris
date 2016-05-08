@@ -8,7 +8,6 @@ import dev.ttetris.model.Cube;
 import dev.ttetris.model.Block;
 import dev.ttetris.model.Model;
 import dev.ttetris.util.MatrixState;
-
 import android.util.AttributeSet;
 import android.util.Log;
 import android.os.Handler;
@@ -16,7 +15,6 @@ import android.os.Bundle;
 import android.content.Context;
 import android.view.MotionEvent;
 import android.graphics.PixelFormat;
-
 import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
 import javax.microedition.khronos.opengles.GL10;
@@ -26,7 +24,6 @@ import android.opengl.GLES20;
 import android.opengl.GLSurfaceView;
 import android.opengl.GLU;
 import android.opengl.Matrix;
-
 import javax.vecmath.Vector3f;
 import javax.vecmath.Vector4f;
 import javax.vecmath.Matrix4f;
@@ -85,7 +82,6 @@ public class StarRenderer implements GLSurfaceView.Renderer {
 
     private Block currBlock;
     private Cube cube;
-
     private float color[] = {1.0f, 1.0f, 1.0f, 1.0f};
     private  short drawOrder[] = { // for cubes
         0, 1, 2, 3, 0, 4, 5, 1,
@@ -94,8 +90,7 @@ public class StarRenderer implements GLSurfaceView.Renderer {
 
     @Override
     public void onSurfaceCreated(GL10 gl, EGLConfig config) {
-        GLES20.glClearColor(1.0f, 1.0f, 0.0f, 0.0f); // yellow
-        //initShapes();
+        GLES20.glClearColor(1.0f, 1.0f, 0.0f, 0.0f); 
         int vertexShader = loadShader(GLES20.GL_VERTEX_SHADER, vertexShaderCode);
         int fragmentShader = loadShader(GLES20.GL_FRAGMENT_SHADER, fragmentShaderCode);
         mProgram = GLES20.glCreateProgram();
@@ -104,8 +99,7 @@ public class StarRenderer implements GLSurfaceView.Renderer {
         GLES20.glLinkProgram(mProgram);
         currBlock = new Block(BlockType.squareType);
         //currBlock = new Block(BlockType.lineType);
-
-        cube = new Cube(1, 0.114285f, 0, 0, 0);
+        cube = new Cube((StarGLSurfaceView)this, 1, 0.114285f, 0, 0, 0);
         GLES20.glEnable(GLES20.GL_DEPTH_TEST);
         GLES20.glEnable(GLES20.GL_CULL_FACE);
 
