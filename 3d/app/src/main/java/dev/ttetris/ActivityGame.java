@@ -30,7 +30,8 @@ import android.media.MediaPlayer;
 import android.media.MediaPlayer.OnCompletionListener;
 
 
-public class ActivityGame extends Activity implements OnSurfacePickedListener {
+//public class ActivityGame extends Activity implements OnSurfacePickedListener {
+public class ActivityGame extends Activity {
 	//private static final String ICICLE_TAG = "simple-tetris";
 	//private static final String PREFS_HIGH_SCORES = "high_scores";
     //private static final String DEBUG_TAG = "Gestures";
@@ -55,7 +56,8 @@ public class ActivityGame extends Activity implements OnSurfacePickedListener {
         this.requestWindowFeature(Window.FEATURE_NO_TITLE); 
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                              WindowManager.LayoutParams.FLAG_FULLSCREEN);
-        mGLSurfaceView = new StarGLSurfaceView(this, this);  // ???
+        //mGLSurfaceView = new StarGLSurfaceView(this, this);
+        mGLSurfaceView = new StarGLSurfaceView(this);
         mGLSurfaceView.getHolder().setFormat(PixelFormat.TRANSLUCENT); 
         setContentView(mGLSurfaceView); 
 
@@ -93,9 +95,10 @@ public class ActivityGame extends Activity implements OnSurfacePickedListener {
                 Toast.makeText(ActivityGame.this, "selected " + msg.what + " surface", Toast.LENGTH_SHORT).show(); 
             } 
         }; 
- 
+    /*
     @Override 
     public void onSurfacePicked(int which) { 
         myHandler.sendEmptyMessage(which); 
-    } 
+    }
+    */
 }

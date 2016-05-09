@@ -8,8 +8,10 @@ import dev.ttetris.model.CubeColor;
 import dev.ttetris.model.Cube;
 import dev.ttetris.model.Block;
 import dev.ttetris.model.Model;
+import dev.ttetris.model.Frame;
+import dev.ttetris.model.Grid;
 import dev.ttetris.util.MatrixState;
-import dev.ttetris.util.AppConfig;
+//import dev.ttetris.util.AppConfig;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
@@ -33,14 +35,15 @@ import javax.vecmath.Matrix4f;
 
 public class StarGLSurfaceView extends GLSurfaceView {
     private StarRenderer mStarRenderer; 
-    private float mPreviousX, mPreviousY; // 记录上次触屏位置的坐标 
+    private float mPreviousX, mPreviousY; 
 	private ActivityGame activity;
     private Model model;
     public int DELAY = 100;
 	private long lastMove = 0;
     Block activeBlock;
 	Block nextBlock;
-    Cube cube;
+	final float ANGLE_SPAN = 0.375f;
+	RotateThread rthread;
     
     public enum BlockColor {      // set in Block
         RED(0xffff0000, (byte) 1),
@@ -59,27 +62,26 @@ public class StarGLSurfaceView extends GLSurfaceView {
         }
     }
 
-    public StarGLSurfaceView(Context context, OnSurfacePickedListener onSurfacePickedListener) {
+    //public StarGLSurfaceView(Context context, OnSurfacePickedListener onSurfacePickedListener) {
+    public StarGLSurfaceView(Context context) {
         super(context);
         setEGLContextClientVersion(2);
         setDebugFlags(DEBUG_CHECK_GL_ERROR | DEBUG_LOG_GL_CALLS);
         mStarRenderer = new StarRenderer(); 
-        //setZOrderOnTop(true);                           // 透视上一个View 
         setEGLConfigChooser(8, 8, 8, 8, 16, 0); 
         //getHolder().setFormat(PixelFormat.TRANSLUCENT); // 透视上一个Activity 
         setRenderer(mStarRenderer);                     //设置渲染器
-        setRenderMode(GLSurfaceView.RENDERMODE_WHEN_DIRTY);
+        //setRenderMode(GLSurfaceView.RENDERMODE_WHEN_DIRTY);
+        setRenderMode(GLSurfaceView.RENDERMODE_CONTINUOUSLY);
         //setFocusableInTouchMode(true);
         //model = new Model();
-        mStarRenderer.setOnSurfacePickedListener(onSurfacePickedListener);
-        //cube = new Cube(this, 1, 0.114285f, 0, 0, 0);
-        cube = new Cube(this, 1, 1f, 0, 0, 0);
+        //mStarRenderer.setOnSurfacePickedListener(onSurfacePickedListener);
     } 
-
-    public boolean onTouchEvent(final MotionEvent e) {
+    /*
+    public boolean onTouchEvent(final MotionEvent e) { // supposed to change
         float x = e.getX();
         float y = e.getY();
-        //AppConfig.setTouchPosition(x, y);  // supposed to change
+        //AppConfig.setTouchPosition(x, y);  
         switch (e.getAction()) {
         case MotionEvent.ACTION_MOVE:
             // 经过中心点的手势方向逆时针旋转90°后的坐标 
@@ -108,14 +110,32 @@ public class StarGLSurfaceView extends GLSurfaceView {
         mPreviousY = y; 
         return true; 
     }
-    
+    */    
     public void setModel(Model model) { this.model = model; }
 	public void setActivity(ActivityGame activity) { this.activity = activity; }
     public void onPause() { super.onPause();  } 
     public void onResume() { super.onResume();  }
 
+    public class RotateThread extends Thread {
+        public boolean flag = true;
+        @Override
+        public void run() {
+            while (flag) {
+                mStarRenderer.frame.xAngle = mStarRenderer.frame.xAngle + ANGLE_SPAN;
+                try {
+                    Thread.sleep(20);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+    }
+        
 
     private class StarRenderer implements GLSurfaceView.Renderer {
+        Frame frame;
+        Grid grid;
+        Cube cube;
         private static final String TAG = "StarRenderer";
         private final String vertexShaderCode =
             "uniform mat4 uMVPMatrix;" +
@@ -132,7 +152,6 @@ public class StarGLSurfaceView extends GLSurfaceView {
             "void main() {" +
             "  gl_FragColor = _vColor;" +
             "}";
-
         private static final int COORDS_PER_VERTEX = 3;
         private static final int VALUES_PER_COLOR = 4;
         public static final int VERTEX_BUFFER = 0; 
@@ -146,7 +165,6 @@ public class StarGLSurfaceView extends GLSurfaceView {
         private FloatBuffer vertexBuffer;
         private FloatBuffer mColorBuffer;
         private ShortBuffer drawListBuffer;
-
         private final float[] mMVPMatrix = new float[16];
         private final float[] mProjectionMatrix = new float[16];
         private final float[] mViewMatrix = new float[16];
@@ -154,17 +172,14 @@ public class StarGLSurfaceView extends GLSurfaceView {
         private final int unitSize = 1;
         private final float cubeSize = 0.11428f;
 
-        private OnSurfacePickedListener onSurfacePickedListener; 
+        //private OnSurfacePickedListener onSurfacePickedListener; 
         public float mfAngleX = 0.0f; 
         public float mfAngleY = 0.0f; 
         public float gesDistance = 0.0f; 
         private float one = 1.0f; 
         private float mAngle;
-        //public DownThread downThread;
         private Model model = new Model();
-
         private Block currBlock;
-        //private Cube cube;
         private float color[] = {1.0f, 1.0f, 1.0f, 1.0f};
         private  short drawOrder[] = { // for cubes
             0, 1, 2, 3, 0, 4, 5, 1,
@@ -173,7 +188,8 @@ public class StarGLSurfaceView extends GLSurfaceView {
 
         @Override
         public void onSurfaceCreated(GL10 gl, EGLConfig config) {
-            GLES20.glClearColor(1.0f, 1.0f, 0.0f, 0.0f); 
+            //GLES20.glClearColor(1.0f, 1.0f, 1.0f, 0.5f);
+            GLES20.glClearColor(0.0f, 0.0f, 0.0f, 1.0f); 
             int vertexShader = loadShader(GLES20.GL_VERTEX_SHADER, vertexShaderCode);
             int fragmentShader = loadShader(GLES20.GL_FRAGMENT_SHADER, fragmentShaderCode);
             mProgram = GLES20.glCreateProgram();
@@ -182,51 +198,38 @@ public class StarGLSurfaceView extends GLSurfaceView {
             GLES20.glLinkProgram(mProgram);
 
             currBlock = new Block(BlockType.squareType);
-            //currBlock = new Block(BlockType.lineType);
-            //cube = new Cube(1, 0.114285f, 0, 0, 0); // don't want more than one
             GLES20.glEnable(GLES20.GL_DEPTH_TEST);
-            GLES20.glEnable(GLES20.GL_CULL_FACE);
-            //downThread = new DownThread();
-            //downThread.start();
+            //GLES20.glEnable(GLES20.GL_CULL_FACE);
+            //currBlock = new Block(BlockType.lineType);
+            cube = new Cube(StarGLSurfaceView.this, 3, 3f, 0, 0, 0);
+            frame = new Frame(StarGLSurfaceView.this, 5, 10);
+            grid = new Grid(StarGLSurfaceView.this, 5);
+            rthread = new RotateThread();
+			rthread.start();
         }
-        /*public class DownThread extends Thread {
-            public boolean flag = true;
-            @Override
-            public void run() {
-                while (flag) {
-                    try {
-                        Thread.sleep(400);
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-                }
-            }
-            }*/
 
         @Override
         public void onSurfaceChanged(GL10 gl, int w, int h) {
             GLES20.glViewport(0, 0, w, h);           //设置视窗
             float ratio = (float) w / h;
-            Matrix.frustumM(mProjectionMatrix, 0, -ratio, ratio, -1, 1, 3, 10); // 投影距阵
-
-            Constant.ratio = (float) ratio;
-            //MatrixState.setProjectFrustum(-Constant.ratio * 0.8f, Constant.ratio * 1.2f, -1, 1, 3, 7);
-            MatrixState.setProjectFrustum(-Constant.ratio, Constant.ratio, -1, 1, 3, 10);
-            MatrixState.setCamera(4.8f, 2.2f, 4.5f, 0, 0, 0, 0, 1.0f, 0f);   // need to change this one
-            MatrixState.setInitStack();
+            Matrix.frustumM(Frame.mProjMatrix, 0, -ratio, ratio, -1, 1, 1, 10); // 投影距阵
+            Matrix.setLookAtM(Frame.mVMatrix, 0, -1.5f, -4.5f, 3.5f, 0f, 0f, 0f, 0f, 1.0f, 0.0f);
+            Matrix.frustumM(Grid.mProjMatrix, 0, -ratio, ratio, -1, 1, 1, 10); // 投影距阵
+            Matrix.setLookAtM(Grid.mVMatrix, 0, -1.5f, -4.5f, 3.5f, 0f, 0f, 0f, 0f, 1.0f, 0.0f); 
         }
 
         @Override
         public void onDrawFrame(GL10 gl) {
             GLES20.glClear(GL10.GL_COLOR_BUFFER_BIT | GL10.GL_DEPTH_BUFFER_BIT);
-            //Matrix.setLookAtM(Cube.mVMatrix, 0, 4.2f, 2.2f, 2.0f, 0f, 0f, 0f, 0f, 1.0f, 0.0f);
-            Matrix.setLookAtM(mViewMatrix, 0, 4.8f, 2.2f, 4.5f, 0f, 0f, 0f, 0f, 1.0f, 0.0f); // good
 
-            // 合并投影和视口矩阵 Calculate the projection and view transformation
-            Matrix.multiplyMM(mMVPMatrix, 0, mProjectionMatrix, 0, mViewMatrix, 0); 
-            GLES20.glUseProgram(mProgram);
+            //MatrixState.pushMatrix();
+            frame.drawSelf();
+            //MatrixState.popMatrix();
 
-            drawGameFrame();
+            //MatrixState.pushMatrix();
+            grid.drawSelf();
+            //MatrixState.popMatrix();
+            
             //drawCurrBlock();  // should drawboard
             /*
               for (int i = 6; i < Model.ROW; i++) 
@@ -234,12 +237,11 @@ public class StarGLSurfaceView extends GLSurfaceView {
               model.board[i][j][0] = 1;
             */
             //drawGameCell();
-
             /*
             MatrixState.pushMatrix();
             //drawGameCell();
-            //cube.drawSelf();
-            drawCube(getCubeCoordinates(0, 0, 0));
+            cube.drawSelf();
+            //drawCube(getCubeCoordinates(0, 0, 0));
             //drawCurrBlock();
             MatrixState.popMatrix();
 
@@ -514,9 +516,9 @@ public class StarGLSurfaceView extends GLSurfaceView {
             directBuffer.position(0);
             return directBuffer;
         }
-
+        /*
         public void setOnSurfacePickedListener(OnSurfacePickedListener onSurfacePickedListener) { 
             this.onSurfacePickedListener = onSurfacePickedListener; 
-        } 
+            } */
     }
 }

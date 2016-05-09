@@ -108,7 +108,7 @@ public class Cube implements Cloneable, Comparable<Cube>, Serializable {
 	public void drawSelf(){
 		GLES20.glUseProgram(mProgram);
 		Matrix.setRotateM(mMMatrix, 0, 0, 0, 1, 0);          // 初始化变换矩阵
-		Matrix.translateM(mMMatrix, 0, -4.2f, -2.2f, -2.0f); // 设置沿Z轴正向位移1
+		//Matrix.translateM(mMMatrix, 0, -4.2f, -2.2f, -2.0f); // 设置沿Z轴正向位移1
         GLES20.glUniformMatrix4fv(mMVPMatrixHandle, 1, false, MatrixState.getFinalMatrix(), 0);
         GLES20.glVertexAttribPointer(mPositionHandle, COORDS_PER_VERTEX, GLES20.GL_FLOAT, false, VERTEX_STRIDE, mVertexBuffer);
         GLES20.glVertexAttribPointer(mColorHandle, 4, GLES20.GL_FLOAT, false, 4, mColorBuffer);
@@ -118,7 +118,7 @@ public class Cube implements Cloneable, Comparable<Cube>, Serializable {
         GLES20.glDrawElements(GLES20.GL_LINE_LOOP, drawOrder.length, GLES20.GL_UNSIGNED_SHORT, drawListBuffer);
 	}
     
-    private static final float cubeColor[] = {1.0f, 1.0f, 1.0f, 1.0f};
+    private static final float cubeColor[] = {0.0f, 0.0f, 0.0f, 1.0f};
     private static final short drawOrder[] = { // for cubes
         0, 1, 2, 3, 0, 4, 5, 1,
         1, 2, 6, 5, 5, 6, 7, 4,

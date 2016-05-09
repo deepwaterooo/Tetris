@@ -1,3 +1,2 @@
 CHANGED,/Users/qunyan/AndroidStudioProjects/tetris/3d/app/build/intermediates/transforms/instantRun/debug/folders/4000/5/enhanced/com/android/tools/fd/runtime/AppPatchesLoaderImpl.class
 CHANGED,/Users/qunyan/AndroidStudioProjects/tetris/3d/app/build/intermediates/transforms/instantRun/debug/folders/4000/5/enhanced/dev/ttetris/StarGLSurfaceView$StarRenderer$override.class
-CHANGED,/Users/qunyan/AndroidStudioProjects/tetris/3d/app/build/intermediates/transforms/instantRun/debug/folders/4000/5/enhanced/dev/ttetris/StarGLSurfaceView$override.class
