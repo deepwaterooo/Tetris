@@ -1,4 +1,4 @@
-% Created 2016-05-10 Tue 00:05
+% Created 2016-05-10 Tue 02:14
 \documentclass[9pt,b5paper]{article}
 \usepackage{fontspec}
 \setmainfont{STSong} 
@@ -40,6 +40,7 @@
 \subsection{3d tetris status}
 \label{sec-1-1}
 \begin{itemize}
+\item The reason I will have to implement all the matrix calculatation is that when Raypicking for roatation for either (frame + grid) or Current bock, by identifing the object I picked from gesture, I have to transformation gestures position 2d information to Current coordinate system positions, and do Current active block rotation transformation according, so yes, I must implement all the transformation by my own Implementation. I got this mind and record it and will implement them in the morning.
 \item need to set eye position better so that the (Frame + Grid) layout can be at the position that I want for the 3d game.
 \item I want yellow grids, together with white background, red-x yellow-y, but I fail get such effect. Currently using black grid, but I will change it to be better looking.
 \item Understand how do vertex and fragment shaders work. Since vertex shader has done pretty much all the computation work for matrix transformation, I need to think why I need self define shaders and transformation matrix, for what use propose if I do need to implement them for customization.
