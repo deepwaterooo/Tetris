@@ -60,7 +60,8 @@ public class Frame {
 	String mFragmentShader;
 	FloatBuffer mVertexBuffer;
 	FloatBuffer mColorBuffer;
-    static float[] mMMatrix = new float[16];// 具体物体的移动旋转矩阵，旋转、平移
+    
+    static float[] mMMatrix = new float[16]; // 具体物体的移动旋转矩阵，旋转、平移
 	public static float[] mVMatrix = new float[16];
 	public static float[] mProjMatrix = new float[16];
 	public static float[] mMVPMatrix = new float[16];
@@ -83,9 +84,9 @@ public class Frame {
 	public void drawSelf(){
 		GLES20.glUseProgram(mProgram);
 		Matrix.setRotateM(mMMatrix, 0, 0, 0, 1, 0);          // 初始化变换矩阵
-		Matrix.translateM(mMMatrix, 0, -2.5f, -2.5f, -4.5f); // 设置沿Z轴正向位移1
-        //Matrix.rotateM(mMMatrix, 0, xAngle, 1, 0, 0);
-        GLES20.glUniformMatrix4fv(mMVPMatrixHandle, 1, false, Frame.getFinalMatrix(mMMatrix), 0);
+		//Matrix.translateM(mMMatrix, 0, -2.5f, 2.5f, -4.5f);  // 设置沿Z轴正向位移1
+        Matrix.rotateM(mMMatrix, 0, xAngle, 0, 0, 1);
+        GLES20.glUniformMatrix4fv(mMVPMatrixHandle, 1, false, Frame.getFinalMatrix(mMMatrix), 0); 
         GLES20.glVertexAttribPointer(mPositionHandle, 3, GLES20.GL_FLOAT, false, 0, vertexBuffer);
         GLES20.glVertexAttribPointer(mColorHandle, 4, GLES20.GL_FLOAT, false, 0, colorBuffer);
 

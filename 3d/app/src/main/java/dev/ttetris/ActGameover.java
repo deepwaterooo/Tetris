@@ -1,4 +1,5 @@
-package dev.ttetris;  //U游戏结束
+package dev.ttetris;  //U
+// u游戏结束
 
 import android.app.Activity;
 import android.content.Intent;

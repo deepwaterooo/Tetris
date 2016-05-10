@@ -16,8 +16,9 @@ public class Grid {
 	private short[][] indices;
 	private FloatBuffer vertexBuffer;
 	private ShortBuffer[] indexBuffer;
-	int N;
-	
+	private int N;
+    public float xAngle = 0f;
+
 	public Grid(StarGLSurfaceView mv, int n) {
 		N = n + 1;
 		vertices = new float[3 * N * N];
@@ -58,7 +59,7 @@ public class Grid {
 		indexBuffer[bufferPointer].position(0);
 	}
 
-	float colors[] = { 0.0f, 0.0f, 0.0f, 1.0f};
+	float colors[] = { 1f, 1f, 0f, 1.0f};  // yellow
     public FloatBuffer getDirectBuffer(float[] buffer) { 
         ByteBuffer bb = ByteBuffer.allocateDirect(buffer.length * 4); 
         bb.order(ByteOrder.nativeOrder()); 
@@ -83,7 +84,7 @@ public class Grid {
 	String mFragmentShader;
 	FloatBuffer mVertexBuffer;
 	FloatBuffer mColorBuffer;
-    static float[] mMMatrix = new float[16];// 具体物体的移动旋转矩阵，旋转、平移
+    static float[] mMMatrix = new float[16]; // 具体物体的移动旋转矩阵，旋转、平移
 	public static float[] mVMatrix = new float[16];
 	public static float[] mProjMatrix = new float[16];
 	public static float[] mMVPMatrix = new float[16];
@@ -106,12 +107,11 @@ public class Grid {
 	public void drawSelf(){
 		GLES20.glUseProgram(mProgram);
 		Matrix.setRotateM(mMMatrix, 0, 0, 0, 1, 0);          // 初始化变换矩阵
-		Matrix.translateM(mMMatrix, 0, -2.5f, -2.5f, -4.5f); // 设置沿Z轴正向位移1
-        //Matrix.rotateM(mMMatrix, 0, xAngle, 1, 0, 0);
+		//Matrix.translateM(mMMatrix, 0, -2.5f, 2.5f, -4.5f); // 设置沿Z轴正向位移1
+        Matrix.rotateM(mMMatrix, 0, xAngle, 0, 0, 1);
         GLES20.glUniformMatrix4fv(mMVPMatrixHandle, 1, false, Grid.getFinalMatrix(mMMatrix), 0);
         GLES20.glVertexAttribPointer(mPositionHandle, 3, GLES20.GL_FLOAT, false, 0, vertexBuffer);
         GLES20.glVertexAttribPointer(mColorHandle, 4, GLES20.GL_FLOAT, false, 0, colorBuffer);
-
         GLES20.glEnableVertexAttribArray(mPositionHandle);
         GLES20.glEnableVertexAttribArray(mColorHandle);
         GLES20.glLineWidth(3.0f);
@@ -119,11 +119,4 @@ public class Grid {
             GLES20.glDrawElements(GLES20.GL_LINE_STRIP, N, GLES20.GL_UNSIGNED_SHORT, indexBuffer[i]);
         }
 	}
-    /*	public void draw(GL10 gl) {
-		gl.glEnableClientState(GL10.GL_VERTEX_ARRAY);
-		gl.glVertexPointer(3, GL10.GL_FLOAT, 0, vertexBuffer);
-		for (int i = 0; i < 2 * N; i++) 
-			gl.glDrawElements(GL10.GL_LINE_STRIP, N, GL10.GL_UNSIGNED_SHORT, indexBuffer[i]);
-		gl.glDisableClientState(GL10.GL_VERTEX_ARRAY);
-        }*/
 }

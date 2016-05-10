@@ -11,7 +11,6 @@ import dev.ttetris.model.Model;
 import dev.ttetris.model.Frame;
 import dev.ttetris.model.Grid;
 import dev.ttetris.util.MatrixState;
-//import dev.ttetris.util.AppConfig;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
@@ -44,6 +43,7 @@ public class StarGLSurfaceView extends GLSurfaceView {
 	Block nextBlock;
 	final float ANGLE_SPAN = 0.375f;
 	RotateThread rthread;
+    //private MatrixState matrix;
     
     public enum BlockColor {      // set in Block
         RED(0xffff0000, (byte) 1),
@@ -69,10 +69,11 @@ public class StarGLSurfaceView extends GLSurfaceView {
         setDebugFlags(DEBUG_CHECK_GL_ERROR | DEBUG_LOG_GL_CALLS);
         mStarRenderer = new StarRenderer(); 
         setEGLConfigChooser(8, 8, 8, 8, 16, 0); 
-        //getHolder().setFormat(PixelFormat.TRANSLUCENT); // 透视上一个Activity 
         setRenderer(mStarRenderer);                     //设置渲染器
         //setRenderMode(GLSurfaceView.RENDERMODE_WHEN_DIRTY);
         setRenderMode(GLSurfaceView.RENDERMODE_CONTINUOUSLY);
+        
+        //getHolder().setFormat(PixelFormat.TRANSLUCENT); // 透视上一个Activity 
         //setFocusableInTouchMode(true);
         //model = new Model();
         //mStarRenderer.setOnSurfacePickedListener(onSurfacePickedListener);
@@ -122,6 +123,7 @@ public class StarGLSurfaceView extends GLSurfaceView {
         public void run() {
             while (flag) {
                 mStarRenderer.frame.xAngle = mStarRenderer.frame.xAngle + ANGLE_SPAN;
+                mStarRenderer.grid.xAngle = mStarRenderer.grid.xAngle + ANGLE_SPAN;
                 try {
                     Thread.sleep(20);
                 } catch (Exception e) {
@@ -130,7 +132,6 @@ public class StarGLSurfaceView extends GLSurfaceView {
             }
         }
     }
-        
 
     private class StarRenderer implements GLSurfaceView.Renderer {
         Frame frame;
@@ -171,7 +172,6 @@ public class StarGLSurfaceView extends GLSurfaceView {
         private final float[] mRotationMatrix = new float[16];
         private final int unitSize = 1;
         private final float cubeSize = 0.11428f;
-
         //private OnSurfacePickedListener onSurfacePickedListener; 
         public float mfAngleX = 0.0f; 
         public float mfAngleY = 0.0f; 
@@ -188,8 +188,8 @@ public class StarGLSurfaceView extends GLSurfaceView {
 
         @Override
         public void onSurfaceCreated(GL10 gl, EGLConfig config) {
-            //GLES20.glClearColor(1.0f, 1.0f, 1.0f, 0.5f);
-            GLES20.glClearColor(0.0f, 0.0f, 0.0f, 1.0f); 
+            //GLES20.glClearColor(0.5f, 0.5f, 0.5f, 1.0f); // grey
+            GLES20.glClearColor(1.0f, 1.0f, 1.0f, 0.5f);
             int vertexShader = loadShader(GLES20.GL_VERTEX_SHADER, vertexShaderCode);
             int fragmentShader = loadShader(GLES20.GL_FRAGMENT_SHADER, fragmentShaderCode);
             mProgram = GLES20.glCreateProgram();
@@ -213,22 +213,18 @@ public class StarGLSurfaceView extends GLSurfaceView {
             GLES20.glViewport(0, 0, w, h);           //设置视窗
             float ratio = (float) w / h;
             Matrix.frustumM(Frame.mProjMatrix, 0, -ratio, ratio, -1, 1, 1, 10); // 投影距阵
-            Matrix.setLookAtM(Frame.mVMatrix, 0, -1.5f, -4.5f, 3.5f, 0f, 0f, 0f, 0f, 1.0f, 0.0f);
             Matrix.frustumM(Grid.mProjMatrix, 0, -ratio, ratio, -1, 1, 1, 10); // 投影距阵
-            Matrix.setLookAtM(Grid.mVMatrix, 0, -1.5f, -4.5f, 3.5f, 0f, 0f, 0f, 0f, 1.0f, 0.0f); 
+
+            Matrix.setLookAtM(Frame.mVMatrix, 0, -1.5f, -4.5f, 3.5f, 0f, 0f, 0f, 0f, 1.0f, 0.0f);
+            Matrix.setLookAtM(Grid.mVMatrix,  0, -1.5f, -4.5f, 3.5f, 0f, 0f, 0f, 0f, 1.0f, 0.0f);
         }
 
         @Override
         public void onDrawFrame(GL10 gl) {
             GLES20.glClear(GL10.GL_COLOR_BUFFER_BIT | GL10.GL_DEPTH_BUFFER_BIT);
 
-            //MatrixState.pushMatrix();
             frame.drawSelf();
-            //MatrixState.popMatrix();
-
-            //MatrixState.pushMatrix();
             grid.drawSelf();
-            //MatrixState.popMatrix();
             
             //drawCurrBlock();  // should drawboard
             /*

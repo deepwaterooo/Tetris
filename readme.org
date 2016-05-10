@@ -5,7 +5,13 @@
 
 * Upgrading versions, pretty good
 ** 3d tetris status
-- GLES20 rendering flow through, will get frame, some cubes, blocks ready in the evening, and try implement rotation for later on use as I had tried using wrong approach about two to three weeks ago. 
+- need to set eye position better so that the (Frame + Grid) layout can be at the position that I want for the 3d game. 
+- I want yellow grids, together with white background, red-x yellow-y, but I fail get such effect. Currently using black grid, but I will change it to be better looking. 
+- Understand how do vertex and fragment shaders work. Since vertex shader has done pretty much all the computation work for matrix transformation, I need to think why I need self define shaders and transformation matrix, for what use propose if I do need to implement them for customization.
+- I had NOT have any design experience nor confidence for game/larger project design, but since tetris 2d which was based on an incomplete design of a undergraduate student thesis when I successful redesign and implemented it, I think now I am in the process of thinking and building my own design (as well as confidence if I could succeed this time) now. Step by step, I could make this simple 3d completely out of my own ideas. 
+- (Frame + Grid) are supposed to rotate in limited degrees so that gamer won't rotate too much and mess up the game, only for better viewing propose. 
+- Current active block will be able to rotate separately, would this has anything to do with vertex shader, or as far as I calculate my own transformation matrix, or draw (frame + grid + onboard cubes) & Current active block in an fixed order, I may NOT even need any self defind matrix, and custom vertex shader will be used only for fancy display propose. I need to figure out this part. 
+- will work on it tomorrow. 
 - Will clear file for simplisity (but check in this time for later reference). 
 - 
 - "Cube" was implemented using GL10, but will implement using GL20 for 3d & glar3d. 
@@ -25,24 +31,7 @@
 * References
 ** youtube designs
 - shader: http://blog.csdn.net/tom_221x/article/details/38458021
-- 
-- 
-- 
-- 
-- 
-- 
-- 
-- 
-- 
-- 
-- 
-- 
-- 
-- 
-- 
-- 
-- 
-- 
+- 旋转三角形 http://www.hanshuliang.com/?post=6
 - 
 ** Activity.runOnUiThread()
 - http://stackvoid.com/introduction-to-Message-Handler-in-Android/
@@ -77,7 +66,6 @@
 - ex2 for shader matrix: http://www.voidcn.com/blog/peanut__love/article/p-2891341.html
 - 西蒙iPhone-OpenGL ES 中文教程专题: http://www.cocoachina.com/special/2010/0126/404.html
 - 运动： http://www.cocoachina.com/bbs/read.php?tid-7601-fpage-10.html
-- 
 - 距阵： http://blog.csdn.net/wangdingqiaoit/article/details/39010077
 - http://blog.csdn.net/popy007/article/details/5120158 UNV
 - http://www.tqcto.com/article/mobile/23873.html eye
@@ -88,11 +76,6 @@
 - glsl example: http://cse.csusb.edu/tongyu/courses/cs520/notes/android-es2.php
 - shader parser: http://stackoverflow.com/questions/19452240/opengl-glsl-void-parse-error-on-vertex-shader
 - separate file: http://stackoverflow.com/questions/30345816/splitting-a-text-file-into-multiple-files-by-specific-character-sequence
-- 
-- 
-- 
-- 
-- 
 ** GLSurfaceView
 - opengl: http://androidblog.reindustries.com/a-real-open-gl-es-2-0-2d-tutorial-part-1/
 - Graphics architecture: https://source.android.com/devices/graphics/architecture.html
@@ -102,10 +85,6 @@
 - a Cube: http://www.oschina.net/question/4873_28325
 - modification: https://github.com/googleglass/gdk-apidemo-sample/blob/master/app/src/main/java/com/google/android/glass/sample/apidemo/opengl/Cube.java
 - Android OpenGL ES 简明开发教程小结: http://www.imobilebbs.com/wordpress/archives/1583
-- 
-- 
-- 
-- 
 - http://hellosure.github.io/android/2015/06/01/android-glsurfaceview/
 - http://ju.outofmemory.cn/entry/172850
 - 画图： http://www.mobile-open.com/2015/81568.html
@@ -129,8 +108,6 @@
 ** eventQueue vs SurfaceView threads
 - Deeper summary, android graphics architecture: http://hukai.me/android-deeper-graphics-architecture/
 - 2 threads, load, read, http://blog.csdn.net/hellogv/article/details/5986835
-** Canvas Path subclass
-- how to define drawLine to be drawShapes?
 ** SurfaceView
 - Surface runnable http://android.okhelp.cz/surfaceview-implements-runnable-android-code/
 - Example: http://technicalsearch.iteye.com/blog/1967616
@@ -162,7 +139,6 @@
 - iTetris: http://searchapp.soft4fun.net/article/information/iTetris%20%E4%BF%84%E7%BD%97%E6%96%AF%E6%96%B9%E5%9D%97/313319
 - left right: http://www.jb51.net/article/77028.htm
 - AI: http://www.cnblogs.com/youngshall/archive/2009/03/24/1420682.html
-- 
 - 3/11/2016 Friday
 - https://github.com/Almeros/android-gesture-detectors mac
 - http://www.jcodecraeer.com/a/anzhuokaifa/androidkaifa/2015/0211/2467.html

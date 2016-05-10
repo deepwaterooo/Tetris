@@ -3,7 +3,7 @@ package dev.ttetris.util;
 import java.nio.ByteBuffer;
 import android.opengl.Matrix;
 
-public class MatrixState  {
+public class MatrixState {
 	public static float[] cameraLocation = new float[3];
 	private static float[] mVMatrix = new float[16];
 	private static float[] mProjMatrix = new float[16];
@@ -13,7 +13,7 @@ public class MatrixState  {
 	static float[][] mStack = new float[10][16];
 	static int stackTop = -1;
 	static ByteBuffer llbb = ByteBuffer.allocateDirect(3*4);
-	
+
 	public static void setInitStack(){
 		currMatrix = new float[16];
 		Matrix.setRotateM(currMatrix, 0, 0, 1, 0, 0);
@@ -21,12 +21,12 @@ public class MatrixState  {
 	
 	public static void pushMatrix(){
 		stackTop++;
-		for(int i=0;i<16;i++)
+		for (int i = 0; i < 16; i++)
 			mStack[stackTop][i] = currMatrix[i];
 	}
 	
 	public static void popMatrix(){
-		for(int i=0;i<16;i++)
+		for (int i = 0; i < 16; i++)
 			currMatrix[i] = mStack[stackTop][i];
 		stackTop--;
 	}
@@ -46,6 +46,7 @@ public class MatrixState  {
                                          float near, float far){
 		Matrix.frustumM(mProjMatrix, 0, left, right, bottom, top, near, far);
 	}
+
 	public static void setProjectOrtho(float left, float right,
                                        float bottom, float top,
                                        float near,float far){
@@ -57,7 +58,7 @@ public class MatrixState  {
 		Matrix.multiplyMM(mMVPMatrix, 0, mProjMatrix, 0, mMVPMatrix, 0);
 		return mMVPMatrix;
 	}
-	
+
 	public static float[] getMMatrix(){
 		return currMatrix;
 	}

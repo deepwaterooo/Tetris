@@ -1,4 +1,4 @@
-% Created 2016-05-08 Sun 16:17
+% Created 2016-05-10 Tue 00:05
 \documentclass[9pt,b5paper]{article}
 \usepackage{fontspec}
 \setmainfont{STSong} 
@@ -40,7 +40,13 @@
 \subsection{3d tetris status}
 \label{sec-1-1}
 \begin{itemize}
-\item GLES20 rendering flow through, will get frame, some cubes, blocks ready in the evening, and try implement rotation for later on use as I had tried using wrong approach about two to three weeks ago.
+\item need to set eye position better so that the (Frame + Grid) layout can be at the position that I want for the 3d game.
+\item I want yellow grids, together with white background, red-x yellow-y, but I fail get such effect. Currently using black grid, but I will change it to be better looking.
+\item Understand how do vertex and fragment shaders work. Since vertex shader has done pretty much all the computation work for matrix transformation, I need to think why I need self define shaders and transformation matrix, for what use propose if I do need to implement them for customization.
+\item I had NOT have any design experience nor confidence for game/larger project design, but since tetris 2d which was based on an incomplete design of a undergraduate student thesis when I successful redesign and implemented it, I think now I am in the process of thinking and building my own design (as well as confidence if I could succeed this time) now. Step by step, I could make this simple 3d completely out of my own ideas.
+\item (Frame + Grid) are supposed to rotate in limited degrees so that gamer won't rotate too much and mess up the game, only for better viewing propose.
+\item Current active block will be able to rotate separately, would this has anything to do with vertex shader, or as far as I calculate my own transformation matrix, or draw (frame + grid + onboard cubes) \& Current active block in an fixed order, I may NOT even need any self defind matrix, and custom vertex shader will be used only for fancy display propose. I need to figure out this part.
+\item will work on it tomorrow.
 \item Will clear file for simplisity (but check in this time for later reference).
 \item 
 \item "Cube" was implemented using GL10, but will implement using GL20 for 3d \& glar3d.
@@ -67,24 +73,7 @@
 \label{sec-2-1}
 \begin{itemize}
 \item shader: \url{http://blog.csdn.net/tom_221x/article/details/38458021}
-\item 
-\item 
-\item 
-\item 
-\item 
-\item 
-\item 
-\item 
-\item 
-\item 
-\item 
-\item 
-\item 
-\item 
-\item 
-\item 
-\item 
-\item 
+\item 旋转三角形 \url{http://www.hanshuliang.com/?post=6}
 \item 
 \end{itemize}
 \subsection{Activity.runOnUiThread()}
@@ -125,7 +114,6 @@
 \item ex2 for shader matrix: \url{http://www.voidcn.com/blog/peanut__love/article/p-2891341.html}
 \item 西蒙iPhone-OpenGL ES 中文教程专题: \url{http://www.cocoachina.com/special/2010/0126/404.html}
 \item 运动： \url{http://www.cocoachina.com/bbs/read.php?tid-7601-fpage-10.html}
-\item 
 \item 距阵： \url{http://blog.csdn.net/wangdingqiaoit/article/details/39010077}
 \item \url{http://blog.csdn.net/popy007/article/details/5120158} UNV
 \item \url{http://www.tqcto.com/article/mobile/23873.html} eye
@@ -136,11 +124,6 @@
 \item glsl example: \url{http://cse.csusb.edu/tongyu/courses/cs520/notes/android-es2.php}
 \item shader parser: \url{http://stackoverflow.com/questions/19452240/opengl-glsl-void-parse-error-on-vertex-shader}
 \item separate file: \url{http://stackoverflow.com/questions/30345816/splitting-a-text-file-into-multiple-files-by-specific-character-sequence}
-\item 
-\item 
-\item 
-\item 
-\item 
 \end{itemize}
 \subsection{GLSurfaceView}
 \label{sec-2-4}
@@ -153,10 +136,6 @@
 \item a Cube: \url{http://www.oschina.net/question/4873_28325}
 \item modification: \url{https://github.com/googleglass/gdk-apidemo-sample/blob/master/app/src/main/java/com/google/android/glass/sample/apidemo/opengl/Cube.java}
 \item Android OpenGL ES 简明开发教程小结: \url{http://www.imobilebbs.com/wordpress/archives/1583}
-\item 
-\item 
-\item 
-\item 
 \item \url{http://hellosure.github.io/android/2015/06/01/android-glsurfaceview/}
 \item \url{http://ju.outofmemory.cn/entry/172850}
 \item 画图： \url{http://www.mobile-open.com/2015/81568.html}
@@ -184,13 +163,8 @@
 \item Deeper summary, android graphics architecture: \url{http://hukai.me/android-deeper-graphics-architecture/}
 \item 2 threads, load, read, \url{http://blog.csdn.net/hellogv/article/details/5986835}
 \end{itemize}
-\subsection{Canvas Path subclass}
-\label{sec-2-6}
-\begin{itemize}
-\item how to define drawLine to be drawShapes?
-\end{itemize}
 \subsection{SurfaceView}
-\label{sec-2-7}
+\label{sec-2-6}
 \begin{itemize}
 \item Surface runnable \url{http://android.okhelp.cz/surfaceview-implements-runnable-android-code/}
 \item Example: \url{http://technicalsearch.iteye.com/blog/1967616}
@@ -207,7 +181,7 @@
 \item slightly complicated: \url{http://www.lxway.com/186948856.htm}
 \end{itemize}
 \subsection{gestures}
-\label{sec-2-8}
+\label{sec-2-7}
 \begin{itemize}
 \item \url{http://www.cnblogs.com/akira90/archive/2013/03/10/2952886.html}
 \item Android 触摸手势基础 官方文档概览: \url{http://www.lxway.com/445554926.htm}
@@ -225,7 +199,6 @@
 \item iTetris: \url{http://searchapp.soft4fun.net/article/information/iTetris\%20\%E4\%BF\%84\%E7\%BD\%97\%E6\%96\%AF\%E6\%96\%B9\%E5\%9D\%97/313319}
 \item left right: \url{http://www.jb51.net/article/77028.htm}
 \item AI: \url{http://www.cnblogs.com/youngshall/archive/2009/03/24/1420682.html}
-\item 
 \item 3/11/2016 Friday
 \item \url{https://github.com/Almeros/android-gesture-detectors} mac
 \item \url{http://www.jcodecraeer.com/a/anzhuokaifa/androidkaifa/2015/0211/2467.html}

@@ -43,6 +43,10 @@ jacoco.exec
 # generated files
 bin/
 gen/
+3d/app/build/
+2d/app/build/
+lame2d/app/build/
+glar3d/app/build/
 out
 lib
 
