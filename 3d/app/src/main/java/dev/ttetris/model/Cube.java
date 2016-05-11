@@ -145,14 +145,14 @@ public class Cube implements Cloneable, Comparable<Cube>, Serializable {
 		GLES20.glUseProgram(mProgram);
 		Matrix.setRotateM(mMMatrix, 0, 0, 0, 1, 0);          // 初始化变换矩阵
 		Matrix.translateM(mMMatrix, 0, 0.5f, 0.5f, 0.5f);    // 设置平移 （.5, .5, .5） y opposite direction
-        // one cube rotation test
 
+        // one cube rotation test
 		Matrix.translateM(mMMatrix, 0, -0.5f, -0.5f, -0.5f); // 设置平移 (-Cx, -Cy, -Cz) to cube coordinate center (0, 0, 0)
         Matrix.rotateM(mMMatrix, 0, xAngle, 0, 0, 1);        // rotate around the center
 		Matrix.translateM(mMMatrix, 0, 0.5f, 0.5f, 0.5f);    // 设置平移 (Cx, Cy, Cz) back to cube center before rotate
 
         /*
-		Matrix.translateM(mMMatrix, 0, -x, -y, -z); // 设置平移 (-Cx, -Cy, -Cz) to cube coordinate center (0, 0, 0)
+		Matrix.translateM(mMMatrix, 0, -x, -y, -z); // 设置平移 (-Cx, -Cy, -Cz) to cube coordinate center (0, 0, 0) // handled by vertex shader
         Matrix.rotateM(mMMatrix, 0, this.xAngle, 0, 0, 1);        // rotate around the center
 		Matrix.translateM(mMMatrix, 0, x, y, z);    // 设置平移 (Cx, Cy, Cz) back to cube center before rotate
         */
