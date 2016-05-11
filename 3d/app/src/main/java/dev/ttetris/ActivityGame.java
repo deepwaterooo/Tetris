@@ -1,6 +1,6 @@
 package dev.ttetris;
 
-import dev.ttetris.model.Model;
+//import dev.ttetris.model.Model;
 
 import android.app.Activity;
 import android.os.Bundle;
@@ -30,15 +30,11 @@ import android.media.MediaPlayer;
 import android.media.MediaPlayer.OnCompletionListener;
 
 
-//public class ActivityGame extends Activity implements OnSurfacePickedListener {
-public class ActivityGame extends Activity {
-	//private static final String ICICLE_TAG = "simple-tetris";
-	//private static final String PREFS_HIGH_SCORES = "high_scores";
-    //private static final String DEBUG_TAG = "Gestures";
+public class ActivityGame extends Activity implements OnSurfacePickedListener {
     private StarGLSurfaceView mGLSurfaceView;
     private MediaPlayer mp;
 
-    private Model model = new Model();
+    //private Model model = new Model();
     private boolean flag = false;
     private int counter = 0;
     private int score;
@@ -56,13 +52,12 @@ public class ActivityGame extends Activity {
         this.requestWindowFeature(Window.FEATURE_NO_TITLE); 
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                              WindowManager.LayoutParams.FLAG_FULLSCREEN);
-        //mGLSurfaceView = new StarGLSurfaceView(this, this);
-        mGLSurfaceView = new StarGLSurfaceView(this);
+        mGLSurfaceView = new StarGLSurfaceView(this, this);
         mGLSurfaceView.getHolder().setFormat(PixelFormat.TRANSLUCENT); 
         setContentView(mGLSurfaceView); 
 
-		mGLSurfaceView.setModel(model);
-		//mGLSurfaceView.setActivity(this);
+		//mGLSurfaceView.setModel(model);
+		mGLSurfaceView.setActivity(this);
 
         mp = MediaPlayer.create(getApplicationContext(), R.raw.theme);
         mp.start();
@@ -95,10 +90,9 @@ public class ActivityGame extends Activity {
                 Toast.makeText(ActivityGame.this, "selected " + msg.what + " surface", Toast.LENGTH_SHORT).show(); 
             } 
         }; 
-    /*
+
     @Override 
     public void onSurfacePicked(int which) { 
         myHandler.sendEmptyMessage(which); 
     }
-    */
 }

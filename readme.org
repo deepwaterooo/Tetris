@@ -5,6 +5,7 @@
 
 * Upgrading versions, pretty good
 ** 3d tetris status
+- getting ideas. 
 - The reason I will have to implement all the matrix calculatation is that when Raypicking for roatation for either (frame + grid) or Current bock, by identifing the object I picked from gesture, I have to transformation gestures position 2d information to Current coordinate system positions, and do Current active block rotation transformation according, so yes, I must implement all the transformation by my own Implementation. I got this mind and record it and will implement them in the morning. 
 - need to set eye position better so that the (Frame + Grid) layout can be at the position that I want for the 3d game. 
 - I want yellow grids, together with white background, red-x yellow-y, but I fail get such effect. Currently using black grid, but I will change it to be better looking. 
@@ -33,7 +34,12 @@
 ** youtube designs
 - shader: http://blog.csdn.net/tom_221x/article/details/38458021
 - 旋转三角形 http://www.hanshuliang.com/?post=6
+- fancy effect: http://m.oschina.net/blog/147033
 - 
+- 
+- 
+- 
+
 ** Activity.runOnUiThread()
 - http://stackvoid.com/introduction-to-Message-Handler-in-Android/
 - http://m.oschina.net/blog/97619

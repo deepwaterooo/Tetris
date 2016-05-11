@@ -16,13 +16,13 @@ public class Frame {
     private FloatBuffer vertexBuffer;	
 	private ShortBuffer indexBuffer;
 	private FloatBuffer colorBuffer;
-	private float vertices[] = { // 12
+	private float vertices[] = { 
         0.0f, 0.0f, 0.0f, // 0
         0.0f, 0.0f, 0.0f, // 1
         0.0f, 0.0f, 0.0f, // 2
         0.0f, 0.0f, 0.0f  // 3
     };
-	private short[] indices = { 0, 1, 0, 2, 0, 3 };
+	private short[] indices = {0, 1, 0, 2, 0, 3};
 	float colors[] = { 0.5f, 0.5f, 0.5f, 0.5f,
                        1f, 0f, 0f, 1f, // red   x
                        1f, 1f, 0f, 1f, // yellow y
@@ -36,7 +36,6 @@ public class Frame {
 		vertices[11] = 5.0f;
 		init();
         initShader(mv);
-
 	}
 	public Frame(StarGLSurfaceView mv, int n, int h){		
 		vertices[3] = n;
@@ -60,7 +59,6 @@ public class Frame {
 	String mFragmentShader;
 	FloatBuffer mVertexBuffer;
 	FloatBuffer mColorBuffer;
-    
     static float[] mMMatrix = new float[16]; // 具体物体的移动旋转矩阵，旋转、平移
 	public static float[] mVMatrix = new float[16];
 	public static float[] mProjMatrix = new float[16];

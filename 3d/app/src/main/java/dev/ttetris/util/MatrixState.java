@@ -14,18 +14,18 @@ public class MatrixState {
 	static int stackTop = -1;
 	static ByteBuffer llbb = ByteBuffer.allocateDirect(3*4);
 
-	public static void setInitStack(){
+	public static void setInitStack() {
 		currMatrix = new float[16];
 		Matrix.setRotateM(currMatrix, 0, 0, 1, 0, 0);
 	}
 	
-	public static void pushMatrix(){
+	public static void pushMatrix() {
 		stackTop++;
 		for (int i = 0; i < 16; i++)
 			mStack[stackTop][i] = currMatrix[i];
 	}
 	
-	public static void popMatrix(){
+	public static void popMatrix() {
 		for (int i = 0; i < 16; i++)
 			currMatrix[i] = mStack[stackTop][i];
 		stackTop--;
@@ -43,23 +43,23 @@ public class MatrixState {
 
 	public static void setProjectFrustum(float left,float right,
                                          float bottom, float top,
-                                         float near, float far){
+                                         float near, float far) {
 		Matrix.frustumM(mProjMatrix, 0, left, right, bottom, top, near, far);
 	}
 
 	public static void setProjectOrtho(float left, float right,
                                        float bottom, float top,
-                                       float near,float far){
+                                       float near,float far) {
 		Matrix.orthoM(mProjMatrix, 0, left, right, bottom, top, near, far);
 	}
 	
-	public static float[] getFinalMatrix(){
+	public static float[] getFinalMatrix() {
 		Matrix.multiplyMM(mMVPMatrix, 0, mVMatrix, 0, currMatrix, 0);
 		Matrix.multiplyMM(mMVPMatrix, 0, mProjMatrix, 0, mMVPMatrix, 0);
 		return mMVPMatrix;
 	}
 
-	public static float[] getMMatrix(){
+	public static float[] getMMatrix() {
 		return currMatrix;
 	}
 }

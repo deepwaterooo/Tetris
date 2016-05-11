@@ -68,8 +68,6 @@ public class Grid {
         directBuffer.position(0); 
         return directBuffer; 
     }
-	private FloatBuffer colorBuffer;
-    
     private static final long serialVersionUID = 6144113039836213006L;
     private static final int COORDS_PER_VERTEX = 3;
     private static final int VALUES_PER_COLOR = 4;
@@ -83,7 +81,7 @@ public class Grid {
 	String mVertexShader;
 	String mFragmentShader;
 	FloatBuffer mVertexBuffer;
-	FloatBuffer mColorBuffer;
+    FloatBuffer colorBuffer;
     static float[] mMMatrix = new float[16]; // 具体物体的移动旋转矩阵，旋转、平移
 	public static float[] mVMatrix = new float[16];
 	public static float[] mProjMatrix = new float[16];

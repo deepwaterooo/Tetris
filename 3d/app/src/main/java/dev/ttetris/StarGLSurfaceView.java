@@ -1,16 +1,15 @@
 package dev.ttetris;
 
 import dev.ttetris.model.Cube;
-import dev.ttetris.model.Block;
-import dev.ttetris.model.Model;
-import dev.ttetris.model.BlockType;
-import dev.ttetris.model.CubeColor;
+//import dev.ttetris.model.Block;
+//import dev.ttetris.model.Model;
+//import dev.ttetris.model.BlockType;
+//import dev.ttetris.model.CubeColor;
 import dev.ttetris.model.Cube;
-import dev.ttetris.model.Block;
-import dev.ttetris.model.Model;
 import dev.ttetris.model.Frame;
 import dev.ttetris.model.Grid;
 import dev.ttetris.util.MatrixState;
+import dev.ttetris.util.AppConfig;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
@@ -36,14 +35,13 @@ public class StarGLSurfaceView extends GLSurfaceView {
     private StarRenderer mStarRenderer; 
     private float mPreviousX, mPreviousY; 
 	private ActivityGame activity;
-    private Model model;
+    //private Model model;
     public int DELAY = 100;
 	private long lastMove = 0;
-    Block activeBlock;
-	Block nextBlock;
+    //Block activeBlock;
+	//Block nextBlock;
 	final float ANGLE_SPAN = 0.375f;
 	RotateThread rthread;
-    //private MatrixState matrix;
     
     public enum BlockColor {      // set in Block
         RED(0xffff0000, (byte) 1),
@@ -62,8 +60,7 @@ public class StarGLSurfaceView extends GLSurfaceView {
         }
     }
 
-    //public StarGLSurfaceView(Context context, OnSurfacePickedListener onSurfacePickedListener) {
-    public StarGLSurfaceView(Context context) {
+    public StarGLSurfaceView(Context context, OnSurfacePickedListener onSurfacePickedListener) {
         super(context);
         setEGLContextClientVersion(2);
         setDebugFlags(DEBUG_CHECK_GL_ERROR | DEBUG_LOG_GL_CALLS);
@@ -73,16 +70,16 @@ public class StarGLSurfaceView extends GLSurfaceView {
         //setRenderMode(GLSurfaceView.RENDERMODE_WHEN_DIRTY);
         setRenderMode(GLSurfaceView.RENDERMODE_CONTINUOUSLY);
         
-        //getHolder().setFormat(PixelFormat.TRANSLUCENT); // 透视上一个Activity 
-        //setFocusableInTouchMode(true);
+        getHolder().setFormat(PixelFormat.TRANSLUCENT);  // 透视上一个Activity 
+        setFocusableInTouchMode(true);
         //model = new Model();
-        //mStarRenderer.setOnSurfacePickedListener(onSurfacePickedListener);
+        mStarRenderer.setOnSurfacePickedListener(onSurfacePickedListener);
     } 
-    /*
-    public boolean onTouchEvent(final MotionEvent e) { // supposed to change
+
+    public boolean onTouchEvent(final MotionEvent e) { 
         float x = e.getX();
         float y = e.getY();
-        //AppConfig.setTouchPosition(x, y);  
+        AppConfig.setTouchPosition(x, y);  
         switch (e.getAction()) {
         case MotionEvent.ACTION_MOVE:
             // 经过中心点的手势方向逆时针旋转90°后的坐标 
@@ -111,8 +108,8 @@ public class StarGLSurfaceView extends GLSurfaceView {
         mPreviousY = y; 
         return true; 
     }
-    */    
-    public void setModel(Model model) { this.model = model; }
+
+    //public void setModel(Model model) { this.model = model; }
 	public void setActivity(ActivityGame activity) { this.activity = activity; }
     public void onPause() { super.onPause();  } 
     public void onResume() { super.onResume();  }
@@ -124,6 +121,7 @@ public class StarGLSurfaceView extends GLSurfaceView {
             while (flag) {
                 mStarRenderer.frame.xAngle = mStarRenderer.frame.xAngle + ANGLE_SPAN;
                 mStarRenderer.grid.xAngle = mStarRenderer.grid.xAngle + ANGLE_SPAN;
+                mStarRenderer.cube.xAngle = mStarRenderer.cube.xAngle + ANGLE_SPAN;
                 try {
                     Thread.sleep(20);
                 } catch (Exception e) {
@@ -137,73 +135,29 @@ public class StarGLSurfaceView extends GLSurfaceView {
         Frame frame;
         Grid grid;
         Cube cube;
-        private static final String TAG = "StarRenderer";
-        private final String vertexShaderCode =
-            "uniform mat4 uMVPMatrix;" +
-            "attribute vec4 vPosition;" +
-            "attribute vec4 vColor;" +
-            "varying vec4 _vColor;" +
-            "void main() {" +
-            "  _vColor = vColor;" + 
-            "  gl_Position = uMVPMatrix * vPosition;" +
-            "}";
-        private final String fragmentShaderCode =
-            "precision mediump float;" +
-            "varying vec4 _vColor;" +
-            "void main() {" +
-            "  gl_FragColor = _vColor;" +
-            "}";
-        private static final int COORDS_PER_VERTEX = 3;
-        private static final int VALUES_PER_COLOR = 4;
-        public static final int VERTEX_BUFFER = 0; 
-        public static final int TEXTURE_BUFFER = 1; 
-        private final int VERTEX_STRIDE = COORDS_PER_VERTEX * 4;
-        private final int COLOR_STRIDE = VALUES_PER_COLOR * 4;
-        private int mProgram;
-        private int mPositionHandle;
-        private int mColorHandle;
-        private int mMVPMatrixHandle;
-        private FloatBuffer vertexBuffer;
-        private FloatBuffer mColorBuffer;
-        private ShortBuffer drawListBuffer;
-        private final float[] mMVPMatrix = new float[16];
-        private final float[] mProjectionMatrix = new float[16];
-        private final float[] mViewMatrix = new float[16];
-        private final float[] mRotationMatrix = new float[16];
         private final int unitSize = 1;
-        private final float cubeSize = 0.11428f;
-        //private OnSurfacePickedListener onSurfacePickedListener; 
+        //private final float cubeSize = 0.11428f;
+        private OnSurfacePickedListener onSurfacePickedListener; 
         public float mfAngleX = 0.0f; 
         public float mfAngleY = 0.0f; 
         public float gesDistance = 0.0f; 
         private float one = 1.0f; 
         private float mAngle;
-        private Model model = new Model();
-        private Block currBlock;
-        private float color[] = {1.0f, 1.0f, 1.0f, 1.0f};
-        private  short drawOrder[] = { // for cubes
-            0, 1, 2, 3, 0, 4, 5, 1,
-            1, 2, 6, 5, 5, 6, 7, 4,
-            7, 6, 2, 3, 3, 7, 4, 0};
+        //private Model model = new Model();
+        //private Block currBlock;
 
         @Override
         public void onSurfaceCreated(GL10 gl, EGLConfig config) {
             //GLES20.glClearColor(0.5f, 0.5f, 0.5f, 1.0f); // grey
             GLES20.glClearColor(1.0f, 1.0f, 1.0f, 0.5f);
-            int vertexShader = loadShader(GLES20.GL_VERTEX_SHADER, vertexShaderCode);
-            int fragmentShader = loadShader(GLES20.GL_FRAGMENT_SHADER, fragmentShaderCode);
-            mProgram = GLES20.glCreateProgram();
-            GLES20.glAttachShader(mProgram, vertexShader);
-            GLES20.glAttachShader(mProgram, fragmentShader);
-            GLES20.glLinkProgram(mProgram);
 
-            currBlock = new Block(BlockType.squareType);
             GLES20.glEnable(GLES20.GL_DEPTH_TEST);
-            //GLES20.glEnable(GLES20.GL_CULL_FACE);
+            GLES20.glEnable(GLES20.GL_CULL_FACE);
+            //currBlock = new Block(BlockType.squareType);
             //currBlock = new Block(BlockType.lineType);
-            cube = new Cube(StarGLSurfaceView.this, 3, 3f, 0, 0, 0);
             frame = new Frame(StarGLSurfaceView.this, 5, 10);
             grid = new Grid(StarGLSurfaceView.this, 5);
+            cube = new Cube(StarGLSurfaceView.this, 1, 0, 0, 0);
             rthread = new RotateThread();
 			rthread.start();
         }
@@ -214,9 +168,11 @@ public class StarGLSurfaceView extends GLSurfaceView {
             float ratio = (float) w / h;
             Matrix.frustumM(Frame.mProjMatrix, 0, -ratio, ratio, -1, 1, 1, 10); // 投影距阵
             Matrix.frustumM(Grid.mProjMatrix, 0, -ratio, ratio, -1, 1, 1, 10); // 投影距阵
+            Matrix.frustumM(Cube.mProjMatrix, 0, -ratio, ratio, -1, 1, 1, 10); // 投影距阵
 
             Matrix.setLookAtM(Frame.mVMatrix, 0, -1.5f, -4.5f, 3.5f, 0f, 0f, 0f, 0f, 1.0f, 0.0f);
             Matrix.setLookAtM(Grid.mVMatrix,  0, -1.5f, -4.5f, 3.5f, 0f, 0f, 0f, 0f, 1.0f, 0.0f);
+            Matrix.setLookAtM(Cube.mVMatrix,  0, -1.5f, -4.5f, 3.5f, 0f, 0f, 0f, 0f, 1.0f, 0.0f);
         }
 
         @Override
@@ -225,296 +181,29 @@ public class StarGLSurfaceView extends GLSurfaceView {
 
             frame.drawSelf();
             grid.drawSelf();
-            
-            //drawCurrBlock();  // should drawboard
+            cube.drawSelf();
+        
             /*
-              for (int i = 6; i < Model.ROW; i++) 
-              for (int j = 6; j < Model.COL; j++) 
-              model.board[i][j][0] = 1;
-            */
-            //drawGameCell();
-            /*
+            //drawCurrBlock();  
+            for (int i = 6; i < Model.ROW; i++) 
+                for (int j = 6; j < Model.COL; j++) 
+                    model.board[i][j][0] = 1;
             MatrixState.pushMatrix();
             //drawGameCell();
             cube.drawSelf();
-            //drawCube(getCubeCoordinates(0, 0, 0));
             //drawCurrBlock();
             MatrixState.popMatrix();
-
             MatrixState.pushMatrix();
-            //MatrixState.translate(.22857f, 0f, .22857f);
-            //MatrixState.translate(0.45714f, 0f, 0.45714f);
-            //MatrixState.translate(0.68571f, -0.8f, 0.571425f);
-            //MatrixState.translate(-.342855f, -0.8f, -.342855f);
-            //MatrixState.translate(0f, -0.8f, 0f);
             MatrixState.translate(0, -1.14285f, 0);
             //drawCurrBlock();
             //cube.drawSelf();
-            drawCube(getCubeCoordinates(0, 0, 0));
-            //drawCube();
             //drawGameCell();
             MatrixState.popMatrix();
             */
         }
 
-        private float [] getCubeCoordinates(int i, int j, int k) {
-            float [] res = {
-                i-unitSize, j-unitSize, k-unitSize,
-                i+unitSize, j-unitSize, k-unitSize,
-                i+unitSize, j+unitSize, k-unitSize,
-                i-unitSize, j+unitSize, k-unitSize,
-                i-unitSize, j-unitSize, k+unitSize,
-                i+unitSize, j-unitSize, k+unitSize,
-                i+unitSize, j+unitSize, k+unitSize,
-                i-unitSize, j+unitSize, k+unitSize};
-            return res;
-        }
-
-        private void drawGameCell() { // shifts
-            float [] cubeCoords = new float[24];
-            for (int k = 0; k < Model.HIG; k++) { // y
-                for (int j = 0; j < Model.COL; j++) {  // z
-                    for (int i = 0; i < Model.ROW; i++) { // x
-                        if (model.board[i][j][k] != 0 && model.board[i][j][k] != 8) {
-                            //cubeCoords = getCubeCoordinates(i - 3, k - 7, j - 3);  // matrix bug
-                            //cube = new Cube(1, 1, 3, -7, 3);
-
-                            //cubeCoords = getCubeCoordinates(i - 6, k, j - 6);
-                            cubeCoords = getCubeCoordinates(3, -7, 3);
-                            /*
-                              for (int m = 0; m < 24; m++) {
-                              cubeCoords[m] *= 0.11428f;
-                              //cubeCoords[m] *= 0.22857f;
-                              if (m % 3 == 1)
-                              cubeCoords[m] -= 0.8f;
-                              } */
-                            drawCube(cubeCoords);
-                        }
-                    }
-                }
-            }
-        }
-						      
-
-        private void drawCube(float [] squareCoords) {
-            ByteBuffer vbb = ByteBuffer.allocateDirect(squareCoords.length * 4); 
-            vbb.order(ByteOrder.nativeOrder());  
-            vertexBuffer = vbb.asFloatBuffer();  
-            vertexBuffer.put(squareCoords);      
-            vertexBuffer.position(0);            
-            ByteBuffer dlb = ByteBuffer.allocateDirect(drawOrder.length * 2);
-            dlb.order(ByteOrder.nativeOrder());
-            drawListBuffer = dlb.asShortBuffer();
-            drawListBuffer.put(drawOrder);
-            drawListBuffer.position(0);
-            ByteBuffer byteBuffer = ByteBuffer.allocateDirect(color.length * 4);
-            byteBuffer.order(ByteOrder.nativeOrder());
-            mColorBuffer = byteBuffer.asFloatBuffer();
-            mColorBuffer.put(color);
-            mColorBuffer.position(0);
-						      
-            mPositionHandle = GLES20.glGetAttribLocation(mProgram, "vPosition");
-            GLES20.glEnableVertexAttribArray(mPositionHandle);
-            GLES20.glVertexAttribPointer(mPositionHandle, COORDS_PER_VERTEX, GLES20.GL_FLOAT, false, VERTEX_STRIDE, vertexBuffer);
-
-            GLES20.glEnableVertexAttribArray(mColorHandle);
-            GLES20.glVertexAttribPointer(mColorHandle, 4, GLES20.GL_FLOAT, false, 4, mColorBuffer);
-
-            // 获得形状的变换矩阵的handle
-            mMVPMatrixHandle = GLES20.glGetUniformLocation(mProgram, "uMVPMatrix");
-            //StarRenderer.checkGlError("glGetUniformLocation");
-
-            // 应用投影和视口变换
-            GLES20.glUniformMatrix4fv(mMVPMatrixHandle, 1, false, MatrixState.getFinalMatrix(), 0);
-            //GLES20.glUniformMatrix4fv(mMVPMatrixHandle, 1, false, mMVPMatrix, 0);
-            //StarRenderer.checkGlError("glUniformMatrix4fv");
-
-            GLES20.glLineWidth(3.0f);
-            GLES20.glDrawElements(GLES20.GL_LINE_LOOP, drawOrder.length, GLES20.GL_UNSIGNED_SHORT, drawListBuffer);
-            //GLES20.glDisableVertexAttribArray(mPositionHandle);
-            //GLES20.glDisableVertexAttribArray(mColorHandle);
-        }
-						      
-        public void drawCurrBlock() {
-            //currBlock.shiftBlock(0f, -0.11428f, 0f); // this method does NOT work
-            Cube [] cubes = currBlock.getCubes();
-            for (int j = 0; j < 4; j++) {
-                float squareCoords [] = cubes[j].getCubeCoordinates();
-                for (int i = 0; i < 24; i++) {
-                    squareCoords[i] *= 0.11428f;
-                    /*
-                      if (i % 3 == 1)
-                      //squareCoords[i] += 1.6f;
-                      squareCoords[i] += -1.114285f;  // this translation is NOT correct
-                    */
-                    /*
-                      else if (i % 3 == 2)  // for line only
-                      squareCoords[i] += 0.11428f;
-                    */
-                }
-                ByteBuffer vbb = ByteBuffer.allocateDirect(squareCoords.length * 4); 
-                vbb.order(ByteOrder.nativeOrder());  // use the device hardware's native byte order
-                vertexBuffer = vbb.asFloatBuffer();  // create a floating point buffer from the ByteBuffer
-                vertexBuffer.put(squareCoords);      // add the coordinates to the FloatBuffer
-                vertexBuffer.position(0);            // set the buffer to read the first coordinate
-                ByteBuffer dlb = ByteBuffer.allocateDirect(drawOrder.length * 2);
-                dlb.order(ByteOrder.nativeOrder());
-                drawListBuffer = dlb.asShortBuffer();
-                drawListBuffer.put(drawOrder);
-                drawListBuffer.position(0);
-                ByteBuffer byteBuffer = ByteBuffer.allocateDirect(color.length * 4);
-                byteBuffer.order(ByteOrder.nativeOrder());
-                mColorBuffer = byteBuffer.asFloatBuffer();
-                mColorBuffer.put(color);
-                mColorBuffer.position(0);
-
-                //drawLineLoop(); // drawOrder for cubes
-                mPositionHandle = GLES20.glGetAttribLocation(mProgram, "vPosition");
-                GLES20.glEnableVertexAttribArray(mPositionHandle);
-                GLES20.glVertexAttribPointer(mPositionHandle, COORDS_PER_VERTEX, GLES20.GL_FLOAT, false, VERTEX_STRIDE, vertexBuffer);
-                GLES20.glEnableVertexAttribArray(mColorHandle);
-                GLES20.glVertexAttribPointer(mColorHandle, 4, GLES20.GL_FLOAT, false, 4, mColorBuffer);
-
-                mMVPMatrixHandle = GLES20.glGetUniformLocation(mProgram, "uMVPMatrix");
-                //StarRenderer.checkGlError("glGetUniformLocation");
-                GLES20.glUniformMatrix4fv(mMVPMatrixHandle, 1, false, mMVPMatrix, 0);
-                //StarRenderer.checkGlError("glUniformMatrix4fv");
-
-                GLES20.glLineWidth(5.0f);
-                GLES20.glDrawElements(GLES20.GL_LINE_LOOP, drawOrder.length, GLES20.GL_UNSIGNED_SHORT, drawListBuffer);
-                GLES20.glDisableVertexAttribArray(mPositionHandle);
-                GLES20.glDisableVertexAttribArray(mColorHandle);
-            } 
-        }
-
-        //public short drawOrder0[] = {0, 4, 5, 1, 1, 0, 3, 2, 2, 6, 7, 3, 3, 7, 4, 0//};  // 4 surfaces
-        public short drawOrder0[] = {4, 5, 1, 0, 3, 2, 1, 0, 4, 7, 3, 0,   // 3 surfaces
-                                     16, 17, 15, 14,
-                                     12, 13, 11, 10,
-                                     8, 9, 4, 18,
-                                     19, 21, 20, 22,
-                                     23, 25, 24, 26,
-                                     26, 27, 5, 4};
-        private void drawGameFrame() {
-            float squareCoords [] = { 
-                -3f, -5f, -3f,
-                3f, -5f, -3f,
-                3f, 5f, -3f,
-                -3f, 5f, -3f, // 3 
-                -3f, -5f, 3f,
-                3f, -5f, 3f, // 5
-                3f, 5f, 3f,
-                -3f, 5f, 3f,  // 7
-                -2f, -5f, -3f,
-                -2f, -5f, 3f,  // 9
-                -1f, -5f, -3f,
-                -1f, -5f, 3f, // 11
-                0f, -5f, -3f,
-                0f, -5f, 3f,  // 13
-                1f, -5f, -3f,
-                1f, -5f, 3f, // 15
-                2f, -5f, -3f,
-                2f, -5f, 3f, // 17
-                -3f, -5f, -2f,
-                3f, -5f, -2f,  // 19  // one
-                -3f, -5f, -1f,
-                3f, -5f, -1f, // 21
-                -3f, -5f, 0f,
-                3f, -5f, 0f, // 23
-                -3f, -5f, 1f,
-                3f, -5f, 1f, // 25
-                -3f, -5f, 2f,
-                3f, -5f, 2f // 27
-            }; 
-            for (int i = 0; i < 84; i++) {
-                /*if (i % 3 == 1)
-                  squareCoords[i] *= 0.32f;
-                  else*/ squareCoords[i] *= (cubeSize * 2);
-            }
-            ByteBuffer vbb = ByteBuffer.allocateDirect(squareCoords.length * 4); 
-            vbb.order(ByteOrder.nativeOrder());  // use the device hardware's native byte order
-            vertexBuffer = vbb.asFloatBuffer();  // create a floating point buffer from the ByteBuffer
-            vertexBuffer.put(squareCoords);      // add the coordinates to the FloatBuffer
-            vertexBuffer.position(0);            // set the buffer to read the first coordinate
-            ByteBuffer dlb = ByteBuffer.allocateDirect(drawOrder0.length * 2);
-            dlb.order(ByteOrder.nativeOrder());
-            drawListBuffer = dlb.asShortBuffer();
-            drawListBuffer.put(drawOrder0);
-            drawListBuffer.position(0);
-            ByteBuffer byteBuffer = ByteBuffer.allocateDirect(color.length * 4);
-            byteBuffer.order(ByteOrder.nativeOrder());
-            mColorBuffer = byteBuffer.asFloatBuffer();
-            mColorBuffer.put(color);
-            mColorBuffer.position(0);
-            drawLineLoop();
-        }
-
-        private void drawLineLoop() { // pass in drawOrder as argument
-            mPositionHandle = GLES20.glGetAttribLocation(mProgram, "vPosition");
-
-            GLES20.glEnableVertexAttribArray(mPositionHandle);
-            GLES20.glVertexAttribPointer(mPositionHandle, COORDS_PER_VERTEX, GLES20.GL_FLOAT, false, VERTEX_STRIDE, vertexBuffer);
-
-            GLES20.glEnableVertexAttribArray(mColorHandle);
-            GLES20.glVertexAttribPointer(mColorHandle, 4, GLES20.GL_FLOAT, false, 4, mColorBuffer);
-
-            mMVPMatrixHandle = GLES20.glGetUniformLocation(mProgram, "uMVPMatrix");
-            //StarRenderer.checkGlError("glGetUniformLocation");
-
-            GLES20.glUniformMatrix4fv(mMVPMatrixHandle, 1, false, mMVPMatrix, 0);
-            //StarRenderer.checkGlError("glUniformMatrix4fv");
-
-            GLES20.glLineWidth(5.0f);
-            GLES20.glDrawElements(GLES20.GL_LINE_LOOP, drawOrder0.length, GLES20.GL_UNSIGNED_SHORT, drawListBuffer);
-            GLES20.glDisableVertexAttribArray(mPositionHandle);
-            GLES20.glDisableVertexAttribArray(mColorHandle);
-        }
-										 
-        private void initShapes(Cube cube) {
-            float squareCoords [] = cube.getCubeCoordinates();
-            ByteBuffer vbb = ByteBuffer.allocateDirect(squareCoords.length * 4); 
-            vbb.order(ByteOrder.nativeOrder());  // use the device hardware's native byte order
-            vertexBuffer = vbb.asFloatBuffer();  // create a floating point buffer from the ByteBuffer
-            vertexBuffer.put(squareCoords);      // add the coordinates to the FloatBuffer
-            vertexBuffer.position(0);            // set the buffer to read the first coordinate
-            ByteBuffer dlb = ByteBuffer.allocateDirect(drawOrder.length * 2);
-            dlb.order(ByteOrder.nativeOrder());
-            drawListBuffer = dlb.asShortBuffer();
-            drawListBuffer.put(drawOrder);
-            drawListBuffer.position(0);
-            ByteBuffer byteBuffer = ByteBuffer.allocateDirect(color.length * 4);
-            byteBuffer.order(ByteOrder.nativeOrder());
-            mColorBuffer = byteBuffer.asFloatBuffer();
-            mColorBuffer.put(color);
-            mColorBuffer.position(0);
-        }
-
-        public  int loadShader(int type, String shaderCode){
-            int shader = GLES20.glCreateShader(type);
-            GLES20.glShaderSource(shader, shaderCode); // add the source code to the shader and compile it
-            GLES20.glCompileShader(shader);
-            return shader;
-        }
-
-        public void checkGlError(String glOperation) {
-            int error;
-            while ((error = GLES20.glGetError()) != GLES20.GL_NO_ERROR) {
-                Log.e(TAG, glOperation + ": glError " + error);
-                throw new RuntimeException(glOperation + ": glError " + error);
-            }
-        }
-										 
-        public FloatBuffer getDirectBuffer(float [] buffer) {
-            ByteBuffer bb = ByteBuffer.allocateDirect(buffer.length * 4);
-            bb.order(ByteOrder.nativeOrder());
-            FloatBuffer directBuffer = bb.asFloatBuffer();
-            directBuffer.put(buffer);
-            directBuffer.position(0);
-            return directBuffer;
-        }
-        /*
         public void setOnSurfacePickedListener(OnSurfacePickedListener onSurfacePickedListener) { 
             this.onSurfacePickedListener = onSurfacePickedListener; 
-            } */
+        } 
     }
 }
