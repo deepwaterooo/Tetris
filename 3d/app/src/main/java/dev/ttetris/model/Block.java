@@ -76,19 +76,11 @@ public class Block implements Cloneable, Serializable {
             cubes[i].initShader(mStarGLSurfaceView);
 
             // set center properly for each cube
-            System.out.println("i: " + i);
-            System.out.println("cubes[i].getX(): " + cubes[i].getX());
-            System.out.println("cubes[i].getY(): " + cubes[i].getY());
-            
             cubes[i].setX(cubes[i].getX() + this.centerX);
             cubes[i].setY(cubes[i].getY() + this.centerY);
             cubes[i].setZ(cubes[i].getZ() + this.centerZ);
-            
-            System.out.println("cubes[i].getX(): " + cubes[i].getX());
-            System.out.println("cubes[i].getY(): " + cubes[i].getY());
 
             cubes[i].setCoordinates();
-            cubes[i].initVertexData();
             cubes[i].xAngle = this.xAngle;
             cubes[i].drawSelf();
 
@@ -96,7 +88,6 @@ public class Block implements Cloneable, Serializable {
             cubes[i].setY(cubes[i].getY() - this.centerY);
             cubes[i].setZ(cubes[i].getZ() - this.centerZ);
             cubes[i].setCoordinates();
-            cubes[i].initVertexData();
         }
     }
 

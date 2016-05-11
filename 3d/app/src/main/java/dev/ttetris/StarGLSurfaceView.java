@@ -120,7 +120,6 @@ public class StarGLSurfaceView extends GLSurfaceView {
                 mStarRenderer.frame.xAngle = mStarRenderer.frame.xAngle + ANGLE_SPAN;
                 mStarRenderer.grid.xAngle = mStarRenderer.grid.xAngle + ANGLE_SPAN;
                 mStarRenderer.cube.xAngle = mStarRenderer.cube.xAngle + ANGLE_SPAN;
-                mStarRenderer.cube2.xAngle = mStarRenderer.cube2.xAngle + ANGLE_SPAN;
                 mStarRenderer.currBlock.xAngle = mStarRenderer.currBlock.xAngle + ANGLE_SPAN;
                 try {
                     Thread.sleep(20);
@@ -135,7 +134,6 @@ public class StarGLSurfaceView extends GLSurfaceView {
         private Frame frame;
         private Grid grid;
         private Cube cube;
-        private Cube cube2;
         private Block currBlock;
         //private Model model = new Model();
 
@@ -157,7 +155,6 @@ public class StarGLSurfaceView extends GLSurfaceView {
             frame = new Frame(StarGLSurfaceView.this, 5, 10);
             grid = new Grid(StarGLSurfaceView.this, 5);
             cube = new Cube(StarGLSurfaceView.this, 1, 0, 0, 0);
-            cube2 = new Cube(StarGLSurfaceView.this, 1, 1, 0, 0); // x --> 1
             //currBlock = new Block(StarGLSurfaceView.this, BlockType.squareType);
             currBlock = new Block(StarGLSurfaceView.this, BlockType.lineType);
 
@@ -188,7 +185,6 @@ public class StarGLSurfaceView extends GLSurfaceView {
             frame.drawSelf();
             grid.drawSelf();
             cube.drawSelf();
-            cube2.drawSelf();
             currBlock.drawSelf();
             
             /*

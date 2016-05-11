@@ -52,8 +52,7 @@ public class Cube implements Cloneable, Comparable<Cube>, Serializable {
         this.y = paramInt2;
         this.z = paramInt3;
         coords = new float[24];
-        setCoordinates(paramInt1, paramInt2, paramInt3);
-        initVertexData();
+        setCoordinates();
         initShader(mv);
     }
 
@@ -63,8 +62,7 @@ public class Cube implements Cloneable, Comparable<Cube>, Serializable {
         this.y = paramInt2;
         this.z = paramInt3;
         coords = new float[24];
-        setCoordinates(paramInt1, paramInt2, paramInt3);
-        initVertexData();
+        setCoordinates();
     }
     
     public Cube clone() {
@@ -79,20 +77,6 @@ public class Cube implements Cloneable, Comparable<Cube>, Serializable {
     public int compareTo(Cube paramCube) {
         return Math.abs(this.x - paramCube.x) < 0.00000001f ? 1 : 0;
     }    
-
-    public void setCoordinates(float x, float y, float z) { 
-        float [] res = {
-            x-size, y+size, z-size, // 0 
-            x+size, y+size, z-size, // 1
-            x+size, y+size, z+size, // 2
-            x-size, y+size, z+size, // 3
-            x-size, y-size, z-size, // 4
-            x+size, y-size, z-size, // 5
-            x+size, y-size, z+size, // 6
-            x-size, y-size, z+size  // 7
-        };
-        coords = res;
-    }
 
     public void setCoordinates() { 
         float [] res = {
@@ -142,6 +126,8 @@ public class Cube implements Cloneable, Comparable<Cube>, Serializable {
 	}
 
 	public void drawSelf(){
+        initVertexData();
+
 		GLES20.glUseProgram(mProgram);
 		Matrix.setRotateM(mMMatrix, 0, 0, 0, 1, 0);          // 初始化变换矩阵
 		Matrix.translateM(mMMatrix, 0, 0.5f, 0.5f, 0.5f);    // 设置平移 （.5, .5, .5） y opposite direction
