@@ -15,11 +15,9 @@ public class Block implements Cloneable, Serializable {
 	public static float[] mProjMatrix = new float[16];
 	public static float[] mMVPMatrix = new float[16];
     public static float[] mMMatrix = new float[16]; // 具体物体的移动旋转矩阵，旋转、平移
-
     private static final Random RANDOM = new Random();
     private static StarGLSurfaceView mStarGLSurfaceView;
     private final int cubeCounts = 4;
-    
     private static HashMap<String, Cube[]> blocks = new HashMap();
     static {
         createMetaBlock("Square", 1, BlockType.squareType);
@@ -30,13 +28,13 @@ public class Block implements Cloneable, Serializable {
         createMetaBlock("LeftBoot", 6, BlockType.leftBootType);
         createMetaBlock("RightBoot", 7, BlockType.rightBootType);
     }
-
     private Cube[] cubes;
     private int color;
     public float centerX;
     public float centerY;
     public float centerZ;
-    
+    public float xAngle = 0f;  // direction x y z
+
     public static String[] getBlockNames() { return (String[])blocks.keySet().toArray(new String[0]); }
     private static void createMetaBlock(String paramString, int paramCubeColor, Cube[] paramArrayOfCube) {
         blocks.put(paramString, paramArrayOfCube);
@@ -46,15 +44,14 @@ public class Block implements Cloneable, Serializable {
         this.mStarGLSurfaceView = mv;
         this.cubes = type;
         this.color = getColor();
-        int i = RANDOM.nextInt(); 
-        int j = i & 0x3;
-        int k = (i & 0xC) >> 2;
-        int x = (i & 0x30) >> 4;
-        this.centerX = (float)j; // will have bug here, set fixed
+        //int i = RANDOM.nextInt(); // set to be fixed first , has no effect yet
+        int j = 2; //i & 0x3;
+        int k = 0; //(i & 0xC) >> 2;  // 0 tmp, set to 2
+        int x = 0; //(i & 0x30) >> 4; // change back to be 9
+        this.centerX = (float)j; 
         this.centerY = (float)k;
         this.centerZ = (float)x; 
     }
-    
     public Cube[] getCubes() { return this.cubes; }
     public int getColor() {
         int color = cubes[0].getColor();
@@ -63,32 +60,46 @@ public class Block implements Cloneable, Serializable {
 
     public Block clone() {
         Block localBlock = new Block();
-        //localBlock.mStarGLSurfaceView = this.mStarGLSurfaceView; // static
         localBlock.cubes = new Cube[this.cubes.length];
         for (int i = 0; i < this.cubes.length; i++)
             localBlock.cubes[i] = this.cubes[i].clone();
         return localBlock;
     }
 
-	String mVertexShader;
-	String mFragmentShader;
-	int mProgram;
-	int mPositionHandle;
-	int mColorHandle;
-	int mMVPMatrixHandle;
-    public float xAngle = 0f;  // direction x y z
-
     public void drawSelf() {
+        if (Cube.mProjMatrix == null || Cube.mVMatrix == null) {
+            float ratio = Constant.ratio;
+            Matrix.frustumM(Cube.mProjMatrix, 0, -ratio, ratio, -1, 1, 1, 10);
+            Matrix.setLookAtM(Cube.mVMatrix, 0, -1.5f, -4.5f, 3.5f, 0f, 0f, 0f, 0f, 1.0f, 0.0f); // should be passed in somehow
+        }
         for (int i = 0; i < cubeCounts; i++) {
-            if (Cube.mProjMatrix == null || Cube.mVMatrix == null) {
-                float ratio = Constant.ratio;
-                Matrix.frustumM(Cube.mProjMatrix, 0, -ratio, ratio, -1, 1, 1, 10);
-                Matrix.setLookAtM(Cube.mVMatrix, 0, -1.5f, -4.5f, 3.5f, 0f, 0f, 0f, 0f, 1.0f, 0.0f);
-            }
             cubes[i].initShader(mStarGLSurfaceView);
+
+            // set center properly for each cube
+            System.out.println("i: " + i);
+            System.out.println("cubes[i].getX(): " + cubes[i].getX());
+            System.out.println("cubes[i].getY(): " + cubes[i].getY());
+            
+            cubes[i].setX(cubes[i].getX() + this.centerX);
+            cubes[i].setY(cubes[i].getY() + this.centerY);
+            cubes[i].setZ(cubes[i].getZ() + this.centerZ);
+            
+            System.out.println("cubes[i].getX(): " + cubes[i].getX());
+            System.out.println("cubes[i].getY(): " + cubes[i].getY());
+
+            cubes[i].setCoordinates();
+            cubes[i].initVertexData();
+            cubes[i].xAngle = this.xAngle;
             cubes[i].drawSelf();
+
+            cubes[i].setX(cubes[i].getX() - this.centerX);
+            cubes[i].setY(cubes[i].getY() - this.centerY);
+            cubes[i].setZ(cubes[i].getZ() - this.centerZ);
+            cubes[i].setCoordinates();
+            cubes[i].initVertexData();
         }
     }
+
     /*
     // these two functions have problems, supposed to change dramatically 
     public boolean rotateBlockLeft(Cube[] paramArrayOfCube) { // around z, anti-clock wise

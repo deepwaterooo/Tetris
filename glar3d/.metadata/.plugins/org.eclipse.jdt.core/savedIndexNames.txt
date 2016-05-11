@@ -1,7 +1,0 @@
-INDEX VERSION 1.126+/home/jenny/android/.metadata/.plugins/org.eclipse.jdt.core
-286301833.index
-123565021.index
-2867976293.index
-1310218363.index
-166037822.index
-1270315800.index

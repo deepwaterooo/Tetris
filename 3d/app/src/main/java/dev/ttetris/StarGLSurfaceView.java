@@ -39,9 +39,7 @@ public class StarGLSurfaceView extends GLSurfaceView {
     //private Model model;
     public int DELAY = 100;
 	private long lastMove = 0;
-    //Block activeBlock;
-	//Block nextBlock;
-	final float ANGLE_SPAN = 0.375f;
+	public static final float ANGLE_SPAN = 0.375f;
 	RotateThread rthread;
     
     public enum BlockColor {      // set in Block
@@ -67,8 +65,7 @@ public class StarGLSurfaceView extends GLSurfaceView {
         setDebugFlags(DEBUG_CHECK_GL_ERROR | DEBUG_LOG_GL_CALLS);
         mStarRenderer = new StarRenderer(); 
         setEGLConfigChooser(8, 8, 8, 8, 16, 0); 
-        setRenderer(mStarRenderer);                     //设置渲染器
-        //setRenderMode(GLSurfaceView.RENDERMODE_WHEN_DIRTY);
+        setRenderer(mStarRenderer);                      // 设置渲染器
         setRenderMode(GLSurfaceView.RENDERMODE_CONTINUOUSLY);
         
         getHolder().setFormat(PixelFormat.TRANSLUCENT);  // 透视上一个Activity 
@@ -123,6 +120,7 @@ public class StarGLSurfaceView extends GLSurfaceView {
                 mStarRenderer.frame.xAngle = mStarRenderer.frame.xAngle + ANGLE_SPAN;
                 mStarRenderer.grid.xAngle = mStarRenderer.grid.xAngle + ANGLE_SPAN;
                 mStarRenderer.cube.xAngle = mStarRenderer.cube.xAngle + ANGLE_SPAN;
+                mStarRenderer.cube2.xAngle = mStarRenderer.cube2.xAngle + ANGLE_SPAN;
                 mStarRenderer.currBlock.xAngle = mStarRenderer.currBlock.xAngle + ANGLE_SPAN;
                 try {
                     Thread.sleep(20);
@@ -137,6 +135,7 @@ public class StarGLSurfaceView extends GLSurfaceView {
         private Frame frame;
         private Grid grid;
         private Cube cube;
+        private Cube cube2;
         private Block currBlock;
         //private Model model = new Model();
 
@@ -158,6 +157,7 @@ public class StarGLSurfaceView extends GLSurfaceView {
             frame = new Frame(StarGLSurfaceView.this, 5, 10);
             grid = new Grid(StarGLSurfaceView.this, 5);
             cube = new Cube(StarGLSurfaceView.this, 1, 0, 0, 0);
+            cube2 = new Cube(StarGLSurfaceView.this, 1, 1, 0, 0); // x --> 1
             //currBlock = new Block(StarGLSurfaceView.this, BlockType.squareType);
             currBlock = new Block(StarGLSurfaceView.this, BlockType.lineType);
 
@@ -167,7 +167,7 @@ public class StarGLSurfaceView extends GLSurfaceView {
 
         @Override
         public void onSurfaceChanged(GL10 gl, int w, int h) {
-            GLES20.glViewport(0, 0, w, h);           //设置视窗
+            GLES20.glViewport(0, 0, w, h);    
             float ratio = (float) w / h;
             Constant.ratio = ratio;
             Matrix.frustumM(Frame.mProjMatrix, 0, -ratio, ratio, -1, 1, 1, 10); // 投影距阵
@@ -187,7 +187,8 @@ public class StarGLSurfaceView extends GLSurfaceView {
 
             frame.drawSelf();
             grid.drawSelf();
-            //cube.drawSelf();
+            cube.drawSelf();
+            cube2.drawSelf();
             currBlock.drawSelf();
             
             /*

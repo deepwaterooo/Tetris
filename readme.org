@@ -5,14 +5,17 @@
 
 * Upgrading versions, pretty good
 ** 3d tetris status
+- Critical thinking: the block current rotates just as I need. now the next steps, rotate current active block around it's own center, or identify frame, current block by ray picking, depends on which one I have better intuition to start with. 
 - Organizing ideas how should I implement matrix manipulation, use rotating current active block as the starting point. 
 - Forgot to clean repository today, but will remember to clean it tomorrow morning before I modify any code. 
 - need to set eye position better so that the (Frame + Grid) layout can be at the position that I want for the 3d game. 
 - I want yellow grids, together with white background, red-x yellow-y, but I fail get such effect. Currently using black grid, but I will change it to be better looking. 
+- Emacs is such a powerful tool for me for coding considering and accepting the facts that occasional it would produce some minor troubles for me so that I would have to google for solutions. This morning the parenthesis don't autopair for () [] {} for java-mode, after having googled for few minutes, I have used and trust autopair for so long and realized actually sometimes he gets tired, and once I close and restart it, he works perfectly. I am looking forward to the day that my beloved cousin would be able to help and guide me with emacs debugging. 
 - I had NOT have any design experience nor confidence for game/larger project design, but since tetris 2d which was based on an incomplete design of a undergraduate student thesis when I successful redesign and implemented it, I think now I am in the process of thinking and building my own design (as well as confidence if I could succeed this time) now. Step by step, I could make this simple 3d completely out of my own ideas. 
 - 3d tetris layout structure: 
 
-  [[./pic/Screenshot_2016-05-10-23-55-28.png]]
+  [[./pic/Screenshot_2016-05-11-11-56-26.png]]
+  [[./pic/Screenshot_2016-05-11-11-56-50.png]]
 - a video for this Tetris game can be directly watched at https://www.youtube.com/watch?v=Ht4NOrEUtFk
 - A video for the previous DrawingFun Android App can be watched at https://www.youtube.com/watch?v=YV78Tk5--5M , or by searching *deepwaterooo Wang*. 
 
@@ -27,10 +30,6 @@
 - shader: http://blog.csdn.net/tom_221x/article/details/38458021
 - 旋转三角形 http://www.hanshuliang.com/?post=6
 - fancy effect: http://m.oschina.net/blog/147033
-- 
-- 
-- 
-- 
 
 ** Activity.runOnUiThread()
 - http://stackvoid.com/introduction-to-Message-Handler-in-Android/

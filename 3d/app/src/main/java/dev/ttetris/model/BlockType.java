@@ -20,11 +20,11 @@ public final class BlockType {
         squareType = arrayOfCube1; // Ìï, red
         
         Cube[] arrayOfCube2 = new Cube[4];
-        arrayOfCube2[0] = new Cube(2, 0, -1, 0);
-        arrayOfCube2[1] = new Cube(2, 0, 0, 0);
-        arrayOfCube2[2] = new Cube(2, 0, 1, 0);
-        arrayOfCube2[3] = new Cube(2, 0, 2, 0);
-        lineType = arrayOfCube2;   // I, green
+        arrayOfCube2[0] = new Cube(2, 0, 0, 0);
+        arrayOfCube2[1] = new Cube(2, 0, 1, 0);
+        arrayOfCube2[2] = new Cube(2, 0, 2, 0);
+        arrayOfCube2[3] = new Cube(2, 0, 3, 0);
+        lineType = arrayOfCube2;   // I, yellow
         
         Cube[] arrayOfCube3 = new Cube[4];
         arrayOfCube3[0] = new Cube(3, 0, 0, 0);
