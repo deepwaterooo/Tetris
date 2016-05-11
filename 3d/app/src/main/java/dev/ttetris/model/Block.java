@@ -1,14 +1,23 @@
 package dev.ttetris.model;
 
+import dev.ttetris.StarGLSurfaceView;
+import dev.ttetris.model.Constant;
+import dev.ttetris.util.Shader;
+import android.opengl.GLES20;
+import android.opengl.Matrix;
 import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Random;
 import java.util.Set;
 
 public class Block implements Cloneable, Serializable {
+	public static float[] mVMatrix = new float[16];
+	public static float[] mProjMatrix = new float[16];
+	public static float[] mMVPMatrix = new float[16];
+    public static float[] mMMatrix = new float[16]; // 具体物体的移动旋转矩阵，旋转、平移
+
     private static final Random RANDOM = new Random();
-    private final float cubeSize = 1.0f;   
-    private final float shiftUnit = 0.22857f;
+    private static StarGLSurfaceView mStarGLSurfaceView;
     private final int cubeCounts = 4;
     
     private static HashMap<String, Cube[]> blocks = new HashMap();
@@ -33,10 +42,11 @@ public class Block implements Cloneable, Serializable {
         blocks.put(paramString, paramArrayOfCube);
     }
     private Block() { this.cubes = null; }
-    public Block(Cube[] type) {
+    public Block(StarGLSurfaceView mv, Cube[] type) {
+        this.mStarGLSurfaceView = mv;
         this.cubes = type;
         this.color = getColor();
-        int i = RANDOM.nextInt(); // set center x y z 
+        int i = RANDOM.nextInt(); 
         int j = i & 0x3;
         int k = (i & 0xC) >> 2;
         int x = (i & 0x30) >> 4;
@@ -53,12 +63,70 @@ public class Block implements Cloneable, Serializable {
 
     public Block clone() {
         Block localBlock = new Block();
+        //localBlock.mStarGLSurfaceView = this.mStarGLSurfaceView; // static
         localBlock.cubes = new Cube[this.cubes.length];
         for (int i = 0; i < this.cubes.length; i++)
             localBlock.cubes[i] = this.cubes[i].clone();
         return localBlock;
     }
 
+	String mVertexShader;
+	String mFragmentShader;
+	int mProgram;
+	int mPositionHandle;
+	int mColorHandle;
+	int mMVPMatrixHandle;
+    public float xAngle = 0f;  // direction x y z
+
+    public void drawSelf() {
+        for (int i = 0; i < cubeCounts; i++) {
+            if (Cube.mProjMatrix == null || Cube.mVMatrix == null) {
+                float ratio = Constant.ratio;
+                Matrix.frustumM(Cube.mProjMatrix, 0, -ratio, ratio, -1, 1, 1, 10);
+                Matrix.setLookAtM(Cube.mVMatrix, 0, -1.5f, -4.5f, 3.5f, 0f, 0f, 0f, 0f, 1.0f, 0.0f);
+            }
+            cubes[i].initShader(mStarGLSurfaceView);
+            cubes[i].drawSelf();
+        }
+    }
+    /*
+    // these two functions have problems, supposed to change dramatically 
+    public boolean rotateBlockLeft(Cube[] paramArrayOfCube) { // around z, anti-clock wise
+        int[] arrayOfInt1 = new int[this.cubes.length];
+        int[] arrayOfInt2 = new int[this.cubes.length];
+        int[] arrayOfInt3 = new int[this.cubes.length];
+        int i = 0;
+        if (i >= this.cubes.length);
+        for (int i1 = 0; ; i1++) {
+            if (i1 >= this.cubes.length) { // 4
+                boolean bool = true;
+                //label45: return bool;
+                arrayOfInt1[i] = Math.round(this.centerX - (this.cubes[i].getY() - this.centerY));
+                arrayOfInt2[i] = Math.round(this.centerY + (this.cubes[i].getX() - this.centerX));
+                //arrayOfInt3[i] = Math.round(this.centerZ + (this.cubes[i].getX() - this.centerX)); // ?
+                int j = paramArrayOfCube.length;
+                for (int k = 0; ; k++) {
+                    if (k >= j) {                        
+                            i++;
+                            break;
+                        }
+                    Cube localCube = paramArrayOfCube[k];
+                    if (localCube.getX() == arrayOfInt1[i]) {                        
+                            int m = localCube.getY();
+                            int n = arrayOfInt2[i];
+                            bool = false;
+                            if (m == n)
+                                //break label45;
+                                break;
+                        }
+                }
+            }
+            this.cubes[i1].setX(arrayOfInt1[i1]);
+            this.cubes[i1].setY(arrayOfInt2[i1]);
+            this.cubes[i1].setZ(arrayOfInt3[i1]);
+        }
+    }
+    */
     /*    
     public void invertX() { //沿Y轴旋转
         Cube[] arrayOfCube = this.cubes;
@@ -107,43 +175,6 @@ public class Block implements Cloneable, Serializable {
     }
 
     // these two functions have problems, supposed to change dramatically 
-    public boolean rotateBlockLeft(Cube[] paramArrayOfCube) {
-        int[] arrayOfInt1 = new int[this.cubes.length];
-        int[] arrayOfInt2 = new int[this.cubes.length];
-        int[] arrayOfInt3 = new int[this.cubes.length];
-        int i = 0;
-        if (i >= this.cubes.length);
-        for (int i1 = 0; ; i1++) {
-            if (i1 >= this.cubes.length) { // 4
-                boolean bool = true;
-                //label45: return bool;
-                arrayOfInt1[i] = Math.round(this.centerX - (this.cubes[i].getY() - this.centerY));
-                arrayOfInt2[i] = Math.round(this.centerY + (this.cubes[i].getX() - this.centerX));
-                //arrayOfInt3[i] = Math.round(this.centerZ + (this.cubes[i].getX() - this.centerX)); // ?
-                int j = paramArrayOfCube.length;
-                for (int k = 0; ; k++) {
-                    if (k >= j) {                        
-                            i++;
-                            break;
-                        }
-                    Cube localCube = paramArrayOfCube[k];
-                    if (localCube.getX() == arrayOfInt1[i]) {                        
-                            int m = localCube.getY();
-                            int n = arrayOfInt2[i];
-                            bool = false;
-                            if (m == n)
-                                //break label45;
-                                break;
-                        }
-                }
-            }
-            this.cubes[i1].setX(arrayOfInt1[i1]);
-            this.cubes[i1].setY(arrayOfInt2[i1]);
-            this.cubes[i1].setZ(arrayOfInt3[i1]);
-        }
-    }
-
-    // these two functions have problems, supposed to change dramatically 
     public boolean rotateBlockRight(Cube[] paramArrayOfCube) {
         int[] arrayOfInt1 = new int[this.cubes.length];
         int[] arrayOfInt2 = new int[this.cubes.length];
@@ -184,7 +215,6 @@ public class Block implements Cloneable, Serializable {
     public void shiftBlock(float paramFloat1, float paramFloat2, float paramFloat3) { // 平移, parameter scale?
         Cube[] arrayOfCube = getCubes();
         float i = arrayOfCube.length;
-        //float tmp = paramFloat2 / 2.0f / shiftUnit;  // scale  ???? insert view matrix concept
         for (int j = 0; ; j++) {
             if (j >= i) {
                 this.centerX += paramFloat1;

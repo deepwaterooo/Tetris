@@ -1,10 +1,11 @@
 package dev.ttetris;
 
-import dev.ttetris.model.Cube;
-//import dev.ttetris.model.Block;
 //import dev.ttetris.model.Model;
-//import dev.ttetris.model.BlockType;
-//import dev.ttetris.model.CubeColor;
+import dev.ttetris.model.Cube;
+import dev.ttetris.model.Block;
+import dev.ttetris.model.Constant;
+import dev.ttetris.model.BlockType;
+import dev.ttetris.model.CubeColor;
 import dev.ttetris.model.Cube;
 import dev.ttetris.model.Frame;
 import dev.ttetris.model.Grid;
@@ -122,6 +123,7 @@ public class StarGLSurfaceView extends GLSurfaceView {
                 mStarRenderer.frame.xAngle = mStarRenderer.frame.xAngle + ANGLE_SPAN;
                 mStarRenderer.grid.xAngle = mStarRenderer.grid.xAngle + ANGLE_SPAN;
                 mStarRenderer.cube.xAngle = mStarRenderer.cube.xAngle + ANGLE_SPAN;
+                mStarRenderer.currBlock.xAngle = mStarRenderer.currBlock.xAngle + ANGLE_SPAN;
                 try {
                     Thread.sleep(20);
                 } catch (Exception e) {
@@ -132,19 +134,19 @@ public class StarGLSurfaceView extends GLSurfaceView {
     }
 
     private class StarRenderer implements GLSurfaceView.Renderer {
-        Frame frame;
-        Grid grid;
-        Cube cube;
+        private Frame frame;
+        private Grid grid;
+        private Cube cube;
+        private Block currBlock;
+        //private Model model = new Model();
+
         private final int unitSize = 1;
-        //private final float cubeSize = 0.11428f;
         private OnSurfacePickedListener onSurfacePickedListener; 
         public float mfAngleX = 0.0f; 
         public float mfAngleY = 0.0f; 
         public float gesDistance = 0.0f; 
         private float one = 1.0f; 
         private float mAngle;
-        //private Model model = new Model();
-        //private Block currBlock;
 
         @Override
         public void onSurfaceCreated(GL10 gl, EGLConfig config) {
@@ -153,11 +155,12 @@ public class StarGLSurfaceView extends GLSurfaceView {
 
             GLES20.glEnable(GLES20.GL_DEPTH_TEST);
             GLES20.glEnable(GLES20.GL_CULL_FACE);
-            //currBlock = new Block(BlockType.squareType);
-            //currBlock = new Block(BlockType.lineType);
             frame = new Frame(StarGLSurfaceView.this, 5, 10);
             grid = new Grid(StarGLSurfaceView.this, 5);
             cube = new Cube(StarGLSurfaceView.this, 1, 0, 0, 0);
+            //currBlock = new Block(StarGLSurfaceView.this, BlockType.squareType);
+            currBlock = new Block(StarGLSurfaceView.this, BlockType.lineType);
+
             rthread = new RotateThread();
 			rthread.start();
         }
@@ -166,13 +169,16 @@ public class StarGLSurfaceView extends GLSurfaceView {
         public void onSurfaceChanged(GL10 gl, int w, int h) {
             GLES20.glViewport(0, 0, w, h);           //设置视窗
             float ratio = (float) w / h;
+            Constant.ratio = ratio;
             Matrix.frustumM(Frame.mProjMatrix, 0, -ratio, ratio, -1, 1, 1, 10); // 投影距阵
-            Matrix.frustumM(Grid.mProjMatrix, 0, -ratio, ratio, -1, 1, 1, 10); // 投影距阵
-            Matrix.frustumM(Cube.mProjMatrix, 0, -ratio, ratio, -1, 1, 1, 10); // 投影距阵
+            Matrix.frustumM(Grid.mProjMatrix, 0, -ratio, ratio, -1, 1, 1, 10); 
+            Matrix.frustumM(Cube.mProjMatrix, 0, -ratio, ratio, -1, 1, 1, 10); 
+            Matrix.frustumM(currBlock.mProjMatrix, 0, -ratio, ratio, -1, 1, 1, 10);
 
             Matrix.setLookAtM(Frame.mVMatrix, 0, -1.5f, -4.5f, 3.5f, 0f, 0f, 0f, 0f, 1.0f, 0.0f);
             Matrix.setLookAtM(Grid.mVMatrix,  0, -1.5f, -4.5f, 3.5f, 0f, 0f, 0f, 0f, 1.0f, 0.0f);
             Matrix.setLookAtM(Cube.mVMatrix,  0, -1.5f, -4.5f, 3.5f, 0f, 0f, 0f, 0f, 1.0f, 0.0f);
+            Matrix.setLookAtM(currBlock.mVMatrix,  0, -1.5f, -4.5f, 3.5f, 0f, 0f, 0f, 0f, 1.0f, 0.0f);
         }
 
         @Override
@@ -181,8 +187,9 @@ public class StarGLSurfaceView extends GLSurfaceView {
 
             frame.drawSelf();
             grid.drawSelf();
-            cube.drawSelf();
-        
+            //cube.drawSelf();
+            currBlock.drawSelf();
+            
             /*
             //drawCurrBlock();  
             for (int i = 6; i < Model.ROW; i++) 

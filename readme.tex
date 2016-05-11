@@ -1,4 +1,4 @@
-% Created 2016-05-10 Tue 18:17
+% Created 2016-05-11 Wed 00:11
 \documentclass[9pt,b5paper]{article}
 \usepackage{fontspec}
 \setmainfont{STSong} 
@@ -40,22 +40,14 @@
 \subsection{3d tetris status}
 \label{sec-1-1}
 \begin{itemize}
-\item getting ideas.
-\item The reason I will have to implement all the matrix calculatation is that when Raypicking for roatation for either (frame + grid) or Current bock, by identifing the object I picked from gesture, I have to transformation gestures position 2d information to Current coordinate system positions, and do Current active block rotation transformation according, so yes, I must implement all the transformation by my own Implementation. I got this mind and record it and will implement them in the morning.
+\item Organizing ideas how should I implement matrix manipulation, use rotating current active block as the starting point.
+\item Forgot to clean repository today, but will remember to clean it tomorrow morning before I modify any code.
 \item need to set eye position better so that the (Frame + Grid) layout can be at the position that I want for the 3d game.
 \item I want yellow grids, together with white background, red-x yellow-y, but I fail get such effect. Currently using black grid, but I will change it to be better looking.
-\item Understand how do vertex and fragment shaders work. Since vertex shader has done pretty much all the computation work for matrix transformation, I need to think why I need self define shaders and transformation matrix, for what use propose if I do need to implement them for customization.
 \item I had NOT have any design experience nor confidence for game/larger project design, but since tetris 2d which was based on an incomplete design of a undergraduate student thesis when I successful redesign and implemented it, I think now I am in the process of thinking and building my own design (as well as confidence if I could succeed this time) now. Step by step, I could make this simple 3d completely out of my own ideas.
-\item (Frame + Grid) are supposed to rotate in limited degrees so that gamer won't rotate too much and mess up the game, only for better viewing propose.
-\item Current active block will be able to rotate separately, would this has anything to do with vertex shader, or as far as I calculate my own transformation matrix, or draw (frame + grid + onboard cubes) \& Current active block in an fixed order, I may NOT even need any self defind matrix, and custom vertex shader will be used only for fancy display propose. I need to figure out this part.
-\item will work on it tomorrow.
-\item Will clear file for simplisity (but check in this time for later reference).
-\item 
-\item "Cube" was implemented using GL10, but will implement using GL20 for 3d \& glar3d.
-\item I just has not got used to Mac "didn't-quit-from-program-yet" style. As far as I open new Emacs window I will have two speedbars, which is very convenient for me surfing files from different folders when trying to adapt codes from another repository folder. So command-based editors as powerful as Emacs is, I share the same enthusiasm and love on it as my beloved cousin does too\textasciitilde{}!
-\item 3d game layout structure: 
+\item 3d tetris layout structure: 
 
-\includegraphics[width=.9\linewidth]{./glar3d/Screenshot_2016-04-07-11-58-28.png}
+\includegraphics[width=.9\linewidth]{./pic/Screenshot_2016-05-10-23-55-28.png}
 \item a video for this Tetris game can be directly watched at \url{https://www.youtube.com/watch?v=Ht4NOrEUtFk}
 \item A video for the previous DrawingFun Android App can be watched at \url{https://www.youtube.com/watch?v=YV78Tk5--5M} , or by searching \textbf{deepwaterooo Wang}.
 \end{itemize}

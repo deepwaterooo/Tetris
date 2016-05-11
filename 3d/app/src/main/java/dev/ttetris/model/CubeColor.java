@@ -4,7 +4,7 @@ public enum CubeColor {
     Brass(0xffff0000, (byte) 1),   // red
     Anchient(0xff00ff00, (byte) 2), // green 
     Amethyst(0xff0000ff, (byte) 3),  // blue
-    Oak(0xffffff00, (byte) 4),// yellow
+    Oak(0xffffff00, (byte) 4),       // yellow
     MarbleRough(0xff00ffff, (byte) 5),  // cyan
     LapisLazuli(0xffffffff, (byte) 6), // white
     WhiteMarble(0xffff00ff, (byte) 7),// magenta
