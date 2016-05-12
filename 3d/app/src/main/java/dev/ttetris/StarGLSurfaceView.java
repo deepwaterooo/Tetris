@@ -122,7 +122,7 @@ public class StarGLSurfaceView extends GLSurfaceView {
 
                 mStarRenderer.currBlock.xAngle = mStarRenderer.currBlock.xAngle + ANGLE_SPAN;
                 mStarRenderer.nextBlock.xAngle = mStarRenderer.nextBlock.xAngle + ANGLE_SPAN;
-                mStarRenderer.nextBlock.setCurrBlock(true);
+                mStarRenderer.nextBlock.setActiveFlag(true);
                 
                 try {
                     Thread.sleep(20);
@@ -159,8 +159,6 @@ public class StarGLSurfaceView extends GLSurfaceView {
             frame = new Frame(StarGLSurfaceView.this, 5, 10);
             grid = new Grid(StarGLSurfaceView.this, 5);
             cube = new Cube(StarGLSurfaceView.this, CubeColor.Anchient, 0, 0, 0); // E i J
-            //currBlock = new Block(StarGLSurfaceView.this, new BlockMeta(CubeColor.Anchient, BlockType.squareType, .5f, .5f, 0f));
-            //nextBlock = new Block(StarGLSurfaceView.this, new BlockMeta(CubeColor.Amethyst, BlockType.lineType, 0.5f, 1.0f, 0f));
             currBlock = new Block(StarGLSurfaceView.this, new BlockMeta(CubeColor.Anchient, BlockType.squareType, 1f, 1f, 0f));
             nextBlock = new Block(StarGLSurfaceView.this, new BlockMeta(CubeColor.Amethyst, BlockType.lineType, 3f, 1.0f, 0f));
             rthread = new RotateThread();

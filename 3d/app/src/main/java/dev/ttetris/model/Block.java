@@ -26,10 +26,11 @@ public class Block implements Cloneable, Serializable {
     private final int cubeCounts = 4;
     private final float [] activeBlockCenter = {2.5f, 2.5f, 0f};   // z 9.0f
     private static HashMap<String, BlockMeta> blocks = new HashMap();
+
     static {
         createMetaBlock("Square", CubeColor.Anchient, BlockType.squareType, .5f, .5f, 0f); // 田
         createMetaBlock("Line", CubeColor.Amethyst, BlockType.lineType, .0f, .5f, 0f);     // (0, .5, 0)
-        createMetaBlock("LeftLightning", CubeColor.Oak, BlockType.leftLightningType, .5f, 1.5f, 0f); // (.5, 1, 0)
+        createMetaBlock("LeftLightning", CubeColor.Oak, BlockType.leftLightningType, .5f, 1.5f, 0f);           // (.5, 1, 0)
         createMetaBlock("RightLightning", CubeColor.MarbleRough, BlockType.rightLightningType, .5f, 1.5f, 0f); // (.5, 1, 0)
         createMetaBlock("Roof", CubeColor.LapisLazuli, BlockType.roofType, 0.5f, .5f, 0f);         // (0, .5, 0)
         createMetaBlock("LeftBoot", CubeColor.WhiteMarble, BlockType.leftBootType, .5f, 1.5f, 0f); // (.5, 1, 0)
@@ -51,7 +52,7 @@ public class Block implements Cloneable, Serializable {
     private Block() { this.cubes = null; }
     public Block(StarGLSurfaceView mv, BlockMeta paramBlockMeta) {
         this.mStarGLSurfaceView = mv;
-        currBlock = false;
+        isActiveFlag = false;
         for (String key : blocks.keySet()) {
             if (paramBlockMeta.getShifts() == blocks.get(key).getShifts())
                 curr = key;
@@ -82,88 +83,34 @@ public class Block implements Cloneable, Serializable {
             localBlock.cubes[i] = this.cubes[i].clone();
         return localBlock;
     }
-    /*
-		Matrix.translateM(mMMatrix, 0, -0.5f, -0.5f, -0.5f); // 设置平移 (-Cx, -Cy, -Cz) to cube coordinate center (0, 0, 0)
-        Matrix.rotateM(mMMatrix, 0, xAngle, 0, 0, 1);        // rotate around the center
-		Matrix.translateM(mMMatrix, 0, 0.5f, 0.5f, 0.5f);    // 设置平移 (Cx, Cy, Cz) back to cube center before rotate
-    */
-    private boolean currBlock;
-    public void setCurrBlock(boolean v) {
-        this.currBlock = v;
+
+    private boolean isActiveFlag;
+
+    public void setActiveFlag(boolean v) {
+        this.isActiveFlag = v;
     }
-    public boolean getCurrBlock() {
-        return this.currBlock;
+
+    public boolean getActiveFlag() {
+        return this.isActiveFlag;
     }
         
-    public void drawSelf(int i){
-		GLES20.glUseProgram(mProgram);
-        initVertexData(i);
-		Matrix.setRotateM(mMMatrix, 0, 0, 0, 1, 0);          // 初始化变换矩阵
-		Matrix.translateM(mMMatrix, 0, 0.5f, 0.5f, 0.5f);    // 设置平移 （.5, .5, .5） y opposite direction
-        Matrix.translateM(mMMatrix, 0, -1f, -1.5f, -0.5f); // 设置平移 (-Cx, -Cy, -Cz) to cube coordinate center (0, 0, 0)
-        Matrix.rotateM(mMMatrix, 0, xAngle, 0, 0, 1);        // rotate around block center, static
-        Matrix.translateM(mMMatrix, 0, 1f, 1.5f, 0.5f);    // 设置平移 (Cx, Cy, Cz) back to cube center before rotate
-        GLES20.glUniformMatrix4fv(mMVPMatrixHandle, 1, false, Block.getFinalMatrix(mMMatrix), 0);
-        GLES20.glVertexAttribPointer(mPositionHandle, COORDS_PER_VERTEX, GLES20.GL_FLOAT, false, VERTEX_STRIDE, mVertexBuffer);
-        GLES20.glVertexAttribPointer(mColorHandle, 4, GLES20.GL_FLOAT, false, 4, mColorBuffer);
-        GLES20.glEnableVertexAttribArray(mPositionHandle);
-        GLES20.glEnableVertexAttribArray(mColorHandle);
-        GLES20.glLineWidth(3.0f);
-        GLES20.glDrawElements(GLES20.GL_LINE_LOOP, drawOrder.length, GLES20.GL_UNSIGNED_SHORT, drawListBuffer);
-	}
     public void drawSelf() {
         if (Cube.mProjMatrix == null || Cube.mVMatrix == null) {
             float ratio = Constant.ratio;
             Matrix.frustumM(Cube.mProjMatrix, 0, -ratio, ratio, -1, 1, 1, 10);
             Matrix.setLookAtM(Cube.mVMatrix, 0, -1.5f, -4.5f, 3.5f, 0f, 0f, 0f, 0f, 1.0f, 0.0f); // should be passed in somehow
         }
-        //Cube[] cubes = getCubes();
+        Cube[] cubes = getCubes();
         for (int i = 0; i < cubeCounts; i++) {
-            Cube[] cubes = getCubes();
             cubes[i].initShader(mStarGLSurfaceView);
             if (curr != null && curr.equals("Square")) { // (.5, 1, 0)
-                //Constant.currBlock = true;
-                cubes[i].setCurrBlock(true);
-                //shiftBlock(activeBlockCenter[0] - this.centerX, activeBlockCenter[1] - this.centerY, activeBlockCenter[2] - this.centerZ); // to the correct center
-                //shiftBlock(1f, 1.5f, 0.5f); // 设置平移 (Cx, Cy, Cz) to cube coordinate center (0, 0, 0)
+                cubes[i].setActiveFlag(true);            // think here
                 shiftBlock(-this.centerX, -this.centerY, -this.centerZ);
                 cubes[i].setCoordinates();
-                cubes[i].xAngle = this.xAngle;// * 2;
+                cubes[i].xAngle = this.xAngle;
                 cubes[i].drawSelf();
                 shiftBlock(this.centerX, this.centerY, this.centerZ);
-                //shiftBlock(-1f, -1.5f, -0.5f); // 设置平移 (-Cx, -Cy, -Cz) to cube coordinate center (0, 0, 0)
                 cubes[i].setCoordinates();
-                /*
-                initVertexData(i);
-                GLES20.glUseProgram(mProgram);
-                Matrix.setRotateM(mMMatrix, 0, 0, 0, 1, 0);          // 初始化变换矩阵
-                Matrix.translateM(mMMatrix, 0, 0.5f, 0.5f, 0.5f);    // 设置平移 （.5, .5, .5） y opposite direction
-                Matrix.translateM(mMMatrix, 0, -1f, -1.5f, -0.5f); // 设置平移 (-Cx, -Cy, -Cz) to cube coordinate center (0, 0, 0)
-                Matrix.rotateM(mMMatrix, 0, xAngle, 0, 0, 1);        // rotate around block center, static
-                Matrix.translateM(mMMatrix, 0, 1f, 1.5f, 0.5f);    // 设置平移 (Cx, Cy, Cz) back to cube center before rotate
-                */
-                //cubes[i].setCoordinates();
-                //cubes[i].initVertexData();
-                /*
-                Matrix.setRotateM(Cube.mMMatrix, 0, 0, 0, 1, 0);          // 初始化变换矩阵
-                Matrix.translateM(Cube.mMMatrix, 0, 0.5f, 0.5f, 0.5f);    // 设置平移 （.5, .5, .5） y opposite direction
-                Matrix.translateM(Cube.mMMatrix, 0, -this.centerX, -this.centerY, -this.centerZ);    
-                //Matrix.translateM(Cube.mMMatrix, 0, -1f, -1.5f, -0.5f); // 设置平移 (-Cx, -Cy, -Cz) to cube coordinate center (0, 0, 0)
-                Matrix.rotateM(Cube.mMMatrix, 0, xAngle, 0, 0, 1);        // rotate around block center, static
-                Matrix.translateM(Cube.mMMatrix, 0, this.centerX, this.centerY, this.centerZ);
-                //Matrix.translateM(Cube.mMMatrix, 0, 1f, 1.5f, 0.5f);    // 设置平移 (Cx, Cy, Cz) back to cube center before rotate
-                //drawSelf(i);  
-                GLES20.glUniformMatrix4fv(mMVPMatrixHandle, 1, false, Block.getFinalMatrix(mMMatrix), 0);
-                //GLES20.glUniformMatrix4fv(mMVPMatrixHandle, 1, false, Cube.getFinalMatrix(mMMatrix), 0);
-                GLES20.glVertexAttribPointer(mPositionHandle, COORDS_PER_VERTEX, GLES20.GL_FLOAT, false, VERTEX_STRIDE, mVertexBuffer);
-                GLES20.glVertexAttribPointer(mColorHandle, 4, GLES20.GL_FLOAT, false, 4, mColorBuffer);
-                GLES20.glEnableVertexAttribArray(mPositionHandle);
-                GLES20.glEnableVertexAttribArray(mColorHandle);
-                GLES20.glLineWidth(3.0f);
-                GLES20.glDrawElements(GLES20.GL_LINE_LOOP, drawOrder.length, GLES20.GL_UNSIGNED_SHORT, drawListBuffer);
-                              */
-                //shiftBlock(this.centerX - activeBlockCenter[0], this.centerY - activeBlockCenter[1], this.centerZ - activeBlockCenter[2]); // to the correct center
-                //cubes[i].setCoordinates();
             } else {
                 shiftBlock(activeBlockCenter[0] - this.centerX, activeBlockCenter[1] - this.centerY, activeBlockCenter[2] - this.centerZ);
                 cubes[i].setCoordinates();
@@ -172,86 +119,10 @@ public class Block implements Cloneable, Serializable {
                 shiftBlock(this.centerX - activeBlockCenter[0], this.centerY - activeBlockCenter[1], this.centerZ - activeBlockCenter[2]);
                 cubes[i].setCoordinates();
             }
-            /*
-            if (curr != null && curr.equals("Line")) {
-                shiftBlock(-this.centerX, -this.centerY, -this.centerZ);
-                cubes[i].setCoordinates();
-                cubes[i].xAngle = this.xAngle * 2;
-                cubes[i].drawSelf();
-                shiftBlock(this.centerX, this.centerY, this.centerZ);
-                cubes[i].setCoordinates();
-            } else {
-                shiftBlock(activeBlockCenter[0] - this.centerX, activeBlockCenter[1] - this.centerY, activeBlockCenter[2] - this.centerZ);
-                cubes[i].setCoordinates();
-                cubes[i].xAngle = this.xAngle;
-                cubes[i].drawSelf();
-                shiftBlock(this.centerX - activeBlockCenter[0], this.centerY - activeBlockCenter[1], this.centerZ - activeBlockCenter[2]);
-                } */
         }
     }
 
-    public void initVertexData(int i) {
-        ByteBuffer vbb = ByteBuffer.allocateDirect(cubes[i].coords.length*4);
-		vbb.order(ByteOrder.nativeOrder());
-		mVertexBuffer = vbb.asFloatBuffer();
-		mVertexBuffer.put(cubes[i].coords);
-		mVertexBuffer.position(0);
-        ByteBuffer dlb = ByteBuffer.allocateDirect(drawOrder.length * 2);
-        dlb.order(ByteOrder.nativeOrder());
-        drawListBuffer = dlb.asShortBuffer();
-        drawListBuffer.put(drawOrder);
-        drawListBuffer.position(0);
-		ByteBuffer cbb = ByteBuffer.allocateDirect(cubeColor.length*4);
-		cbb.order(ByteOrder.nativeOrder());
-		mColorBuffer = cbb.asFloatBuffer();
-		mColorBuffer.put(cubeColor);
-		mColorBuffer.position(0);
-    }
-
-    private static final int COORDS_PER_VERTEX = 3;
-    private final int VERTEX_STRIDE = COORDS_PER_VERTEX * 4;
-    private ShortBuffer drawListBuffer;
-	int mProgram;
-	int mMVPMatrixHandle;
-	int mPositionHandle;
-	int mColorHandle;
-	String mVertexShader;
-	String mFragmentShader;
-	FloatBuffer mVertexBuffer;
-	FloatBuffer mColorBuffer;
-    private static final float cubeColor[] = {0.0f, 0.0f, 0.0f, 1.0f}; // supposed to change
-    private static final short drawOrder[] = {0, 1, 2, 3, 0, 4, 5, 1,  1, 2, 6, 5, 5, 6, 7, 4,  7, 6, 2, 3, 3, 7, 4, 0};
-
-    public void initShader(StarGLSurfaceView mv) {                                // should I set it to be static ?
-		mVertexShader = Shader.loadFromAssetsFile("vertex.sh", mv.getResources());
-		mFragmentShader = Shader.loadFromAssetsFile("frag.sh", mv.getResources());		
-		mProgram = Shader.createProgram(mVertexShader, mFragmentShader);
-		mPositionHandle = GLES20.glGetAttribLocation(mProgram, "aPosition");
-		mColorHandle = GLES20.glGetAttribLocation(mProgram, "aColor");
-		mMVPMatrixHandle = GLES20.glGetUniformLocation(mProgram, "uMVPMatrix");
-	}
-    
-	public static float[] getFinalMatrix(float[] spec) {
-		mMVPMatrix = new float[16];
-		Matrix.multiplyMM(mMVPMatrix, 0, mVMatrix, 0, spec, 0);
-		Matrix.multiplyMM(mMVPMatrix, 0, mProjMatrix, 0, mMVPMatrix, 0);
-		return mMVPMatrix;
-	}
-
     public void shiftBlock(float paramFloat1, float paramFloat2, float paramFloat3) { // 平移
-        /*int i = cubes.length;
-        for (int j = 0; ; j++) {
-            if (j >= i) {
-                this.centerX += paramFloat1;
-                this.centerY += paramFloat2;
-                this.centerZ += paramFloat3;
-                return;
-            }
-            //Cube localCube = cubes[j];
-            cubes[j].setX(paramFloat1 + cubes[j].getX());
-            cubes[j].setY(paramFloat2 + cubes[j].getY());
-            cubes[j].setZ(paramFloat3 + cubes[j].getZ());
-            }*/
         Cube[] arrayOfCube = getCubes();
         float i = arrayOfCube.length;
         for (int j = 0; ; j++) {
