@@ -159,7 +159,8 @@ public class StarGLSurfaceView extends GLSurfaceView {
             grid = new Grid(StarGLSurfaceView.this, 5);
             cube = new Cube(StarGLSurfaceView.this, CubeColor.Anchient, 0, 0, 0); // E i J
             currBlock = new Block(StarGLSurfaceView.this, new BlockMeta(CubeColor.Anchient, BlockType.squareType, .5f, .5f, 0f));
-            nextBlock = new Block(StarGLSurfaceView.this, new BlockMeta(CubeColor.Amethyst, BlockType.lineType, 0f, .5f, 0f));
+            //nextBlock = new Block(StarGLSurfaceView.this, new BlockMeta(CubeColor.Amethyst, BlockType.lineType, 0f, .5f, 0f));
+            nextBlock = new Block(StarGLSurfaceView.this, new BlockMeta(CubeColor.Amethyst, BlockType.lineType, 0.5f, 1.0f, 0f));
 
             rthread = new RotateThread();
 			rthread.start();
