@@ -35,7 +35,7 @@ public class Cube implements Cloneable, Comparable<Cube>, Serializable {
     private static final float cubeColor[] = {0.0f, 0.0f, 0.0f, 1.0f}; // supposed to change
     private static final short drawOrder[] = {0, 1, 2, 3, 0, 4, 5, 1,  1, 2, 6, 5, 5, 6, 7, 4,  7, 6, 2, 3, 3, 7, 4, 0};
     private CubeColor color; 
-    private float [] coords;
+    public float [] coords;
     private float x;
     private float y;
     private float z;
@@ -57,6 +57,53 @@ public class Cube implements Cloneable, Comparable<Cube>, Serializable {
         initShader(mv);
     }
 
+    private boolean currBlock;
+    public void setCurrBlock(boolean v) {
+        this.currBlock = v;
+    }
+    public boolean getCurrBlock() {
+        return this.currBlock;
+    }
+        
+	public void drawSelf(){
+        initVertexData();
+		GLES20.glUseProgram(mProgram);
+
+		Matrix.setRotateM(mMMatrix, 0, 0, 0, 1, 0);           // 初始化变换矩阵
+		//Matrix.translateM(mMMatrix, 0, 0.5f, 0.5f, 0.5f);     // 设置平移 （.5, .5, .5） y opposite direction
+        // one cube rotation test
+		//Matrix.translateM(mMMatrix, 0, -0.5f, -0.5f, -0.5f); // 设置平移 (-Cx, -Cy, -Cz) to cube coordinate center (0, 0, 0)
+
+        if (getCurrBlock()) {
+            //Matrix.translateM(mMMatrix, 0, 0.5f, 0.5f, 0f);    // 设置平移 (Cx, Cy, Cz) back to cube center before rotate
+            Matrix.rotateM(mMMatrix, 0, xAngle, 0, 0, 1);        // rotate around the center
+            Matrix.translateM(mMMatrix, 0, 2f, 2f, 0.5f);
+
+            Matrix.translateM(mMMatrix, 0, -0.5f, -0.5f, -0.5f); // 设置平移 (-Cx, -Cy, -Cz) to cube coordinate center (0, 0, 0)
+            Matrix.rotateM(mMMatrix, 0, xAngle, 0, 0, 1);        // rotate around the center
+            Matrix.translateM(mMMatrix, 0, 0.5f, 0.5f, 0.5f);    // 设置平移 (Cx, Cy, Cz) back to cube center before rotate
+        } else {
+            Matrix.translateM(mMMatrix, 0, 0.5f, 0.5f, 0.5f);    //  设置平移 （.5, .5, .5） y opposite direction            
+
+            Matrix.translateM(mMMatrix, 0, -0.5f, -0.5f, -0.5f); // 设置平移 (-Cx, -Cy, -Cz) to cube coordinate center (0, 0, 0)
+            Matrix.rotateM(mMMatrix, 0, xAngle, 0, 0, 1);        // rotate around the center
+            Matrix.translateM(mMMatrix, 0, 0.5f, 0.5f, 0.5f);    // 设置平移 (Cx, Cy, Cz) back to cube center before rotate
+        }
+            
+        /*
+		Matrix.translateM(mMMatrix, 0, -x, -y, -z); // 设置平移 (-Cx, -Cy, -Cz) to cube coordinate center (0, 0, 0) // handled by vertex shader
+        Matrix.rotateM(mMMatrix, 0, this.xAngle, 0, 0, 1);        // rotate around the center
+		Matrix.translateM(mMMatrix, 0, x, y, z);    // 设置平移 (Cx, Cy, Cz) back to cube center before rotate
+        */
+        GLES20.glUniformMatrix4fv(mMVPMatrixHandle, 1, false, Cube.getFinalMatrix(mMMatrix), 0);
+        GLES20.glVertexAttribPointer(mPositionHandle, COORDS_PER_VERTEX, GLES20.GL_FLOAT, false, VERTEX_STRIDE, mVertexBuffer);
+        GLES20.glVertexAttribPointer(mColorHandle, 4, GLES20.GL_FLOAT, false, 4, mColorBuffer);
+        GLES20.glEnableVertexAttribArray(mPositionHandle);
+        GLES20.glEnableVertexAttribArray(mColorHandle);
+        GLES20.glLineWidth(3.0f);
+        GLES20.glDrawElements(GLES20.GL_LINE_LOOP, drawOrder.length, GLES20.GL_UNSIGNED_SHORT, drawListBuffer);
+	}
+    
     public Cube(CubeColor paramCubeColor, int paramInt1, int paramInt2, int paramInt3) {
         this.color = paramCubeColor;
         this.x = paramInt1;
@@ -93,32 +140,6 @@ public class Cube implements Cloneable, Comparable<Cube>, Serializable {
         coords = res;
     }
 
-	public void drawSelf(){
-        initVertexData();
-
-		GLES20.glUseProgram(mProgram);
-		Matrix.setRotateM(mMMatrix, 0, 0, 0, 1, 0);          // 初始化变换矩阵
-		Matrix.translateM(mMMatrix, 0, 0.5f, 0.5f, 0.5f);    // 设置平移 （.5, .5, .5） y opposite direction
-
-        // one cube rotation test
-		Matrix.translateM(mMMatrix, 0, -0.5f, -0.5f, -0.5f); // 设置平移 (-Cx, -Cy, -Cz) to cube coordinate center (0, 0, 0)
-        Matrix.rotateM(mMMatrix, 0, xAngle, 0, 0, 1);        // rotate around the center
-		Matrix.translateM(mMMatrix, 0, 0.5f, 0.5f, 0.5f);    // 设置平移 (Cx, Cy, Cz) back to cube center before rotate
-
-        /*
-		Matrix.translateM(mMMatrix, 0, -x, -y, -z); // 设置平移 (-Cx, -Cy, -Cz) to cube coordinate center (0, 0, 0) // handled by vertex shader
-        Matrix.rotateM(mMMatrix, 0, this.xAngle, 0, 0, 1);        // rotate around the center
-		Matrix.translateM(mMMatrix, 0, x, y, z);    // 设置平移 (Cx, Cy, Cz) back to cube center before rotate
-        */
-        GLES20.glUniformMatrix4fv(mMVPMatrixHandle, 1, false, Cube.getFinalMatrix(mMMatrix), 0);
-        GLES20.glVertexAttribPointer(mPositionHandle, COORDS_PER_VERTEX, GLES20.GL_FLOAT, false, VERTEX_STRIDE, mVertexBuffer);
-        GLES20.glVertexAttribPointer(mColorHandle, 4, GLES20.GL_FLOAT, false, 4, mColorBuffer);
-        GLES20.glEnableVertexAttribArray(mPositionHandle);
-        GLES20.glEnableVertexAttribArray(mColorHandle);
-        GLES20.glLineWidth(3.0f);
-        GLES20.glDrawElements(GLES20.GL_LINE_LOOP, drawOrder.length, GLES20.GL_UNSIGNED_SHORT, drawListBuffer);
-	}
-    
     public void initVertexData() {
         ByteBuffer vbb = ByteBuffer.allocateDirect(coords.length*4);
 		vbb.order(ByteOrder.nativeOrder());

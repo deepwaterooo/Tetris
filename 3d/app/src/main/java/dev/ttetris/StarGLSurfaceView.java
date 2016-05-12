@@ -70,7 +70,6 @@ public class StarGLSurfaceView extends GLSurfaceView {
         
         getHolder().setFormat(PixelFormat.TRANSLUCENT);  // 透视上一个Activity 
         setFocusableInTouchMode(true);
-        //model = new Model();
         mStarRenderer.setOnSurfacePickedListener(onSurfacePickedListener);
     } 
 
@@ -123,6 +122,8 @@ public class StarGLSurfaceView extends GLSurfaceView {
 
                 mStarRenderer.currBlock.xAngle = mStarRenderer.currBlock.xAngle + ANGLE_SPAN;
                 mStarRenderer.nextBlock.xAngle = mStarRenderer.nextBlock.xAngle + ANGLE_SPAN;
+                mStarRenderer.nextBlock.setCurrBlock(true);
+                
                 try {
                     Thread.sleep(20);
                 } catch (Exception e) {
@@ -158,10 +159,10 @@ public class StarGLSurfaceView extends GLSurfaceView {
             frame = new Frame(StarGLSurfaceView.this, 5, 10);
             grid = new Grid(StarGLSurfaceView.this, 5);
             cube = new Cube(StarGLSurfaceView.this, CubeColor.Anchient, 0, 0, 0); // E i J
-            currBlock = new Block(StarGLSurfaceView.this, new BlockMeta(CubeColor.Anchient, BlockType.squareType, .5f, .5f, 0f));
-            //nextBlock = new Block(StarGLSurfaceView.this, new BlockMeta(CubeColor.Amethyst, BlockType.lineType, 0f, .5f, 0f));
-            nextBlock = new Block(StarGLSurfaceView.this, new BlockMeta(CubeColor.Amethyst, BlockType.lineType, 0.5f, 1.0f, 0f));
-
+            //currBlock = new Block(StarGLSurfaceView.this, new BlockMeta(CubeColor.Anchient, BlockType.squareType, .5f, .5f, 0f));
+            //nextBlock = new Block(StarGLSurfaceView.this, new BlockMeta(CubeColor.Amethyst, BlockType.lineType, 0.5f, 1.0f, 0f));
+            currBlock = new Block(StarGLSurfaceView.this, new BlockMeta(CubeColor.Anchient, BlockType.squareType, 1f, 1f, 0f));
+            nextBlock = new Block(StarGLSurfaceView.this, new BlockMeta(CubeColor.Amethyst, BlockType.lineType, 3f, 1.0f, 0f));
             rthread = new RotateThread();
 			rthread.start();
         }
@@ -187,31 +188,12 @@ public class StarGLSurfaceView extends GLSurfaceView {
         @Override
         public void onDrawFrame(GL10 gl) {
             GLES20.glClear(GL10.GL_COLOR_BUFFER_BIT | GL10.GL_DEPTH_BUFFER_BIT);
-
             frame.drawSelf();
             grid.drawSelf();
-
             cube.drawSelf();
+
             currBlock.drawSelf();
             nextBlock.drawSelf();
-            
-            /*
-            //drawCurrBlock();  
-            for (int i = 6; i < Model.ROW; i++) 
-                for (int j = 6; j < Model.COL; j++) 
-                    model.board[i][j][0] = 1;
-            MatrixState.pushMatrix();
-            //drawGameCell();
-            cube.drawSelf();
-            //drawCurrBlock();
-            MatrixState.popMatrix();
-            MatrixState.pushMatrix();
-            MatrixState.translate(0, -1.14285f, 0);
-            //drawCurrBlock();
-            //cube.drawSelf();
-            //drawGameCell();
-            MatrixState.popMatrix();
-            */
         }
 
         public void setOnSurfacePickedListener(OnSurfacePickedListener onSurfacePickedListener) { 

@@ -5,7 +5,7 @@
 
 * Upgrading versions, pretty good
 ** 3d tetris status
-- think about block center. 
+- Tried all the hard ways, finally it is working now (emacs is not working, computer refuse to work too). Don't have efficient in the evening. Check in and will clean code tomorrow. 
 - need to set eye position better so that the (Frame + Grid) layout can be at the position that I want for the 3d game. 
 - I want yellow grids, together with white background, red-x yellow-y, but I fail get such effect. Currently using black grid, but I will change it to be better looking. 
 - Better organized files for OOP Practice. 
@@ -29,6 +29,10 @@
 - shader: http://blog.csdn.net/tom_221x/article/details/38458021
 - 旋转三角形 http://www.hanshuliang.com/?post=6
 - fancy effect: http://m.oschina.net/blog/147033
+- http://www.cnblogs.com/liangliangh/p/4089582.html
+- texture http://learnopengl.com/code_viewer.php?code=getting-started/coordinate_systems&type=fragment
+- 
+- 
 
 ** Activity.runOnUiThread()
 - http://stackvoid.com/introduction-to-Message-Handler-in-Android/

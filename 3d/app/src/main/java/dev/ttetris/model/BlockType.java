@@ -62,3 +62,4 @@ public final class BlockType {
         rightBootType = arrayOfCubeShift7;
     }
 }
+ 
