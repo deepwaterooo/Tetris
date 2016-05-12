@@ -41,7 +41,7 @@ public class Model {
             int x = (int)cubes[i].getX();// + b.centerX;
             int y = (int)cubes[i].getY();// + b.centerY;
             int z = (int)cubes[i].getZ();// + b.centerZ;
-            next[x][y][z] = b.getColor();
+            //next[x][y][z] = b.getColor();
         }
     }
 

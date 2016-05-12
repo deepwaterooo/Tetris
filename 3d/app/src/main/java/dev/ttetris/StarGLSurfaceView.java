@@ -3,6 +3,7 @@ package dev.ttetris;
 //import dev.ttetris.model.Model;
 import dev.ttetris.model.Cube;
 import dev.ttetris.model.Block;
+import dev.ttetris.model.BlockMeta;
 import dev.ttetris.model.Constant;
 import dev.ttetris.model.BlockType;
 import dev.ttetris.model.CubeColor;
@@ -36,7 +37,6 @@ public class StarGLSurfaceView extends GLSurfaceView {
     private StarRenderer mStarRenderer; 
     private float mPreviousX, mPreviousY; 
 	private ActivityGame activity;
-    //private Model model;
     public int DELAY = 100;
 	private long lastMove = 0;
 	public static final float ANGLE_SPAN = 0.375f;
@@ -120,7 +120,9 @@ public class StarGLSurfaceView extends GLSurfaceView {
                 mStarRenderer.frame.xAngle = mStarRenderer.frame.xAngle + ANGLE_SPAN;
                 mStarRenderer.grid.xAngle = mStarRenderer.grid.xAngle + ANGLE_SPAN;
                 mStarRenderer.cube.xAngle = mStarRenderer.cube.xAngle + ANGLE_SPAN;
+
                 mStarRenderer.currBlock.xAngle = mStarRenderer.currBlock.xAngle + ANGLE_SPAN;
+                mStarRenderer.nextBlock.xAngle = mStarRenderer.nextBlock.xAngle + ANGLE_SPAN;
                 try {
                     Thread.sleep(20);
                 } catch (Exception e) {
@@ -135,6 +137,7 @@ public class StarGLSurfaceView extends GLSurfaceView {
         private Grid grid;
         private Cube cube;
         private Block currBlock;
+        private Block nextBlock;
         //private Model model = new Model();
 
         private final int unitSize = 1;
@@ -154,9 +157,9 @@ public class StarGLSurfaceView extends GLSurfaceView {
             GLES20.glEnable(GLES20.GL_CULL_FACE);
             frame = new Frame(StarGLSurfaceView.this, 5, 10);
             grid = new Grid(StarGLSurfaceView.this, 5);
-            cube = new Cube(StarGLSurfaceView.this, 1, 0, 0, 0);
-            //currBlock = new Block(StarGLSurfaceView.this, BlockType.squareType);
-            currBlock = new Block(StarGLSurfaceView.this, BlockType.lineType);
+            cube = new Cube(StarGLSurfaceView.this, CubeColor.Anchient, 0, 0, 0); // E i J
+            currBlock = new Block(StarGLSurfaceView.this, new BlockMeta(CubeColor.Anchient, BlockType.squareType, .5f, .5f, 0f));
+            nextBlock = new Block(StarGLSurfaceView.this, new BlockMeta(CubeColor.Amethyst, BlockType.lineType, 0f, .5f, 0f));
 
             rthread = new RotateThread();
 			rthread.start();
@@ -171,11 +174,13 @@ public class StarGLSurfaceView extends GLSurfaceView {
             Matrix.frustumM(Grid.mProjMatrix, 0, -ratio, ratio, -1, 1, 1, 10); 
             Matrix.frustumM(Cube.mProjMatrix, 0, -ratio, ratio, -1, 1, 1, 10); 
             Matrix.frustumM(currBlock.mProjMatrix, 0, -ratio, ratio, -1, 1, 1, 10);
+            Matrix.frustumM(nextBlock.mProjMatrix, 0, -ratio, ratio, -1, 1, 1, 10);
 
             Matrix.setLookAtM(Frame.mVMatrix, 0, -1.5f, -4.5f, 3.5f, 0f, 0f, 0f, 0f, 1.0f, 0.0f);
             Matrix.setLookAtM(Grid.mVMatrix,  0, -1.5f, -4.5f, 3.5f, 0f, 0f, 0f, 0f, 1.0f, 0.0f);
             Matrix.setLookAtM(Cube.mVMatrix,  0, -1.5f, -4.5f, 3.5f, 0f, 0f, 0f, 0f, 1.0f, 0.0f);
             Matrix.setLookAtM(currBlock.mVMatrix,  0, -1.5f, -4.5f, 3.5f, 0f, 0f, 0f, 0f, 1.0f, 0.0f);
+            Matrix.setLookAtM(nextBlock.mVMatrix,  0, -1.5f, -4.5f, 3.5f, 0f, 0f, 0f, 0f, 1.0f, 0.0f);
         }
 
         @Override
@@ -184,8 +189,10 @@ public class StarGLSurfaceView extends GLSurfaceView {
 
             frame.drawSelf();
             grid.drawSelf();
+
             cube.drawSelf();
             currBlock.drawSelf();
+            nextBlock.drawSelf();
             
             /*
             //drawCurrBlock();  

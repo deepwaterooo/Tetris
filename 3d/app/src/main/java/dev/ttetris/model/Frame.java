@@ -45,6 +45,20 @@ public class Frame {
         initShader(mv);
 	}
 
+	public void drawSelf(){
+		GLES20.glUseProgram(mProgram);
+		Matrix.setRotateM(mMMatrix, 0, 0, 0, 1, 0);          // 初始化变换矩阵
+        Matrix.rotateM(mMMatrix, 0, xAngle, 0, 0, 1);
+        GLES20.glUniformMatrix4fv(mMVPMatrixHandle, 1, false, Frame.getFinalMatrix(mMMatrix), 0); 
+        GLES20.glVertexAttribPointer(mPositionHandle, 3, GLES20.GL_FLOAT, false, 0, vertexBuffer);
+        GLES20.glVertexAttribPointer(mColorHandle, 4, GLES20.GL_FLOAT, false, 0, colorBuffer);
+
+        GLES20.glEnableVertexAttribArray(mPositionHandle);
+        GLES20.glEnableVertexAttribArray(mColorHandle);
+        GLES20.glLineWidth(3.0f);
+        GLES20.glDrawElements(GLES20.GL_LINES, indices.length, GLES20.GL_UNSIGNED_SHORT, indexBuffer);
+	}
+    
     private static final long serialVersionUID = 6144113039836213006L;
     private static final int COORDS_PER_VERTEX = 3;
     private static final int VALUES_PER_COLOR = 4;
@@ -77,21 +91,6 @@ public class Frame {
 		mPositionHandle = GLES20.glGetAttribLocation(mProgram, "aPosition");
 		mColorHandle = GLES20.glGetAttribLocation(mProgram, "aColor");
 		mMVPMatrixHandle = GLES20.glGetUniformLocation(mProgram, "uMVPMatrix");
-	}
-    
-	public void drawSelf(){
-		GLES20.glUseProgram(mProgram);
-		Matrix.setRotateM(mMMatrix, 0, 0, 0, 1, 0);          // 初始化变换矩阵
-		//Matrix.translateM(mMMatrix, 0, -2.5f, 2.5f, -4.5f);  // 设置沿Z轴正向位移1
-        Matrix.rotateM(mMMatrix, 0, xAngle, 0, 0, 1);
-        GLES20.glUniformMatrix4fv(mMVPMatrixHandle, 1, false, Frame.getFinalMatrix(mMMatrix), 0); 
-        GLES20.glVertexAttribPointer(mPositionHandle, 3, GLES20.GL_FLOAT, false, 0, vertexBuffer);
-        GLES20.glVertexAttribPointer(mColorHandle, 4, GLES20.GL_FLOAT, false, 0, colorBuffer);
-
-        GLES20.glEnableVertexAttribArray(mPositionHandle);
-        GLES20.glEnableVertexAttribArray(mColorHandle);
-        GLES20.glLineWidth(3.0f);
-        GLES20.glDrawElements(GLES20.GL_LINES, indices.length, GLES20.GL_UNSIGNED_SHORT, indexBuffer);
 	}
     
 	private void init(){

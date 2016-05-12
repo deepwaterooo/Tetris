@@ -3,8 +3,10 @@ package dev.ttetris.model;
 import dev.ttetris.StarGLSurfaceView;
 import dev.ttetris.model.Constant;
 import dev.ttetris.util.Shader;
+import dev.ttetris.util.Vector3f;
 import android.opengl.GLES20;
 import android.opengl.Matrix;
+import android.util.Log;
 import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Random;
@@ -18,43 +20,55 @@ public class Block implements Cloneable, Serializable {
     private static final Random RANDOM = new Random();
     private static StarGLSurfaceView mStarGLSurfaceView;
     private final int cubeCounts = 4;
-    private static HashMap<String, Cube[]> blocks = new HashMap();
+    private final float [] activeBlockCenter = {2.5f, 2.5f, 0f};   // z 9.0f
+    private static HashMap<String, BlockMeta> blocks = new HashMap();
     static {
-        createMetaBlock("Square", 1, BlockType.squareType);
-        createMetaBlock("Line", 1, BlockType.lineType);
-        createMetaBlock("LeftLightning", 3, BlockType.leftLightningType);
-        createMetaBlock("RightLightning", 4, BlockType.rightLightningType);
-        createMetaBlock("Roof", 5, BlockType.roofType);
-        createMetaBlock("LeftBoot", 6, BlockType.leftBootType);
-        createMetaBlock("RightBoot", 7, BlockType.rightBootType);
+        createMetaBlock("Square", CubeColor.Anchient, BlockType.squareType, .5f, .5f, 0f);
+        createMetaBlock("Line", CubeColor.Amethyst, BlockType.lineType, .0f, .5f, 0f); // (0, .5, 0)
+        createMetaBlock("LeftLightning", CubeColor.Oak, BlockType.leftLightningType, .5f, 1.5f, 0f); // (.5, 1, 0)
+        createMetaBlock("RightLightning", CubeColor.MarbleRough, BlockType.rightLightningType, .5f, 1.5f, 0f); // (.5, 1, 0)
+        createMetaBlock("Roof", CubeColor.LapisLazuli, BlockType.roofType, 0.5f, .5f, 0f); // (0, .5, 0)
+        createMetaBlock("LeftBoot", CubeColor.WhiteMarble, BlockType.leftBootType, .5f, 1.5f, 0f); // (.5, 1, 0)
+        createMetaBlock("RightBoot", CubeColor.Marble, BlockType.rightBootType, .5f, 1.5f, 0f);    // (.5, 1, 0)
     }
     private Cube[] cubes;
-    private int color;
+    private CubeColor color;
     public float centerX;
     public float centerY;
     public float centerZ;
     public float xAngle = 0f;  // direction x y z
-
+    private String curr;
+    
     public static String[] getBlockNames() { return (String[])blocks.keySet().toArray(new String[0]); }
-    private static void createMetaBlock(String paramString, int paramCubeColor, Cube[] paramArrayOfCube) {
-        blocks.put(paramString, paramArrayOfCube);
+
+    private static void createMetaBlock(String paramString, CubeColor paramCubeColor, CubeShift[] paramArrayOfCubeShift, float paramFloat1, float paramFloat2, float paramFloat3) {
+        blocks.put(paramString, new BlockMeta(paramCubeColor, paramArrayOfCubeShift, paramFloat1, paramFloat2, paramFloat3));
     }
+    
     private Block() { this.cubes = null; }
-    public Block(StarGLSurfaceView mv, Cube[] type) {
+
+    public Block(StarGLSurfaceView mv, BlockMeta paramBlockMeta) {
         this.mStarGLSurfaceView = mv;
-        this.cubes = type;
-        this.color = getColor();
-        //int i = RANDOM.nextInt(); // set to be fixed first , has no effect yet
-        int j = 2; //i & 0x3;
-        int k = 0; //(i & 0xC) >> 2;  // 0 tmp, set to 2
-        int x = 0; //(i & 0x30) >> 4; // change back to be 9
-        this.centerX = (float)j; 
-        this.centerY = (float)k;
-        this.centerZ = (float)x; 
+        for (String key : blocks.keySet()) {
+            if (paramBlockMeta.getShifts() == blocks.get(key).getShifts())
+                curr = key;
+        }
+        CubeShift[] arrayOfCubeShift = paramBlockMeta.getShifts();
+        this.cubes = new Cube[arrayOfCubeShift.length]; // constant 4
+        for (int m = 0; ; m++) {
+            if (m >= arrayOfCubeShift.length) {
+                this.centerX = paramBlockMeta.getCenterX();
+                this.centerY = paramBlockMeta.getCenterY();
+                this.centerZ = paramBlockMeta.getCenterZ();
+                return;
+            }
+            this.cubes[m] = new Cube(paramBlockMeta.getColor(), arrayOfCubeShift[m].getDx(), arrayOfCubeShift[m].getDy(), arrayOfCubeShift[m].getDz());
+        }
     }
+
     public Cube[] getCubes() { return this.cubes; }
-    public int getColor() {
-        int color = cubes[0].getColor();
+    public CubeColor getColor() {
+        CubeColor color = cubes[0].getColor();
         return color;
     }
 
@@ -73,26 +87,46 @@ public class Block implements Cloneable, Serializable {
             Matrix.setLookAtM(Cube.mVMatrix, 0, -1.5f, -4.5f, 3.5f, 0f, 0f, 0f, 0f, 1.0f, 0.0f); // should be passed in somehow
         }
         for (int i = 0; i < cubeCounts; i++) {
+            Cube[] cubes = getCubes();
             cubes[i].initShader(mStarGLSurfaceView);
 
-            // set center properly for each cube
-            cubes[i].setX(cubes[i].getX() + this.centerX);
-            cubes[i].setY(cubes[i].getY() + this.centerY);
-            cubes[i].setZ(cubes[i].getZ() + this.centerZ);
+            if (curr != null && curr.equals("Line")) {
+                shiftBlock(-this.centerX, -this.centerY, -this.centerZ);
+                cubes[i].setCoordinates();
+                
+                cubes[i].xAngle = this.xAngle * 2;
+                cubes[i].drawSelf();
+                
+                shiftBlock(this.centerX, this.centerY, this.centerZ);
+                cubes[i].setCoordinates();
+            } else {
+                shiftBlock(activeBlockCenter[0] - this.centerX, activeBlockCenter[1] - this.centerY, activeBlockCenter[2] - this.centerZ);
+                cubes[i].setCoordinates();
+                cubes[i].xAngle = this.xAngle;
+                cubes[i].drawSelf();
+                shiftBlock(this.centerX - activeBlockCenter[0], this.centerY - activeBlockCenter[1], this.centerZ - activeBlockCenter[2]);
+            }
+        }
+    }
 
-            cubes[i].setCoordinates();
-            cubes[i].xAngle = this.xAngle;
-            cubes[i].drawSelf();
-
-            cubes[i].setX(cubes[i].getX() - this.centerX);
-            cubes[i].setY(cubes[i].getY() - this.centerY);
-            cubes[i].setZ(cubes[i].getZ() - this.centerZ);
-            cubes[i].setCoordinates();
+    public void shiftBlock(float paramFloat1, float paramFloat2, float paramFloat3) { // Æ½ÒÆ
+        Cube[] arrayOfCube = getCubes();
+        float i = arrayOfCube.length;
+        for (int j = 0; ; j++) {
+            if (j >= i) {
+                this.centerX += paramFloat1;
+                this.centerY += paramFloat2;
+                this.centerZ += paramFloat3;
+                return;
+            }
+            Cube localCube = arrayOfCube[j];
+            localCube.setX(paramFloat1 + localCube.getX());
+            localCube.setY(paramFloat2 + localCube.getY());
+            localCube.setZ(paramFloat3 + localCube.getZ());
         }
     }
 
     /*
-    // these two functions have problems, supposed to change dramatically 
     public boolean rotateBlockLeft(Cube[] paramArrayOfCube) { // around z, anti-clock wise
         int[] arrayOfInt1 = new int[this.cubes.length];
         int[] arrayOfInt2 = new int[this.cubes.length];
@@ -128,7 +162,7 @@ public class Block implements Cloneable, Serializable {
             this.cubes[i1].setZ(arrayOfInt3[i1]);
         }
     }
-    */
+*/
     /*    
     public void invertX() { //ÑØYÖáÐý×ª
         Cube[] arrayOfCube = this.cubes;
@@ -212,22 +246,4 @@ public class Block implements Cloneable, Serializable {
         }
     }
     */
-
-    // this one should be correct, need to think here
-    public void shiftBlock(float paramFloat1, float paramFloat2, float paramFloat3) { // Æ½ÒÆ, parameter scale?
-        Cube[] arrayOfCube = getCubes();
-        float i = arrayOfCube.length;
-        for (int j = 0; ; j++) {
-            if (j >= i) {
-                this.centerX += paramFloat1;
-                this.centerY += paramFloat2;
-                this.centerZ += paramFloat3;
-                return;
-            }
-            Cube localCube = arrayOfCube[j];
-            localCube.setX(paramFloat1 + localCube.getX());
-            localCube.setY(paramFloat2 + localCube.getY());
-            localCube.setZ(paramFloat3 + localCube.getZ());
-        }
-    }
 }

@@ -30,15 +30,16 @@ public class Cube implements Cloneable, Comparable<Cube>, Serializable {
 	String mFragmentShader;
 	FloatBuffer mVertexBuffer;
 	FloatBuffer mColorBuffer;
-    private final float size = 0.5f;
+    private final float size = 0.5f; 
     public float xAngle = 0f;
-
-    private int color; 
+    private static final float cubeColor[] = {0.0f, 0.0f, 0.0f, 1.0f}; // supposed to change
+    private static final short drawOrder[] = {0, 1, 2, 3, 0, 4, 5, 1,  1, 2, 6, 5, 5, 6, 7, 4,  7, 6, 2, 3, 3, 7, 4, 0};
+    private CubeColor color; 
     private float [] coords;
     private float x;
     private float y;
     private float z;
-    public int getColor() { return this.color; }
+    public CubeColor getColor() { return this.color; }
     public void setX(float paramFloat) { this.x = paramFloat; }
     public void setY(float paramFloat) { this.y = paramFloat; }
     public void setZ(float paramFloat) { this.z = paramFloat; }
@@ -46,7 +47,7 @@ public class Cube implements Cloneable, Comparable<Cube>, Serializable {
     public float getY() { return this.y; }
     public float getZ() { return this.z; }
 
-    public Cube(StarGLSurfaceView mv, int paramCubeColor, int paramInt1, int paramInt2, int paramInt3) {
+    public Cube(StarGLSurfaceView mv, CubeColor paramCubeColor, int paramInt1, int paramInt2, int paramInt3) {
         this.color = paramCubeColor;
         this.x = paramInt1;
         this.y = paramInt2;
@@ -56,7 +57,7 @@ public class Cube implements Cloneable, Comparable<Cube>, Serializable {
         initShader(mv);
     }
 
-    public Cube(int paramCubeColor, int paramInt1, int paramInt2, int paramInt3) {
+    public Cube(CubeColor paramCubeColor, int paramInt1, int paramInt2, int paramInt3) {
         this.color = paramCubeColor;
         this.x = paramInt1;
         this.y = paramInt2;
@@ -92,39 +93,6 @@ public class Cube implements Cloneable, Comparable<Cube>, Serializable {
         coords = res;
     }
 
-    private static final float cubeColor[] = {0.0f, 0.0f, 0.0f, 1.0f}; // supposed to change
-    private static final short drawOrder[] = { 
-        0, 1, 2, 3, 0, 4, 5, 1,
-        1, 2, 6, 5, 5, 6, 7, 4,
-        7, 6, 2, 3, 3, 7, 4, 0};
-    
-    public void initVertexData() {
-        ByteBuffer vbb = ByteBuffer.allocateDirect(coords.length*4);
-		vbb.order(ByteOrder.nativeOrder());
-		mVertexBuffer = vbb.asFloatBuffer();
-		mVertexBuffer.put(coords);
-		mVertexBuffer.position(0);
-        ByteBuffer dlb = ByteBuffer.allocateDirect(drawOrder.length * 2);
-        dlb.order(ByteOrder.nativeOrder());
-        drawListBuffer = dlb.asShortBuffer();
-        drawListBuffer.put(drawOrder);
-        drawListBuffer.position(0);
-		ByteBuffer cbb = ByteBuffer.allocateDirect(cubeColor.length*4);
-		cbb.order(ByteOrder.nativeOrder());
-		mColorBuffer = cbb.asFloatBuffer();
-		mColorBuffer.put(cubeColor);
-		mColorBuffer.position(0);
-    }
-
-    public void initShader(StarGLSurfaceView mv) { // should I set it to be static ?
-		mVertexShader = Shader.loadFromAssetsFile("vertex.sh", mv.getResources());
-		mFragmentShader = Shader.loadFromAssetsFile("frag.sh", mv.getResources());		
-		mProgram = Shader.createProgram(mVertexShader, mFragmentShader);
-		mPositionHandle = GLES20.glGetAttribLocation(mProgram, "aPosition");
-		mColorHandle = GLES20.glGetAttribLocation(mProgram, "aColor");
-		mMVPMatrixHandle = GLES20.glGetUniformLocation(mProgram, "uMVPMatrix");
-	}
-
 	public void drawSelf(){
         initVertexData();
 
@@ -151,6 +119,33 @@ public class Cube implements Cloneable, Comparable<Cube>, Serializable {
         GLES20.glDrawElements(GLES20.GL_LINE_LOOP, drawOrder.length, GLES20.GL_UNSIGNED_SHORT, drawListBuffer);
 	}
     
+    public void initVertexData() {
+        ByteBuffer vbb = ByteBuffer.allocateDirect(coords.length*4);
+		vbb.order(ByteOrder.nativeOrder());
+		mVertexBuffer = vbb.asFloatBuffer();
+		mVertexBuffer.put(coords);
+		mVertexBuffer.position(0);
+        ByteBuffer dlb = ByteBuffer.allocateDirect(drawOrder.length * 2);
+        dlb.order(ByteOrder.nativeOrder());
+        drawListBuffer = dlb.asShortBuffer();
+        drawListBuffer.put(drawOrder);
+        drawListBuffer.position(0);
+		ByteBuffer cbb = ByteBuffer.allocateDirect(cubeColor.length*4);
+		cbb.order(ByteOrder.nativeOrder());
+		mColorBuffer = cbb.asFloatBuffer();
+		mColorBuffer.put(cubeColor);
+		mColorBuffer.position(0);
+    }
+
+    public void initShader(StarGLSurfaceView mv) {                                // should I set it to be static ?
+		mVertexShader = Shader.loadFromAssetsFile("vertex.sh", mv.getResources());
+		mFragmentShader = Shader.loadFromAssetsFile("frag.sh", mv.getResources());		
+		mProgram = Shader.createProgram(mVertexShader, mFragmentShader);
+		mPositionHandle = GLES20.glGetAttribLocation(mProgram, "aPosition");
+		mColorHandle = GLES20.glGetAttribLocation(mProgram, "aColor");
+		mMVPMatrixHandle = GLES20.glGetUniformLocation(mProgram, "uMVPMatrix");
+	}
+
 	public static float[] getFinalMatrix(float[] spec) {
 		mMVPMatrix = new float[16];
 		Matrix.multiplyMM(mMVPMatrix, 0, mVMatrix, 0, spec, 0);

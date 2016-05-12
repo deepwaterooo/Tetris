@@ -51,6 +51,21 @@ public class Grid {
         initShader(mv);
 	}
 	
+	public void drawSelf(){
+		GLES20.glUseProgram(mProgram);
+		Matrix.setRotateM(mMMatrix, 0, 0, 0, 1, 0);          // 初始化变换矩阵
+        Matrix.rotateM(mMMatrix, 0, xAngle, 0, 0, 1);
+        GLES20.glUniformMatrix4fv(mMVPMatrixHandle, 1, false, Grid.getFinalMatrix(mMMatrix), 0);
+        GLES20.glVertexAttribPointer(mPositionHandle, 3, GLES20.GL_FLOAT, false, 0, vertexBuffer);
+        GLES20.glVertexAttribPointer(mColorHandle, 4, GLES20.GL_FLOAT, false, 0, colorBuffer);
+        GLES20.glEnableVertexAttribArray(mPositionHandle);
+        GLES20.glEnableVertexAttribArray(mColorHandle);
+        GLES20.glLineWidth(3.0f);
+        for (int i = 0; i < 2 * N; i++) {
+            GLES20.glDrawElements(GLES20.GL_LINE_STRIP, N, GLES20.GL_UNSIGNED_SHORT, indexBuffer[i]);
+        }
+	}
+
 	private void addIndexToBuffer(int bufferPointer, int arrayPointer) {
 		ByteBuffer ibb = ByteBuffer.allocateDirect(N * 2);
 		ibb.order(ByteOrder.nativeOrder());
@@ -100,21 +115,5 @@ public class Grid {
 		mPositionHandle = GLES20.glGetAttribLocation(mProgram, "aPosition");
 		mColorHandle = GLES20.glGetAttribLocation(mProgram, "aColor");
 		mMVPMatrixHandle = GLES20.glGetUniformLocation(mProgram, "uMVPMatrix");
-	}
-    
-	public void drawSelf(){
-		GLES20.glUseProgram(mProgram);
-		Matrix.setRotateM(mMMatrix, 0, 0, 0, 1, 0);          // 初始化变换矩阵
-		//Matrix.translateM(mMMatrix, 0, -2.5f, 2.5f, -4.5f); // 设置沿Z轴正向位移1
-        Matrix.rotateM(mMMatrix, 0, xAngle, 0, 0, 1);
-        GLES20.glUniformMatrix4fv(mMVPMatrixHandle, 1, false, Grid.getFinalMatrix(mMMatrix), 0);
-        GLES20.glVertexAttribPointer(mPositionHandle, 3, GLES20.GL_FLOAT, false, 0, vertexBuffer);
-        GLES20.glVertexAttribPointer(mColorHandle, 4, GLES20.GL_FLOAT, false, 0, colorBuffer);
-        GLES20.glEnableVertexAttribArray(mPositionHandle);
-        GLES20.glEnableVertexAttribArray(mColorHandle);
-        GLES20.glLineWidth(3.0f);
-        for (int i = 0; i < 2 * N; i++) {
-            GLES20.glDrawElements(GLES20.GL_LINE_STRIP, N, GLES20.GL_UNSIGNED_SHORT, indexBuffer[i]);
-        }
 	}
 }
