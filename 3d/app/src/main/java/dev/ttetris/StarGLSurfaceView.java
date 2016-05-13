@@ -42,33 +42,15 @@ public class StarGLSurfaceView extends GLSurfaceView {
 	public static final float ANGLE_SPAN = 0.375f;
 	RotateThread rthread;
     
-    public enum BlockColor {      // set in Block
-        RED(0xffff0000, (byte) 1),
-        GREEN(0xff00ff00, (byte) 2),
-        BLUE(0xff0000ff, (byte) 3),
-        YELLOW(0xffffff00, (byte) 4),
-        CYAN(0xff00ffff, (byte) 5),
-        WHITE(0xffffffff, (byte) 6),
-        MAGENTA(0xffff00ff, (byte) 7),
-        TRANSPARENT(0x20320617, (byte) 8);
-        private final int color;
-        private final byte value;
-        private BlockColor(int color, byte value) {
-            this.color = color;
-            this.value = value;
-        }
-    }
-
     public StarGLSurfaceView(Context context, OnSurfacePickedListener onSurfacePickedListener) {
         super(context);
         setEGLContextClientVersion(2);
         setDebugFlags(DEBUG_CHECK_GL_ERROR | DEBUG_LOG_GL_CALLS);
         mStarRenderer = new StarRenderer(); 
         setEGLConfigChooser(8, 8, 8, 8, 16, 0); 
-        setRenderer(mStarRenderer);                      // 设置渲染器
+        setRenderer(mStarRenderer);                      
         setRenderMode(GLSurfaceView.RENDERMODE_CONTINUOUSLY);
-        
-        getHolder().setFormat(PixelFormat.TRANSLUCENT);  // 透视上一个Activity 
+        getHolder().setFormat(PixelFormat.TRANSLUCENT);  
         setFocusableInTouchMode(true);
         mStarRenderer.setOnSurfacePickedListener(onSurfacePickedListener);
     } 

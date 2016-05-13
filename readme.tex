@@ -1,4 +1,4 @@
-% Created 2016-05-12 Thu 12:14
+% Created 2016-05-12 Thu 21:14
 \documentclass[9pt,b5paper]{article}
 \usepackage{fontspec}
 \setmainfont{STSong} 
@@ -37,13 +37,30 @@
 
 \section{Upgrading versions, pretty good}
 \label{sec-1}
-\subsection{3d tetris status}
+\subsection{3d tetris}
 \label{sec-1-1}
+\subsubsection{Game Requirement}
+\label{sec-1-1-1}
 \begin{itemize}
-\item Slightly cleaned version of code.
-\item Due to sleep/rest problems, I am NOT in a good clear mind today, would try ray picking on gestures matrix side, but if I feel my mind can not keep up today, will try to work on game flow labor work then.
-\item Would spend time go to campus checking about potential possibility for my scholarship/tuition solutions, do lundry, cook some good food for dinner etc, adjust myself so that tomorrow when my mind could be better I could finish all most if not all the technical challenging part.
-\item May not necessarily update two more times today depends on progress.
+\item Layout: the main activity game view allow NO buttons; If there are too many gestures applied, could include a instruction view for gesture guide. Could have slightly interesting layout for scores, or any effects that I could come up with later on (so far has not worried or do any research about this part yet).
+\item Threads/Runnable: App developped in this age without threads applied I would feel shamed to call it a mobile app. Assign tasks to different runnables and manage them so that the game needs to be fast, comfortable, easy and enjoyable to play and have fun playing it. 3d game permits No slower than 2d SurfaceView double thread version.
+\item Gestures: includes MotionEvent for single finger, double or three fingers, use pointers, pack different gestures tasks into different runnables. gestures should be easy to use and apply. Look back on DrawingFun fun app developped during Fall 2014, fragments, threads, view/invalidates were all so easy, don't Understand why during those days I could only make them work without really/deeply understood how they works that way.
+\item So far the only part that I want more research is on (Frame + Grid) vs current active block rotations, so that I could rotate them according when needed, (do I really need to use ray picking for identifying them) will do more online research on this part. I could implement ray picking, just feel 2d point doesn't necessarily fall into 3d frame. (which means outside 5*5*10 gestures to rotate frame, inside 5*5*10 frame rotate current active block, but I want more research to confirm if this is the best solution).
+\item minors features that I could skip if I don't have time: 
+\begin{itemize}
+\item After the bridgeing Cube app, texture is not any problems for me (just need to figure out a simple easier way to build an App manager (or simplier shaders) of my own, and manager the resources). Would borrow textures (with sounds) materials from glar3d and apply textures on my 3d game after majority functionalities are finished.
+\item Come back to Cube app to make the mediaplayer for video work first, and then apply technic on Mediaplayer back to 3d for sounds besides the background sound, if I feel I have such a need with plants \&\& zombies Unity game waiting for me.
+\end{itemize}
+\item Expect the 3d game (videoable version) to be uploaded onto youtube by 5/17/2016. Considering debugging time and all other minor difficulties that I might meet later on, I will have to work hard on this one.
+\end{itemize}
+
+\subsubsection{Status Update}
+\label{sec-1-1-2}
+\begin{itemize}
+\item Has not write any line of code today yet cause I can clearly feel that I am so headache today. Went to campus at 4pm left at aront 5:30pm. Has not been on road so long and just realized it too me quite some time for the local driving during traffic hours. Arrived home around 6:30, cooked, ate, and dishing till almost 8pm. Expect to fall asleep between 12 and 1am, expect tomorrow to have a clear mind and be productive to solve the rest technical problems.
+\item Did some online surfing on gesture detections, set the game Requirements for this simple version opengl 3d tetris. It has been too long that I have been working on this tetris project, and I look forward to moving into Unity so that I could better apply my problems solving talents (as well as programmign skills) on bigger (3d) projects/games. I set the game requirement here, I do all the researches to meet my initial Requirements, and when I made it, I may spend some hours to learn the other interested design/implementation from glar pseudo-3d tetris game, and I may simply skip the glar3d and dive into plants \&\& Zombies Unity game directly (if I did meet all the requirements and ideas that I have in mind and listed out today).
+\item Did about two hours online surfing on gestures (consolidated previous knowledges on fragments, compatible with different screen sizes, different android system versions, layout, Threads/Runnable handler communications among threads, intent etc which I did have minor bugs here or there before), will work on code side for two to three hours today, will commit once more at 11:17pm or 12:17pm depends on when I would feel tired, and try to fall asleep early today to adjust my clear mind back.
+\item 
 \item need to set eye position better so that the (Frame + Grid) layout can be at the position that I want for the 3d game.
 \item I want yellow grids, together with white background, red-x yellow-y, but I fail get such effect. Currently using black grid, but I will change it to be better looking.
 \item Better organized files for OOP Practice.
@@ -76,12 +93,31 @@
 \item fancy effect: \url{http://m.oschina.net/blog/147033}
 \item \url{http://www.cnblogs.com/liangliangh/p/4089582.html}
 \item texture \url{http://learnopengl.com/code_viewer.php?code=getting-started/coordinate_systems&type=fragment}
+\item github gestures explain details: \url{http://code.almeros.com/android-multitouch-gesture-detectors#.VzTg4BUrI9U}
+\end{itemize}
+\subsection{gestures}
+\label{sec-2-2}
+\begin{itemize}
+\item 过程\url{https://wizardforcel.gitbooks.io/w3school-android/content/62.html}
+\item analyze with code \url{https://github.com/CharonChui/AndroidNote/blob/master/Android\%E5\%8A\%A0\%E5\%BC\%BA/Android\%20Touch\%E4\%BA\%8B\%E4\%BB\%B6\%E5\%88\%86\%E5\%8F\%91\%E8\%AF\%A6\%E8\%A7\%A3.md}
+\item android MotionEvent 详解 pointers \url{http://www.jianshu.com/p/0c863bbde8eb}
+\item 图片过程详解\url{http://ztelur.github.io/2016/02/04/\%E5\%9B\%BE\%E8\%A7\%A3Android\%E4\%BA\%8B\%E4\%BB\%B6\%E4\%BC\%A0\%E9\%80\%92\%E4\%B9\%8BView\%E7\%AF\%87/} check github scrollview
+\item \url{http://www.jianshu.com/p/293d0c2f56cb} Android 绘制过程详解
+\item Track Velocity \url{http://developer.android.com/intl/zh-cn/training/gestures/movement.html#velocity}
+\item sample codes: \url{https://gitlab.com/tgzzl/android-training-course-in-chinese/blob/0727674297209b5d89db01ee768da1db1ac6cea0/input/gestures/detector.md}
+\item Drag and Drop \url{http://developer.android.com/intl/zh-cn/guide/topics/ui/drag-drop.html}
+\item 拖拽与缩放 \url{http://hukai.me/android-training-course-in-chinese/input/gestures/scale.html} 更加复杂的缩放示例
+\item 滚动手势动画 \url{http://hukai.me/android-training-course-in-chinese/input/gestures/scroll.html}
+\item 响应触摸事件 \url{http://hukai.me/android-training-course-in-chinese/graphics/opengl/touch.html}
+\item 多线程操作 \url{http://hukai.me/android-training-course-in-chinese/performance/multi-threads/index.html}
+\item Android入门基础 \url{http://hukai.me/android-training-course-in-chinese/basics/index.html}
+\item example code Android 中实现图片平移、缩放、旋转同步进行 \url{http://android.jobbole.com/82072/}
 \item 
 \item 
 \end{itemize}
 
 \subsection{Activity.runOnUiThread()}
-\label{sec-2-2}
+\label{sec-2-3}
 \begin{itemize}
 \item \url{http://stackvoid.com/introduction-to-Message-Handler-in-Android/}
 \item \url{http://m.oschina.net/blog/97619}
@@ -89,7 +125,7 @@
 \item A 3d reference: \url{https://github.com/kdomic/android-3d-tetris}
 \end{itemize}
 \subsection{3D design}
-\label{sec-2-3}
+\label{sec-2-4}
 \begin{itemize}
 \item c++ version: \url{https://github.com/matachi/tetris-cpp}
 \item refer 6 \url{http://www.oschina.net/question/614942_62370}
@@ -130,7 +166,7 @@
 \item separate file: \url{http://stackoverflow.com/questions/30345816/splitting-a-text-file-into-multiple-files-by-specific-character-sequence}
 \end{itemize}
 \subsection{GLSurfaceView}
-\label{sec-2-4}
+\label{sec-2-5}
 \begin{itemize}
 \item opengl: \url{http://androidblog.reindustries.com/a-real-open-gl-es-2-0-2d-tutorial-part-1/}
 \item Graphics architecture: \url{https://source.android.com/devices/graphics/architecture.html}
@@ -162,13 +198,13 @@
 \item \url{http://www.mobile-open.com/2015/80379.html}
 \end{itemize}
 \subsection{eventQueue vs SurfaceView threads}
-\label{sec-2-5}
+\label{sec-2-6}
 \begin{itemize}
 \item Deeper summary, android graphics architecture: \url{http://hukai.me/android-deeper-graphics-architecture/}
 \item 2 threads, load, read, \url{http://blog.csdn.net/hellogv/article/details/5986835}
 \end{itemize}
 \subsection{SurfaceView}
-\label{sec-2-6}
+\label{sec-2-7}
 \begin{itemize}
 \item Surface runnable \url{http://android.okhelp.cz/surfaceview-implements-runnable-android-code/}
 \item Example: \url{http://technicalsearch.iteye.com/blog/1967616}
@@ -185,7 +221,7 @@
 \item slightly complicated: \url{http://www.lxway.com/186948856.htm}
 \end{itemize}
 \subsection{gestures}
-\label{sec-2-7}
+\label{sec-2-8}
 \begin{itemize}
 \item \url{http://www.cnblogs.com/akira90/archive/2013/03/10/2952886.html}
 \item Android 触摸手势基础 官方文档概览: \url{http://www.lxway.com/445554926.htm}
