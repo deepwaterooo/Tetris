@@ -102,6 +102,7 @@ public class Block implements Cloneable, Serializable {
         }
         Cube[] cubes = getCubes();
         for (int i = 0; i < cubeCounts; i++) {
+            //Cube[] cubes = getCubes(); // why this one made difference, I don't know yet, app crashes here
             cubes[i].initShader(mStarGLSurfaceView);
             if (curr != null && curr.equals("Square")) { // (.5, 1, 0)
                 cubes[i].setActiveFlag(true);            // think here

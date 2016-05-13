@@ -7,7 +7,7 @@
 ** 3d tetris 
 *** Game Requirement
 - Layout: the main activity game view allow NO buttons; If there are too many gestures applied, could include a instruction view for gesture guide. Could have slightly interesting layout for scores, or any effects that I could come up with later on (so far has not worried or do any research about this part yet).
-- Threads/Runnable: App developped in this age without threads applied I would feel shamed to call it a mobile app. Assign tasks to different runnables and manage them so that the game needs to be fast, comfortable, easy and enjoyable to play and have fun playing it. 3d game permits No slower than 2d SurfaceView double thread version. 
+- Threads/Runnable: As you can feel once my mind is not clear I would make mistakes here or there. Threads/Runnables are useful but for opengl rendering because it is hardware accelerated rendering, unfortunately Threads/Runnables won't help too much for redering here. But I will try to pack these Threads/Runnables into my 2d tetris when this one is done. (think about it: if the thread calling opengl calls *setCurrentContext*. need to search more on opengl redering and thread for this module a little bit more. While concepts/ideas are right though. App developped in this age without threads applied I would feel shamed to call it a mobile app.)
 - Gestures: includes MotionEvent for single finger, double or three fingers, use pointers, pack different gestures tasks into different runnables. gestures should be easy to use and apply. Look back on DrawingFun fun app developped during Fall 2014, fragments, threads, view/invalidates were all so easy, don't Understand why during those days I could only make them work without really/deeply understood how they works that way. 
 - So far the only part that I want more research is on (Frame + Grid) vs current active block rotations, so that I could rotate them according when needed, (do I really need to use ray picking for identifying them) will do more online research on this part. I could implement ray picking, just feel 2d point doesn't necessarily fall into 3d frame. (which means outside 5*5*10 gestures to rotate frame, inside 5*5*10 frame rotate current active block, but I want more research to confirm if this is the best solution). 
 - minors features that I could skip if I don't have time: 
@@ -16,9 +16,8 @@
 - Expect the 3d game (videoable version) to be uploaded onto youtube by 5/17/2016. Considering debugging time and all other minor difficulties that I might meet later on, I will have to work hard on this one. 
 
 *** Status Update
-- Has not write any line of code today yet cause I can clearly feel that I am so headache today. Went to campus at 4pm left at aront 5:30pm. Has not been on road so long and just realized it too me quite some time for the local driving during traffic hours. Arrived home around 6:30, cooked, ate, and dishing till almost 8pm. Expect to fall asleep between 12 and 1am, expect tomorrow to have a clear mind and be productive to solve the rest technical problems. 
-- Did some online surfing on gesture detections, set the game Requirements for this simple version opengl 3d tetris. It has been too long that I have been working on this tetris project, and I look forward to moving into Unity so that I could better apply my problems solving talents (as well as programmign skills) on bigger (3d) projects/games. I set the game requirement here, I do all the researches to meet my initial Requirements, and when I made it, I may spend some hours to learn the other interested design/implementation from glar pseudo-3d tetris game, and I may simply skip the glar3d and dive into plants && Zombies Unity game directly (if I did meet all the requirements and ideas that I have in mind and listed out today).  
-- Did about two hours online surfing on gestures (consolidated previous knowledges on fragments, compatible with different screen sizes, different android system versions, layout, Threads/Runnable handler communications among threads, intent etc which I did have minor bugs here or there before), will work on code side for two to three hours today, will commit once more at 11:17pm or 12:17pm depends on when I would feel tired, and try to fall asleep early today to adjust my clear mind back. 
+- The app crashed last night though first appeared on Wednesday evening before block rotated around its center finished. It seems that my Studio debug has not been appropriately set yet, will work on it in the afternoon. Work on simple gestures to rotate frmames and current active block in the afternoon if app crashes got fixed. 
+- Had rest during 11:15pm - 2:15am, then fall asleep in the moring 10:15 - 11:25am while reading a opengl pdf book. Will update at 6:17pm. 
 - 
 - need to set eye position better so that the (Frame + Grid) layout can be at the position that I want for the 3d game. 
 - I want yellow grids, together with white background, red-x yellow-y, but I fail get such effect. Currently using black grid, but I will change it to be better looking. 
@@ -61,8 +60,13 @@
 - 多线程操作 http://hukai.me/android-training-course-in-chinese/performance/multi-threads/index.html
 - Android入门基础 http://hukai.me/android-training-course-in-chinese/basics/index.html
 - example code Android 中实现图片平移、缩放、旋转同步进行 http://android.jobbole.com/82072/
+- another ray picking: http://antongerdelan.net/opengl/raycasting.html
+- opengl es rendering vs threads: http://imgtec.eetrend.com/blog/1883
 - 
 - 
+- 
+- 
+
 
 ** Activity.runOnUiThread()
 - http://stackvoid.com/introduction-to-Message-Handler-in-Android/
