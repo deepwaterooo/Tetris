@@ -48,7 +48,21 @@ public class Frame {
 	public void drawSelf(){
 		GLES20.glUseProgram(mProgram);
 		Matrix.setRotateM(mMMatrix, 0, 0, 0, 1, 0);          // ≥ı ºªØ±‰ªªæÿ’Û
-        Matrix.rotateM(mMMatrix, 0, xAngle, 0, 0, 1);
+
+        if (Model.isFrameZRotating[0]) {       // anti-
+            Matrix.rotateM(mMMatrix, 0, xAngle, 0, 0, 1);
+        } else if (Model.isFrameZRotating[1]) { // clock-wise
+            Matrix.rotateM(mMMatrix, 0, -xAngle, 0, 0, 1);
+        } else if (Model.isFrameXRotating[0]) {
+            Matrix.translateM(mMMatrix, 0, 0, -2.5f, -5f);
+            Matrix.rotateM(mMMatrix, 0, xAngle, 1, 0, 0);
+            Matrix.translateM(mMMatrix, 0, 0, 2.5f, 5f);
+        } else if (Model.isFrameXRotating[1]) {
+            Matrix.translateM(mMMatrix, 0, 0, -2.5f, -5f);
+            Matrix.rotateM(mMMatrix, 0, -xAngle, 1, 0, 0);
+            Matrix.translateM(mMMatrix, 0, 0, 2.5f, 5f);
+        }
+        
         GLES20.glUniformMatrix4fv(mMVPMatrixHandle, 1, false, Frame.getFinalMatrix(mMMatrix), 0); 
         GLES20.glVertexAttribPointer(mPositionHandle, 3, GLES20.GL_FLOAT, false, 0, vertexBuffer);
         GLES20.glVertexAttribPointer(mColorHandle, 4, GLES20.GL_FLOAT, false, 0, colorBuffer);

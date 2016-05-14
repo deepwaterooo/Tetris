@@ -2,56 +2,71 @@ package dev.ttetris.model;
 
 import dev.ttetris.model.Cube;
 import dev.ttetris.model.Block;
-
 import android.os.Bundle;
+import android.content.Context;
 
 public class Model {
     public enum GameStatus {
 		BEFORE_START {}, ACTIVE {}, PAUSED {}, OVER {};
 	}
-
-	public enum Move { // supposed to change
-		LEFT, RIGHT, ROTATE, DOWN
-	}
-
-	private GameStatus gameStatus = GameStatus.BEFORE_START;
-	private static final String TAG_DATA = "data";
-	private static final String TAG_ACTIVE_BLOCK = "active-block";
-    public static final int ROW = 7; // x
-    public static final int COL = 7; // z 
-    public static final int HIG = 14; // y
-
-    public int[][][] next = null;  
-    public int[][][] board = null; 
-    private int score;    
-    public int speed;
-
-    public Model() {
+	private static GameStatus gameStatus = GameStatus.BEFORE_START;
+    public static final int ROW = 5;  // x
+    public static final int COL = 5;  // y
+    public static final int HGT = 10; // z
+    public static int[][][] board;    // 0 - empty, 1-7, 8 for projection
+    private static int score;    
+    private static int speed;                 // could control for the game later on
+    private static boolean dropFast;
+    
+    // maybe I don't need this much, as far as an angle, 3 angles are passed in?
+    public static boolean [] isFrameZRotating = new boolean[2]; // 0 - false, [1] - clockwise, [0] - anticlockwise 
+    public static boolean [] isFrameXRotating = new boolean[2]; // 0 - false, [1] - clockwise, [0] - anticlockwise come up with some better ideas for this one
+    public static boolean [] isBlockXRotating = new boolean[2]; // 0 - false, [1] - clockwise, [0] - anticlockwise 
+    public static boolean [] isBlockYRotating = new boolean[2]; // 0 - false, [1] - clockwise, [0] - anticlockwise 
+    public static boolean [] isBlockZRotating = new boolean[2]; // 0 - false, [1] - clockwise, [0] - anticlockwise 
+    
+    public static void init(Context context) {
+        if (board == null)
+            board = new int[ROW][COL][HGT];
+        else resetBoard();
         score = 0;
         speed = 100;
-        next = new int[4][4][4];
-        board = new int[ROW][COL][HIG];
+        dropFast = false;
     }
 
-    // put generated Block into Next area
-    public void putNextBlock(Block b) {
-        Cube [] cubes = b.getCubes();
-        int n = cubes.length;
-        for (int i = 0; i < n; i++) {
-            int x = (int)cubes[i].getX();// + b.centerX;
-            int y = (int)cubes[i].getY();// + b.centerY;
-            int z = (int)cubes[i].getZ();// + b.centerZ;
-            //next[x][y][z] = b.getColor();
-        }
+    public static void onSwipeRight() {
+        isFrameZRotating[0] = true;  // --> anticlock
+        isFrameZRotating[1] = false; // <-- clock
+        isFrameXRotating[0] = false; // 向下 anti
+        isFrameXRotating[1] = false; // 向上 ^|^ clock-wise
     }
-
+    public static void onSwipeLeft() {
+        isFrameZRotating[0] = false;  // --> anticlock
+        isFrameZRotating[1] = true;   // <-- clock
+        isFrameXRotating[0] = false; // 向下 anti
+        isFrameXRotating[1] = false; // 向上 ^|^ clock-wise
+    }
+    public static void onSwipeBottom() {
+        isFrameZRotating[0] = false;
+        isFrameZRotating[1] = false;
+        isFrameXRotating[0] = true;   // 向下 anti
+        isFrameXRotating[1] = false;  // 向上 ^|^ clock-wise
+    }
+    public static void onSwipeTop() {
+        isFrameZRotating[0] = false;
+        isFrameZRotating[1] = false;
+        isFrameXRotating[0] = false;   // 向下 anti
+        isFrameXRotating[1] = true;  // 向上 ^|^ clock-wise
+    }
+    
+    public static void resetBoard() {
+        for (int k = 0; k < HGT; k++) 
+            for (int j = 0; j < COL; j++) 
+                for (int i = 0; i < ROW; i++) 
+                    board[i][j][k] = 0;
+    }
+    
     /*
-    // delete Block in next area
-    public void deleteNextBlock(Block c) { 
-        for (int i = 0; i < 4; i++) 
-            next[c.ai[i]][c.aj[i]] = 0;
-    }
-
     // upload main board block
     public void putBlock(Block a, int x, int y) {
         for (int i = 0; i < 4; i++)
@@ -127,7 +142,7 @@ public class Model {
         return false;
     }
 
-    // check if the at most 4 rows are full and need to be removed
+    // check if the at most 4 layers are full and need to be removed
     public int flood(Block a, int x, int y) {
         int gridCnt, lineCnt = 0;
         for (int i = 0; i < 4; i++) {
@@ -142,37 +157,22 @@ public class Model {
         }
         return lineCnt;  
     }
-
-    // remove a row from board
+*/
+    // remove a z = x layer from the board
     public void remove(int x) {
-        for (int j = 0; j < 10; j++) {
-            for (int i = x; i >= 1; i--) 
-                board[i][j] = board[i - 1][j];
-            board[0][j] = 0; 
-        }
+        for (int i = 0; i < ROW; i++) 
+            for (int j = 0; j < COL; j++) {
+                for (int k = x; k < HGT - 1; k++)  // z = x
+                    board[i][j][k] = board[i][j][k + 1];
+                board[i][j][HGT - 1] = 0;
+            }
     }
 
-    public boolean isGameActive() {
-		return GameStatus.ACTIVE.equals(gameStatus);
-	}
-
-	public boolean isGameOver() {
-		return GameStatus.OVER.equals(gameStatus);
-	}
-	
-	public boolean isGameBeforeStart() {
-		return GameStatus.BEFORE_START.equals(gameStatus);
-	}	
-
-	public void reset() {
-		reset(false); // call the inner method - reset the all data
-	}
-
-    /**
-	 * Reset the field data:
-	 * @param true - clear only dynamic data, false - clear all the data
-	 
-     */
+    public boolean isGameActive() { return GameStatus.ACTIVE.equals(gameStatus); }
+	public boolean isGameOver() { return GameStatus.OVER.equals(gameStatus); }
+	public boolean isGameBeforeStart() { return GameStatus.BEFORE_START.equals(gameStatus); }
+    /*
+    public void reset() { reset(false);  }
     private final void reset(boolean bDynamicDataOnly) {
 		for (int i = 0; i < ROW; i++) {
 			for (int j = 0; j < COL; j++) {
@@ -180,7 +180,7 @@ public class Model {
 				//	board[i][j] = 0;
 			}
 		}
-	}
+        } */
     /*
 	public void gameStart() { // Start the game:
 		if (isGameActive()) {

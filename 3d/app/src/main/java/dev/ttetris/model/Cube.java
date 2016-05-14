@@ -58,15 +58,9 @@ public class Cube implements Cloneable, Comparable<Cube>, Serializable {
     }
 
     private boolean isActiveFlag;
+    public void setActiveFlag(boolean v) { this.isActiveFlag = v; }
+    public boolean getActiveFlag() { return this.isActiveFlag; }
 
-    public void setActiveFlag(boolean v) {
-        this.isActiveFlag = v;
-    }
-
-    public boolean getActiveFlag() {
-        return this.isActiveFlag;
-    }
-        
 	public void drawSelf(){
         initVertexData();
 		GLES20.glUseProgram(mProgram);

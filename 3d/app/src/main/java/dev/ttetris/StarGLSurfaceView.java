@@ -1,6 +1,6 @@
 package dev.ttetris;
 
-//import dev.ttetris.model.Model;
+import dev.ttetris.model.Model;
 import dev.ttetris.model.Cube;
 import dev.ttetris.model.Block;
 import dev.ttetris.model.BlockMeta;
@@ -32,7 +32,11 @@ import java.nio.ShortBuffer;
 import javax.vecmath.Vector3f;
 import javax.vecmath.Vector4f;
 import javax.vecmath.Matrix4f;
-
+/*
+Activity使用了自定义的GLSurfaceView的子类, 这样，我们可以开发出和用户交互的应用，比如游戏等。 
+需要注意的是：由于渲染对象是运行在一个独立的渲染线程中，所以需要采用跨线程的机制来进行事件的处理。
+但是Android提供了一个简便的方法, 我们只需要在事件处理中使用queueEvent(Runnable)就可以了.
+*/  
 public class StarGLSurfaceView extends GLSurfaceView {
     private StarRenderer mStarRenderer; 
     private float mPreviousX, mPreviousY; 
@@ -41,20 +45,54 @@ public class StarGLSurfaceView extends GLSurfaceView {
 	private long lastMove = 0;
 	public static final float ANGLE_SPAN = 0.375f;
 	RotateThread rthread;
+
+    public enum BlockColor { // set in Block, may need it before set textures
+        RED(0xffff0000, (byte) 1),
+        GREEN(0xff00ff00, (byte) 2),
+        BLUE(0xff0000ff, (byte) 3),
+        YELLOW(0xffffff00, (byte) 4),
+        CYAN(0xff00ffff, (byte) 5),
+        WHITE(0xffffffff, (byte) 6),
+        MAGENTA(0xffff00ff, (byte) 7),
+        TRANSPARENT(0x20320617, (byte) 8);
+        private final int color;
+        private final byte value;
+        private BlockColor(int color, byte value) {
+            this.color = color;
+            this.value = value;
+        }
+    }
     
     public StarGLSurfaceView(Context context, OnSurfacePickedListener onSurfacePickedListener) {
         super(context);
         setEGLContextClientVersion(2);
+        // 为了可以激活log和错误检查，帮助调试3D应用，需要调用setDebugFlags()。  
         setDebugFlags(DEBUG_CHECK_GL_ERROR | DEBUG_LOG_GL_CALLS);
         mStarRenderer = new StarRenderer(); 
         setEGLConfigChooser(8, 8, 8, 8, 16, 0); 
         setRenderer(mStarRenderer);                      
         setRenderMode(GLSurfaceView.RENDERMODE_CONTINUOUSLY);
+        //setRenderMode(GLSurfaceView.RENDERMODE_WHEN_DIRTY); // requestRender(); doesn't make much difference
         getHolder().setFormat(PixelFormat.TRANSLUCENT);  
         setFocusableInTouchMode(true);
         mStarRenderer.setOnSurfacePickedListener(onSurfacePickedListener);
     } 
-
+    /*
+    public boolean onTouchEvent(final MotionEvent event) {  
+        // 由于 mStarRenderer 对象运行在另一个线程中，这里采用跨线程的机制进行处理。使用queueEvent方法  
+        //当然也可以使用其他像Synchronized来进行UI线程和渲染线程进行通信。  
+        queueEvent(new Runnable() {  
+                @Override  
+                public void run() {  
+                    //mRenderer.setColor(event.getX()/getWidth(), event.getY()/getHeight(), 1.0f);
+                    //mRenderer.setAngle(mRenderer.getAngle() + ((dx + dy) * TOUCH_SCALE_FACTOR));
+                    // mStarRenderer.doSomething()
+                    requestRender();
+                }  
+            });  
+        return true;  
+        } */ 
+    /*
     public boolean onTouchEvent(final MotionEvent e) { 
         float x = e.getX();
         float y = e.getY();
@@ -86,12 +124,16 @@ public class StarGLSurfaceView extends GLSurfaceView {
         mPreviousX = x; 
         mPreviousY = y; 
         return true; 
-    }
+        }*/
 
     //public void setModel(Model model) { this.model = model; }
 	public void setActivity(ActivityGame activity) { this.activity = activity; }
-    public void onPause() { super.onPause();  } 
-    public void onResume() { super.onResume();  }
+    public void onPause() { // suppose to add view methods for pause/resume as well
+        super.onPause();
+    } 
+    public void onResume() {
+        super.onResume();
+    }
 
     public class RotateThread extends Thread {
         public boolean flag = true;
@@ -129,7 +171,13 @@ public class StarGLSurfaceView extends GLSurfaceView {
         public float mfAngleY = 0.0f; 
         public float gesDistance = 0.0f; 
         private float one = 1.0f; 
+
         private float mAngle;
+        //public volatile float mAngle; // volatile
+        //public float getAngle() { return mAngle; }
+        //public void setAngle(float angle) { mAngle = angle; }
+
+        //public void setModel(Model model) { this.model = model; }
 
         @Override
         public void onSurfaceCreated(GL10 gl, EGLConfig config) {
@@ -155,14 +203,12 @@ public class StarGLSurfaceView extends GLSurfaceView {
             Matrix.frustumM(Frame.mProjMatrix, 0, -ratio, ratio, -1, 1, 1, 10); // 投影距阵
             Matrix.frustumM(Grid.mProjMatrix, 0, -ratio, ratio, -1, 1, 1, 10); 
             Matrix.frustumM(Cube.mProjMatrix, 0, -ratio, ratio, -1, 1, 1, 10); 
-            Matrix.frustumM(currBlock.mProjMatrix, 0, -ratio, ratio, -1, 1, 1, 10);
-            Matrix.frustumM(nextBlock.mProjMatrix, 0, -ratio, ratio, -1, 1, 1, 10);
+            Matrix.frustumM(Block.mProjMatrix, 0, -ratio, ratio, -1, 1, 1, 10);
 
             Matrix.setLookAtM(Frame.mVMatrix, 0, -1.5f, -4.5f, 3.5f, 0f, 0f, 0f, 0f, 1.0f, 0.0f);
             Matrix.setLookAtM(Grid.mVMatrix,  0, -1.5f, -4.5f, 3.5f, 0f, 0f, 0f, 0f, 1.0f, 0.0f);
             Matrix.setLookAtM(Cube.mVMatrix,  0, -1.5f, -4.5f, 3.5f, 0f, 0f, 0f, 0f, 1.0f, 0.0f);
-            Matrix.setLookAtM(currBlock.mVMatrix,  0, -1.5f, -4.5f, 3.5f, 0f, 0f, 0f, 0f, 1.0f, 0.0f);
-            Matrix.setLookAtM(nextBlock.mVMatrix,  0, -1.5f, -4.5f, 3.5f, 0f, 0f, 0f, 0f, 1.0f, 0.0f);
+            Matrix.setLookAtM(Block.mVMatrix,  0, -1.5f, -4.5f, 3.5f, 0f, 0f, 0f, 0f, 1.0f, 0.0f);
         }
 
         @Override
