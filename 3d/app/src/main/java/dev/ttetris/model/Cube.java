@@ -12,11 +12,11 @@ import android.opengl.GLES20;
 import android.opengl.Matrix;
 
 public class Cube implements Cloneable, Comparable<Cube>, Serializable {
+    //private static final long serialVersionUID = 6144113039836213006L;
 	public static float[] mVMatrix = new float[16];
 	public static float[] mProjMatrix = new float[16];
 	public static float[] mMVPMatrix = new float[16];
     public static float[] mMMatrix = new float[16]; // 具体物体的移动旋转矩阵，旋转、平移
-    //private static final long serialVersionUID = 6144113039836213006L;
     private static final int COORDS_PER_VERTEX = 3;
     private static final int VALUES_PER_COLOR = 4;
     private final int VERTEX_STRIDE = COORDS_PER_VERTEX * 4;
@@ -57,29 +57,51 @@ public class Cube implements Cloneable, Comparable<Cube>, Serializable {
         initShader(mv);
     }
 
-    private boolean isActiveFlag;
+    private boolean isActiveFlag; // for activeBlock
     public void setActiveFlag(boolean v) { this.isActiveFlag = v; }
     public boolean getActiveFlag() { return this.isActiveFlag; }
 
-	public void drawSelf(){
+	public void drawSelf() { // isActiveFlag -- activeBlock; Model.isFrameXRotating
         initVertexData();
 		GLES20.glUseProgram(mProgram);
 
 		Matrix.setRotateM(mMMatrix, 0, 0, 0, 1, 0);           // 初始化变换矩阵
         if (getActiveFlag()) {
-            Matrix.rotateM(mMMatrix, 0, xAngle, 0, 0, 1);        // rotate around the center
+            //Matrix.rotateM(mMMatrix, 0, xAngle, 0, 0, 1);        // rotate around the center
+            if (Model.isFrameZRotating[0]) {       // anti-
+                Matrix.rotateM(mMMatrix, 0, xAngle, 0, 0, 1);
+            } else if (Model.isFrameZRotating[1]) { // clock-wise
+                Matrix.rotateM(mMMatrix, 0, -xAngle, 0, 0, 1);
+            } else if (Model.isFrameXRotating[0]) {                // minor bug here for X rotating
+                Matrix.translateM(mMMatrix, 0, 0, -2.5f, -5f);
+                Matrix.rotateM(mMMatrix, 0, xAngle, 1, 0, 0);
+                Matrix.translateM(mMMatrix, 0, 0, 2.5f, 5f);
+            } else if (Model.isFrameXRotating[1]) {
+                Matrix.translateM(mMMatrix, 0, 0, -2.5f, -5f);
+                Matrix.rotateM(mMMatrix, 0, -xAngle, 1, 0, 0);
+                Matrix.translateM(mMMatrix, 0, 0, 2.5f, 5f);
+            }
             Matrix.translateM(mMMatrix, 0, 2f, 2f, 0.5f);
+        } else 
+            Matrix.translateM(mMMatrix, 0, 0.5f, 0.5f, 0.5f);    
 
-            Matrix.translateM(mMMatrix, 0, -0.5f, -0.5f, -0.5f); // 设置平移 (-Cx, -Cy, -Cz) to cube coordinate center (0, 0, 0)
-            Matrix.rotateM(mMMatrix, 0, xAngle, 0, 0, 1);        // rotate around the center
-            Matrix.translateM(mMMatrix, 0, 0.5f, 0.5f, 0.5f);    // 设置平移 (Cx, Cy, Cz) back to cube center before rotate
-        } else {
-            Matrix.translateM(mMMatrix, 0, 0.5f, 0.5f, 0.5f);    //  设置平移 （.5, .5, .5） y opposite direction            
-
-            Matrix.translateM(mMMatrix, 0, -0.5f, -0.5f, -0.5f); // 设置平移 (-Cx, -Cy, -Cz) to cube coordinate center (0, 0, 0)
-            Matrix.rotateM(mMMatrix, 0, xAngle, 0, 0, 1);        // rotate around the center
-            Matrix.translateM(mMMatrix, 0, 0.5f, 0.5f, 0.5f);    // 设置平移 (Cx, Cy, Cz) back to cube center before rotate
+        Matrix.translateM(mMMatrix, 0, -0.5f, -0.5f, -0.5f); 
+        //Matrix.rotateM(mMMatrix, 0, xAngle, 0, 0, 1);        
+        if (Model.isFrameZRotating[0]) {       // anti-
+            Matrix.rotateM(mMMatrix, 0, xAngle, 0, 0, 1);
+        } else if (Model.isFrameZRotating[1]) { // clock-wise
+            Matrix.rotateM(mMMatrix, 0, -xAngle, 0, 0, 1);
+        } else if (Model.isFrameXRotating[0]) {
+            Matrix.translateM(mMMatrix, 0, 0, -2.5f, -5f);
+            Matrix.rotateM(mMMatrix, 0, xAngle, 1, 0, 0);
+            Matrix.translateM(mMMatrix, 0, 0, 2.5f, 5f);
+        } else if (Model.isFrameXRotating[1]) {
+            Matrix.translateM(mMMatrix, 0, 0, -2.5f, -5f);
+            Matrix.rotateM(mMMatrix, 0, -xAngle, 1, 0, 0);
+            Matrix.translateM(mMMatrix, 0, 0, 2.5f, 5f);
         }
+        Matrix.translateM(mMMatrix, 0, 0.5f, 0.5f, 0.5f);    
+
         GLES20.glUniformMatrix4fv(mMVPMatrixHandle, 1, false, Cube.getFinalMatrix(mMMatrix), 0);
         GLES20.glVertexAttribPointer(mPositionHandle, COORDS_PER_VERTEX, GLES20.GL_FLOAT, false, VERTEX_STRIDE, mVertexBuffer);
         GLES20.glVertexAttribPointer(mColorHandle, 4, GLES20.GL_FLOAT, false, 4, mColorBuffer);

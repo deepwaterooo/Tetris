@@ -1,16 +1,15 @@
 package dev.ttetris;
 
-import dev.ttetris.model.Model;
 import dev.ttetris.model.Cube;
+import dev.ttetris.model.CubeColor;
+import dev.ttetris.model.Constant;
 import dev.ttetris.model.Block;
 import dev.ttetris.model.BlockMeta;
-import dev.ttetris.model.Constant;
 import dev.ttetris.model.BlockType;
-import dev.ttetris.model.CubeColor;
-import dev.ttetris.model.Cube;
+import dev.ttetris.model.Model;
 import dev.ttetris.model.Frame;
 import dev.ttetris.model.Grid;
-import dev.ttetris.util.MatrixState;
+//import dev.ttetris.util.MatrixState;
 import dev.ttetris.util.AppConfig;
 import android.os.Bundle;
 import android.os.Handler;
@@ -146,8 +145,9 @@ public class StarGLSurfaceView extends GLSurfaceView {
 
                 mStarRenderer.currBlock.xAngle = mStarRenderer.currBlock.xAngle + ANGLE_SPAN;
                 mStarRenderer.nextBlock.xAngle = mStarRenderer.nextBlock.xAngle + ANGLE_SPAN;
-                mStarRenderer.nextBlock.setActiveFlag(true);
-                
+                mStarRenderer.nextBlock.setActiveFlag(true); 
+                mStarRenderer.setBoardCubeRotating(ANGLE_SPAN);
+
                 try {
                     Thread.sleep(20);
                 } catch (Exception e) {
@@ -220,10 +220,30 @@ public class StarGLSurfaceView extends GLSurfaceView {
 
             currBlock.drawSelf();
             nextBlock.drawSelf();
+            renderBoard();
         }
 
         public void setOnSurfacePickedListener(OnSurfacePickedListener onSurfacePickedListener) { 
             this.onSurfacePickedListener = onSurfacePickedListener; 
-        } 
+        }
+
+        public void setBoardCubeRotating(float angle) {
+            Model.setBoardRotatingAngle(angle);
+        }
+
+        public void renderBoard() {
+            for (int k = 0; k < Model.HGT; k++) {
+                for (int j = 0; j < Model.COL; j++) {
+                    for (int i = 0; i < Model.ROW; i++) {
+                        if (Model.board[i][j][k] != 0) {
+                            Cube cube = new Cube(StarGLSurfaceView.this, CubeColor.Anchient, i, j, k);
+                            cube.xAngle = Model.getBoardRotatingAngle();
+                            cube.drawSelf();
+                        }
+                    }
+                }
+            }
+        }
+        
     }
 }

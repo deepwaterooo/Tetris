@@ -68,7 +68,7 @@ public class Grid {
             Matrix.rotateM(mMMatrix, 0, -xAngle, 1, 0, 0);
             Matrix.translateM(mMMatrix, 0, 0, 2.5f, 5f);
         }
-        //Matrix.rotateM(mMMatrix, 0, xAngle, 0, 0, 1);
+
         GLES20.glUniformMatrix4fv(mMVPMatrixHandle, 1, false, Grid.getFinalMatrix(mMMatrix), 0);
         GLES20.glVertexAttribPointer(mPositionHandle, 3, GLES20.GL_FLOAT, false, 0, vertexBuffer);
         GLES20.glVertexAttribPointer(mColorHandle, 4, GLES20.GL_FLOAT, false, 0, colorBuffer);

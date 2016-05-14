@@ -25,22 +25,6 @@ public class SwipeControls implements OnTouchListener {
 	public void onSwipeLeft()   { Model.onSwipeLeft(); }
 	public void onSwipeTop()    { Model.onSwipeTop(); }
 	public void onSwipeBottom() { Model.onSwipeBottom(); }
-    /*
-            isFrameZRotating[0] = true;  // --> anticlock
-        isFrameZRotating[1] = false; // <-- clock
-    }
-    public void onSwipeLeft() {
-        isFrameZRotating[0] = false;  // --> anticlock
-        isFrameZRotating[1] = true;   // <-- clock
-    }
-    public void onSwipeBottom() {     
-        isFrameXRotating[0] = true;   // 向下 anti
-        isFrameXRotating[1] = false;  // 向上 ^|^ clock-wise
-    }
-    public void onSwipeTop() {
-        isFrameXRotating[0] = false;   // 向下 anti
-        isFrameXRotating[1] = true;  // 向上 ^|^ clock-wise
-    */
         
 	@SuppressLint("ClickableViewAccessibility")
 	@Override

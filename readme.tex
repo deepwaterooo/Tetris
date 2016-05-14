@@ -1,4 +1,4 @@
-% Created 2016-05-13 Fri 18:15
+% Created 2016-05-14 Sat 11:16
 \documentclass[9pt,b5paper]{article}
 \usepackage{fontspec}
 \setmainfont{STSong} 
@@ -46,11 +46,13 @@
 \item Threads/Runnable: As you can feel once my mind is not clear I would make mistakes here or there. Threads/Runnables are useful but for opengl rendering because it is hardware accelerated rendering, unfortunately Threads/Runnables won't help too much for redering here. But I will try to pack these Threads/Runnables into my 2d tetris when this one is done. (think about it: if the thread calling opengl calls \textbf{setCurrentContext}. need to search more on opengl redering and thread for this module a little bit more. While concepts/ideas are right though. App developped in this age without threads applied I would feel shamed to call it a mobile app.) Need think about this part.
 \item Gestures: includes MotionEvent for single finger, double or three fingers, use pointers, pack different gestures tasks into different runnables. gestures should be easy to use and apply. Look back on DrawingFun fun app developped during Fall 2014, fragments, threads, view/invalidates were all so easy, don't Understand why during those days I could only make them work without really/deeply understood how they works that way. 
 \begin{itemize}
-\item In total about 14 gestions that I could think so far
+\item In total about 15 gestions that I could think so far
 \item 4 gestures for frame rotation around Z and x || (y = 2.5, z = 5) axis clockwise \&\& anti- for single finger touch (left, right, up, down).
 \item 4 gestures for single finger active block moves up/dow x / y directions (left, right, up, down).
 \item 6 gestures for double or triple fingers touch for acitve block rotates around x / y / z clock/anti-clockwise (left, right, up, down, 2 scrolls).
+\item Double tap for fast dropping, but don't limited to double tap, could apply velocities detection if I could figure them out.
 \end{itemize}
+\item \textbf{Model:} So far draw, rotating has no issues. Just one more step to think after active block has rotated (90, 180, 270, 360 or whatever), after I droped, how as I going to put the correct element into board[i][j][k] matrix. I need rotation matrix calculation functions here for me to update my board. Data structure design I think it will work.
 \item So far the only part that I want more research is on (Frame + Grid) vs current active block rotations, so that I could rotate them according when needed, (do I really need to use ray picking for identifying them) will do more online research on this part. I could implement ray picking, just feel 2d point doesn't necessarily fall into 3d frame. (which means outside 5*5*10 gestures to rotate frame, inside 5*5*10 frame rotate current active block, but I want more research to confirm if this is the best solution).
 \item minors features that I could skip if I don't have time: 
 \begin{itemize}
@@ -63,18 +65,14 @@
 \subsubsection{Status Update}
 \label{sec-1-1-2}
 \begin{itemize}
+\item Data stucture design almost done with minor current active block rotate together with frame needs to be fixed. will work on ray picking now \& in the afternoon.
 \item My app is not stable yet ever since Wednesday evening rotating around block center, tried to debug, but it came back alive so I just continued with simple gesture tests. But will work on debugging next time when it happens.
 \item Will continue with some search online for confirm if ray picking or not, and will at least try ray-pickign on the app in the evening.
-\item I guess I will have to read some design patterns books. Feel I am slightly week on this side.
-\item The app crashed last night though first appeared on Wednesday evening before block rotated around its center finished. It seems that my Studio debug has not been appropriately set yet, will work on it in the afternoon. Work on simple gestures to rotate frmames and current active block in the afternoon if app crashes got fixed.
-\item Will update at 11:17pm or 12:17pm, or slightly earlier or later depends on progress made.
+\item Will update at in the afternoon and in the late evening.
 \item 
 \item need to set eye position better so that the (Frame + Grid) layout can be at the position that I want for the 3d game.
 \item I want yellow grids, together with white background, red-x yellow-y, but I fail get such effect. Currently using black grid, but I will change it to be better looking.
-\item Better organized files for OOP Practice.
-\item Will update either 12:17pm, 6:17pm or 12:17am daily or both or three times (or hours earlier or later), depends on progress made within time slice.
 \item Emacs is such a powerful tool for me for coding considering and accepting the facts that occasional it would produce some minor troubles for me so that I would have to google for solutions. This morning the parenthesis don't autopair for () [] \{\} for java-mode, after having googled for few minutes, I have used and trust autopair for so long and realized actually sometimes he gets tired, and once I close and restart it, he works perfectly. \textbf{I am looking forward to the day that my beloved cousin would be able to help and guide me with emacs debugging.}
-\item I had NOT have any design experience nor confidence for game/larger project design, but since tetris 2d which was based on an incomplete design of a undergraduate student thesis when I successful redesign and implemented it, I think now I am in the process of thinking and building my own design (as well as confidence if I could succeed this time) now. Step by step, I could make this simple 3d completely out of my own ideas.
 \item 3d tetris layout structure: 
 
 \includegraphics[width=.9\linewidth]{./pic/Screenshot_2016-05-12-12-06-42.png}

@@ -17,6 +17,7 @@ public class Model {
     private static int score;    
     private static int speed;                 // could control for the game later on
     private static boolean dropFast;
+    public static float xAngle = 0f;
     
     // maybe I don't need this much, as far as an angle, 3 angles are passed in?
     public static boolean [] isFrameZRotating = new boolean[2]; // 0 - false, [1] - clockwise, [0] - anticlockwise 
@@ -26,12 +27,42 @@ public class Model {
     public static boolean [] isBlockZRotating = new boolean[2]; // 0 - false, [1] - clockwise, [0] - anticlockwise 
     
     public static void init(Context context) {
-        if (board == null)
+        if (board == null) 
             board = new int[ROW][COL][HGT];
-        else resetBoard();
+        //else resetBoard();
+        setBoard();
         score = 0;
         speed = 100;
         dropFast = false;
+    }
+
+    // Model: test int board[][][], confirm if it is practical for implementation
+    // set a board: E i J, i = T & _| as babies
+    public static void setBoard() {
+        int k = 0;
+        for (int i = 0; i < ROW; i++) {
+            board[i][0][k] = 3;
+            board[i][COL - 1][k] = 4;
+            for (int j = 0; j < COL; j++) {
+                if ((i == 0 || i == 2 || i ==4) && (j == 1 || j == 2)) 
+                    board[i][j][k] = 3;
+                if (i == 1 && (j == 1 || j == 2 || j == 3)) 
+                    board[i][j][k] = 7;
+                if (i == 3 && (j == 1 || j == 2 || j == 3)) 
+                    board[i][j][k] = 1;
+            }
+        }
+        board[0][3][k] = 4;
+        board[4][3][k] = 4;
+        board[2][2][k] = 1;
+        board[2][2][k] = 7;
+    }
+
+    public static void setBoardRotatingAngle(float angle) {
+        xAngle += angle;
+    }
+    public static float getBoardRotatingAngle() {
+        return xAngle;
     }
 
     public static void onSwipeRight() {
@@ -43,8 +74,8 @@ public class Model {
     public static void onSwipeLeft() {
         isFrameZRotating[0] = false;  // --> anticlock
         isFrameZRotating[1] = true;   // <-- clock
-        isFrameXRotating[0] = false; // 向下 anti
-        isFrameXRotating[1] = false; // 向上 ^|^ clock-wise
+        isFrameXRotating[0] = false;  // 向下 anti
+        isFrameXRotating[1] = false;  // 向上 ^|^ clock-wise
     }
     public static void onSwipeBottom() {
         isFrameZRotating[0] = false;
@@ -56,9 +87,9 @@ public class Model {
         isFrameZRotating[0] = false;
         isFrameZRotating[1] = false;
         isFrameXRotating[0] = false;   // 向下 anti
-        isFrameXRotating[1] = true;  // 向上 ^|^ clock-wise
+        isFrameXRotating[1] = true;    // 向上 ^|^ clock-wise
     }
-    
+
     public static void resetBoard() {
         for (int k = 0; k < HGT; k++) 
             for (int j = 0; j < COL; j++) 
