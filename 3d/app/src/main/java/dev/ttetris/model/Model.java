@@ -15,17 +15,29 @@ public class Model {
     public static final int HGT = 10; // z
     public static int[][][] board;    // 0 - empty, 1-7, 8 for projection
     private static int score;    
-    private static int speed;                 // could control for the game later on
+    private static int speed;         // could control for the game later on
     private static boolean dropFast;
     public static float xAngle = 0f;
-    
+    public static float mfAngleX = 0.0f; 
+    public static float mfAngleY = 0.0f; 
+    public static float gesDistance = 0.0f; // current center: (2.5, 2.5, 5)
+     
     // maybe I don't need this much, as far as an angle, 3 angles are passed in?
     public static boolean [] isFrameZRotating = new boolean[2]; // 0 - false, [1] - clockwise, [0] - anticlockwise 
     public static boolean [] isFrameXRotating = new boolean[2]; // 0 - false, [1] - clockwise, [0] - anticlockwise come up with some better ideas for this one
     public static boolean [] isBlockXRotating = new boolean[2]; // 0 - false, [1] - clockwise, [0] - anticlockwise 
     public static boolean [] isBlockYRotating = new boolean[2]; // 0 - false, [1] - clockwise, [0] - anticlockwise 
     public static boolean [] isBlockZRotating = new boolean[2]; // 0 - false, [1] - clockwise, [0] - anticlockwise 
-    
+
+    public static void setMfAngleX(float mfAnglex) { mfAngleX = mfAnglex; }
+    public static void setMfAngleY(float mfAngley) { mfAngleY = mfAngley; }
+    public static void setGesDistance(float gesdistance) { gesDistance = gesdistance; }
+    public static void setDropFast() { dropFast = true; }
+    public static float getMfAngleX() { return mfAngleX; }
+    public static float getMfAngleY() { return mfAngleY; }
+    public static float getGesDistance() { return gesDistance; }
+    public static boolean getDropFast() { return dropFast; }
+
     public static void init(Context context) {
         if (board == null) 
             board = new int[ROW][COL][HGT];

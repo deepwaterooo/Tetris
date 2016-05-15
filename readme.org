@@ -13,8 +13,10 @@
   - 4 gestures for frame rotation around Z and x || (y = 2.5, z = 5) axis clockwise && anti- for single finger touch (left, right, up, down).
   - 4 gestures for single finger active block moves up/dow x / y directions (left, right, up, down).
   - 6 gestures for double or triple fingers touch for acitve block rotates around x / y / z clock/anti-clockwise (left, right, up, down, 2 scrolls). 
-  - Double tap for fast dropping, but don't limited to double tap, could apply velocities detection if I could figure them out. 
-- *Model:* So far draw, rotating has no issues. Just one more step to think after active block has rotated (90, 180, 270, 360 or whatever), after I droped, how as I going to put the correct element into board[i][j][k] matrix. I need rotation matrix calculation functions here for me to update my board. Data structure design I think it will work. 
+  - Double tap for fast dropping, but want to extend fast dropping gestures by applying velocities detection if I could figure those velocities out when the game flow is basically done. 
+- Model: So far draw, rotating has no issues. Just one more step to think after active block has rotated (90, 180, 270, 360 or whatever), after I droped, how am I going to put the correct element into board[i][j][k] matrix. I need rotation matrix calculation functions here for me to update my board. Data structure design I think it will work. 
+  - Frame, Grid, and Cube needs to be design/packed better so that the rendering and rotations can be controlled slightly more organized. 
+  - Need to find a good/efficient way to manage and load all the sever different textures. 
 - So far the only part that I want more research is on (Frame + Grid) vs current active block rotations, so that I could rotate them according when needed, (do I really need to use ray picking for identifying them) will do more online research on this part. I could implement ray picking, just feel 2d point doesn't necessarily fall into 3d frame. (which means outside 5*5*10 gestures to rotate frame, inside 5*5*10 frame rotate current active block, but I want more research to confirm if this is the best solution). 
 - minors features that I could skip if I don't have time: 
   - After the bridgeing Cube app, texture is not any problems for me (just need to figure out a simple easier way to build an App manager (or simplier shaders) of my own, and manager the resources). Would borrow textures (with sounds) materials from glar3d and apply textures on my 3d game after majority functionalities are finished. 
@@ -22,10 +24,7 @@
 - Expect the 3d game (videoable version) to be uploaded onto youtube by 5/17/2016. Considering debugging time and all other minor difficulties that I might meet later on, I will have to work hard on this one. 
 
 *** Status Update
-- Data stucture design almost done with minor current active block rotate together with frame needs to be fixed. will work on ray picking now & in the afternoon. 
-- My app is not stable yet ever since Wednesday evening rotating around block center, tried to debug, but it came back alive so I just continued with simple gesture tests. But will work on debugging next time when it happens. 
-- Will continue with some search online for confirm if ray picking or not, and will at least try ray-pickign on the app in the evening. 
-- Will update at in the afternoon and in the late evening. 
+- On ray-picking, will try to temporarily apply it here to test and so that I could Understand this picking better, but I do think that I will need be scale(zoom out/in the frame so it will be more convenient to control current activeBlock) the frame to make it easy to use. But after I have learned all the technology I may not want to work on making it perfect any more. On textures loading. will continue with ray-picking in the evening. 
 - 
 - need to set eye position better so that the (Frame + Grid) layout can be at the position that I want for the 3d game. 
 - I want yellow grids, together with white background, red-x yellow-y, but I fail get such effect. Currently using black grid, but I will change it to be better looking. 

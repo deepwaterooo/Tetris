@@ -1,6 +1,8 @@
 package dev.ttetris.control;
 
 import dev.ttetris.model.Model;
+import dev.ttetris.StarGLSurfaceView;
+import dev.ttetris.util.AppConfig;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.util.Log;
@@ -12,8 +14,8 @@ public class SwipeControls implements OnTouchListener {
 	public SwipeControls(Context _c) { }
 	private boolean isMultiTouch = false;
 	private Integer fingersCount = 0;
-	private float x1 = 0, y1 = 0;
-	private float x2 = 0, y2 = 0;
+	private float mPreviousX = 0, mPreviousY = 0;
+	private float x = 0, y = 0;
 	private long time = 0;
     // don't forget threads
 
@@ -29,15 +31,31 @@ public class SwipeControls implements OnTouchListener {
 	@SuppressLint("ClickableViewAccessibility")
 	@Override
 	public boolean onTouch(View v, MotionEvent event) {
+        float x = event.getX();
+        float y = event.getY();
+        AppConfig.setTouchPosition(x, y);
+
 		int action = event.getAction() & MotionEvent.ACTION_MASK;
 		switch (action) {
-        case MotionEvent.ACTION_DOWN: 
-            x1 = event.getX();
-            y1 = event.getY();
+        case MotionEvent.ACTION_DOWN:
+            AppConfig.gbNeedPick = false;
+
+            mPreviousX = event.getX();
+            mPreviousY = event.getY();
             fingersCount = event.getPointerCount();
             time = System.currentTimeMillis();
             break;
-        case MotionEvent.ACTION_MOVE: 
+        case MotionEvent.ACTION_MOVE:  // work on this part
+            // 经过中心点的手势方向逆时针旋转90°后的坐标 
+            float dx = y - mPreviousY; 
+            float dy = x - mPreviousX; 
+            // 手势距离 
+            float d = (float) (Math.sqrt(dx * dx + dy * dy)); // current center: (2.5, 2.5, 5)
+            // 旋转轴单位向量的x,y值（z=0） 
+            Model.setMfAngleX(dx);
+            Model.setMfAngleY(dy);
+            Model.setGesDistance(d); // 手势距离 
+            AppConfig.gbNeedPick = false;
             break;
         case MotionEvent.ACTION_POINTER_DOWN: 
             isMultiTouch = true;
@@ -49,20 +67,28 @@ public class SwipeControls implements OnTouchListener {
             // fingersCount = event.getPointerCount();
             break;
         case MotionEvent.ACTION_UP: 
+            AppConfig.gbNeedPick = true; 
+
             if((System.currentTimeMillis() - time) < 90) {
-                //Model.setDropFast();    // comment for temp app run, this function is necessary, by setting dropping speed fast?
+                Model.setDropFast(); // ???
                 return true;
             }				
-            // Log.d("Kruno", "Action up1");
-            x2 = event.getX();
-            y2 = event.getY();
-            move(x1, y1, x2, y2, fingersCount);
+            x = event.getX();
+            y = event.getY();
+            move(mPreviousX, mPreviousY, x, y, fingersCount);
             isMultiTouch = false;
             fingersCount = 0;
+            mPreviousX = x;
+            mPreviousY = y;
             break;
-		}
+        case MotionEvent.ACTION_CANCEL: 
+            AppConfig.gbNeedPick = false; 
+            break; 
+		} // needs better control on mPreviousX mPreviousY
+        //mPreviousX = x;
+        //mPreviousY = y;
 		return true;
-	}
+	}  
 
 	private void move(float xFirst, float yFirst, float xSecond, float ySecond, int fCount) {
 		switch (fCount) {

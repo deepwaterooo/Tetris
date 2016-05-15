@@ -20,11 +20,11 @@ public class Block implements Cloneable, Serializable {
 	public static float[] mVMatrix = new float[16];
 	public static float[] mProjMatrix = new float[16];
 	public static float[] mMVPMatrix = new float[16];
-    public static float[] mMMatrix = new float[16]; // 具体物体的移动旋转矩阵，旋转、平移
+    public static float[] mMMatrix = new float[16];              // 具体物体的移动旋转矩阵，旋转、平移
     private static final Random RANDOM = new Random();
     private static StarGLSurfaceView mStarGLSurfaceView;
     private final int cubeCounts = 4;
-    private final float [] activeBlockCenter = {2.5f, 2.5f, 0f};   // z 9.0f
+    private final float [] activeBlockCenter = {2.5f, 2.5f, 0f}; // z 9.0f
     private static HashMap<String, BlockMeta> blocks = new HashMap();
 
     static {
@@ -85,15 +85,9 @@ public class Block implements Cloneable, Serializable {
     }
 
     private boolean isActiveFlag;
+    public void setActiveFlag(boolean flag) { this.isActiveFlag = flag; }
+    public boolean getActiveFlag() { return this.isActiveFlag; }
 
-    public void setActiveFlag(boolean v) {
-        this.isActiveFlag = v;
-    }
-
-    public boolean getActiveFlag() {
-        return this.isActiveFlag;
-    }
-        
     public void drawSelf() {
         if (Cube.mProjMatrix == null || Cube.mVMatrix == null) {
             float ratio = Constant.ratio;
@@ -102,7 +96,6 @@ public class Block implements Cloneable, Serializable {
         }
         Cube[] cubes = getCubes();
         for (int i = 0; i < cubeCounts; i++) {
-            //Cube[] cubes = getCubes(); // not this one causing problem
             cubes[i].initShader(mStarGLSurfaceView);
             if (curr != null && curr.equals("Square")) { // (.5, 1, 0)
                 cubes[i].setActiveFlag(true);            // think here
