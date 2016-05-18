@@ -1,7 +1,7 @@
-% Created 2016-05-14 Sat 18:12
+% Created 2016-05-17 Tue 22:54
 \documentclass[9pt,b5paper]{article}
 \usepackage{fontspec}
-\setmainfont{STSong} 
+\setmainfont{STSong}
 \usepackage{graphicx}
 \usepackage{xcolor}
 \usepackage{xeCJK}
@@ -41,10 +41,39 @@
 \label{sec-1-1}
 \subsubsection{Game Requirement}
 \label{sec-1-1-1}
+\begin{enumerate}
+\item Model
+\label{sec-1-1-1-1}
 \begin{itemize}
-\item Layout: the main activity game view allow NO buttons; If there are too many gestures applied, could include a instruction view for gesture guide. Could have slightly interesting layout for scores, or any effects that I could come up with later on (so far has not worried or do any research about this part yet).
-\item Threads/Runnable: As you can feel once my mind is not clear I would make mistakes here or there. Threads/Runnables are useful but for opengl rendering because it is hardware accelerated rendering, unfortunately Threads/Runnables won't help too much for redering here. But I will try to pack these Threads/Runnables into my 2d tetris when this one is done. (think about it: if the thread calling opengl calls \textbf{setCurrentContext}. need to search more on opengl redering and thread for this module a little bit more. While concepts/ideas are right though. App developped in this age without threads applied I would feel shamed to call it a mobile app.) Need think about this part.
-\item Gestures: includes MotionEvent for single finger, double or three fingers, use pointers, pack different gestures tasks into different runnables. gestures should be easy to use and apply. Look back on DrawingFun fun app developped during Fall 2014, fragments, threads, view/invalidates were all so easy, don't Understand why during those days I could only make them work without really/deeply understood how they works that way. 
+\item So far draw, rotating has no issues. Just one more step to think after active block has rotated (90, 180, 270, 360 or whatever), after I droped, how am I going to put the correct element into board[i][j][k] matrix. I need rotation matrix calculation functions here for me to update my board. Data structure design I think it will work.
+\begin{itemize}
+\item Frame, Grid, and Cube needs to be design/packed better so that the rendering and rotations can be controlled slightly more organized.
+\item Need to find a good/efficient way to manage and load all the sever different textures.
+\end{itemize}
+\item So far the only part that I want more research is on (Frame + Grid) vs current active block rotations, so that I could rotate them according when needed, (do I really need to use ray picking for identifying them) will do more online research on this part. I could implement ray picking, just feel 2d point doesn't necessarily fall into 3d frame. (which means outside 5*5*10 gestures to rotate frame, inside 5*5*10 frame rotate current active block, but I want more research to confirm if this is the best solution).
+\end{itemize}
+\item Threads
+\label{sec-1-1-1-2}
+\begin{itemize}
+\item As you can feel once my mind is not clear I would make mistakes here or there. Threads/Runnables are useful but for opengl rendering because it is hardware accelerated rendering, unfortunately Threads/Runnables won't help too much for redering here. But I will try to pack these Threads/Runnables into my 2d tetris when this one is done. (think about it: if the thread calling opengl calls \textbf{setCurrentContext}. need to search more on opengl redering and thread for this module a little bit more. While concepts/ideas are right though. App developped in this age without threads applied I would feel shamed to call it a mobile app.) Need think about this part.
+\item Threads for textures: 先解释下 glTexImage2d，它会将数据从 CPU 内存通过 PCIE 上传到 GPU 内存。不使用 PBO 时它是一个阻塞 CPU 的函数，数据量大时肯定会卡。解决方法是在子线程也创建一个 context，同时 share 资源给渲染的主线程。 
+\begin{itemize}
+\item \textbf{share$\backslash$$_{\text{context}}$:} Specifies another EGL rendering context with which to share data, as defined by the client API corresponding to the contexts. Data is also shared with all other contexts with which share$_{\text{context}}$ shares data. EGL$_{\text{NO}}$$_{\text{CONTEXT}}$ indicates that no sharing is to take place.
+
+\lstset{language=c++,label= ,caption= ,numbers=none}
+\begin{lstlisting}
+EGLContext eglCreateContext(EGLDisplay display, EGLConfig config, EGLContext share_context, EGLint const * attrib_list);
+\end{lstlisting}
+\item 科普下 opengl 的线程不安全，它存了很多东西在线程的局部空间中，即 thread-local storage (TLS)。在没有绑定过 context （eglMakeCurrent / wglMakeCurrent）的线程中调用 opengl 函数是没有意义的，因为这个线程中嘛都没有。而一个 context 在同一时间只能被一个线程绑定。
+\item 2种方法：(1) 2个线程, 1个OpenGL context，2个线程一个做渲染，一个做逻辑; (2), 2个线程2个context，主渲染线程维护状态，提交dc；辅助渲染线程做vb，texture的数据copy，shader的编译等。GPU会在两个context之间同步，有隐性开销. 其实单线程下规划好资源依赖应该可以做到不卡的.
+\end{itemize}
+\item 
+\end{itemize}
+
+\item Gestures
+\label{sec-1-1-1-3}
+\begin{itemize}
+\item Includes MotionEvent for single finger, double or three fingers, use pointers, pack different gestures tasks into different runnables. gestures should be easy to use and apply. Look back on DrawingFun fun app developped during Fall 2014, fragments, threads, view/invalidates were all so easy, don't Understand why during those days I could only make them work without really/deeply understood how they works that way.
 \begin{itemize}
 \item In total about 15 gestions that I could think so far
 \item 4 gestures for frame rotation around Z and x || (y = 2.5, z = 5) axis clockwise \&\& anti- for single finger touch (left, right, up, down).
@@ -52,19 +81,21 @@
 \item 6 gestures for double or triple fingers touch for acitve block rotates around x / y / z clock/anti-clockwise (left, right, up, down, 2 scrolls).
 \item Double tap for fast dropping, but want to extend fast dropping gestures by applying velocities detection if I could figure those velocities out when the game flow is basically done.
 \end{itemize}
-\item Model: So far draw, rotating has no issues. Just one more step to think after active block has rotated (90, 180, 270, 360 or whatever), after I droped, how am I going to put the correct element into board[i][j][k] matrix. I need rotation matrix calculation functions here for me to update my board. Data structure design I think it will work. 
-\begin{itemize}
-\item Frame, Grid, and Cube needs to be design/packed better so that the rendering and rotations can be controlled slightly more organized.
-\item Need to find a good/efficient way to manage and load all the sever different textures.
 \end{itemize}
-\item So far the only part that I want more research is on (Frame + Grid) vs current active block rotations, so that I could rotate them according when needed, (do I really need to use ray picking for identifying them) will do more online research on this part. I could implement ray picking, just feel 2d point doesn't necessarily fall into 3d frame. (which means outside 5*5*10 gestures to rotate frame, inside 5*5*10 frame rotate current active block, but I want more research to confirm if this is the best solution).
-\item minors features that I could skip if I don't have time: 
+\item Layout
+\label{sec-1-1-1-4}
 \begin{itemize}
+\item The main activity game view allow NO buttons; If there are too many gestures applied, could include a instruction view for gesture guide. Could have slightly interesting layout for scores, or any effects that I could come up with later on (so far has not worried or do any research about this part yet).
+\end{itemize}
+\item Others
+\label{sec-1-1-1-5}
+\begin{itemize}
+\item Minors features that I could skip if I don't have time:
 \item After the bridgeing Cube app, texture is not any problems for me (just need to figure out a simple easier way to build an App manager (or simplier shaders) of my own, and manager the resources). Would borrow textures (with sounds) materials from glar3d and apply textures on my 3d game after majority functionalities are finished.
 \item Come back to Cube app to make the mediaplayer for video work first, and then apply technic on Mediaplayer back to 3d for sounds besides the background sound, if I feel I have such a need with plants \&\& zombies Unity game waiting for me.
+\item Expect the 3d game (videoable version) to be uploaded onto youtube by 5/17/2016. Considering debugging time and all other minor difficulties that I might meet later on, I will have to work hard on this one (Apparently I have not been able to finish by today then).
 \end{itemize}
-\item Expect the 3d game (videoable version) to be uploaded onto youtube by 5/17/2016. Considering debugging time and all other minor difficulties that I might meet later on, I will have to work hard on this one.
-\end{itemize}
+\end{enumerate}
 
 \subsubsection{Status Update}
 \label{sec-1-1-2}
@@ -74,7 +105,7 @@
 \item need to set eye position better so that the (Frame + Grid) layout can be at the position that I want for the 3d game.
 \item I want yellow grids, together with white background, red-x yellow-y, but I fail get such effect. Currently using black grid, but I will change it to be better looking.
 \item Emacs is such a powerful tool for me for coding considering and accepting the facts that occasional it would produce some minor troubles for me so that I would have to google for solutions. This morning the parenthesis don't autopair for () [] \{\} for java-mode, after having googled for few minutes, I have used and trust autopair for so long and realized actually sometimes he gets tired, and once I close and restart it, he works perfectly. \textbf{I am looking forward to the day that my beloved cousin would be able to help and guide me with emacs debugging.}
-\item 3d tetris layout structure: 
+\item 3d tetris layout structure:
 
 \includegraphics[width=.9\linewidth]{./pic/Screenshot_2016-05-12-12-06-42.png}
 \item a video for this Tetris game can be directly watched at \url{https://www.youtube.com/watch?v=Ht4NOrEUtFk}
@@ -101,7 +132,14 @@
 \item \url{http://www.cnblogs.com/liangliangh/p/4089582.html}
 \item texture \url{http://learnopengl.com/code_viewer.php?code=getting-started/coordinate_systems&type=fragment}
 \item github gestures explain details: \url{http://code.almeros.com/android-multitouch-gesture-detectors#.VzTg4BUrI9U}
+\item shader abstract: \url{http://www.cnblogs.com/younghao/p/5141290.html}
+\item shader thread \url{https://www.zhihu.com/question/28016196}
+\item Activity \url{http://blog.csdn.net/luoshengyang/article/details/6685853} a series
+\item Android线程管理 \url{http://www.cnblogs.com/younghao/p/5116819.html}
+\item 
+\item 
 \end{itemize}
+
 \subsection{gestures}
 \label{sec-2-2}
 \begin{itemize}

@@ -4,41 +4,56 @@
 #+author: deepwaterooo
 
 * Upgrading versions, pretty good
-** 3d tetris 
+** 3d tetris
 *** Game Requirement
-- Layout: the main activity game view allow NO buttons; If there are too many gestures applied, could include a instruction view for gesture guide. Could have slightly interesting layout for scores, or any effects that I could come up with later on (so far has not worried or do any research about this part yet).
-- Threads/Runnable: As you can feel once my mind is not clear I would make mistakes here or there. Threads/Runnables are useful but for opengl rendering because it is hardware accelerated rendering, unfortunately Threads/Runnables won't help too much for redering here. But I will try to pack these Threads/Runnables into my 2d tetris when this one is done. (think about it: if the thread calling opengl calls *setCurrentContext*. need to search more on opengl redering and thread for this module a little bit more. While concepts/ideas are right though. App developped in this age without threads applied I would feel shamed to call it a mobile app.) Need think about this part. 
-- Gestures: includes MotionEvent for single finger, double or three fingers, use pointers, pack different gestures tasks into different runnables. gestures should be easy to use and apply. Look back on DrawingFun fun app developped during Fall 2014, fragments, threads, view/invalidates were all so easy, don't Understand why during those days I could only make them work without really/deeply understood how they works that way. 
+**** Model
+- So far draw, rotating has no issues. Just one more step to think after active block has rotated (90, 180, 270, 360 or whatever), after I droped, how am I going to put the correct element into board[i][j][k] matrix. I need rotation matrix calculation functions here for me to update my board. Data structure design I think it will work.
+  - Frame, Grid, and Cube needs to be design/packed better so that the rendering and rotations can be controlled slightly more organized.
+  - Need to find a good/efficient way to manage and load all the sever different textures.
+- So far the only part that I want more research is on (Frame + Grid) vs current active block rotations, so that I could rotate them according when needed, (do I really need to use ray picking for identifying them) will do more online research on this part. I could implement ray picking, just feel 2d point doesn't necessarily fall into 3d frame. (which means outside 5*5*10 gestures to rotate frame, inside 5*5*10 frame rotate current active block, but I want more research to confirm if this is the best solution).
+**** Threads
+- As you can feel once my mind is not clear I would make mistakes here or there. Threads/Runnables are useful but for opengl rendering because it is hardware accelerated rendering, unfortunately Threads/Runnables won't help too much for redering here. But I will try to pack these Threads/Runnables into my 2d tetris when this one is done. (think about it: if the thread calling opengl calls *setCurrentContext*. need to search more on opengl redering and thread for this module a little bit more. While concepts/ideas are right though. App developped in this age without threads applied I would feel shamed to call it a mobile app.) Need think about this part.
+- Threads for textures: 先解释下 glTexImage2d，它会将数据从 CPU 内存通过 PCIE 上传到 GPU 内存。不使用 PBO 时它是一个阻塞 CPU 的函数，数据量大时肯定会卡。解决方法是在子线程也创建一个 context，同时 share 资源给渲染的主线程。 
+  - *share\_context:* Specifies another EGL rendering context with which to share data, as defined by the client API corresponding to the contexts. Data is also shared with all other contexts with which share_context shares data. EGL_NO_CONTEXT indicates that no sharing is to take place.
+
+    #+BEGIN_SRC c++
+EGLContext eglCreateContext(EGLDisplay display, EGLConfig config, EGLContext share_context, EGLint const * attrib_list);
+    #+END_SRC
+  - 科普下 opengl 的线程不安全，它存了很多东西在线程的局部空间中，即 thread-local storage (TLS)。在没有绑定过 context （eglMakeCurrent / wglMakeCurrent）的线程中调用 opengl 函数是没有意义的，因为这个线程中嘛都没有。而一个 context 在同一时间只能被一个线程绑定。
+  - 2种方法：(1) 2个线程, 1个OpenGL context，2个线程一个做渲染，一个做逻辑; (2), 2个线程2个context，主渲染线程维护状态，提交dc；辅助渲染线程做vb，texture的数据copy，shader的编译等。GPU会在两个context之间同步，有隐性开销. 其实单线程下规划好资源依赖应该可以做到不卡的. 
+- 
+
+**** Gestures
+- Includes MotionEvent for single finger, double or three fingers, use pointers, pack different gestures tasks into different runnables. gestures should be easy to use and apply. Look back on DrawingFun fun app developped during Fall 2014, fragments, threads, view/invalidates were all so easy, don't Understand why during those days I could only make them work without really/deeply understood how they works that way.
   - In total about 15 gestions that I could think so far
   - 4 gestures for frame rotation around Z and x || (y = 2.5, z = 5) axis clockwise && anti- for single finger touch (left, right, up, down).
   - 4 gestures for single finger active block moves up/dow x / y directions (left, right, up, down).
-  - 6 gestures for double or triple fingers touch for acitve block rotates around x / y / z clock/anti-clockwise (left, right, up, down, 2 scrolls). 
-  - Double tap for fast dropping, but want to extend fast dropping gestures by applying velocities detection if I could figure those velocities out when the game flow is basically done. 
-- Model: So far draw, rotating has no issues. Just one more step to think after active block has rotated (90, 180, 270, 360 or whatever), after I droped, how am I going to put the correct element into board[i][j][k] matrix. I need rotation matrix calculation functions here for me to update my board. Data structure design I think it will work. 
-  - Frame, Grid, and Cube needs to be design/packed better so that the rendering and rotations can be controlled slightly more organized. 
-  - Need to find a good/efficient way to manage and load all the sever different textures. 
-- So far the only part that I want more research is on (Frame + Grid) vs current active block rotations, so that I could rotate them according when needed, (do I really need to use ray picking for identifying them) will do more online research on this part. I could implement ray picking, just feel 2d point doesn't necessarily fall into 3d frame. (which means outside 5*5*10 gestures to rotate frame, inside 5*5*10 frame rotate current active block, but I want more research to confirm if this is the best solution). 
-- minors features that I could skip if I don't have time: 
-  - After the bridgeing Cube app, texture is not any problems for me (just need to figure out a simple easier way to build an App manager (or simplier shaders) of my own, and manager the resources). Would borrow textures (with sounds) materials from glar3d and apply textures on my 3d game after majority functionalities are finished. 
-  - Come back to Cube app to make the mediaplayer for video work first, and then apply technic on Mediaplayer back to 3d for sounds besides the background sound, if I feel I have such a need with plants && zombies Unity game waiting for me. 
-- Expect the 3d game (videoable version) to be uploaded onto youtube by 5/17/2016. Considering debugging time and all other minor difficulties that I might meet later on, I will have to work hard on this one. 
+  - 6 gestures for double or triple fingers touch for acitve block rotates around x / y / z clock/anti-clockwise (left, right, up, down, 2 scrolls).
+  - Double tap for fast dropping, but want to extend fast dropping gestures by applying velocities detection if I could figure those velocities out when the game flow is basically done.
+**** Layout
+- The main activity game view allow NO buttons; If there are too many gestures applied, could include a instruction view for gesture guide. Could have slightly interesting layout for scores, or any effects that I could come up with later on (so far has not worried or do any research about this part yet).
+**** Others
+- Minors features that I could skip if I don't have time:
+- After the bridgeing Cube app, texture is not any problems for me (just need to figure out a simple easier way to build an App manager (or simplier shaders) of my own, and manager the resources). Would borrow textures (with sounds) materials from glar3d and apply textures on my 3d game after majority functionalities are finished.
+- Come back to Cube app to make the mediaplayer for video work first, and then apply technic on Mediaplayer back to 3d for sounds besides the background sound, if I feel I have such a need with plants && zombies Unity game waiting for me.
+- Expect the 3d game (videoable version) to be uploaded onto youtube by 5/17/2016. Considering debugging time and all other minor difficulties that I might meet later on, I will have to work hard on this one (Apparently I have not been able to finish by today then).
 
 *** Status Update
-- On ray-picking, will try to temporarily apply it here to test and so that I could Understand this picking better, but I do think that I will need be scale(zoom out/in the frame so it will be more convenient to control current activeBlock) the frame to make it easy to use. But after I have learned all the technology I may not want to work on making it perfect any more. On textures loading. will continue with ray-picking in the evening. 
-- 
-- need to set eye position better so that the (Frame + Grid) layout can be at the position that I want for the 3d game. 
-- I want yellow grids, together with white background, red-x yellow-y, but I fail get such effect. Currently using black grid, but I will change it to be better looking. 
-- Emacs is such a powerful tool for me for coding considering and accepting the facts that occasional it would produce some minor troubles for me so that I would have to google for solutions. This morning the parenthesis don't autopair for () [] {} for java-mode, after having googled for few minutes, I have used and trust autopair for so long and realized actually sometimes he gets tired, and once I close and restart it, he works perfectly. *I am looking forward to the day that my beloved cousin would be able to help and guide me with emacs debugging.* 
-- 3d tetris layout structure: 
+- On ray-picking, will try to temporarily apply it here to test and so that I could Understand this picking better, but I do think that I will need be scale(zoom out/in the frame so it will be more convenient to control current activeBlock) the frame to make it easy to use. But after I have learned all the technology I may not want to work on making it perfect any more. On textures loading. will continue with ray-picking in the evening.
+-
+- need to set eye position better so that the (Frame + Grid) layout can be at the position that I want for the 3d game.
+- I want yellow grids, together with white background, red-x yellow-y, but I fail get such effect. Currently using black grid, but I will change it to be better looking.
+- Emacs is such a powerful tool for me for coding considering and accepting the facts that occasional it would produce some minor troubles for me so that I would have to google for solutions. This morning the parenthesis don't autopair for () [] {} for java-mode, after having googled for few minutes, I have used and trust autopair for so long and realized actually sometimes he gets tired, and once I close and restart it, he works perfectly. *I am looking forward to the day that my beloved cousin would be able to help and guide me with emacs debugging.*
+- 3d tetris layout structure:
 
   [[./pic/Screenshot_2016-05-12-12-06-42.png]]
 - a video for this Tetris game can be directly watched at https://www.youtube.com/watch?v=Ht4NOrEUtFk
-- A video for the previous DrawingFun Android App can be watched at https://www.youtube.com/watch?v=YV78Tk5--5M , or by searching *deepwaterooo Wang*. 
+- A video for the previous DrawingFun Android App can be watched at https://www.youtube.com/watch?v=YV78Tk5--5M , or by searching *deepwaterooo Wang*.
 
 ** folders
 - lame2d: the very first version of the game.
 - 2d: SurfaceView redering 2d Implementation.
-- 3d: will work on a simple opengl 3d version first. Currently working on this one, will spend a few of following days on this one as well. 
+- 3d: will work on a simple opengl 3d version first. Currently working on this one, will spend a few of following days on this one as well.
 - glar3d: upgraded opengl 3d version adapted from tetrisglar app with textures and music, and real 3d instead of any pseudo one, will implement this one when simple 3d version is done. (After having understood texture and lights better, tried to debug this one for a while, but still complicated design and layout still make this one to some extend difficult for me for now.)
 
 * References
@@ -49,6 +64,13 @@
 - http://www.cnblogs.com/liangliangh/p/4089582.html
 - texture http://learnopengl.com/code_viewer.php?code=getting-started/coordinate_systems&type=fragment
 - github gestures explain details: http://code.almeros.com/android-multitouch-gesture-detectors#.VzTg4BUrI9U
+- shader abstract: http://www.cnblogs.com/younghao/p/5141290.html
+- shader thread https://www.zhihu.com/question/28016196
+- Activity http://blog.csdn.net/luoshengyang/article/details/6685853 a series
+- Android线程管理 http://www.cnblogs.com/younghao/p/5116819.html
+- 
+- 
+
 ** gestures
 - 过程https://wizardforcel.gitbooks.io/w3school-android/content/62.html
 - analyze with code https://github.com/CharonChui/AndroidNote/blob/master/Android%E5%8A%A0%E5%BC%BA/Android%20Touch%E4%BA%8B%E4%BB%B6%E5%88%86%E5%8F%91%E8%AF%A6%E8%A7%A3.md
