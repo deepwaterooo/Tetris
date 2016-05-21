@@ -39,8 +39,9 @@ EGLContext eglCreateContext(EGLDisplay display, EGLConfig config, EGLContext sha
 - Expect the 3d game (videoable version) to be uploaded onto youtube by 5/17/2016. Considering debugging time and all other minor difficulties that I might meet later on, I will have to work hard on this one (Apparently I have not been able to finish by today then).
 
 *** Status Update
-- On ray-picking, will try to temporarily apply it here to test and so that I could Understand this picking better, but I do think that I will need be scale(zoom out/in the frame so it will be more convenient to control current activeBlock) the frame to make it easy to use. But after I have learned all the technology I may not want to work on making it perfect any more. On textures loading. will continue with ray-picking in the evening.
+- On the texture part for 3d, has NOT been able to compile yet, will continue work on it tomorrow. 
 -
+- On ray-picking, will try to temporarily apply it here to test and so that I could Understand this picking better, but I do think that I will need be scale(zoom out/in the frame so it will be more convenient to control current activeBlock) the frame to make it easy to use. But after I have learned all the technology I may not want to work on making it perfect any more. On textures loading. will continue with ray-picking in the evening.
 - need to set eye position better so that the (Frame + Grid) layout can be at the position that I want for the 3d game.
 - I want yellow grids, together with white background, red-x yellow-y, but I fail get such effect. Currently using black grid, but I will change it to be better looking.
 - Emacs is such a powerful tool for me for coding considering and accepting the facts that occasional it would produce some minor troubles for me so that I would have to google for solutions. This morning the parenthesis don't autopair for () [] {} for java-mode, after having googled for few minutes, I have used and trust autopair for so long and realized actually sometimes he gets tired, and once I close and restart it, he works perfectly. *I am looking forward to the day that my beloved cousin would be able to help and guide me with emacs debugging.*
@@ -68,7 +69,14 @@ EGLContext eglCreateContext(EGLDisplay display, EGLConfig config, EGLContext sha
 - shader thread https://www.zhihu.com/question/28016196
 - Activity http://blog.csdn.net/luoshengyang/article/details/6685853 a series
 - Android线程管理 http://www.cnblogs.com/younghao/p/5116819.html
-- 
+- android share context http://www.it610.com/article/3866383.htm
+- three state rendering https://www.youtube.com/watch?v=t5EeXKGSQUw
+- http://blog.slapware.eu/game-engine/programming/multithreaded-renderloop-part1/
+- https://www.hongweipeng.com/index.php/archives/581/
+- http://www.jianshu.com/p/291ff6ddc164
+- https://github.com/lp0/slf4j-android/tree/master/src/main/java/eu/lp0/slf4j/android
+- http://mobile.51cto.com/aengine-437172.htm
+- http://www.cnblogs.com/younghao/p/5141290.html
 - 
 
 ** gestures

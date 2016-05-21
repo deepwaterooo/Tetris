@@ -65,33 +65,16 @@ public class StarGLSurfaceView extends GLSurfaceView {
     public StarGLSurfaceView(Context context, OnSurfacePickedListener onSurfacePickedListener) {
         super(context);
         setEGLContextClientVersion(2);
-        // 为了可以激活log和错误检查，帮助调试3D应用，需要调用setDebugFlags()。  
         setDebugFlags(DEBUG_CHECK_GL_ERROR | DEBUG_LOG_GL_CALLS);
         mStarRenderer = new StarRenderer(); 
         setEGLConfigChooser(8, 8, 8, 8, 16, 0); 
         setRenderer(mStarRenderer);                      
         setRenderMode(GLSurfaceView.RENDERMODE_CONTINUOUSLY);
-        //setRenderMode(GLSurfaceView.RENDERMODE_WHEN_DIRTY); // requestRender(); 
         getHolder().setFormat(PixelFormat.TRANSLUCENT);  
         setFocusableInTouchMode(true);
         mStarRenderer.setOnSurfacePickedListener(onSurfacePickedListener);
     } 
-    /*
-    public boolean onTouchEvent(final MotionEvent event) {  
-        // 由于 mStarRenderer 对象运行在另一个线程中，这里采用跨线程的机制进行处理。使用queueEvent方法  
-        // 当然也可以使用其他像Synchronized来进行UI线程和渲染线程进行通信。  
-        queueEvent(new Runnable() {  
-                @Override  
-                public void run() {  
-                    //mRenderer.setColor(event.getX()/getWidth(), event.getY()/getHeight(), 1.0f);
-                    //mRenderer.setAngle(mRenderer.getAngle() + ((dx + dy) * TOUCH_SCALE_FACTOR));
-                    // mStarRenderer.doSomething()
-                    requestRender();
-                }  
-            });  
-        return true;  
-        }
-    */ 
+
 	public void setActivity(ActivityGame activity) { this.activity = activity; }
     public void onPause() {  super.onPause(); }
     public void onResume() { super.onResume(); }
@@ -133,6 +116,8 @@ public class StarGLSurfaceView extends GLSurfaceView {
             GLES20.glClearColor(1.0f, 1.0f, 1.0f, 0.5f);
             GLES20.glEnable(GLES20.GL_DEPTH_TEST);
             GLES20.glEnable(GLES20.GL_CULL_FACE);
+            GLES20.glEnable(GLES20.GL_TEXTURE_2D); // for textures
+            
             frame = new Frame(StarGLSurfaceView.this, 5, 10);
             grid = new Grid(StarGLSurfaceView.this, 5);
             cube = new Cube(StarGLSurfaceView.this, CubeColor.Anchient, 0, 0, 0); // E i J
