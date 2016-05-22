@@ -2,6 +2,7 @@ package dev.ttetris;
 
 import dev.ttetris.model.Model;
 import dev.ttetris.control.SwipeControls;
+//import dev.ttetris.util.GLImage;
 import android.app.Activity;
 import android.os.Bundle;
 import android.os.Handler;
@@ -30,6 +31,7 @@ public class ActivityGame extends Activity implements OnSurfacePickedListener {
         super.onCreate(savedInstanceState);
         this.requestWindowFeature(Window.FEATURE_NO_TITLE); 
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
+        GLImage.load(this.getResources());
         mGLSurfaceView = new StarGLSurfaceView(this, this);
         mGLSurfaceView.getHolder().setFormat(PixelFormat.TRANSLUCENT); 
         setContentView(mGLSurfaceView);

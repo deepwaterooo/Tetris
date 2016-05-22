@@ -25,7 +25,7 @@ public class Block implements Cloneable, Serializable {
     private static StarGLSurfaceView mStarGLSurfaceView;
     private final int cubeCounts = 4;
     private final float [] activeBlockCenter = {2.5f, 2.5f, 0f}; // z 9.0f
-    private static HashMap<String, BlockMeta> blocks = new HashMap();
+    private static HashMap<String, BlockMeta> blocks = new HashMap<String, BlockMeta>();
 
     static {
         createMetaBlock("Square", CubeColor.Anchient, BlockType.squareType, .5f, .5f, 0f); // Ìï
@@ -52,6 +52,7 @@ public class Block implements Cloneable, Serializable {
     private Block() { this.cubes = null; }
     public Block(StarGLSurfaceView mv, BlockMeta paramBlockMeta) {
         this.mStarGLSurfaceView = mv;
+        this.color = paramBlockMeta.getColor();
         isActiveFlag = false;
         for (String key : blocks.keySet()) {
             if (paramBlockMeta.getShifts() == blocks.get(key).getShifts())
@@ -72,8 +73,7 @@ public class Block implements Cloneable, Serializable {
 
     public Cube[] getCubes() { return this.cubes; }
     public CubeColor getColor() {
-        CubeColor color = cubes[0].getColor();
-        return color;
+        return this.color;
     }
 
     public Block clone() {

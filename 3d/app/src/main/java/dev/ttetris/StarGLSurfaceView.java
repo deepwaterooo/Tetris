@@ -120,8 +120,10 @@ public class StarGLSurfaceView extends GLSurfaceView {
             
             frame = new Frame(StarGLSurfaceView.this, 5, 10);
             grid = new Grid(StarGLSurfaceView.this, 5);
-            cube = new Cube(StarGLSurfaceView.this, CubeColor.Anchient, 0, 0, 0); // E i J
-            currBlock = new Block(StarGLSurfaceView.this, new BlockMeta(CubeColor.Anchient, BlockType.squareType, 1f, 1f, 0f));
+            //cube = new Cube(StarGLSurfaceView.this, CubeColor.Anchient, 0, 0, 0); // E i J
+            cube = new Cube(StarGLSurfaceView.this, CubeColor.Amethyst, 0, 0, 0); // E i J
+            //currBlock = new Block(StarGLSurfaceView.this, new BlockMeta(CubeColor.Anchient, BlockType.squareType, 1f, 1f, 0f));
+            currBlock = new Block(StarGLSurfaceView.this, new BlockMeta(CubeColor.Amethyst, BlockType.squareType, 1f, 1f, 0f));
             nextBlock = new Block(StarGLSurfaceView.this, new BlockMeta(CubeColor.Amethyst, BlockType.lineType, 3f, 1.0f, 0f));
             rthread = new RotateThread();
 			rthread.start();
@@ -146,8 +148,8 @@ public class StarGLSurfaceView extends GLSurfaceView {
         @Override
         public void onDrawFrame(GL10 gl) {
             GLES20.glClear(GL10.GL_COLOR_BUFFER_BIT | GL10.GL_DEPTH_BUFFER_BIT);
-            frame.drawSelf();
-            grid.drawSelf();
+            //frame.drawSelf();
+            //grid.drawSelf();
             cube.drawSelf();
 
             currBlock.drawSelf();
@@ -176,7 +178,7 @@ public class StarGLSurfaceView extends GLSurfaceView {
                     for (int i = 0; i < Model.ROW; i++) {
                         if (Model.board[i][j][k] != 0) {
                             //Cube cube = new Cube(StarGLSurfaceView.this, getCubeColor(Model.board[i][j][k]), i, j, k);
-                            Cube cube = new Cube(StarGLSurfaceView.this, CubeColor.Oak, i, j, k);
+                            Cube cube = new Cube(StarGLSurfaceView.this, CubeColor.Amethyst, i, j, k);
                             cube.xAngle = Model.getBoardRotatingAngle();
                             cube.drawSelf();
                         }

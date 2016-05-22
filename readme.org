@@ -73,10 +73,17 @@ EGLContext eglCreateContext(EGLDisplay display, EGLConfig config, EGLContext sha
 - three state rendering https://www.youtube.com/watch?v=t5EeXKGSQUw
 - http://blog.slapware.eu/game-engine/programming/multithreaded-renderloop-part1/
 - https://www.hongweipeng.com/index.php/archives/581/
-- http://www.jianshu.com/p/291ff6ddc164
 - https://github.com/lp0/slf4j-android/tree/master/src/main/java/eu/lp0/slf4j/android
-- http://mobile.51cto.com/aengine-437172.htm
 - http://www.cnblogs.com/younghao/p/5141290.html
+- http://mobile.51cto.com/aengine-437172.htm
+- http://www.jianshu.com/p/291ff6ddc164
+- 
+- 
+- 
+- 
+- 
+- 
+- 
 - 
 
 ** gestures
