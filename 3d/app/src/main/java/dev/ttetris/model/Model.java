@@ -41,8 +41,8 @@ public class Model {
     public static void init(Context context) {
         if (board == null) 
             board = new int[ROW][COL][HGT];
-        //else resetBoard();
-        setBoard();
+        else resetBoard();
+        //setBoard();
         score = 0;
         speed = 100;
         dropFast = false;

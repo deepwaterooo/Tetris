@@ -49,7 +49,7 @@ public class ShaderHelper {
 	public static int createAndLinkProgram(final int vertexShaderHandle, final int fragmentShaderHandle, final String[] attributes) {
 		int programHandle = GLES20.glCreateProgram();
 		if (programHandle != 0)  {
-            GLES20.glAttachShader(programHandle, vertexShaderHandle); // Bind the vertex shader to the program.			
+            GLES20.glAttachShader(programHandle, vertexShaderHandle);   // Bind the vertex shader to the program.			
             GLES20.glAttachShader(programHandle, fragmentShaderHandle); // Bind the fragment shader to the program.
 			
             // Bind attributes

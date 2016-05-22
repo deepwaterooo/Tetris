@@ -39,7 +39,7 @@ EGLContext eglCreateContext(EGLDisplay display, EGLConfig config, EGLContext sha
 - Expect the 3d game (videoable version) to be uploaded onto youtube by 5/17/2016. Considering debugging time and all other minor difficulties that I might meet later on, I will have to work hard on this one (Apparently I have not been able to finish by today then).
 
 *** Status Update
-- On the texture part for 3d, has NOT been able to compile yet, will continue work on it tomorrow. 
+- On the texture part for 3d, the program is almost through and ok, except that I have to figure out texture pixel formats, RGBA_8888, RGBA565 etc for (RGB 128*128 pixesl).
 -
 - On ray-picking, will try to temporarily apply it here to test and so that I could Understand this picking better, but I do think that I will need be scale(zoom out/in the frame so it will be more convenient to control current activeBlock) the frame to make it easy to use. But after I have learned all the technology I may not want to work on making it perfect any more. On textures loading. will continue with ray-picking in the evening.
 - need to set eye position better so that the (Frame + Grid) layout can be at the position that I want for the 3d game.

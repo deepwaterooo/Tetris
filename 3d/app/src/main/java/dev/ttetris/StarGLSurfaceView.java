@@ -113,7 +113,8 @@ public class StarGLSurfaceView extends GLSurfaceView {
 
         @Override
         public void onSurfaceCreated(GL10 gl, EGLConfig config) {
-            GLES20.glClearColor(1.0f, 1.0f, 1.0f, 0.5f);
+            //GLES20.glClearColor(1.0f, 1.0f, 1.0f, 0.5f);
+            GLES20.glClearColor(0.5f, 0.5f, 0.5f, 0.5f);
             GLES20.glEnable(GLES20.GL_DEPTH_TEST);
             GLES20.glEnable(GLES20.GL_CULL_FACE);
             GLES20.glEnable(GLES20.GL_TEXTURE_2D); // for textures
@@ -148,15 +149,15 @@ public class StarGLSurfaceView extends GLSurfaceView {
         @Override
         public void onDrawFrame(GL10 gl) {
             GLES20.glClear(GL10.GL_COLOR_BUFFER_BIT | GL10.GL_DEPTH_BUFFER_BIT);
-            //GLES20.glClearColor(0.5f, 0.5f, 0.5f, 0.5f);
+            //GLES20.glClearColor(0f, 0f, 0f, 0f);
             //GLES20.glClear(GLES20.GL_COLOR_BUFFER_BIT);
 
             //frame.drawSelf();
             //grid.drawSelf();
             cube.drawSelf();
 
-            currBlock.drawSelf();
-            nextBlock.drawSelf();
+            //currBlock.drawSelf();
+            //nextBlock.drawSelf();
             renderBoard();
         }
 

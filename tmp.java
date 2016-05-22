@@ -170,6 +170,7 @@ void main () {
     gl_Position = vPosition;
 }
 
+
 /**使用GL_OES_EGL_image_external扩展处理，来增强GLSL*/
 #extension GL_OES_EGL_image_external : require
 precision mediump float;

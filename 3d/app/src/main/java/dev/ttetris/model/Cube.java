@@ -27,8 +27,8 @@ public class Cube implements Cloneable, Comparable<Cube>, Serializable {
     public static float[] mMMatrix = new float[16]; // 具体物体的移动旋转矩阵，旋转、平移
     private static final int COORDS_PER_VERTEX = 3;
     private static final int VALUES_PER_COLOR = 4;
-    private final int VERTEX_STRIDE = COORDS_PER_VERTEX * 4;
-    private final int COLOR_STRIDE = VALUES_PER_COLOR * 4;
+    //private final int VERTEX_STRIDE = COORDS_PER_VERTEX * 4;
+    //private final int COLOR_STRIDE = VALUES_PER_COLOR * 4;
     private ShortBuffer drawListBuffer;
 	int mProgram;
 	int mMVPMatrixHandle;
@@ -113,23 +113,25 @@ public class Cube implements Cloneable, Comparable<Cube>, Serializable {
         //GLES20.glClear(GLES20.GL_COLOR_BUFFER_BIT);
         
 		GLES20.glUseProgram(mProgram); // 绘制时使用着色程序
-		mColorHandle = GLES20.glGetAttribLocation(mProgram, "texture"); // textureParamHandle, 返回一个于着色器程序中变量名为"texture"相关联的索引
+		mColorHandle = GLES20.glGetUniformLocation(mProgram, "texture"); // textureParamHandle, 返回一个于着色器程序中变量名为"texture"相关联的索引
         mTextureCoordinateHandle = GLES20.glGetAttribLocation(mProgram, "vTexCoordinate");
 		mPositionHandle = GLES20.glGetAttribLocation(mProgram, "vPosition");
 		mMVPMatrixHandle = GLES20.glGetUniformLocation(mProgram, "uMVPMatrix");
 
         GLES20.glEnableVertexAttribArray(mPositionHandle); 
-        GLES20.glVertexAttribPointer(mPositionHandle, COORDS_PER_VERTEX, GLES20.GL_FLOAT, false, 0, mVertexBuffer); // VERTEX_STRIDE
+        GLES20.glVertexAttribPointer(mPositionHandle, COORDS_PER_VERTEX, GLES20.GL_FLOAT, false, 0, mVertexBuffer); // 3
 
         GLES20.glBindTexture(GLES20.GL_TEXTURE0, texture[0]);
+        //GLES20.glEnable(GLES20.GL_TEXTURE_2D);
         GLES20.glActiveTexture(GLES20.GL_TEXTURE0);
         // 指定一个当前的textureParamHandle对象为一个全局的uniform 变量
         GLES20.glUniform1i(mColorHandle, 0); // textureParamHandle
+
         GLES20.glEnableVertexAttribArray(mTextureCoordinateHandle); 
         GLES20.glVertexAttribPointer(mTextureCoordinateHandle, 2, GLES20.GL_FLOAT, false, 0, mColorBuffer); // 4 --> 2
         
         GLES20.glUniformMatrix4fv(mMVPMatrixHandle, 1, false, Cube.getFinalMatrix(mMMatrix), 0); // MVP
-        GLES20.glDrawElements(GLES20.GL_TRIANGLES, drawOrder.length, GLES20.GL_UNSIGNED_SHORT, drawListBuffer);
+        GLES20.glDrawElements(GLES20.GL_TRIANGLE_STRIP, drawOrder.length, GLES20.GL_UNSIGNED_SHORT, drawListBuffer);
 
         GLES20.glDisableVertexAttribArray(mPositionHandle);
         GLES20.glDisableVertexAttribArray(mTextureCoordinateHandle);        
@@ -143,51 +145,62 @@ public class Cube implements Cloneable, Comparable<Cube>, Serializable {
     public void initShader(StarGLSurfaceView mv) {                                // should I set it to be static ?
 		mVertexShader = Shader.loadFromAssetsFile("vertex.sh", mv.getResources());
 		mFragmentShader = Shader.loadFromAssetsFile("frag.sh", mv.getResources());		
-		//mProgram = Shader.createProgram(mVertexShader, mFragmentShader);
 
         vertexShaderHandle = ShaderHelper.compileShader(GLES20.GL_VERTEX_SHADER, mVertexShader);
         fragmentShaderHandle = ShaderHelper.compileShader(GLES20.GL_FRAGMENT_SHADER, mFragmentShader);
         mProgram = ShaderHelper.createAndLinkProgram(vertexShaderHandle, fragmentShaderHandle,
                                                      new String[]{"texture", "vPosition", "vTexCoordinate", "uMVPMatrix"});
         loadTexture(0);
-		/*mColorHandle = GLES20.glGetAttribLocation(mProgram, "texture"); // textureParamHandle, 返回一个于着色器程序中变量名为"texture"相关联的索引
-		mPositionHandle = GLES20.glGetAttribLocation(mProgram, "vPosition");
-        mTextureCoordinateHandle = GLES20.glGetAttribLocation(mProgram, "vTexCoordinate");
-		mMVPMatrixHandle = GLES20.glGetUniformLocation(mProgram, "uMVPMatrix"); */
 	}
 
-    private int[] texture = new int[8]; 
+    private int[] texture = new int[8];
+    /*
     public void loadTexture(int i) {
         IntBuffer intBuffer = IntBuffer.allocate(1);
-        // 启用纹理
         GLES20.glActiveTexture(GLES20.GL_TEXTURE0);
 
         GLES20.glGenTextures(1, intBuffer);
-        texture[i] = intBuffer.get(0); // 1 2 3 4 5 6 7 8
+        texture[0] = intBuffer.get(0); // 1 2 3 4 5 6 7 8
         if (texture[i] == 0) Log.w("Cube: ", "Could not generate a new OpenGL texture object.");
-        GLES20.glBindTexture(GLES20.GL_TEXTURE_2D, texture[i]);
+        GLES20.glBindTexture(GLES20.GL_TEXTURE_2D, texture[0]);
+        GLES20.glPixelStorei(GLES20.GL_UNPACK_ALIGNMENT, GLES20.GL_TRUE);   // ?
+        GLUtils.texImage2D(GLES20.GL_TEXTURE_2D, 0, GLES20.GL_RGB, GLImage.bitmap[i], 0); // 128 * 128 RGB
 
-        GLES20.glEnable(GLES20.GL_TEXTURE_2D);
         GLES20.glTexParameteri(GLES20.GL_TEXTURE_2D, GLES20.GL_TEXTURE_MIN_FILTER, GLES20.GL_LINEAR);
         GLES20.glTexParameteri(GLES20.GL_TEXTURE_2D, GLES20.GL_TEXTURE_MAG_FILTER, GLES20.GL_NEAREST);
         GLES20.glTexParameteri(GLES20.GL_TEXTURE_2D, GLES20.GL_TEXTURE_WRAP_S, GLES20.GL_CLAMP_TO_EDGE);
         GLES20.glTexParameteri(GLES20.GL_TEXTURE_2D, GLES20.GL_TEXTURE_WRAP_T, GLES20.GL_CLAMP_TO_EDGE);
-        GLUtils.texImage2D(GLES20.GL_TEXTURE_2D, 0, GLImage.bitmap[i], 0);
-        GLES20.glGenerateMipmap(GLES20.GL_TEXTURE_2D);
-    } 
-    /*
+        //GLES20.glGenerateMipmap(GLES20.GL_TEXTURE_2D);
+        } */
+
     public void loadTexture(int i) {
-        IntBuffer intBuffer = IntBuffer.allocate(8);
-        GLES20.glGenTextures(8, intBuffer);
-        texture[i] = intBuffer.get(i); // 1 2 3 4 5 6 7 8
-        if (texture[i] == 0) Log.w("Cube: ", "Could not generate a new OpenGL texture object.");
-        GLES20.glBindTexture(GLES20.GL_TEXTURE_2D, texture[i]);
-        GLES20.glEnable(GLES20.GL_TEXTURE_2D);
-        GLUtils.texImage2D(GLES20.GL_TEXTURE_2D, 0, GLImage.bitmap[i], 0);
+        //IntBuffer intBuffer = IntBuffer.allocate(8);
+        //GLES20.glGenTextures(8, intBuffer);
+        int [] textureId = new int[1];
+        GLES20.glGenTextures(1, textureId, 0);
+
+        //texture[i] = intBuffer.get(i); // 1 2 3 4 5 6 7 8
+        //if (texture[i] == 0) Log.w("Cube: ", "Could not generate a new OpenGL texture object.");
+        //        GLES20.glBindTexture(GLES20.GL_TEXTURE_2D, texture[i]);
+
+        GLES20.glBindTexture(GLES20.GL_TEXTURE_2D, textureId[0]);
+        // Set filtering
+        GLES20.glTexParameteri(GLES20.GL_TEXTURE_2D, GLES20.GL_TEXTURE_MIN_FILTER, GLES20.GL_LINEAR);
+        GLES20.glTexParameteri(GLES20.GL_TEXTURE_2D, GLES20.GL_TEXTURE_MAG_FILTER, GLES20.GL_NEAREST);
+        GLES20.glTexParameteri(GLES20.GL_TEXTURE_2D, GLES20.GL_TEXTURE_WRAP_S, GLES20.GL_CLAMP_TO_EDGE);
+        GLES20.glTexParameteri(GLES20.GL_TEXTURE_2D, GLES20.GL_TEXTURE_WRAP_T, GLES20.GL_CLAMP_TO_EDGE);
+        // Load the bitmap into the bound texture.
+        GLUtils.texImage2D(GLES20.GL_TEXTURE_2D, 0, GLImage.bitmap[0], 0);
+        int width = GLImage.bitmap[0].getWidth();
+        int height = GLImage.bitmap[0].getHeight();
+        
+        //GLUtils.texImage2D(GLES20.GL_TEXTURE_2D, 0, GLES20.GL_RGB, width, height, 0, GLES20.GL_RGB, GLES20.GL_UNSIGNED_BYTE, GLImage.bitmap[0]);
+        /*         
         GLES20.glTexParameteri(GLES20.GL_TEXTURE_2D, GLES20.GL_TEXTURE_MIN_FILTER, GLES20.GL_LINEAR_MIPMAP_LINEAR); // LINEAR
         GLES20.glTexParameteri(GLES20.GL_TEXTURE_2D, GLES20.GL_TEXTURE_MAG_FILTER, GLES20.GL_LINEAR);
         GLES20.glGenerateMipmap(GLES20.GL_TEXTURE_2D);
-        } */
+        GLUtils.texImage2D(GLES20.GL_TEXTURE_2D, 0, GLImage.bitmap[i], 0); */
+    } 
 
     public Cube(CubeColor paramCubeColor, int paramInt1, int paramInt2, int paramInt3) {
         this.color = paramCubeColor;
@@ -222,8 +235,8 @@ public class Cube implements Cloneable, Comparable<Cube>, Serializable {
     }
     
     private static final float cubeColor[] = {1.0f, 1.0f, 0.0f, 1.0f};   // supposed to change
-    private static final short drawOrder[] = {0, 1, 2, 3, 0, 4, 5, 1,  1, 2, 6, 5, 5, 6, 7, 4,  7, 6, 2, 3, 3, 7, 4, 0};
-    private static final short drawOrder0[] = {0, 1, 3, 2,  4, 5, 7, 6,  5, 3, 6, 2,  4, 7, 0, 1,  7, 6, 1, 2,  4, 0, 5, 3}; // for vertex prepare
+    private static final short drawOrder[] = {0, 1, 3, 2,  4, 5, 7, 6,  8, 9, 11, 10, 12, 13, 15, 14, 16, 17, 19, 18, 20, 21, 23, 22};
+    private static final short drawOrder0[] = {4, 7, 6, 5, 0, 3, 2, 1, 3, 5, 6, 2, 0, 1, 7, 4 ,1, 2, 6, 7, 0, 4, 5, 3};
     public void setCoordinates() { 
         float [] res = {x-size, y+size, z-size, // 0 
                         x+size, y+size, z-size, // 1
@@ -260,11 +273,6 @@ public class Cube implements Cloneable, Comparable<Cube>, Serializable {
 		mColorBuffer = cbb.asFloatBuffer();
 		mColorBuffer.put(texCoords);
 		mColorBuffer.position(0);
-		/*ByteBuffer cbb = ByteBuffer.allocateDirect(cubeColor.length*4);
-		cbb.order(ByteOrder.nativeOrder());
-		mColorBuffer = cbb.asFloatBuffer();
-		mColorBuffer.put(cubeColor);
-		mColorBuffer.position(0); */
     }
 
 	public static float[] getFinalMatrix(float[] spec) {
