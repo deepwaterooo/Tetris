@@ -84,8 +84,8 @@ public class StarGLSurfaceView extends GLSurfaceView {
         @Override
         public void run() {
             while (flag) {
-                mStarRenderer.frame.xAngle = mStarRenderer.frame.xAngle + ANGLE_SPAN;
-                mStarRenderer.grid.xAngle = mStarRenderer.grid.xAngle + ANGLE_SPAN;
+                //mStarRenderer.frame.xAngle = mStarRenderer.frame.xAngle + ANGLE_SPAN;
+                //mStarRenderer.grid.xAngle = mStarRenderer.grid.xAngle + ANGLE_SPAN;
                 mStarRenderer.cube.xAngle = mStarRenderer.cube.xAngle + ANGLE_SPAN;
 
                 mStarRenderer.currBlock.xAngle = mStarRenderer.currBlock.xAngle + ANGLE_SPAN;
@@ -118,8 +118,8 @@ public class StarGLSurfaceView extends GLSurfaceView {
             GLES20.glEnable(GLES20.GL_CULL_FACE);
             GLES20.glEnable(GLES20.GL_TEXTURE_2D); // for textures
             
-            frame = new Frame(StarGLSurfaceView.this, 5, 10);
-            grid = new Grid(StarGLSurfaceView.this, 5);
+            //frame = new Frame(StarGLSurfaceView.this, 5, 10);
+            //grid = new Grid(StarGLSurfaceView.this, 5);
             //cube = new Cube(StarGLSurfaceView.this, CubeColor.Anchient, 0, 0, 0); // E i J
             cube = new Cube(StarGLSurfaceView.this, CubeColor.Amethyst, 0, 0, 0); // E i J
             //currBlock = new Block(StarGLSurfaceView.this, new BlockMeta(CubeColor.Anchient, BlockType.squareType, 1f, 1f, 0f));
@@ -148,6 +148,9 @@ public class StarGLSurfaceView extends GLSurfaceView {
         @Override
         public void onDrawFrame(GL10 gl) {
             GLES20.glClear(GL10.GL_COLOR_BUFFER_BIT | GL10.GL_DEPTH_BUFFER_BIT);
+            //GLES20.glClearColor(0.5f, 0.5f, 0.5f, 0.5f);
+            //GLES20.glClear(GLES20.GL_COLOR_BUFFER_BIT);
+
             //frame.drawSelf();
             //grid.drawSelf();
             cube.drawSelf();

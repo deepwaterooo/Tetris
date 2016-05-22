@@ -6,8 +6,6 @@ import dev.ttetris.model.CubeColor;
 import dev.ttetris.util.MatrixState;
 import dev.ttetris.util.Shader;
 import dev.ttetris.util.ShaderHelper;
-//import dev.ttetris.util.LoggerConfig;
-
 import java.io.Serializable;
 import java.nio.IntBuffer;
 import java.nio.ByteBuffer;
@@ -17,8 +15,8 @@ import java.nio.FloatBuffer;
 import android.opengl.GLES20;
 import android.opengl.Matrix;
 import android.opengl.GLUtils;
+import android.opengl.GLES11Ext;
 import android.util.Log;
-//import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 
@@ -37,8 +35,6 @@ public class Cube implements Cloneable, Comparable<Cube>, Serializable {
 	int mPositionHandle;
 	int mColorHandle;
     int mTextureCoordinateHandle;
-	String mVertexShader;
-	String mFragmentShader;
 	FloatBuffer mVertexBuffer;
 	FloatBuffer mColorBuffer;
     private final float size = 0.5f; 
@@ -77,7 +73,6 @@ public class Cube implements Cloneable, Comparable<Cube>, Serializable {
 
 	public void drawSelf() { // isActiveFlag -- activeBlock; Model.isFrameXRotating
         initVertexData();
-		GLES20.glUseProgram(mProgram); // 绘制时使用着色程序
         
 		Matrix.setRotateM(mMMatrix, 0, 0, 0, 1, 0);           // 初始化变换矩阵
         if (getActiveFlag()) {
@@ -113,7 +108,11 @@ public class Cube implements Cloneable, Comparable<Cube>, Serializable {
             Matrix.translateM(mMMatrix, 0, 0, 2.5f, 5f);
         }
         Matrix.translateM(mMMatrix, 0, 0.5f, 0.5f, 0.5f);    
+
+        //GLES20.glClearColor(0.5f, 0.5f, 0.5f, 0.5f);
+        //GLES20.glClear(GLES20.GL_COLOR_BUFFER_BIT);
         
+		GLES20.glUseProgram(mProgram); // 绘制时使用着色程序
 		mColorHandle = GLES20.glGetAttribLocation(mProgram, "texture"); // textureParamHandle, 返回一个于着色器程序中变量名为"texture"相关联的索引
         mTextureCoordinateHandle = GLES20.glGetAttribLocation(mProgram, "vTexCoordinate");
 		mPositionHandle = GLES20.glGetAttribLocation(mProgram, "vPosition");
@@ -136,12 +135,20 @@ public class Cube implements Cloneable, Comparable<Cube>, Serializable {
         GLES20.glDisableVertexAttribArray(mTextureCoordinateHandle);        
 	}
 
+	String mVertexShader;
+	String mFragmentShader;
+    private int vertexShaderHandle;
+    private int fragmentShaderHandle;
+    
     public void initShader(StarGLSurfaceView mv) {                                // should I set it to be static ?
 		mVertexShader = Shader.loadFromAssetsFile("vertex.sh", mv.getResources());
 		mFragmentShader = Shader.loadFromAssetsFile("frag.sh", mv.getResources());		
-		mProgram = Shader.createProgram(mVertexShader, mFragmentShader);
-        //mProgram = ShaderHelper.createAndLinkProgram(mVertexShader, mFragmentShader,
-        //                                           new String[]{"texture", "vPosition", "vTexCoordinate", "uMVPMatrix"});
+		//mProgram = Shader.createProgram(mVertexShader, mFragmentShader);
+
+        vertexShaderHandle = ShaderHelper.compileShader(GLES20.GL_VERTEX_SHADER, mVertexShader);
+        fragmentShaderHandle = ShaderHelper.compileShader(GLES20.GL_FRAGMENT_SHADER, mFragmentShader);
+        mProgram = ShaderHelper.createAndLinkProgram(vertexShaderHandle, fragmentShaderHandle,
+                                                     new String[]{"texture", "vPosition", "vTexCoordinate", "uMVPMatrix"});
         loadTexture(0);
 		/*mColorHandle = GLES20.glGetAttribLocation(mProgram, "texture"); // textureParamHandle, 返回一个于着色器程序中变量名为"texture"相关联的索引
 		mPositionHandle = GLES20.glGetAttribLocation(mProgram, "vPosition");
@@ -151,19 +158,36 @@ public class Cube implements Cloneable, Comparable<Cube>, Serializable {
 
     private int[] texture = new int[8]; 
     public void loadTexture(int i) {
+        IntBuffer intBuffer = IntBuffer.allocate(1);
+        // 启用纹理
+        GLES20.glActiveTexture(GLES20.GL_TEXTURE0);
+
+        GLES20.glGenTextures(1, intBuffer);
+        texture[i] = intBuffer.get(0); // 1 2 3 4 5 6 7 8
+        if (texture[i] == 0) Log.w("Cube: ", "Could not generate a new OpenGL texture object.");
+        GLES20.glBindTexture(GLES20.GL_TEXTURE_2D, texture[i]);
+
+        GLES20.glEnable(GLES20.GL_TEXTURE_2D);
+        GLES20.glTexParameteri(GLES20.GL_TEXTURE_2D, GLES20.GL_TEXTURE_MIN_FILTER, GLES20.GL_LINEAR);
+        GLES20.glTexParameteri(GLES20.GL_TEXTURE_2D, GLES20.GL_TEXTURE_MAG_FILTER, GLES20.GL_NEAREST);
+        GLES20.glTexParameteri(GLES20.GL_TEXTURE_2D, GLES20.GL_TEXTURE_WRAP_S, GLES20.GL_CLAMP_TO_EDGE);
+        GLES20.glTexParameteri(GLES20.GL_TEXTURE_2D, GLES20.GL_TEXTURE_WRAP_T, GLES20.GL_CLAMP_TO_EDGE);
+        GLUtils.texImage2D(GLES20.GL_TEXTURE_2D, 0, GLImage.bitmap[i], 0);
+        GLES20.glGenerateMipmap(GLES20.GL_TEXTURE_2D);
+    } 
+    /*
+    public void loadTexture(int i) {
         IntBuffer intBuffer = IntBuffer.allocate(8);
         GLES20.glGenTextures(8, intBuffer);
         texture[i] = intBuffer.get(i); // 1 2 3 4 5 6 7 8
         if (texture[i] == 0) Log.w("Cube: ", "Could not generate a new OpenGL texture object.");
-        // Bind to the texture in OpenGL
         GLES20.glBindTexture(GLES20.GL_TEXTURE_2D, texture[i]);
         GLES20.glEnable(GLES20.GL_TEXTURE_2D);
         GLUtils.texImage2D(GLES20.GL_TEXTURE_2D, 0, GLImage.bitmap[i], 0);
         GLES20.glTexParameteri(GLES20.GL_TEXTURE_2D, GLES20.GL_TEXTURE_MIN_FILTER, GLES20.GL_LINEAR_MIPMAP_LINEAR); // LINEAR
         GLES20.glTexParameteri(GLES20.GL_TEXTURE_2D, GLES20.GL_TEXTURE_MAG_FILTER, GLES20.GL_LINEAR);
         GLES20.glGenerateMipmap(GLES20.GL_TEXTURE_2D);
-        //GLImage.bitmap[i].recycle(); // Recycle the bitmap, since its data has been loaded into OpenGL.
-    } 
+        } */
 
     public Cube(CubeColor paramCubeColor, int paramInt1, int paramInt2, int paramInt3) {
         this.color = paramCubeColor;
@@ -186,30 +210,14 @@ public class Cube implements Cloneable, Comparable<Cube>, Serializable {
     public void setColor(CubeColor color) {
         this.color = color;
         switch(color) {
-        case Amethyst:
-            this.colorIdx = 0;
-            return;
-        case Anchient:
-            this.colorIdx = 1;
-            return;
-        case Brass:
-            this.colorIdx = 2;
-            return;
-        case LapisLazuli:
-            this.colorIdx = 3;
-            return;
-        case Marble:
-            this.colorIdx = 4;
-            return;
-        case MarbleRough:
-            this.colorIdx = 5;
-            return;
-        case Oak:
-            this.colorIdx = 6;
-            return;
-        case WhiteMarble:
-            this.colorIdx = 7;
-            return;
+        case Amethyst:    this.colorIdx = 0; return;
+        case Anchient:    this.colorIdx = 1; return;
+        case Brass:       this.colorIdx = 2; return;
+        case LapisLazuli: this.colorIdx = 3; return;
+        case Marble:      this.colorIdx = 4; return;
+        case MarbleRough: this.colorIdx = 5; return;
+        case Oak:         this.colorIdx = 6; return;
+        case WhiteMarble: this.colorIdx = 7; return;
         }
     }
     

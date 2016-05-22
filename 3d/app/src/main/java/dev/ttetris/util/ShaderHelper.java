@@ -33,9 +33,8 @@ public class ShaderHelper {
                 shaderHandle = 0;
             }
         }
-		if (shaderHandle == 0) {			
+		if (shaderHandle == 0) 		
             throw new RuntimeException("Error creating shader.");
-        }
 		return shaderHandle;
 	}
 	
@@ -50,19 +49,14 @@ public class ShaderHelper {
 	public static int createAndLinkProgram(final int vertexShaderHandle, final int fragmentShaderHandle, final String[] attributes) {
 		int programHandle = GLES20.glCreateProgram();
 		if (programHandle != 0)  {
-            // Bind the vertex shader to the program.
-            GLES20.glAttachShader(programHandle, vertexShaderHandle);			
-
-            // Bind the fragment shader to the program.
-            GLES20.glAttachShader(programHandle, fragmentShaderHandle);
+            GLES20.glAttachShader(programHandle, vertexShaderHandle); // Bind the vertex shader to the program.			
+            GLES20.glAttachShader(programHandle, fragmentShaderHandle); // Bind the fragment shader to the program.
 			
             // Bind attributes
             if (attributes != null) {
                 final int size = attributes.length;
                 for (int i = 0; i < size; i++)
-                    {
-                        GLES20.glBindAttribLocation(programHandle, i, attributes[i]);
-                    }						
+                    GLES20.glBindAttribLocation(programHandle, i, attributes[i]);
             }
 			
             // Link the two shaders together into a program.
@@ -79,11 +73,8 @@ public class ShaderHelper {
                 programHandle = 0;
             }
         }
-		
-		if (programHandle == 0) {
+		if (programHandle == 0) 
             throw new RuntimeException("Error creating program.");
-        }
-		
 		return programHandle;
 	}
 }

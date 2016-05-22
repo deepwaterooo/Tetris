@@ -77,7 +77,7 @@ EGLContext eglCreateContext(EGLDisplay display, EGLConfig config, EGLContext sha
 - http://www.cnblogs.com/younghao/p/5141290.html
 - http://mobile.51cto.com/aengine-437172.htm
 - http://www.jianshu.com/p/291ff6ddc164
-- 
+- shaders: https://github.com/learnopengles/Learn-OpenGLES-Tutorials/blob/master/android/AndroidOpenGLESLessons/src/com/learnopengles/android/common/ShaderHelper.java
 - 
 - 
 - 
