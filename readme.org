@@ -39,6 +39,10 @@ EGLContext eglCreateContext(EGLDisplay display, EGLConfig config, EGLContext sha
 - Expect the 3d game (videoable version) to be uploaded onto youtube by 5/17/2016. Considering debugging time and all other minor difficulties that I might meet later on, I will have to work hard on this one (Apparently I have not been able to finish by today then).
 
 *** Status Update
+- Restructureing the project for OOP better organization, it was such a headache maitain all the shaders all the times for frame, grid, cutes etc, especially when I used textures and needs both color shader and texture shaders. 
+- Project structure is still supposed to change according to feature needs when I get more and more into implementation details. 
+- Minor bugs will be fixed for cube texCoords, and for board rendering for cubes. 
+- 
 - Weird textures are showing now. The texture bitmap image data can only acessible in Renderer thread, I guess I will have to understand the lame 
 
     #+BEGIN_SRC c++
@@ -87,8 +91,8 @@ EGLContext eglCreateContext(EGLDisplay display, EGLConfig config, EGLContext sha
 - http://mobile.51cto.com/aengine-437172.htm
 - http://www.jianshu.com/p/291ff6ddc164
 - shaders: https://github.com/learnopengles/Learn-OpenGLES-Tutorials/blob/master/android/AndroidOpenGLESLessons/src/com/learnopengles/android/common/ShaderHelper.java
-- 
-- 
+- https://github.com/zhgeaits/ZGDanmaku
+- http://www.cnblogs.com/yyxt/p/4087115.html
 - 
 - 
 - 

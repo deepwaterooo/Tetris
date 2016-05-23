@@ -1,10 +1,8 @@
-package dev.ttetris;
-
-import android.content.Context;
-import android.content.res.Resources;
+package dev.ttetris.util;
 
 import dev.ttetris.R;
-
+import android.content.Context;
+import android.content.res.Resources;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -23,8 +21,7 @@ public class TextResourceReader {
                 body.append("\n");
             }
         } catch (IOException e) {
-            throw new RuntimeException(
-                    "Could not open resource: " + resourceId, e);
+            throw new RuntimeException("Could not open resource: " + resourceId, e);
         } catch (Resources.NotFoundException nfe) {
             throw new RuntimeException("Resource not found: " + resourceId, nfe);
         }

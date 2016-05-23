@@ -22,7 +22,6 @@ public class Model {
     public static float mfAngleY = 0.0f; 
     public static float gesDistance = 0.0f; // current center: (2.5, 2.5, 5)
      
-    // maybe I don't need this much, as far as an angle, 3 angles are passed in?
     public static boolean [] isFrameZRotating = new boolean[2]; // 0 - false, [1] - clockwise, [0] - anticlockwise 
     public static boolean [] isFrameXRotating = new boolean[2]; // 0 - false, [1] - clockwise, [0] - anticlockwise come up with some better ideas for this one
     public static boolean [] isBlockXRotating = new boolean[2]; // 0 - false, [1] - clockwise, [0] - anticlockwise 
@@ -41,8 +40,8 @@ public class Model {
     public static void init(Context context) {
         if (board == null) 
             board = new int[ROW][COL][HGT];
-        else resetBoard();
-        //setBoard();
+        //else resetBoard();
+        setBoard();
         score = 0;
         speed = 100;
         dropFast = false;

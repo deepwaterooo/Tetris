@@ -2,7 +2,7 @@ package dev.ttetris.model;
 
 import dev.ttetris.StarGLSurfaceView;
 import dev.ttetris.util.MatrixState;
-import dev.ttetris.util.Shader;
+import dev.ttetris.shader.Shader;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.nio.FloatBuffer;

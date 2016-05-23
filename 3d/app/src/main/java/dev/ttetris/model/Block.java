@@ -1,13 +1,15 @@
 package dev.ttetris.model;
-
+/*
+import dev.ttetris.shader.Shader;
+import android.util.Log;
+import java.nio.FloatBuffer;
+*/
 import dev.ttetris.StarGLSurfaceView;
 import dev.ttetris.model.Constant;
-import dev.ttetris.util.Shader;
 import dev.ttetris.util.Vector3f;
 import android.content.Context;
 import android.opengl.GLES20;
 import android.opengl.Matrix;
-import android.util.Log;
 import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Random;
@@ -15,10 +17,9 @@ import java.util.Set;
 import java.nio.ByteBuffer;
 import java.nio.ShortBuffer;
 import java.nio.ByteOrder;
-import java.nio.FloatBuffer;
 
 public class Block implements Cloneable, Serializable {
-    private static Context context;
+    //private static Context context;
 	public static float[] mVMatrix = new float[16];
 	public static float[] mProjMatrix = new float[16];
 	public static float[] mMVPMatrix = new float[16];
@@ -52,8 +53,8 @@ public class Block implements Cloneable, Serializable {
     }
     
     private Block() { this.cubes = null; }
-    public Block(Context mv, BlockMeta paramBlockMeta) {
-        this.context = mv;
+    public Block(BlockMeta paramBlockMeta) {
+        //this.context = mv;
         this.color = paramBlockMeta.getColor();
         isActiveFlag = false;
         for (String key : blocks.keySet()) {
@@ -74,10 +75,7 @@ public class Block implements Cloneable, Serializable {
     }
 
     public Cube[] getCubes() { return this.cubes; }
-    public CubeColor getColor() {
-        return this.color;
-    }
-
+    public CubeColor getColor() { return this.color; }
     public Block clone() {
         Block localBlock = new Block();
         localBlock.cubes = new Cube[this.cubes.length];
@@ -98,20 +96,19 @@ public class Block implements Cloneable, Serializable {
         }
         Cube[] cubes = getCubes();
         for (int i = 0; i < cubeCounts; i++) {
-            cubes[i].initShader(context);
             if (curr != null && curr.equals("Square")) { // (.5, 1, 0)
                 cubes[i].setActiveFlag(true);            // think here
                 shiftBlock(-this.centerX, -this.centerY, -this.centerZ);
                 cubes[i].setCoordinates();
                 cubes[i].xAngle = this.xAngle;
-                cubes[i].drawSelf();
+                cubes[i].draw();
                 shiftBlock(this.centerX, this.centerY, this.centerZ);
                 cubes[i].setCoordinates();
             } else {
                 shiftBlock(activeBlockCenter[0] - this.centerX, activeBlockCenter[1] - this.centerY, activeBlockCenter[2] - this.centerZ);
                 cubes[i].setCoordinates();
                 cubes[i].xAngle = this.xAngle;
-                cubes[i].drawSelf();
+                cubes[i].draw();
                 shiftBlock(this.centerX - activeBlockCenter[0], this.centerY - activeBlockCenter[1], this.centerZ - activeBlockCenter[2]);
                 cubes[i].setCoordinates();
             }

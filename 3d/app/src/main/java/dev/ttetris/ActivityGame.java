@@ -2,7 +2,6 @@ package dev.ttetris;
 
 import dev.ttetris.model.Model;
 import dev.ttetris.control.SwipeControls;
-//import dev.ttetris.util.GLImage;
 import android.app.Activity;
 import android.os.Bundle;
 import android.os.Handler;
@@ -22,10 +21,9 @@ import android.media.MediaPlayer.OnCompletionListener;
 public class ActivityGame extends Activity implements OnSurfacePickedListener {
     private StarGLSurfaceView mGLSurfaceView;
     private MediaPlayer mp;
-    
-    private boolean flag = false;
-    private int counter = 0;
-    private int score;
+    //private boolean flag = false;
+    //private int counter = 0;
+    //private int score;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -39,13 +37,12 @@ public class ActivityGame extends Activity implements OnSurfacePickedListener {
         mGLSurfaceView.setOnTouchListener(new SwipeControls(this));
         Model.init(this);
         mp = MediaPlayer.create(getApplicationContext(), R.raw.theme);
-        mp.start();
+        //mp.start(); // for tmp for quiet
         mp.setOnCompletionListener(new OnCompletionListener() {
                 public void onCompletion(MediaPlayer mp) {
                     mp.release();
                 }
             });
-        GLImage.load(getResources());
 	}
 
     @Override 

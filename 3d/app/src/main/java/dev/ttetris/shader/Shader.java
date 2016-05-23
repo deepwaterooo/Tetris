@@ -1,4 +1,4 @@
-package dev.ttetris.util;
+package dev.ttetris.shader;
 
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;

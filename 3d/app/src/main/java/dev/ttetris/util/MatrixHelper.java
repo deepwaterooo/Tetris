@@ -1,4 +1,4 @@
-package dev.ttetris;
+package dev.ttetris.util;
 
 public class MatrixHelper {
     public static void perspectiveM(float[] m, float yFovInDegress, float aspect, float n, float f){

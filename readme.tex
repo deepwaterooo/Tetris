@@ -1,4 +1,4 @@
-% Created 2016-05-22 Sun 18:14
+% Created 2016-05-23 Mon 15:14
 \documentclass[9pt,b5paper]{article}
 \usepackage{fontspec}
 \setmainfont{STSong}
@@ -100,6 +100,10 @@ EGLContext eglCreateContext(EGLDisplay display, EGLConfig config, EGLContext sha
 \subsubsection{Status Update}
 \label{sec-1-1-2}
 \begin{itemize}
+\item Restructureing the project for OOP better organization, it was such a headache maitain all the shaders all the times for frame, grid, cutes etc, especially when I used textures and needs both color shader and texture shaders.
+\item Project structure is still supposed to change according to feature needs when I get more and more into implementation details.
+\item Minor bugs will be fixed for cube texCoords, and for board rendering for cubes.
+\item 
 \item Weird textures are showing now. The texture bitmap image data can only acessible in Renderer thread, I guess I will have to understand the lame 
 
 \lstset{language=c++,label= ,caption= ,numbers=none}
@@ -156,8 +160,8 @@ better in order to rendering textures inside my Cube class.
 \item \url{http://mobile.51cto.com/aengine-437172.htm}
 \item \url{http://www.jianshu.com/p/291ff6ddc164}
 \item shaders: \url{https://github.com/learnopengles/Learn-OpenGLES-Tutorials/blob/master/android/AndroidOpenGLESLessons/src/com/learnopengles/android/common/ShaderHelper.java}
-\item 
-\item 
+\item \url{https://github.com/zhgeaits/ZGDanmaku}
+\item \url{http://www.cnblogs.com/yyxt/p/4087115.html}
 \item 
 \item 
 \item 
