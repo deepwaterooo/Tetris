@@ -47,9 +47,30 @@ public class Cube implements Cloneable, Comparable<Cube>, Serializable {
         this.z = paramInt3;
         coords = new float[72]; 
         setCoordinates();
+        initVertexData(); // preare for drawOrder data
         this.textureArr = new VertexArray(texCoords);
     }
     
+    public void setCoordinates() { 
+        float [] res = {x-size, y+size, z-size, // 0 
+                        x+size, y+size, z-size, // 1
+                        x+size, y+size, z+size, // 2
+                        x-size, y+size, z+size, // 3
+                        x-size, y-size, z-size, // 4
+                        x-size, y-size, z+size, // 5
+                        x+size, y-size, z+size, // 6
+                        x+size, y-size, z-size};
+        float [] fin = new float[72];
+        int j = 0;
+        for (int i = 0; i < drawOrder0.length; i++) {
+            fin[j++] = res[drawOrder0[i] * 3];
+            fin[j++] = res[drawOrder0[i] * 3 + 1];
+            fin[j++] = res[drawOrder0[i] * 3 + 2];
+        }
+        this.coords = fin;
+        this.verticeArr = new VertexArray(this.coords);
+    }
+
     private boolean isActiveFlag; // for activeBlock
     public void setActiveFlag(boolean v) { this.isActiveFlag = v; }
     public boolean getActiveFlag() { return this.isActiveFlag; }
@@ -59,8 +80,8 @@ public class Cube implements Cloneable, Comparable<Cube>, Serializable {
     
     private VertexArray verticeArr;
     private VertexArray textureArr;
-    public void draw() { // preare for drawOrder data
-        initVertexData();
+    public void draw() { 
+        //GLES20.glDrawArrays(GLES20.GL_TRIANGLE_STRIP, 0, 24);
         GLES20.glDrawElements(GLES20.GL_TRIANGLE_STRIP, drawOrder.length, GLES20.GL_UNSIGNED_SHORT, drawListBuffer);
     }
 
@@ -104,26 +125,6 @@ public class Cube implements Cloneable, Comparable<Cube>, Serializable {
         Matrix.translateM(mMMatrix, 0, 0.5f, 0.5f, 0.5f);    
     }
 
-    public void setCoordinates() { 
-        float [] res = {x-size, y+size, z-size, // 0 
-                        x+size, y+size, z-size, // 1
-                        x+size, y+size, z+size, // 2
-                        x-size, y+size, z+size, // 3
-                        x-size, y-size, z-size, // 4
-                        x-size, y-size, z+size, // 5
-                        x+size, y-size, z+size, // 6
-                        x+size, y-size, z-size};
-        float [] fin = new float[72];
-        int j = 0;
-        for (int i = 0; i < drawOrder0.length; i++) {
-            fin[j++] = res[drawOrder0[i] * 3];
-            fin[j++] = res[drawOrder0[i] * 3 + 1];
-            fin[j++] = res[drawOrder0[i] * 3 + 2];
-        }
-        this.coords = fin;
-        this.verticeArr = new VertexArray(this.coords);
-    }
-
     public Cube clone() {
         try {
             Cube localCube = (Cube)super.clone();
@@ -147,9 +148,9 @@ public class Cube implements Cloneable, Comparable<Cube>, Serializable {
         }
     }
     
-    public static float[] getFinalMatrix() {
+    public static float[] getFinalMatrix(float [] spec) {
 		mMVPMatrix = new float[16];
-		Matrix.multiplyMM(mMVPMatrix, 0, mVMatrix, 0, mMMatrix, 0); // mMMatrix --> spec
+		Matrix.multiplyMM(mMVPMatrix, 0, mVMatrix, 0, spec, 0); // mMMatrix --> spec
 		Matrix.multiplyMM(mMVPMatrix, 0, mProjMatrix, 0, mMVPMatrix, 0);
         for (int i = 0; i < 16; i++) 
             System.out.println("mMVPMatrix[i]: " + mMVPMatrix[i]);

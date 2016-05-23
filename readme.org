@@ -43,24 +43,13 @@ EGLContext eglCreateContext(EGLDisplay display, EGLConfig config, EGLContext sha
 - Project structure is still supposed to change according to feature needs when I get more and more into implementation details. 
 - Minor bugs will be fixed for cube texCoords, and for board rendering for cubes. 
 - 
-- Weird textures are showing now. The texture bitmap image data can only acessible in Renderer thread, I guess I will have to understand the lame 
-
-    #+BEGIN_SRC c++
-EGLContext eglCreateContext(EGLDisplay display, EGLConfig config, EGLContext share_context, EGLint const * attrib_list);
-    #+END_SRC
-
-  better in order to rendering textures inside my Cube class. 
-- A better organized project appoach is opened, so have to clean files, and organize the project better in OOP perspective. 
-- Minor texture coordinates problems can be fixed later on easily. 
-- Up to this point, I am 100% sure that I can successfully finish this Android Opengl ES 2.0 3d tetris project. But it still takes time for me to wrap it up and finish. Will work on it gradually as lower priority with my interested project having higher priorities, like zombie dance, unity plants && Zombies etc. 
-- 
 - On ray-picking, will try to temporarily apply it here to test and so that I could Understand this picking better, but I do think that I will need be scale(zoom out/in the frame so it will be more convenient to control current activeBlock) the frame to make it easy to use. But after I have learned all the technology I may not want to work on making it perfect any more. On textures loading. will continue with ray-picking in the evening.
 - need to set eye position better so that the (Frame + Grid) layout can be at the position that I want for the 3d game.
 - I want yellow grids, together with white background, red-x yellow-y, but I fail get such effect. Currently using black grid, but I will change it to be better looking.
 - Emacs is such a powerful tool for me for coding considering and accepting the facts that occasional it would produce some minor troubles for me so that I would have to google for solutions. This morning the parenthesis don't autopair for () [] {} for java-mode, after having googled for few minutes, I have used and trust autopair for so long and realized actually sometimes he gets tired, and once I close and restart it, he works perfectly. *I am looking forward to the day that my beloved cousin would be able to help and guide me with emacs debugging.*
 - 3d tetris layout structure:
 
-  [[./pic/Screenshot_2016-05-22-18-13-02.png]]
+  [[./pic/Screenshot_2016-05-23-16-15-19.png]]
 - a video for this Tetris game can be directly watched at https://www.youtube.com/watch?v=Ht4NOrEUtFk
 - A video for the previous DrawingFun Android App can be watched at https://www.youtube.com/watch?v=YV78Tk5--5M , or by searching *deepwaterooo Wang*.
 

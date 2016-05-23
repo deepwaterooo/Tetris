@@ -1,5 +1,6 @@
 package dev.ttetris;
-
+/*
+ */
 import dev.ttetris.model.Cube;
 import dev.ttetris.model.CubeColor;
 import dev.ttetris.model.Constant;
@@ -9,16 +10,11 @@ import dev.ttetris.model.BlockType;
 import dev.ttetris.model.Model;
 import dev.ttetris.model.Frame;
 import dev.ttetris.model.Grid;
-import dev.ttetris.util.AppConfig;
 import dev.ttetris.shader.TextureShaderProgram;
 import dev.ttetris.shader.ColorShaderProgram;
-import dev.ttetris.util.MatrixHelper;
-import dev.ttetris.util.ShaderHelper;
-import dev.ttetris.util.TextResourceReader;
 import dev.ttetris.util.TextureHelper;
 import android.os.Bundle;
 import android.os.Handler;
-import android.util.Log;
 import android.content.Context;
 import android.view.MotionEvent;
 import android.graphics.PixelFormat;
@@ -40,12 +36,10 @@ public class StarRenderer implements GLSurfaceView.Renderer {
     private Block currBlock;
     private Block nextBlock;
     private float mAngle;
-    public StarRenderer(Context context) { this.context = context; }
-    //private final float[] projectionMatrix = new float[16];
-    //private final float[] modelMatrix = new float[16];
     private TextureShaderProgram textureProgram;
     private ColorShaderProgram colorProgram;
     private int texture;
+    public StarRenderer(Context context) { this.context = context; }
     
     @Override
     public void onSurfaceCreated(GL10 gl, EGLConfig config) {
@@ -56,7 +50,7 @@ public class StarRenderer implements GLSurfaceView.Renderer {
         frame = new Frame(5, 10);
         //grid = new Grid(5);
         cube = new Cube(CubeColor.Amethyst, 0, 0, 0);   // E i J
-        currBlock = new Block(new BlockMeta(CubeColor.Oak, BlockType.squareType, 1f, 1f, 0f));
+        currBlock = new Block(new BlockMeta(CubeColor.Amethyst, BlockType.squareType, 1f, 1f, 0f));
         nextBlock = new Block(new BlockMeta(CubeColor.Oak, BlockType.lineType, 3f, 1.0f, 0f));
         rthread = new RotateThread();
         rthread.start();
@@ -74,18 +68,23 @@ public class StarRenderer implements GLSurfaceView.Renderer {
 
         this.texture = TextureHelper.loadTexture(context, R.drawable.cubeamethyst);
         this.textureProgram.useProgram();
-        this.textureProgram.setUniforms(cube.getFinalMatrix(), this.texture);
-        this.cube.bindData(this.textureProgram);
-        cube.draw();
-        /*
+        renderBoard();
+
+        this.texture = -1;
         this.texture = TextureHelper.loadTexture(context, R.drawable.cubeoak);
+        this.cube.bindData(this.textureProgram);
+        this.textureProgram.setUniforms(cube.getFinalMatrix(cube.mMMatrix), this.texture);
+        this.cube.draw();
+
+        this.texture = -1;
+        this.texture = TextureHelper.loadTexture(context, R.drawable.cubeamethyst);
         this.textureProgram = new TextureShaderProgram(context);
         this.textureProgram.useProgram();
-        this.textureProgram.setUniforms(projectionMatrix, this.texture);
-        currBlock.drawSelf();
-        */
+        // define block.draw() in rederer
+        //currBlock.bindData(this.textureProgram);
+        //this.textureProgram.setUniforms(projectionMatrix, this.texture);
+        //currBlock.drawSelf();
         //nextBlock.drawSelf();
-        renderBoard();
     }
 
     @Override
@@ -102,15 +101,6 @@ public class StarRenderer implements GLSurfaceView.Renderer {
         Matrix.setLookAtM(Grid.mVMatrix,  0, -1.5f, -4.5f, 3.5f, 0f, 0f, 0f, 0f, 1.0f, 0.0f);
         Matrix.setLookAtM(Cube.mVMatrix,  0, -1.5f, -4.5f, 3.5f, 0f, 0f, 0f, 0f, 1.0f, 0.0f);
         Matrix.setLookAtM(Block.mVMatrix,  0, -1.5f, -4.5f, 3.5f, 0f, 0f, 0f, 0f, 1.0f, 0.0f);
-
-        //MatrixHelper.perspectiveM(projectionMatrix, 45, (float) w / (float) h, 1f, 10f);
-        /*Matrix.setIdentityM(modelMatrix, 0);
-        Matrix.translateM(modelMatrix, 0, 0f, 0f, -2.5f);
-        Matrix.rotateM(modelMatrix, 0, -60f, 1f, 0f, 0f);
-        final float[] temp=new float[16];
-        Matrix.multiplyMM(temp,0,projectionMatrix,0,modelMatrix,0);
-        System.arraycopy(temp, 0, projectionMatrix, 0, temp.length);
-*/
     }
 
     public class RotateThread extends Thread {
@@ -156,12 +146,12 @@ public class StarRenderer implements GLSurfaceView.Renderer {
             for (int j = 0; j < Model.COL; j++) {
                 for (int i = 0; i < Model.ROW; i++) {
                     if (Model.board[i][j][k] != 0) {
-                        Cube cube = new Cube(CubeColor.Amethyst, i, j, k); // getCubeColor(Model.board[i][j][k])
+                        Cube cube = new Cube(CubeColor.Oak, i, j, k);
                         cube.xAngle = Model.getBoardRotatingAngle();
-                        this.textureProgram = new TextureShaderProgram(context);
-                        this.textureProgram.useProgram();  
-                        this.textureProgram.setUniforms(cube.getFinalMatrix(), this.texture); // supposed to change
-                        this.cube.bindData(this.textureProgram);
+                        
+                        cube.bindData(this.textureProgram);
+                        this.textureProgram.setUniforms(cube.getFinalMatrix(cube.mMMatrix), this.texture);
+
                         cube.draw();
                     }
                 }

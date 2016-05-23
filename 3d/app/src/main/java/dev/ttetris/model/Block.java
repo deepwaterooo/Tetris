@@ -1,35 +1,21 @@
 package dev.ttetris.model;
 /*
-import dev.ttetris.shader.Shader;
-import android.util.Log;
-import java.nio.FloatBuffer;
 */
-import dev.ttetris.StarGLSurfaceView;
 import dev.ttetris.model.Constant;
-import dev.ttetris.util.Vector3f;
-import android.content.Context;
-import android.opengl.GLES20;
 import android.opengl.Matrix;
 import java.io.Serializable;
 import java.util.HashMap;
-import java.util.Random;
 import java.util.Set;
-import java.nio.ByteBuffer;
-import java.nio.ShortBuffer;
-import java.nio.ByteOrder;
 
 public class Block implements Cloneable, Serializable {
-    //private static Context context;
 	public static float[] mVMatrix = new float[16];
 	public static float[] mProjMatrix = new float[16];
 	public static float[] mMVPMatrix = new float[16];
     public static float[] mMMatrix = new float[16];              // 具体物体的移动旋转矩阵，旋转、平移
-    private static final Random RANDOM = new Random();
-    private static StarGLSurfaceView mStarGLSurfaceView;
+    //private static final Random RANDOM = new Random();
     private final int cubeCounts = 4;
     private final float [] activeBlockCenter = {2.5f, 2.5f, 0f}; // z 9.0f
     private static HashMap<String, BlockMeta> blocks = new HashMap<String, BlockMeta>();
-    
     static {
         createMetaBlock("Square", CubeColor.Anchient, BlockType.squareType, .5f, .5f, 0f); // 田
         createMetaBlock("Line", CubeColor.Amethyst, BlockType.lineType, .0f, .5f, 0f);     // (0, .5, 0)
@@ -54,7 +40,6 @@ public class Block implements Cloneable, Serializable {
     
     private Block() { this.cubes = null; }
     public Block(BlockMeta paramBlockMeta) {
-        //this.context = mv;
         this.color = paramBlockMeta.getColor();
         isActiveFlag = false;
         for (String key : blocks.keySet()) {
@@ -91,7 +76,7 @@ public class Block implements Cloneable, Serializable {
     public void drawSelf() {
         if (Cube.mProjMatrix == null || Cube.mVMatrix == null) {
             float ratio = Constant.ratio;
-            Matrix.frustumM(Cube.mProjMatrix, 0, -ratio, ratio, -1, 1, 1, 10);
+            Matrix.perspectiveM(Cube.mProjMatrix, 0, 45f, ratio, 1f, 10f); // 投影距阵
             Matrix.setLookAtM(Cube.mVMatrix, 0, -1.5f, -4.5f, 3.5f, 0f, 0f, 0f, 0f, 1.0f, 0.0f); // should be passed in somehow
         }
         Cube[] cubes = getCubes();
