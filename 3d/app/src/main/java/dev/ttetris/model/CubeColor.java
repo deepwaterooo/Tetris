@@ -11,8 +11,8 @@ public enum CubeColor {
     Marble(0x20320617, (byte) 8), // transparent
     Hidden(0x12345678, (byte)9);
 
-    private final int color;
-    private final byte value;
+    public final int color;
+    public final byte value;
     private CubeColor(int color, byte value) {
         this.color = color;
         this.value = value;

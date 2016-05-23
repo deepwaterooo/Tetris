@@ -22,6 +22,7 @@ import android.media.MediaPlayer.OnCompletionListener;
 public class ActivityGame extends Activity implements OnSurfacePickedListener {
     private StarGLSurfaceView mGLSurfaceView;
     private MediaPlayer mp;
+    
     private boolean flag = false;
     private int counter = 0;
     private int score;
@@ -31,10 +32,10 @@ public class ActivityGame extends Activity implements OnSurfacePickedListener {
         super.onCreate(savedInstanceState);
         this.requestWindowFeature(Window.FEATURE_NO_TITLE); 
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
-        GLImage.load(this.getResources());
+
         mGLSurfaceView = new StarGLSurfaceView(this, this);
-        mGLSurfaceView.getHolder().setFormat(PixelFormat.TRANSLUCENT); 
         setContentView(mGLSurfaceView);
+        
         mGLSurfaceView.setOnTouchListener(new SwipeControls(this));
         Model.init(this);
         mp = MediaPlayer.create(getApplicationContext(), R.raw.theme);
@@ -44,6 +45,7 @@ public class ActivityGame extends Activity implements OnSurfacePickedListener {
                     mp.release();
                 }
             });
+        GLImage.load(getResources());
 	}
 
     @Override 

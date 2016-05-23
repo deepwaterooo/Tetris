@@ -1,4 +1,4 @@
-% Created 2016-05-21 Sat 23:13
+% Created 2016-05-22 Sun 18:14
 \documentclass[9pt,b5paper]{article}
 \usepackage{fontspec}
 \setmainfont{STSong}
@@ -100,7 +100,17 @@ EGLContext eglCreateContext(EGLDisplay display, EGLConfig config, EGLContext sha
 \subsubsection{Status Update}
 \label{sec-1-1-2}
 \begin{itemize}
-\item On the texture part for 3d, the program is almost through and ok, except that I have to figure out texture pixel formats, RGBA$_{\text{8888}}$, RGBA565 etc for (RGB 128*128 pixesl).
+\item Weird textures are showing now. The texture bitmap image data can only acessible in Renderer thread, I guess I will have to understand the lame 
+
+\lstset{language=c++,label= ,caption= ,numbers=none}
+\begin{lstlisting}
+EGLContext eglCreateContext(EGLDisplay display, EGLConfig config, EGLContext share_context, EGLint const * attrib_list);
+\end{lstlisting}
+
+better in order to rendering textures inside my Cube class.
+\item A better organized project appoach is opened, so have to clean files, and organize the project better in OOP perspective.
+\item Minor texture coordinates problems can be fixed later on easily.
+\item Up to this point, I am 100\% sure that I can successfully finish this Android Opengl ES 2.0 3d tetris project. But it still takes time for me to wrap it up and finish. Will work on it gradually as lower priority with my interested project having higher priorities, like zombie dance, unity plants \&\& Zombies etc.
 \item 
 \item On ray-picking, will try to temporarily apply it here to test and so that I could Understand this picking better, but I do think that I will need be scale(zoom out/in the frame so it will be more convenient to control current activeBlock) the frame to make it easy to use. But after I have learned all the technology I may not want to work on making it perfect any more. On textures loading. will continue with ray-picking in the evening.
 \item need to set eye position better so that the (Frame + Grid) layout can be at the position that I want for the 3d game.
@@ -108,7 +118,7 @@ EGLContext eglCreateContext(EGLDisplay display, EGLConfig config, EGLContext sha
 \item Emacs is such a powerful tool for me for coding considering and accepting the facts that occasional it would produce some minor troubles for me so that I would have to google for solutions. This morning the parenthesis don't autopair for () [] \{\} for java-mode, after having googled for few minutes, I have used and trust autopair for so long and realized actually sometimes he gets tired, and once I close and restart it, he works perfectly. \textbf{I am looking forward to the day that my beloved cousin would be able to help and guide me with emacs debugging.}
 \item 3d tetris layout structure:
 
-\includegraphics[width=.9\linewidth]{./pic/Screenshot_2016-05-12-12-06-42.png}
+\includegraphics[width=.9\linewidth]{./pic/Screenshot_2016-05-22-18-13-02.png}
 \item a video for this Tetris game can be directly watched at \url{https://www.youtube.com/watch?v=Ht4NOrEUtFk}
 \item A video for the previous DrawingFun Android App can be watched at \url{https://www.youtube.com/watch?v=YV78Tk5--5M} , or by searching \textbf{deepwaterooo Wang}.
 \end{itemize}

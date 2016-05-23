@@ -4,6 +4,7 @@ import dev.ttetris.StarGLSurfaceView;
 import dev.ttetris.model.Constant;
 import dev.ttetris.util.Shader;
 import dev.ttetris.util.Vector3f;
+import android.content.Context;
 import android.opengl.GLES20;
 import android.opengl.Matrix;
 import android.util.Log;
@@ -17,6 +18,7 @@ import java.nio.ByteOrder;
 import java.nio.FloatBuffer;
 
 public class Block implements Cloneable, Serializable {
+    private static Context context;
 	public static float[] mVMatrix = new float[16];
 	public static float[] mProjMatrix = new float[16];
 	public static float[] mMVPMatrix = new float[16];
@@ -26,7 +28,7 @@ public class Block implements Cloneable, Serializable {
     private final int cubeCounts = 4;
     private final float [] activeBlockCenter = {2.5f, 2.5f, 0f}; // z 9.0f
     private static HashMap<String, BlockMeta> blocks = new HashMap<String, BlockMeta>();
-
+    
     static {
         createMetaBlock("Square", CubeColor.Anchient, BlockType.squareType, .5f, .5f, 0f); // Ìï
         createMetaBlock("Line", CubeColor.Amethyst, BlockType.lineType, .0f, .5f, 0f);     // (0, .5, 0)
@@ -50,8 +52,8 @@ public class Block implements Cloneable, Serializable {
     }
     
     private Block() { this.cubes = null; }
-    public Block(StarGLSurfaceView mv, BlockMeta paramBlockMeta) {
-        this.mStarGLSurfaceView = mv;
+    public Block(Context mv, BlockMeta paramBlockMeta) {
+        this.context = mv;
         this.color = paramBlockMeta.getColor();
         isActiveFlag = false;
         for (String key : blocks.keySet()) {
@@ -96,7 +98,7 @@ public class Block implements Cloneable, Serializable {
         }
         Cube[] cubes = getCubes();
         for (int i = 0; i < cubeCounts; i++) {
-            cubes[i].initShader(mStarGLSurfaceView);
+            cubes[i].initShader(context);
             if (curr != null && curr.equals("Square")) { // (.5, 1, 0)
                 cubes[i].setActiveFlag(true);            // think here
                 shiftBlock(-this.centerX, -this.centerY, -this.centerZ);
