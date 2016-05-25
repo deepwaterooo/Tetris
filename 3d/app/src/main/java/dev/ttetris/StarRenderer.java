@@ -3,23 +3,18 @@ package dev.ttetris;
  */
 import dev.ttetris.model.Cube;
 import dev.ttetris.model.CubeColor;
-import dev.ttetris.model.Constant;
 import dev.ttetris.model.Block;
 import dev.ttetris.model.BlockMeta;
 import dev.ttetris.model.BlockType;
 import dev.ttetris.model.Model;
 import dev.ttetris.model.Frame;
 import dev.ttetris.model.Grid;
-import dev.ttetris.shader.TextureShaderProgram;
+import dev.ttetris.model.Constant;
 import dev.ttetris.shader.ColorShaderProgram;
 import dev.ttetris.util.TextureHelper;
-import android.os.Bundle;
-import android.os.Handler;
-import android.content.Context;
-import android.view.MotionEvent;
-import android.graphics.PixelFormat;
 import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
+import android.content.Context;
 import android.opengl.GLSurfaceView;
 import android.opengl.GLES20;
 import android.opengl.GLU;
@@ -36,29 +31,30 @@ public class StarRenderer implements GLSurfaceView.Renderer {
     private Block currBlock;
     private Block nextBlock;
     private float mAngle;
-    private TextureShaderProgram textureProgram;
     private ColorShaderProgram colorProgram;
     private int texture;
     public StarRenderer(Context context) { this.context = context; }
     
     @Override
     public void onSurfaceCreated(GL10 gl, EGLConfig config) {
-        GLES20.glClearColor(1f, 1f, 1f, .5f);
-        GLES20.glEnable(GLES20.GL_CULL_FACE);
-        this.textureProgram = new TextureShaderProgram(context);
+        GLES20.glClearColor(1f, 1f, 1f, 1.0f); // 设置屏幕背景色 RGBA
+        GLES20.glEnable(GLES20.GL_DEPTH_TEST); // 打开深度检测
+        GLES20.glDisable(GLES20.GL_CULL_FACE); // 关闭背面剪裁
+
         this.colorProgram = new ColorShaderProgram(context);
         frame = new Frame(5, 10);
         //grid = new Grid(5);
-        cube = new Cube(CubeColor.Amethyst, 0, 0, 0);   // E i J
-        currBlock = new Block(new BlockMeta(CubeColor.Amethyst, BlockType.squareType, 1f, 1f, 0f));
-        nextBlock = new Block(new BlockMeta(CubeColor.Oak, BlockType.lineType, 3f, 1.0f, 0f));
+        cube = new Cube(this.context, CubeColor.Amethyst, 0, 0, 0);   // E i J 
+        currBlock = new Block(this.context, new BlockMeta(CubeColor.Amethyst, BlockType.squareType, 1f, 1f, 0f));
+        nextBlock = new Block(this.context, new BlockMeta(CubeColor.Oak, BlockType.lineType, 3f, 1.0f, 0f));
+
         rthread = new RotateThread();
         rthread.start();
     }
 
     @Override
     public void onDrawFrame(GL10 gl) {
-        GLES20.glClear(GLES20.GL_COLOR_BUFFER_BIT);
+        GLES20.glClear(GLES20.GL_DEPTH_BUFFER_BIT | GLES20.GL_COLOR_BUFFER_BIT); // 清除深度缓冲与颜色缓冲
 
         this.colorProgram.useProgram();
         this.colorProgram.setUniforms(frame.getFinalMatrix());
@@ -66,25 +62,17 @@ public class StarRenderer implements GLSurfaceView.Renderer {
         frame.draw(); 
         //grid.drawSelf();
 
-        this.texture = TextureHelper.loadTexture(context, R.drawable.cubeamethyst);
-        this.textureProgram.useProgram();
+        this.texture = TextureHelper.loadTexture(context, R.drawable.cubeoak);
         renderBoard();
 
         this.texture = -1;
-        this.texture = TextureHelper.loadTexture(context, R.drawable.cubeoak);
-        this.cube.bindData(this.textureProgram);
-        this.textureProgram.setUniforms(cube.getFinalMatrix(cube.mMMatrix), this.texture);
-        this.cube.draw();
+        this.texture = TextureHelper.loadTexture(context, R.drawable.cubeamethyst);
+        currBlock.draw(this.texture);
+        //nextBlock.draw(this.texture);
 
         this.texture = -1;
-        this.texture = TextureHelper.loadTexture(context, R.drawable.cubeamethyst);
-        this.textureProgram = new TextureShaderProgram(context);
-        this.textureProgram.useProgram();
-        // define block.draw() in rederer
-        //currBlock.bindData(this.textureProgram);
-        //this.textureProgram.setUniforms(projectionMatrix, this.texture);
-        //currBlock.drawSelf();
-        //nextBlock.drawSelf();
+        this.texture = TextureHelper.loadTexture(context, R.drawable.cubelapislazuli);
+        this.cube.draw(texture); 
     }
 
     @Override
@@ -100,7 +88,7 @@ public class StarRenderer implements GLSurfaceView.Renderer {
         Matrix.setLookAtM(Frame.mVMatrix, 0, -1.5f, -4.5f, 3.5f, 0f, 0f, 0f, 0f, 1.0f, 0.0f);
         Matrix.setLookAtM(Grid.mVMatrix,  0, -1.5f, -4.5f, 3.5f, 0f, 0f, 0f, 0f, 1.0f, 0.0f);
         Matrix.setLookAtM(Cube.mVMatrix,  0, -1.5f, -4.5f, 3.5f, 0f, 0f, 0f, 0f, 1.0f, 0.0f);
-        Matrix.setLookAtM(Block.mVMatrix,  0, -1.5f, -4.5f, 3.5f, 0f, 0f, 0f, 0f, 1.0f, 0.0f);
+        Matrix.setLookAtM(Block.mVMatrix, 0, -1.5f, -4.5f, 3.5f, 0f, 0f, 0f, 0f, 1.0f, 0.0f);
     }
 
     public class RotateThread extends Thread {
@@ -146,13 +134,10 @@ public class StarRenderer implements GLSurfaceView.Renderer {
             for (int j = 0; j < Model.COL; j++) {
                 for (int i = 0; i < Model.ROW; i++) {
                     if (Model.board[i][j][k] != 0) {
-                        Cube cube = new Cube(CubeColor.Oak, i, j, k);
+                        Cube cube = new Cube(context, CubeColor.Oak, i, j, k); // too many repeats
                         cube.xAngle = Model.getBoardRotatingAngle();
-                        
-                        cube.bindData(this.textureProgram);
-                        this.textureProgram.setUniforms(cube.getFinalMatrix(cube.mMMatrix), this.texture);
-
-                        cube.draw();
+                        //this.texture = ; // set color
+                        cube.draw(this.texture);
                     }
                 }
             }

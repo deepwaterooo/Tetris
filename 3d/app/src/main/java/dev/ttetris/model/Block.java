@@ -6,6 +6,7 @@ import android.opengl.Matrix;
 import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Set;
+import android.content.Context;
 
 public class Block implements Cloneable, Serializable {
 	public static float[] mVMatrix = new float[16];
@@ -16,6 +17,7 @@ public class Block implements Cloneable, Serializable {
     private final int cubeCounts = 4;
     private final float [] activeBlockCenter = {2.5f, 2.5f, 0f}; // z 9.0f
     private static HashMap<String, BlockMeta> blocks = new HashMap<String, BlockMeta>();
+    Context context;
     static {
         createMetaBlock("Square", CubeColor.Anchient, BlockType.squareType, .5f, .5f, 0f); // ÃÔ
         createMetaBlock("Line", CubeColor.Amethyst, BlockType.lineType, .0f, .5f, 0f);     // (0, .5, 0)
@@ -39,8 +41,9 @@ public class Block implements Cloneable, Serializable {
     }
     
     private Block() { this.cubes = null; }
-    public Block(BlockMeta paramBlockMeta) {
+    public Block(Context context, BlockMeta paramBlockMeta) {
         this.color = paramBlockMeta.getColor();
+        this.context = context;
         isActiveFlag = false;
         for (String key : blocks.keySet()) {
             if (paramBlockMeta.getShifts() == blocks.get(key).getShifts())
@@ -73,7 +76,7 @@ public class Block implements Cloneable, Serializable {
     public void setActiveFlag(boolean flag) { this.isActiveFlag = flag; }
     public boolean getActiveFlag() { return this.isActiveFlag; }
 
-    public void drawSelf() {
+    public void draw(int texId) {
         if (Cube.mProjMatrix == null || Cube.mVMatrix == null) {
             float ratio = Constant.ratio;
             Matrix.perspectiveM(Cube.mProjMatrix, 0, 45f, ratio, 1f, 10f); // Õ∂”∞æ‡’Û
@@ -86,14 +89,16 @@ public class Block implements Cloneable, Serializable {
                 shiftBlock(-this.centerX, -this.centerY, -this.centerZ);
                 cubes[i].setCoordinates();
                 cubes[i].xAngle = this.xAngle;
-                cubes[i].draw();
+                cubes[i].initShader(context);
+                cubes[i].draw(texId);
                 shiftBlock(this.centerX, this.centerY, this.centerZ);
                 cubes[i].setCoordinates();
             } else {
                 shiftBlock(activeBlockCenter[0] - this.centerX, activeBlockCenter[1] - this.centerY, activeBlockCenter[2] - this.centerZ);
                 cubes[i].setCoordinates();
                 cubes[i].xAngle = this.xAngle;
-                cubes[i].draw();
+                cubes[i].initShader(context);
+                cubes[i].draw(texId);
                 shiftBlock(this.centerX - activeBlockCenter[0], this.centerY - activeBlockCenter[1], this.centerZ - activeBlockCenter[2]);
                 cubes[i].setCoordinates();
             }

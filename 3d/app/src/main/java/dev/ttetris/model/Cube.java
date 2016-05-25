@@ -3,10 +3,14 @@ package dev.ttetris.model;
 import dev.ttetris.model.CubeColor;
 import dev.ttetris.util.VertexArray;
 import dev.ttetris.shader.TextureShaderProgram;
+import dev.ttetris.shader.Shader;		 
+import dev.ttetris.util.ShaderHelper;		
 import java.io.Serializable;
 import java.nio.ShortBuffer;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
+import java.nio.FloatBuffer;		
+import android.content.Context;		
 import android.opengl.GLES20;
 import android.opengl.Matrix;
 import android.opengl.GLUtils;
@@ -15,17 +19,27 @@ import android.opengl.GLES11Ext;
 public class Cube implements Cloneable, Comparable<Cube>, Serializable {
     private static final int POSITION_COMPONENT_COUNT = 3;
     private static final int COLOR_COMPONENT_COUNT = 2;
-	public static float[] mVMatrix = new float[16];
 	public static float[] mProjMatrix = new float[16];
 	public static float[] mMVPMatrix = new float[16];
-    public static float[] mMMatrix = new float[16]; 
-    private ShortBuffer drawListBuffer;
+	public static float[] mVMatrix = new float[16];
+    public static float[] mMMatrix = new float[16];
+    public float xAngle = 0f; // yAngle zAngle
     private final float size = 0.5f; 
-    private final float one = 1f;
-    public float xAngle = 0f;
-    private float[] texCoords = new float[] { one, 0, 0, 0, 0, one, one, one,  0, 0, 0, one, one, one, one, 0,
-                                              one, one, one, 0, 0, 0, 0, one,  0, one, one, one, one, 0, 0, 0,
-                                              0, 0, 0, one, one, one, one, 0,  one, 0, 0, 0, 0, one, one, one}; 
+    private final float one = 0.9f;
+    private float[] texCoords = new float[] { one, 0.1f, 0.1f, 0.1f, 0.1f, one, one, one, 0.1f, 0.1f, 0.1f, one, one, one, one, 0.1f,
+                                              one, one, one, 0.1f, 0.1f, 0.1f, 0.1f, one, 0.1f, one, one, one, one, 0.1f, 0.1f, 0.1f,
+                                              0.1f, 0.1f, 0.1f, one, one, one, one, 0.1f, one, 0.1f, 0.1f, 0.1f, 0.1f, one, one, one};  
+    String mVertexShader;		
+    String mFragmentShader;		
+    int vertexShaderHandle;		
+    int fragmentShaderHandle;
+    int mProgram;		
+ 	int mPositionHandle;		
+    int mTexCoordHandle;		
+ 	int mMVPMatrixHandle;		
+    FloatBuffer mVertexBuffer;		
+ 	FloatBuffer mColorBuffer;
+    ShortBuffer drawListBuffer;
     private CubeColor color; 
     public float [] coords;
     private float x;
@@ -40,6 +54,17 @@ public class Cube implements Cloneable, Comparable<Cube>, Serializable {
     public float getY() { return this.y; }
     public float getZ() { return this.z; }
 
+    public Cube(Context context, CubeColor paramCubeColor, int paramInt1, int paramInt2, int paramInt3) {
+        this.color = paramCubeColor;
+        this.x = paramInt1;
+        this.y = paramInt2;
+        this.z = paramInt3;
+        coords = new float[72]; 
+        setCoordinates();
+        initVertexData();
+        initShader(context);
+    }
+
     public Cube(CubeColor paramCubeColor, int paramInt1, int paramInt2, int paramInt3) {
         this.color = paramCubeColor;
         this.x = paramInt1;
@@ -47,8 +72,7 @@ public class Cube implements Cloneable, Comparable<Cube>, Serializable {
         this.z = paramInt3;
         coords = new float[72]; 
         setCoordinates();
-        initVertexData(); // preare for drawOrder data
-        this.textureArr = new VertexArray(texCoords);
+        initVertexData(); 
     }
     
     public void setCoordinates() { 
@@ -57,9 +81,9 @@ public class Cube implements Cloneable, Comparable<Cube>, Serializable {
                         x+size, y+size, z+size, // 2
                         x-size, y+size, z+size, // 3
                         x-size, y-size, z-size, // 4
-                        x-size, y-size, z+size, // 5
+                        x+size, y-size, z-size, // 7
                         x+size, y-size, z+size, // 6
-                        x+size, y-size, z-size};
+                        x-size, y-size, z+size};// 5
         float [] fin = new float[72];
         int j = 0;
         for (int i = 0; i < drawOrder0.length; i++) {
@@ -68,27 +92,19 @@ public class Cube implements Cloneable, Comparable<Cube>, Serializable {
             fin[j++] = res[drawOrder0[i] * 3 + 2];
         }
         this.coords = fin;
-        this.verticeArr = new VertexArray(this.coords);
     }
 
     private boolean isActiveFlag; // for activeBlock
     public void setActiveFlag(boolean v) { this.isActiveFlag = v; }
     public boolean getActiveFlag() { return this.isActiveFlag; }
-
-    private static final short drawOrder[] = {0, 1, 3, 2,  4, 5, 7, 6,  8, 9, 11, 10, 12, 13, 15, 14, 16, 17, 19, 18, 20, 21, 23, 22};
-    private static final short drawOrder0[] = {4, 7, 6, 5, 0, 3, 2, 1, 3, 5, 6, 2, 0, 1, 7, 4 ,1, 2, 6, 7, 0, 4, 5, 3};
-    
+    private static final short drawOrder[] = {0, 1, 3, 2, 4, 5, 7, 6, 8, 9, 11, 10, 12, 13, 15, 14, 16, 17, 19, 18, 20, 21, 23, 22};
+    private static final short drawOrder0[] = {0, 1, 2, 3, 4, 5, 6, 7, 7, 6, 2, 3, 4, 5, 1, 0, 5, 1, 2, 6, 4, 0, 3, 7}; // 前后上下右左
     private VertexArray verticeArr;
     private VertexArray textureArr;
-    public void draw() { 
-        //GLES20.glDrawArrays(GLES20.GL_TRIANGLE_STRIP, 0, 24);
-        GLES20.glDrawElements(GLES20.GL_TRIANGLE_STRIP, drawOrder.length, GLES20.GL_UNSIGNED_SHORT, drawListBuffer);
-    }
 
-    public void bindData(TextureShaderProgram textureProgram) {
-        this.verticeArr.setVertextAttribPointer(0, textureProgram.getaPositionLocation(), POSITION_COMPONENT_COUNT, POSITION_COMPONENT_COUNT * 4);
-        this.textureArr.setVertextAttribPointer(0, textureProgram.getaTextureCoordinatesLocation(), COLOR_COMPONENT_COUNT, COLOR_COMPONENT_COUNT * 4);
-
+    public void draw(int texId) { 
+        initVertexData();
+        
 		Matrix.setRotateM(mMMatrix, 0, 0, 0, 1, 0);           // 初始化变换矩阵
         if (getActiveFlag()) {
             if (Model.isFrameZRotating[0]) {       // anti-
@@ -123,17 +139,39 @@ public class Cube implements Cloneable, Comparable<Cube>, Serializable {
             Matrix.translateM(mMMatrix, 0, 0, 2.5f, 5f);
         }
         Matrix.translateM(mMMatrix, 0, 0.5f, 0.5f, 0.5f);    
+
+        GLES20.glUseProgram(mProgram); // 绘制时使用着色程序		
+        GLES20.glUniformMatrix4fv(mMVPMatrixHandle, 1, false, Cube.getFinalMatrix(mMMatrix), 0);        // 将最终的变换矩阵传入渲染管线
+
+        GLES20.glVertexAttribPointer(mPositionHandle, 3, GLES20.GL_FLOAT, false, 3 * 4, mVertexBuffer); // 将顶点位置数据传入渲染管线
+        GLES20.glVertexAttribPointer(mTexCoordHandle, 2, GLES20.GL_FLOAT, false, 2 * 4, mColorBuffer);  // 将顶点纹理数据传入渲染管线
+        // 允许用到的属性数据数组
+        GLES20.glEnableVertexAttribArray(mPositionHandle); // 启用顶点位置数据
+        GLES20.glEnableVertexAttribArray(mTexCoordHandle); // 启用顶点纹理坐标数据
+
+        // 绑定纹理
+        GLES20.glActiveTexture(GLES20.GL_TEXTURE0);	       // 设置使用的纹理编号
+        GLES20.glBindTexture(GLES20.GL_TEXTURE_2D, texId); // 绑定指定的纹理 ID
+
+        GLES20.glDrawElements(GLES20.GL_TRIANGLE_STRIP, drawOrder.length, GLES20.GL_UNSIGNED_SHORT, drawListBuffer);
+
+        GLES20.glDisableVertexAttribArray(mPositionHandle);		
+        GLES20.glDisableVertexAttribArray(mTexCoordHandle);  
     }
 
-    public Cube clone() {
-        try {
-            Cube localCube = (Cube)super.clone();
-            return localCube;
-        } catch (CloneNotSupportedException localCloneNotSupportedException) {
-        }
-        return null;
-    }
-    public int compareTo(Cube paramCube) { return Math.abs(this.x - paramCube.x) < 0.00000001f ? 1 : 0; }    
+    public void initShader(Context mv) {                           
+ 		mVertexShader = Shader.loadFromAssetsFile("vertex.sh", mv.getResources()); // 加载顶点着色器的脚本内容
+ 		mFragmentShader = Shader.loadFromAssetsFile("frag.sh", mv.getResources()); // 加载片元着色器的脚本内容
+        vertexShaderHandle = ShaderHelper.compileShader(GLES20.GL_VERTEX_SHADER, mVertexShader);		
+        fragmentShaderHandle = ShaderHelper.compileShader(GLES20.GL_FRAGMENT_SHADER, mFragmentShader);		
+        // 基本顶点着色器与片元着色器创建程序
+        mProgram = ShaderHelper.createAndLinkProgram(vertexShaderHandle, fragmentShaderHandle,		
+                                                     new String[]{"texture", "vPosition", "vTexCoordinate", "uMVPMatrix"});		
+ 		mPositionHandle = GLES20.glGetAttribLocation(mProgram, "vPosition");      // 获取程序中顶点位置属性引用
+        mTexCoordHandle = GLES20.glGetAttribLocation(mProgram, "vTexCoordinate"); // 获取程序中顶点纹理坐标属性引用
+ 		mMVPMatrixHandle = GLES20.glGetUniformLocation(mProgram, "uMVPMatrix");   // 获取程序中总变换矩阵引用
+ 	}    
+
     public void setColor(CubeColor color) {
         this.color = color;
         switch(color) {
@@ -147,21 +185,39 @@ public class Cube implements Cloneable, Comparable<Cube>, Serializable {
         case WhiteMarble: this.colorIdx = 7; return;
         }
     }
-    
-    public static float[] getFinalMatrix(float [] spec) {
-		mMVPMatrix = new float[16];
-		Matrix.multiplyMM(mMVPMatrix, 0, mVMatrix, 0, spec, 0); // mMMatrix --> spec
-		Matrix.multiplyMM(mMVPMatrix, 0, mProjMatrix, 0, mMVPMatrix, 0);
-        for (int i = 0; i < 16; i++) 
-            System.out.println("mMVPMatrix[i]: " + mMVPMatrix[i]);
-		return mMVPMatrix;
-	}
 
     public void initVertexData() {
+        ByteBuffer vbb = ByteBuffer.allocateDirect(coords.length * 4); 
+ 		vbb.order(ByteOrder.nativeOrder());		
+ 		mVertexBuffer = vbb.asFloatBuffer();		
+ 		mVertexBuffer.put(coords);		
+ 		mVertexBuffer.position(0);
+        ByteBuffer cbb = ByteBuffer.allocateDirect(texCoords.length * 4);		
+ 		cbb.order(ByteOrder.nativeOrder());		
+ 		mColorBuffer = cbb.asFloatBuffer();		
+ 		mColorBuffer.put(texCoords);		
+ 		mColorBuffer.position(0);
         ByteBuffer dlb = ByteBuffer.allocateDirect(drawOrder.length * 2);
         dlb.order(ByteOrder.nativeOrder());
         drawListBuffer = dlb.asShortBuffer();
         drawListBuffer.put(drawOrder);
         drawListBuffer.position(0);
     }
+    
+    public static float[] getFinalMatrix(float [] spec) {
+		mMVPMatrix = new float[16];
+		Matrix.multiplyMM(mMVPMatrix, 0, mVMatrix, 0, spec, 0); 
+		Matrix.multiplyMM(mMVPMatrix, 0, mProjMatrix, 0, mMVPMatrix, 0);
+		return mMVPMatrix;
+	}
+
+    public Cube clone() {
+        try {
+            Cube localCube = (Cube)super.clone();
+            return localCube;
+        } catch (CloneNotSupportedException localCloneNotSupportedException) {
+        }
+        return null;
+    }
+    public int compareTo(Cube paramCube) { return Math.abs(this.x - paramCube.x) < 0.00000001f ? 1 : 0; }    
 }

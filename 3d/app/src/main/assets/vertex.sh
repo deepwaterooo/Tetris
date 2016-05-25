@@ -4,8 +4,6 @@ uniform mat4 uMVPMatrix;      // 总变换矩阵: 顶点着色器输入变量
 varying vec2 v_TexCoordinate; // 片段着色器输入变量用varying来声明
 
 void main() {
-    //v_TexCoordinate = (uMVPMatrix * vTexCoordinate).xy;
-    v_TexCoordinate = vTexCoordinate;
-
     gl_Position = uMVPMatrix * vec4(vPosition, 1);
+    v_TexCoordinate = vTexCoordinate;
 }     

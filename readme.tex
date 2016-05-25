@@ -1,4 +1,4 @@
-% Created 2016-05-23 Mon 16:21
+% Created 2016-05-25 Wed 14:16
 \documentclass[9pt,b5paper]{article}
 \usepackage{fontspec}
 \setmainfont{STSong}
@@ -100,17 +100,26 @@ EGLContext eglCreateContext(EGLDisplay display, EGLConfig config, EGLContext sha
 \subsubsection{Status Update}
 \label{sec-1-1-2}
 \begin{itemize}
-\item Restructureing the project for OOP better organization, it was such a headache maitain all the shaders all the times for frame, grid, cutes etc, especially when I used textures and needs both color shader and texture shaders.
-\item Project structure is still supposed to change according to feature needs when I get more and more into implementation details.
-\item Minor bugs will be fixed for cube texCoords, and for board rendering for cubes.
+\item Textures: perfectly done\textasciitilde{}!
+\item OOP: I had barely got exposure to OOP until summer 2013 got simply explained by my mentor during the intern. And the most impressive experience was during bug fix for 2d tetris "debugging Projection\textasciitilde{}On". I want to follow some good online examples for my projects, but due to knowledge and experience reasons, I may be following from wrong samples. So later on I will try to identify tutorials with authentication or get trusted recommended.
+\item "Restructureing the project for OOP better organization, it was such a headache maitain all the shaders all the times for frame, grid, cutes etc, especially when I used textures and needs both color shader and texture shaders." Actually as a systematic design, it is still better for me to put cube draw() method in Cube class, and all other blocks, boards multiple call cube.draw(). I was wrong before, but I reversed the direction back to be a better design.
+\item Project structures are still under construction and supposed to change according to later on implementation details.
+\item 3d tetris layout structure:
+
+\includegraphics[width=.9\linewidth]{./pic/Screenshot_2016-05-25-13-55-15.png}
+\item The Programming course simple project will due on midnight (11:59pm) 6/1/2016. The urgent need yesterday to get a starter is to make sure that:
+\begin{itemize}
+\item I have enough exposure to the ideas (some kind of simple zombie dance animation, opengl 3d) and implementation so that I am sure later on good or bad, I could at least implement it.
+\item Have enough information so I could make sure a "zombie dancing animation" could be considered a game (or not) when I have class tonight.
+\item Have fundamental information to communicate with team buddy.
+\end{itemize}
+\item I don't like this week's three days when I failed to have good rest though trying to adjust schedules. For me summer semester begins this week, will go out to grab daily use groceries (car transmission fluids, walmart), fix car break etc. Will go shopping today so I don't have to go out tomorrow or the day after tommorrow.
+\item Will finish zombie dance first before continuing tetris 3d project.
 \item 
 \item On ray-picking, will try to temporarily apply it here to test and so that I could Understand this picking better, but I do think that I will need be scale(zoom out/in the frame so it will be more convenient to control current activeBlock) the frame to make it easy to use. But after I have learned all the technology I may not want to work on making it perfect any more. On textures loading. will continue with ray-picking in the evening.
 \item need to set eye position better so that the (Frame + Grid) layout can be at the position that I want for the 3d game.
 \item I want yellow grids, together with white background, red-x yellow-y, but I fail get such effect. Currently using black grid, but I will change it to be better looking.
 \item Emacs is such a powerful tool for me for coding considering and accepting the facts that occasional it would produce some minor troubles for me so that I would have to google for solutions. This morning the parenthesis don't autopair for () [] \{\} for java-mode, after having googled for few minutes, I have used and trust autopair for so long and realized actually sometimes he gets tired, and once I close and restart it, he works perfectly. \textbf{I am looking forward to the day that my beloved cousin would be able to help and guide me with emacs debugging.}
-\item 3d tetris layout structure:
-
-\includegraphics[width=.9\linewidth]{./pic/Screenshot_2016-05-23-16-15-19.png}
 \item a video for this Tetris game can be directly watched at \url{https://www.youtube.com/watch?v=Ht4NOrEUtFk}
 \item A video for the previous DrawingFun Android App can be watched at \url{https://www.youtube.com/watch?v=YV78Tk5--5M} , or by searching \textbf{deepwaterooo Wang}.
 \end{itemize}
