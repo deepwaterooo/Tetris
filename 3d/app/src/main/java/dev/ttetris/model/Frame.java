@@ -16,11 +16,11 @@ public class Frame {
     private VertexArray vertexArr;
     private VertexArray colorArr;
 	private static float vertices[] = { 0.0f, 0.0f, 0.0f, // 0
-                                        0.0f, 0.0f, 0.0f, // 1
+                                        0.0f, 0.0f, 0.0f, // 1 x
                                         0.0f, 0.0f, 0.0f, // 0
-                                        0.0f, 0.0f, 0.0f, // 2
+                                        0.0f, 0.0f, 0.0f, // 2 y
                                         0.0f, 0.0f, 0.0f, // 0
-                                        0.0f, 0.0f, 0.0f};// 3 
+                                        0.0f, 0.0f, 0.0f};// 3 z
 	private static float colors[] = { 0.5f, 0.5f, 0.5f, 0.5f,
                                       1f, 0f, 0f, 1f,  // red   x
                                       0.5f, 0.5f, 0.5f, 0.5f,
@@ -31,7 +31,7 @@ public class Frame {
     
 	public Frame() { // default: 5 5 10		
 		vertices[3] = 5.0f;
-		vertices[11] = 5.0f;
+		vertices[10] = 5.0f;
 		vertices[17] = 10.0f;
         this.vertexArr = new VertexArray(vertices);
         this.colorArr = new VertexArray(colors);
@@ -39,7 +39,7 @@ public class Frame {
 
     public Frame(int n, int h) {
 		vertices[3] = n; 
-		vertices[11] = n;
+		vertices[10] = n;
 		vertices[17] = h;
         this.vertexArr = new VertexArray(vertices);
         this.colorArr = new VertexArray(colors);
@@ -50,18 +50,20 @@ public class Frame {
         this.colorArr.setVertextAttribPointer(0, colorProgram.getaColorLocation(), COLOR_COMPONENT_COUNT, COLOR_COMPONENT_COUNT * 4);
 
 		Matrix.setRotateM(mMMatrix, 0, 0, 0, 1, 0);          // ≥ı ºªØ±‰ªªæÿ’Û
+        Matrix.translateM(mMMatrix, -0, -2.5f, -2.5f, -5f); // (2.5, -2.5, -5)
+        
         if (Model.isFrameZRotating[0]) {       // anti-
             Matrix.rotateM(mMMatrix, 0, xAngle, 0, 0, 1);
         } else if (Model.isFrameZRotating[1]) { // clock-wise
             Matrix.rotateM(mMMatrix, 0, -xAngle, 0, 0, 1);
         } else if (Model.isFrameXRotating[0]) {
-            Matrix.translateM(mMMatrix, 0, 0, -2.5f, -5f);
+            Matrix.translateM(mMMatrix, 0, -2.5f, -2.5f, -5f);
             Matrix.rotateM(mMMatrix, 0, xAngle, 1, 0, 0);
-            Matrix.translateM(mMMatrix, 0, 0, 2.5f, 5f);
+            Matrix.translateM(mMMatrix, 0, 2.5f, 2.5f, 5f);
         } else if (Model.isFrameXRotating[1]) {
-            Matrix.translateM(mMMatrix, 0, 0, -2.5f, -5f);
+            Matrix.translateM(mMMatrix, 0, -2.5f, -2.5f, -5f);
             Matrix.rotateM(mMMatrix, 0, -xAngle, 1, 0, 0);
-            Matrix.translateM(mMMatrix, 0, 0, 2.5f, 5f);
+            Matrix.translateM(mMMatrix, 0, 2.5f, 2.5f, 5f);
         }
     }
 

@@ -10,8 +10,8 @@ import android.widget.Button;
 public class ActGameover extends Activity{
     //声明按钮，该按钮的作用是放回菜单	
 	private Button b4 = null;
-	
-	public void onCreate(Bundle savedInstanceState) {	
+
+    public void onCreate(Bundle savedInstanceState) {	
 		//super.onCreate(savedInstanceState)就是调用父类的onCreate构造函数，
 		//savedInstanceState是保存当前Activity的状态信息。
 		super.onCreate(savedInstanceState);

@@ -36,7 +36,7 @@ public class Model {
     public static float getMfAngleY() { return mfAngleY; }
     public static float getGesDistance() { return gesDistance; }
     public static boolean getDropFast() { return dropFast; }
-
+    
     public static void init(Context context) {
         if (board == null) 
             board = new int[ROW][COL][HGT];
@@ -50,23 +50,24 @@ public class Model {
     // Model: test int board[][][], confirm if it is practical for implementation
     // set a board: E i J, i = T & _| as babies
     public static void setBoard() {
-        int k = 0;
+        int k = 0; // z = 0
         for (int i = 0; i < ROW; i++) {
             board[i][0][k] = 3;
             board[i][COL - 1][k] = 4;
             for (int j = 0; j < COL; j++) {
-                if ((i == 0 || i == 2 || i ==4) && (j == 1 || j == 2)) 
+                if ((i == 0 || i == 2 || i == 4) && (j == 1 || j == 2)) 
                     board[i][j][k] = 3;
                 if (i == 1 && (j == 1 || j == 2 || j == 3)) 
                     board[i][j][k] = 7;
                 if (i == 3 && (j == 1 || j == 2 || j == 3)) 
                     board[i][j][k] = 1;
             }
+            //k++;
         }
         board[0][3][k] = 4;
         board[4][3][k] = 4;
         board[2][2][k] = 1;
-        board[2][2][k] = 7;
+        board[2][3][k] = 7;
     }
 
     public static void setBoardRotatingAngle(float angle) {
@@ -107,7 +108,6 @@ public class Model {
                 for (int i = 0; i < ROW; i++) 
                     board[i][j][k] = 0;
     }
-    
     /*
     // upload main board block
     public void putBlock(Block a, int x, int y) {
@@ -213,6 +213,8 @@ public class Model {
     public boolean isGameActive() { return GameStatus.ACTIVE.equals(gameStatus); }
 	public boolean isGameOver() { return GameStatus.OVER.equals(gameStatus); }
 	public boolean isGameBeforeStart() { return GameStatus.BEFORE_START.equals(gameStatus); }
+
+    
     /*
     public void reset() { reset(false);  }
     private final void reset(boolean bDynamicDataOnly) {
@@ -282,11 +284,11 @@ public class Model {
 	public int getCellStatus(int nRow, int nCol) {
 		return board[nRow][nCol];
 	}
-    */
+
 	public void setCellStatus(int nRow, int nCol, int nHig, byte nStatus) {
 		board[nRow][nCol][nHig] = nStatus;
 	}
-
+    */
     // @param x: the number of rows full and destroyed
     public int getUpdatedScore(int x) {
         return score += x * x * 10;

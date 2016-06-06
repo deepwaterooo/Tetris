@@ -106,40 +106,42 @@ public class Cube implements Cloneable, Comparable<Cube>, Serializable {
         initVertexData();
         
 		Matrix.setRotateM(mMMatrix, 0, 0, 0, 1, 0);           // 初始化变换矩阵
+        Matrix.translateM(mMMatrix, -0, -2.5f, -2.5f, -5f);
+
         if (getActiveFlag()) {
             if (Model.isFrameZRotating[0]) {       // anti-
                 Matrix.rotateM(mMMatrix, 0, xAngle, 0, 0, 1);
             } else if (Model.isFrameZRotating[1]) { // clock-wise
                 Matrix.rotateM(mMMatrix, 0, -xAngle, 0, 0, 1);
             } else if (Model.isFrameXRotating[0]) {                // minor bug here for X rotating
-                Matrix.translateM(mMMatrix, 0, 0, -2.5f, -5f);
+                Matrix.translateM(mMMatrix, 0, -2.5f, -2.5f, -5f);  //2.5 5
                 Matrix.rotateM(mMMatrix, 0, xAngle, 1, 0, 0);
-                Matrix.translateM(mMMatrix, 0, 0, 2.5f, 5f);
+                Matrix.translateM(mMMatrix, 0, 2.5f, 2.5f, 5f);
             } else if (Model.isFrameXRotating[1]) {
-                Matrix.translateM(mMMatrix, 0, 0, -2.5f, -5f);
+                Matrix.translateM(mMMatrix, 0, -2.5f, -2.5f, -5f);
                 Matrix.rotateM(mMMatrix, 0, -xAngle, 1, 0, 0);
-                Matrix.translateM(mMMatrix, 0, 0, 2.5f, 5f);
+                Matrix.translateM(mMMatrix, 0, 2.5f, 2.5f, 5f);
             }
-            Matrix.translateM(mMMatrix, 0, 2f, 2f, 0.5f);
+            Matrix.translateM(mMMatrix, 0, 2f, 2f, 4.5f);
         } else 
             Matrix.translateM(mMMatrix, 0, 0.5f, 0.5f, 0.5f);    
-
-        Matrix.translateM(mMMatrix, 0, -0.5f, -0.5f, -0.5f); 
+        
+        Matrix.translateM(mMMatrix, 0, -0.5f, -0.5f, -0.5f);
         if (Model.isFrameZRotating[0]) {       // anti-
             Matrix.rotateM(mMMatrix, 0, xAngle, 0, 0, 1);
         } else if (Model.isFrameZRotating[1]) { // clock-wise
             Matrix.rotateM(mMMatrix, 0, -xAngle, 0, 0, 1);
         } else if (Model.isFrameXRotating[0]) {
-            Matrix.translateM(mMMatrix, 0, 0, -2.5f, -5f);
+            Matrix.translateM(mMMatrix, 0, -2.5f, -2.5f, -5f);
             Matrix.rotateM(mMMatrix, 0, xAngle, 1, 0, 0);
-            Matrix.translateM(mMMatrix, 0, 0, 2.5f, 5f);
+            Matrix.translateM(mMMatrix, 0, 2.5f, 2.5f, 5f);
         } else if (Model.isFrameXRotating[1]) {
-            Matrix.translateM(mMMatrix, 0, 0, -2.5f, -5f);
+            Matrix.translateM(mMMatrix, 0, -2.5f, -2.5f, -5f);
             Matrix.rotateM(mMMatrix, 0, -xAngle, 1, 0, 0);
-            Matrix.translateM(mMMatrix, 0, 0, 2.5f, 5f);
+            Matrix.translateM(mMMatrix, 0, 2.5f, 2.5f, 5f);
         }
-        Matrix.translateM(mMMatrix, 0, 0.5f, 0.5f, 0.5f);    
-
+        Matrix.translateM(mMMatrix, 0, 0.5f, 0.5f, 0.5f);   
+        
         GLES20.glUseProgram(mProgram); // 绘制时使用着色程序		
         GLES20.glUniformMatrix4fv(mMVPMatrixHandle, 1, false, Cube.getFinalMatrix(mMMatrix), 0);        // 将最终的变换矩阵传入渲染管线
 

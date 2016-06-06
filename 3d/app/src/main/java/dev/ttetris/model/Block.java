@@ -15,7 +15,7 @@ public class Block implements Cloneable, Serializable {
     public static float[] mMMatrix = new float[16];              // 具体物体的移动旋转矩阵，旋转、平移
     //private static final Random RANDOM = new Random();
     private final int cubeCounts = 4;
-    private final float [] activeBlockCenter = {2.5f, 2.5f, 0f}; // z 9.0f
+    private final float [] activeBlockCenter = {2.5f, 2.5f, 1f}; // z 9.0f
     private static HashMap<String, BlockMeta> blocks = new HashMap<String, BlockMeta>();
     Context context;
     static {
@@ -79,11 +79,11 @@ public class Block implements Cloneable, Serializable {
     public void draw(int texId) {
         if (Cube.mProjMatrix == null || Cube.mVMatrix == null) {
             float ratio = Constant.ratio;
-            Matrix.perspectiveM(Cube.mProjMatrix, 0, 45f, ratio, 1f, 10f); // 投影距阵
-            Matrix.setLookAtM(Cube.mVMatrix, 0, -1.5f, -4.5f, 3.5f, 0f, 0f, 0f, 0f, 1.0f, 0.0f); // should be passed in somehow
+            Matrix.perspectiveM(Cube.mProjMatrix, 0, 90f, ratio, 1f, 15f); // 投影距阵
+            Matrix.setLookAtM(Cube.mVMatrix, 0, 1.5f, -1.5f, 3.0f, 0f, 0f, 0f, 0f, 1.0f, 7.0f); // should be passed in somehow
         }
         Cube[] cubes = getCubes();
-        for (int i = 0; i < cubeCounts; i++) {
+        for (int i = 0; i < cubeCounts; i++) { // can NOT think here for today
             if (curr != null && curr.equals("Square")) { // (.5, 1, 0)
                 cubes[i].setActiveFlag(true);            // think here
                 shiftBlock(-this.centerX, -this.centerY, -this.centerZ);
@@ -91,7 +91,7 @@ public class Block implements Cloneable, Serializable {
                 cubes[i].xAngle = this.xAngle;
                 cubes[i].initShader(context);
                 cubes[i].draw(texId);
-                shiftBlock(this.centerX, this.centerY, this.centerZ);
+                shiftBlock(this.centerX - activeBlockCenter[0], this.centerY - activeBlockCenter[1], this.centerZ - activeBlockCenter[2]);
                 cubes[i].setCoordinates();
             } else {
                 shiftBlock(activeBlockCenter[0] - this.centerX, activeBlockCenter[1] - this.centerY, activeBlockCenter[2] - this.centerZ);

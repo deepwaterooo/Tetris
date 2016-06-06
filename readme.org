@@ -1,43 +1,9 @@
 #+latex_class: cn-article
-#+latex_header: \lstset{language=c++,numbers=left,numberstyle=\tiny,basicstyle=\ttfamily\small,tabsize=4,frame=none,escapeinside=``,extendedchars=false,keywordstyle=\color{blue!70},commentstyle=\color{red!55!green!55!blue!55!},rulesepcolor=\color{red!20!green!20!blue!20!}}
 #+title: Tetris - Basic Implementation Practice for Android
 #+author: deepwaterooo
 
 * Upgrading versions, pretty good
 ** 3d tetris
-*** Game Requirement
-**** Model
-- So far draw, rotating has no issues. Just one more step to think after active block has rotated (90, 180, 270, 360 or whatever), after I droped, how am I going to put the correct element into board[i][j][k] matrix. I need rotation matrix calculation functions here for me to update my board. Data structure design I think it will work.
-  - Frame, Grid, and Cube needs to be design/packed better so that the rendering and rotations can be controlled slightly more organized.
-  - Need to find a good/efficient way to manage and load all the sever different textures.
-- So far the only part that I want more research is on (Frame + Grid) vs current active block rotations, so that I could rotate them according when needed, (do I really need to use ray picking for identifying them) will do more online research on this part. I could implement ray picking, just feel 2d point doesn't necessarily fall into 3d frame. (which means outside 5*5*10 gestures to rotate frame, inside 5*5*10 frame rotate current active block, but I want more research to confirm if this is the best solution).
-**** Threads
-- As you can feel once my mind is not clear I would make mistakes here or there. Threads/Runnables are useful but for opengl rendering because it is hardware accelerated rendering, unfortunately Threads/Runnables won't help too much for redering here. But I will try to pack these Threads/Runnables into my 2d tetris when this one is done. (think about it: if the thread calling opengl calls *setCurrentContext*. need to search more on opengl redering and thread for this module a little bit more. While concepts/ideas are right though. App developped in this age without threads applied I would feel shamed to call it a mobile app.) Need think about this part.
-- Threads for textures: 先解释下 glTexImage2d，它会将数据从 CPU 内存通过 PCIE 上传到 GPU 内存。不使用 PBO 时它是一个阻塞 CPU 的函数，数据量大时肯定会卡。解决方法是在子线程也创建一个 context，同时 share 资源给渲染的主线程。 
-  - *share\_context:* Specifies another EGL rendering context with which to share data, as defined by the client API corresponding to the contexts. Data is also shared with all other contexts with which share_context shares data. EGL_NO_CONTEXT indicates that no sharing is to take place.
-
-    #+BEGIN_SRC c++
-EGLContext eglCreateContext(EGLDisplay display, EGLConfig config, EGLContext share_context, EGLint const * attrib_list);
-    #+END_SRC
-  - 科普下 opengl 的线程不安全，它存了很多东西在线程的局部空间中，即 thread-local storage (TLS)。在没有绑定过 context （eglMakeCurrent / wglMakeCurrent）的线程中调用 opengl 函数是没有意义的，因为这个线程中嘛都没有。而一个 context 在同一时间只能被一个线程绑定。
-  - 2种方法：(1) 2个线程, 1个OpenGL context，2个线程一个做渲染，一个做逻辑; (2), 2个线程2个context，主渲染线程维护状态，提交dc；辅助渲染线程做vb，texture的数据copy，shader的编译等。GPU会在两个context之间同步，有隐性开销. 其实单线程下规划好资源依赖应该可以做到不卡的. 
-- 
-
-**** Gestures
-- Includes MotionEvent for single finger, double or three fingers, use pointers, pack different gestures tasks into different runnables. gestures should be easy to use and apply. Look back on DrawingFun fun app developped during Fall 2014, fragments, threads, view/invalidates were all so easy, don't Understand why during those days I could only make them work without really/deeply understood how they works that way.
-  - In total about 15 gestions that I could think so far
-  - 4 gestures for frame rotation around Z and x || (y = 2.5, z = 5) axis clockwise && anti- for single finger touch (left, right, up, down).
-  - 4 gestures for single finger active block moves up/dow x / y directions (left, right, up, down).
-  - 6 gestures for double or triple fingers touch for acitve block rotates around x / y / z clock/anti-clockwise (left, right, up, down, 2 scrolls).
-  - Double tap for fast dropping, but want to extend fast dropping gestures by applying velocities detection if I could figure those velocities out when the game flow is basically done.
-**** Layout
-- The main activity game view allow NO buttons; If there are too many gestures applied, could include a instruction view for gesture guide. Could have slightly interesting layout for scores, or any effects that I could come up with later on (so far has not worried or do any research about this part yet).
-**** Others
-- Minors features that I could skip if I don't have time:
-- After the bridgeing Cube app, texture is not any problems for me (just need to figure out a simple easier way to build an App manager (or simplier shaders) of my own, and manager the resources). Would borrow textures (with sounds) materials from glar3d and apply textures on my 3d game after majority functionalities are finished.
-- Come back to Cube app to make the mediaplayer for video work first, and then apply technic on Mediaplayer back to 3d for sounds besides the background sound, if I feel I have such a need with plants && zombies Unity game waiting for me.
-- Expect the 3d game (videoable version) to be uploaded onto youtube by 5/17/2016. Considering debugging time and all other minor difficulties that I might meet later on, I will have to work hard on this one (Apparently I have not been able to finish by today then).
-
 *** Status Update
 - Textures: perfectly done~!
 - OOP: I had barely got exposure to OOP until summer 2013 got simply explained by my mentor during the intern. And the most impressive experience was during bug fix for 2d tetris "debugging Projection~On". I want to follow some good online examples for my projects, but due to knowledge and experience reasons, I may be following from wrong samples. So later on I will try to identify tutorials with authentication or get trusted recommended. 
@@ -59,6 +25,42 @@ EGLContext eglCreateContext(EGLDisplay display, EGLConfig config, EGLContext sha
 - Emacs is such a powerful tool for me for coding considering and accepting the facts that occasional it would produce some minor troubles for me so that I would have to google for solutions. This morning the parenthesis don't autopair for () [] {} for java-mode, after having googled for few minutes, I have used and trust autopair for so long and realized actually sometimes he gets tired, and once I close and restart it, he works perfectly. *I am looking forward to the day that my beloved cousin would be able to help and guide me with emacs debugging.*
 - a video for this Tetris game can be directly watched at https://www.youtube.com/watch?v=Ht4NOrEUtFk
 - A video for the previous DrawingFun Android App can be watched at https://www.youtube.com/watch?v=YV78Tk5--5M , or by searching *deepwaterooo Wang*.
+
+*** Game Requirement
+**** Model
+- So far draw, rotating has no issues. Just one more step to think after active block has rotated (90, 180, 270, 360 or whatever), after I droped, how am I going to put the correct element into board[i][j][k] matrix. I need rotation matrix calculation functions here for me to update my board. Data structure design I think it will work.
+  - Frame, Grid, and Cube needs to be design/packed better so that the rendering and rotations can be controlled slightly more organized.
+  - Need to find a good/efficient way to manage and load all the sever different textures.
+- So far the only part that I want more research is on (Frame + Grid) vs current active block rotations, so that I could rotate them according when needed, (do I really need to use ray picking for identifying them) will do more online research on this part. I could implement ray picking, just feel 2d point doesn't necessarily fall into 3d frame. (which means outside 5*5*10 gestures to rotate frame, inside 5*5*10 frame rotate current active block, but I want more research to confirm if this is the best solution).
+**** Threads
+- As you can feel once my mind is not clear I would make mistakes here or there. Threads/Runnables are useful but for opengl rendering because it is hardware accelerated rendering, unfortunately Threads/Runnables won't help too much for redering here. But I will try to pack these Threads/Runnables into my 2d tetris when this one is done. (think about it: if the thread calling opengl calls *setCurrentContext*. need to search more on opengl redering and thread for this module a little bit more. While concepts/ideas are right though. App developped in this age without threads applied I would feel shamed to call it a mobile app.) Need think about this part.
+- Threads for textures: 先解释下 glTexImage2d，它会将数据从 CPU 内存通过 PCIE 上传到 GPU 内存。不使用 PBO 时它是一个阻塞 CPU 的函数，数据量大时肯定会卡。解决方法是在子线程也创建一个 context，同时 share 资源给渲染的主线程。 
+
+  #+BEGIN_SRC c++
+EGLContext eglCreateContext(EGLDisplay display, EGLConfig config, 
+                            EGLContext share_context, // 中文测试
+                            EGLint const* attrib_list);
+  #+END_SRC
+
+  - *share\_context:* Specifies another EGL rendering context with which to share data, as defined by the client API corresponding to the contexts. Data is also shared with all other contexts with which share_context shares data. EGL_NO_CONTEXT indicates that no sharing is to take place. (*往后放，暂时*)
+
+  - 科普下 opengl 的线程不安全，它存了很多东西在线程的局部空间中，即 thread-local storage (TLS)。在没有绑定过 context （eglMakeCurrent / wglMakeCurrent）的线程中调用 opengl 函数是没有意义的，因为这个线程中嘛都没有。而一个 context 在同一时间只能被一个线程绑定。
+  - 2种方法：(1) 2个线程, 1个OpenGL context，2个线程一个做渲染，一个做逻辑; (2), 2个线程2个context，主渲染线程维护状态，提交dc；辅助渲染线程做vb，texture的数据copy，shader的编译等。GPU会在两个context之间同步，有隐性开销. 其实单线程下规划好资源依赖应该可以做到不卡的. 
+
+**** Gestures
+- Includes MotionEvent for single finger, double or three fingers, use pointers, pack different gestures tasks into different runnables. gestures should be easy to use and apply. Look back on DrawingFun fun app developped during Fall 2014, fragments, threads, view/invalidates were all so easy, don't Understand why during those days I could only make them work without really/deeply understood how they works that way.
+  - In total about 15 gestions that I could think so far
+  - 4 gestures for frame rotation around Z and x || (y = 2.5, z = 5) axis clockwise && anti- for single finger touch (left, right, up, down).
+  - 4 gestures for single finger active block moves up/dow x / y directions (left, right, up, down).
+  - 6 gestures for double or triple fingers touch for acitve block rotates around x / y / z clock/anti-clockwise (left, right, up, down, 2 scrolls).
+  - Double tap for fast dropping, but want to extend fast dropping gestures by applying velocities detection if I could figure those velocities out when the game flow is basically done.
+**** Layout
+- The main activity game view allow NO buttons; If there are too many gestures applied, could include a instruction view for gesture guide. Could have slightly interesting layout for scores, or any effects that I could come up with later on (so far has not worried or do any research about this part yet).
+**** Others
+- Minors features that I could skip if I don't have time:
+- After the bridgeing Cube app, texture is not any problems for me (just need to figure out a simple easier way to build an App manager (or simplier shaders) of my own, and manager the resources). Would borrow textures (with sounds) materials from glar3d and apply textures on my 3d game after majority functionalities are finished.
+- Come back to Cube app to make the mediaplayer for video work first, and then apply technic on Mediaplayer back to 3d for sounds besides the background sound, if I feel I have such a need with plants && zombies Unity game waiting for me.
+- Expect the 3d game (videoable version) to be uploaded onto youtube by 5/17/2016. Considering debugging time and all other minor difficulties that I might meet later on, I will have to work hard on this one (Apparently I have not been able to finish by today then).
 
 ** folders
 - lame2d: the very first version of the game.
@@ -119,6 +121,31 @@ EGLContext eglCreateContext(EGLDisplay display, EGLConfig config, EGLContext sha
 - handling touch thread & rendering threads http://stackoverflow.com/questions/5129580/android-glsurfaceview-renderer-is-interrupting-an-incomplete-touch-event
 - http://www.learnopengles.com/listening-to-android-touch-events-and-acting-on-them/
 - github 3d tetris reference https://github.com/kdomic/android-3d-tetris
+** eventQueue vs SurfaceView threads
+- Deeper summary, android graphics architecture: http://hukai.me/android-deeper-graphics-architecture/
+- 2 threads, load, read, http://blog.csdn.net/hellogv/article/details/5986835
+- 
+** 游戏程序员养成计划
+- http://www.cnblogs.com/clayman/archive/2009/05/17/1459001.html
+- Android 应用开发 https://cn.udacity.com/course/developing-android-apps--ud853/
+- 
+- 
+- 
+- 
+- 
+- 
+
+** AsyncTask
+- 异步原理 http://www.infoq.com/cn/articles/android-asynctask
+- https://github.com/litesuits/android-lite-async
+- exs http://www.cnblogs.com/xiaoluo501395377/p/3430542.html
+- http://www.jianshu.com/p/78e125e1e838
+- http://blog.csdn.net/carrey1989/article/details/12002033
+- http://blog.csdn.net/mazhimazh/article/details/19243889
+- http://blog.csdn.net/u012403246/article/details/45949963
+- https://realm.io/cn/news/android-threading-background-tasks/
+- 
+- 
 
 ** Activity.runOnUiThread()
 - http://stackvoid.com/introduction-to-Message-Handler-in-Android/
@@ -192,9 +219,6 @@ EGLContext eglCreateContext(EGLDisplay display, EGLConfig config, EGLContext sha
 - for Board c++: http://www.jiancool.com/article/24471349949/
 - possible? http://code1.okbase.net/codefile/CCFormatter.java_2015072733469_393.htm
 - http://www.mobile-open.com/2015/80379.html
-** eventQueue vs SurfaceView threads
-- Deeper summary, android graphics architecture: http://hukai.me/android-deeper-graphics-architecture/
-- 2 threads, load, read, http://blog.csdn.net/hellogv/article/details/5986835
 ** SurfaceView
 - Surface runnable http://android.okhelp.cz/surfaceview-implements-runnable-android-code/
 - Example: http://technicalsearch.iteye.com/blog/1967616

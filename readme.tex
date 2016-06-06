@@ -1,27 +1,24 @@
-% Created 2016-05-25 Wed 14:16
+% Created 2016-06-05 Sun 16:20
 \documentclass[9pt,b5paper]{article}
 \usepackage{fontspec}
-\setmainfont{STSong}
 \usepackage{graphicx}
 \usepackage{xcolor}
 \usepackage{xeCJK}
-\setCJKmainfont{STSong}
+\setCJKmainfont{Songti SC}
 \usepackage{longtable}
 \usepackage{float}
 \usepackage{textcomp}
 \usepackage{geometry}
-\geometry{left=0cm,right=0cm,top=0cm,bottom=0cm}
+\geometry{left=0.1cm,right=0.1cm,top=0.1cm,bottom=0.1cm}
 \usepackage{multirow}
 \usepackage{multicol}
-\usepackage{listings}
 \usepackage{algorithm}
 \usepackage{algorithmic}
 \usepackage{latexsym}
 \usepackage{natbib}
+\usepackage{listings}
+\usepackage{minted}
 \usepackage[xetex,colorlinks=true,CJKbookmarks=true,linkcolor=blue,urlcolor=blue,menucolor=blue]{hyperref}
-
-
-\lstset{language=c++,numbers=left,numberstyle=\tiny,basicstyle=\ttfamily\small,tabsize=4,frame=none,escapeinside=``,extendedchars=false,keywordstyle=\color{blue!70},commentstyle=\color{red!55!green!55!blue!55!},rulesepcolor=\color{red!20!green!20!blue!20!}}
 \author{deepwaterooo}
 \date{\today}
 \title{Tetris - Basic Implementation Practice for Android}
@@ -39,66 +36,8 @@
 \label{sec-1}
 \subsection{3d tetris}
 \label{sec-1-1}
-\subsubsection{Game Requirement}
-\label{sec-1-1-1}
-\begin{enumerate}
-\item Model
-\label{sec-1-1-1-1}
-\begin{itemize}
-\item So far draw, rotating has no issues. Just one more step to think after active block has rotated (90, 180, 270, 360 or whatever), after I droped, how am I going to put the correct element into board[i][j][k] matrix. I need rotation matrix calculation functions here for me to update my board. Data structure design I think it will work.
-\begin{itemize}
-\item Frame, Grid, and Cube needs to be design/packed better so that the rendering and rotations can be controlled slightly more organized.
-\item Need to find a good/efficient way to manage and load all the sever different textures.
-\end{itemize}
-\item So far the only part that I want more research is on (Frame + Grid) vs current active block rotations, so that I could rotate them according when needed, (do I really need to use ray picking for identifying them) will do more online research on this part. I could implement ray picking, just feel 2d point doesn't necessarily fall into 3d frame. (which means outside 5*5*10 gestures to rotate frame, inside 5*5*10 frame rotate current active block, but I want more research to confirm if this is the best solution).
-\end{itemize}
-\item Threads
-\label{sec-1-1-1-2}
-\begin{itemize}
-\item As you can feel once my mind is not clear I would make mistakes here or there. Threads/Runnables are useful but for opengl rendering because it is hardware accelerated rendering, unfortunately Threads/Runnables won't help too much for redering here. But I will try to pack these Threads/Runnables into my 2d tetris when this one is done. (think about it: if the thread calling opengl calls \textbf{setCurrentContext}. need to search more on opengl redering and thread for this module a little bit more. While concepts/ideas are right though. App developped in this age without threads applied I would feel shamed to call it a mobile app.) Need think about this part.
-\item Threads for textures: 先解释下 glTexImage2d，它会将数据从 CPU 内存通过 PCIE 上传到 GPU 内存。不使用 PBO 时它是一个阻塞 CPU 的函数，数据量大时肯定会卡。解决方法是在子线程也创建一个 context，同时 share 资源给渲染的主线程。 
-\begin{itemize}
-\item \textbf{share$\backslash$$_{\text{context}}$:} Specifies another EGL rendering context with which to share data, as defined by the client API corresponding to the contexts. Data is also shared with all other contexts with which share$_{\text{context}}$ shares data. EGL$_{\text{NO}}$$_{\text{CONTEXT}}$ indicates that no sharing is to take place.
-
-\lstset{language=c++,label= ,caption= ,numbers=none}
-\begin{lstlisting}
-EGLContext eglCreateContext(EGLDisplay display, EGLConfig config, EGLContext share_context, EGLint const * attrib_list);
-\end{lstlisting}
-\item 科普下 opengl 的线程不安全，它存了很多东西在线程的局部空间中，即 thread-local storage (TLS)。在没有绑定过 context （eglMakeCurrent / wglMakeCurrent）的线程中调用 opengl 函数是没有意义的，因为这个线程中嘛都没有。而一个 context 在同一时间只能被一个线程绑定。
-\item 2种方法：(1) 2个线程, 1个OpenGL context，2个线程一个做渲染，一个做逻辑; (2), 2个线程2个context，主渲染线程维护状态，提交dc；辅助渲染线程做vb，texture的数据copy，shader的编译等。GPU会在两个context之间同步，有隐性开销. 其实单线程下规划好资源依赖应该可以做到不卡的.
-\end{itemize}
-\item 
-\end{itemize}
-
-\item Gestures
-\label{sec-1-1-1-3}
-\begin{itemize}
-\item Includes MotionEvent for single finger, double or three fingers, use pointers, pack different gestures tasks into different runnables. gestures should be easy to use and apply. Look back on DrawingFun fun app developped during Fall 2014, fragments, threads, view/invalidates were all so easy, don't Understand why during those days I could only make them work without really/deeply understood how they works that way.
-\begin{itemize}
-\item In total about 15 gestions that I could think so far
-\item 4 gestures for frame rotation around Z and x || (y = 2.5, z = 5) axis clockwise \&\& anti- for single finger touch (left, right, up, down).
-\item 4 gestures for single finger active block moves up/dow x / y directions (left, right, up, down).
-\item 6 gestures for double or triple fingers touch for acitve block rotates around x / y / z clock/anti-clockwise (left, right, up, down, 2 scrolls).
-\item Double tap for fast dropping, but want to extend fast dropping gestures by applying velocities detection if I could figure those velocities out when the game flow is basically done.
-\end{itemize}
-\end{itemize}
-\item Layout
-\label{sec-1-1-1-4}
-\begin{itemize}
-\item The main activity game view allow NO buttons; If there are too many gestures applied, could include a instruction view for gesture guide. Could have slightly interesting layout for scores, or any effects that I could come up with later on (so far has not worried or do any research about this part yet).
-\end{itemize}
-\item Others
-\label{sec-1-1-1-5}
-\begin{itemize}
-\item Minors features that I could skip if I don't have time:
-\item After the bridgeing Cube app, texture is not any problems for me (just need to figure out a simple easier way to build an App manager (or simplier shaders) of my own, and manager the resources). Would borrow textures (with sounds) materials from glar3d and apply textures on my 3d game after majority functionalities are finished.
-\item Come back to Cube app to make the mediaplayer for video work first, and then apply technic on Mediaplayer back to 3d for sounds besides the background sound, if I feel I have such a need with plants \&\& zombies Unity game waiting for me.
-\item Expect the 3d game (videoable version) to be uploaded onto youtube by 5/17/2016. Considering debugging time and all other minor difficulties that I might meet later on, I will have to work hard on this one (Apparently I have not been able to finish by today then).
-\end{itemize}
-\end{enumerate}
-
 \subsubsection{Status Update}
-\label{sec-1-1-2}
+\label{sec-1-1-1}
 \begin{itemize}
 \item Textures: perfectly done\textasciitilde{}!
 \item OOP: I had barely got exposure to OOP until summer 2013 got simply explained by my mentor during the intern. And the most impressive experience was during bug fix for 2d tetris "debugging Projection\textasciitilde{}On". I want to follow some good online examples for my projects, but due to knowledge and experience reasons, I may be following from wrong samples. So later on I will try to identify tutorials with authentication or get trusted recommended.
@@ -123,6 +62,66 @@ EGLContext eglCreateContext(EGLDisplay display, EGLConfig config, EGLContext sha
 \item a video for this Tetris game can be directly watched at \url{https://www.youtube.com/watch?v=Ht4NOrEUtFk}
 \item A video for the previous DrawingFun Android App can be watched at \url{https://www.youtube.com/watch?v=YV78Tk5--5M} , or by searching \textbf{deepwaterooo Wang}.
 \end{itemize}
+
+\subsubsection{Game Requirement}
+\label{sec-1-1-2}
+\begin{enumerate}
+\item Model
+\label{sec-1-1-2-1}
+\begin{itemize}
+\item So far draw, rotating has no issues. Just one more step to think after active block has rotated (90, 180, 270, 360 or whatever), after I droped, how am I going to put the correct element into board[i][j][k] matrix. I need rotation matrix calculation functions here for me to update my board. Data structure design I think it will work.
+\begin{itemize}
+\item Frame, Grid, and Cube needs to be design/packed better so that the rendering and rotations can be controlled slightly more organized.
+\item Need to find a good/efficient way to manage and load all the sever different textures.
+\end{itemize}
+\item So far the only part that I want more research is on (Frame + Grid) vs current active block rotations, so that I could rotate them according when needed, (do I really need to use ray picking for identifying them) will do more online research on this part. I could implement ray picking, just feel 2d point doesn't necessarily fall into 3d frame. (which means outside 5*5*10 gestures to rotate frame, inside 5*5*10 frame rotate current active block, but I want more research to confirm if this is the best solution).
+\end{itemize}
+\item Threads
+\label{sec-1-1-2-2}
+\begin{itemize}
+\item As you can feel once my mind is not clear I would make mistakes here or there. Threads/Runnables are useful but for opengl rendering because it is hardware accelerated rendering, unfortunately Threads/Runnables won't help too much for redering here. But I will try to pack these Threads/Runnables into my 2d tetris when this one is done. (think about it: if the thread calling opengl calls \textbf{setCurrentContext}. need to search more on opengl redering and thread for this module a little bit more. While concepts/ideas are right though. App developped in this age without threads applied I would feel shamed to call it a mobile app.) Need think about this part.
+\item Threads for textures: 先解释下 glTexImage2d，它会将数据从 CPU 内存通过 PCIE 上传到 GPU 内存。不使用 PBO 时它是一个阻塞 CPU 的函数，数据量大时肯定会卡。解决方法是在子线程也创建一个 context，同时 share 资源给渲染的主线程。 
+
+\begin{minted}[linenos=true]{c++}
+EGLContext eglCreateContext(EGLDisplay display, EGLConfig config, 
+                            EGLContext share_context, // 中文测试
+                            EGLint const* attrib_list);
+\end{minted}
+
+\begin{itemize}
+\item \textbf{share$\backslash$$_{\text{context}}$:} Specifies another EGL rendering context with which to share data, as defined by the client API corresponding to the contexts. Data is also shared with all other contexts with which share$_{\text{context}}$ shares data. EGL$_{\text{NO}}$$_{\text{CONTEXT}}$ indicates that no sharing is to take place. (\textbf{往后放，暂时})
+
+\item 科普下 opengl 的线程不安全，它存了很多东西在线程的局部空间中，即 thread-local storage (TLS)。在没有绑定过 context （eglMakeCurrent / wglMakeCurrent）的线程中调用 opengl 函数是没有意义的，因为这个线程中嘛都没有。而一个 context 在同一时间只能被一个线程绑定。
+\item 2种方法：(1) 2个线程, 1个OpenGL context，2个线程一个做渲染，一个做逻辑; (2), 2个线程2个context，主渲染线程维护状态，提交dc；辅助渲染线程做vb，texture的数据copy，shader的编译等。GPU会在两个context之间同步，有隐性开销. 其实单线程下规划好资源依赖应该可以做到不卡的.
+\end{itemize}
+\end{itemize}
+
+\item Gestures
+\label{sec-1-1-2-3}
+\begin{itemize}
+\item Includes MotionEvent for single finger, double or three fingers, use pointers, pack different gestures tasks into different runnables. gestures should be easy to use and apply. Look back on DrawingFun fun app developped during Fall 2014, fragments, threads, view/invalidates were all so easy, don't Understand why during those days I could only make them work without really/deeply understood how they works that way.
+\begin{itemize}
+\item In total about 15 gestions that I could think so far
+\item 4 gestures for frame rotation around Z and x || (y = 2.5, z = 5) axis clockwise \&\& anti- for single finger touch (left, right, up, down).
+\item 4 gestures for single finger active block moves up/dow x / y directions (left, right, up, down).
+\item 6 gestures for double or triple fingers touch for acitve block rotates around x / y / z clock/anti-clockwise (left, right, up, down, 2 scrolls).
+\item Double tap for fast dropping, but want to extend fast dropping gestures by applying velocities detection if I could figure those velocities out when the game flow is basically done.
+\end{itemize}
+\end{itemize}
+\item Layout
+\label{sec-1-1-2-4}
+\begin{itemize}
+\item The main activity game view allow NO buttons; If there are too many gestures applied, could include a instruction view for gesture guide. Could have slightly interesting layout for scores, or any effects that I could come up with later on (so far has not worried or do any research about this part yet).
+\end{itemize}
+\item Others
+\label{sec-1-1-2-5}
+\begin{itemize}
+\item Minors features that I could skip if I don't have time:
+\item After the bridgeing Cube app, texture is not any problems for me (just need to figure out a simple easier way to build an App manager (or simplier shaders) of my own, and manager the resources). Would borrow textures (with sounds) materials from glar3d and apply textures on my 3d game after majority functionalities are finished.
+\item Come back to Cube app to make the mediaplayer for video work first, and then apply technic on Mediaplayer back to 3d for sounds besides the background sound, if I feel I have such a need with plants \&\& zombies Unity game waiting for me.
+\item Expect the 3d game (videoable version) to be uploaded onto youtube by 5/17/2016. Considering debugging time and all other minor difficulties that I might meet later on, I will have to work hard on this one (Apparently I have not been able to finish by today then).
+\end{itemize}
+\end{enumerate}
 
 \subsection{folders}
 \label{sec-1-2}
@@ -193,9 +192,43 @@ EGLContext eglCreateContext(EGLDisplay display, EGLConfig config, EGLContext sha
 \item \url{http://www.learnopengles.com/listening-to-android-touch-events-and-acting-on-them/}
 \item github 3d tetris reference \url{https://github.com/kdomic/android-3d-tetris}
 \end{itemize}
+\subsection{eventQueue vs SurfaceView threads}
+\label{sec-2-3}
+\begin{itemize}
+\item Deeper summary, android graphics architecture: \url{http://hukai.me/android-deeper-graphics-architecture/}
+\item 2 threads, load, read, \url{http://blog.csdn.net/hellogv/article/details/5986835}
+\item 
+\end{itemize}
+\subsection{游戏程序员养成计划}
+\label{sec-2-4}
+\begin{itemize}
+\item \url{http://www.cnblogs.com/clayman/archive/2009/05/17/1459001.html}
+\item Android 应用开发 \url{https://cn.udacity.com/course/developing-android-apps--ud853/}
+\item 
+\item 
+\item 
+\item 
+\item 
+\item 
+\end{itemize}
+
+\subsection{AsyncTask}
+\label{sec-2-5}
+\begin{itemize}
+\item 异步原理 \url{http://www.infoq.com/cn/articles/android-asynctask}
+\item \url{https://github.com/litesuits/android-lite-async}
+\item exs \url{http://www.cnblogs.com/xiaoluo501395377/p/3430542.html}
+\item \url{http://www.jianshu.com/p/78e125e1e838}
+\item \url{http://blog.csdn.net/carrey1989/article/details/12002033}
+\item \url{http://blog.csdn.net/mazhimazh/article/details/19243889}
+\item \url{http://blog.csdn.net/u012403246/article/details/45949963}
+\item \url{https://realm.io/cn/news/android-threading-background-tasks/}
+\item 
+\item 
+\end{itemize}
 
 \subsection{Activity.runOnUiThread()}
-\label{sec-2-3}
+\label{sec-2-6}
 \begin{itemize}
 \item \url{http://stackvoid.com/introduction-to-Message-Handler-in-Android/}
 \item \url{http://m.oschina.net/blog/97619}
@@ -203,7 +236,7 @@ EGLContext eglCreateContext(EGLDisplay display, EGLConfig config, EGLContext sha
 \item A 3d reference: \url{https://github.com/kdomic/android-3d-tetris}
 \end{itemize}
 \subsection{3D design}
-\label{sec-2-4}
+\label{sec-2-7}
 \begin{itemize}
 \item c++ version: \url{https://github.com/matachi/tetris-cpp}
 \item refer 6 \url{http://www.oschina.net/question/614942_62370}
@@ -244,7 +277,7 @@ EGLContext eglCreateContext(EGLDisplay display, EGLConfig config, EGLContext sha
 \item separate file: \url{http://stackoverflow.com/questions/30345816/splitting-a-text-file-into-multiple-files-by-specific-character-sequence}
 \end{itemize}
 \subsection{GLSurfaceView}
-\label{sec-2-5}
+\label{sec-2-8}
 \begin{itemize}
 \item opengl: \url{http://androidblog.reindustries.com/a-real-open-gl-es-2-0-2d-tutorial-part-1/}
 \item Graphics architecture: \url{https://source.android.com/devices/graphics/architecture.html}
@@ -275,14 +308,8 @@ EGLContext eglCreateContext(EGLDisplay display, EGLConfig config, EGLContext sha
 \item possible? \url{http://code1.okbase.net/codefile/CCFormatter.java_2015072733469_393.htm}
 \item \url{http://www.mobile-open.com/2015/80379.html}
 \end{itemize}
-\subsection{eventQueue vs SurfaceView threads}
-\label{sec-2-6}
-\begin{itemize}
-\item Deeper summary, android graphics architecture: \url{http://hukai.me/android-deeper-graphics-architecture/}
-\item 2 threads, load, read, \url{http://blog.csdn.net/hellogv/article/details/5986835}
-\end{itemize}
 \subsection{SurfaceView}
-\label{sec-2-7}
+\label{sec-2-9}
 \begin{itemize}
 \item Surface runnable \url{http://android.okhelp.cz/surfaceview-implements-runnable-android-code/}
 \item Example: \url{http://technicalsearch.iteye.com/blog/1967616}
@@ -299,7 +326,7 @@ EGLContext eglCreateContext(EGLDisplay display, EGLConfig config, EGLContext sha
 \item slightly complicated: \url{http://www.lxway.com/186948856.htm}
 \end{itemize}
 \subsection{gestures}
-\label{sec-2-8}
+\label{sec-2-10}
 \begin{itemize}
 \item \url{http://www.cnblogs.com/akira90/archive/2013/03/10/2952886.html}
 \item Android 触摸手势基础 官方文档概览: \url{http://www.lxway.com/445554926.htm}
